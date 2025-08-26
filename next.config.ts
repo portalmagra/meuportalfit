@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
   // Otimização de imagens
   images: {
     domains: [
@@ -38,8 +39,8 @@ const nextConfig = {
   // Compressão
   compress: true,
 
-  // Otimização de fonts
-  optimizeFonts: true,
+  // Otimização de fonts é automática no Next.js 15
+  // optimizeFonts foi removido - é padrão agora
 }
 
-module.exports = nextConfig
+export default nextConfig

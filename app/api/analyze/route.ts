@@ -3,6 +3,7 @@ import OpenAI from 'openai'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+  organization: null,
 })
 
 // Banco de dados de produtos Amazon com categorização
@@ -270,45 +271,50 @@ export async function POST(request: NextRequest) {
     let analysis
     
     try {
-      // Criar thread com a assistant Curadora
-      const thread = await openai.beta.threads.create()
-      
-      // Preparar mensagem com respostas do usuário
+      // Usar chat completion diretamente com instruções da Curadora
+      const systemPrompt = `
+      Você é uma especialista em wellness para mulheres brasileiras e latinas nos EUA.
+
+      **Seu perfil:**
+      - Brasileira, viveu nos EUA por 10+ anos
+      - Conhece produtos disponíveis nas farmácias/Amazon americanas
+      - Entende desafios de adaptação cultural e climática
+      - Foca em ingredientes naturais e marcas confiáveis
+
+      **Seu público:**
+      - Brasileiras/latinas 25-45 anos nos EUA
+      - Trabalhadoras (home office, estudantes, profissionais)
+      - Orçamento $50-300/mês em wellness
+      - Querem qualidade mas com bom custo-benefício
+
+      **Como responder:**
+      1. Tom amigável e pessoal ("querida", "amiga")
+      2. Mencione experiências culturais compartilhadas
+      3. Explique POR QUE cada produto é ideal
+      4. Considere clima americano (inverno rigoroso, ar seco)
+      5. Foque em marcas vendidas na Amazon com boa reputação
+      6. Máximo 200 palavras, direto ao ponto
+      `
+
       const userMessage = `Usuário completou análise em ${language}. Respostas: ${JSON.stringify(answers)}. 
       Por favor, forneça uma análise personalizada culturalmente relevante para brasileiras/latinas nos EUA, focando em wellness com produtos Amazon disponíveis.`
-      
-      await openai.beta.threads.messages.create(thread.id, {
-        role: "user", 
-        content: userMessage
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userMessage }
+        ],
+        max_tokens: 300,
+        temperature: 0.7
       })
-      
-      // Executar com assistant Curadora
-      const run = await openai.beta.threads.runs.create(thread.id, {
-        assistant_id: "asst_zojADKeascfzlQUs5l2LUaa2"
-      })
-      
-      // Aguardar conclusão
-      let runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id)
-      let attempts = 0
-      while (runStatus.status === 'in_progress' || runStatus.status === 'queued') {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id)
-        attempts++
-        if (attempts > 30) break // timeout após 30s
+
+      analysis = completion.choices[0]?.message?.content
+      if (!analysis) {
+        throw new Error('No response from OpenAI')
       }
       
-      if (runStatus.status === 'completed') {
-        const messages = await openai.beta.threads.messages.list(thread.id)
-        const assistantMessage = messages.data.find(msg => msg.role === 'assistant')
-        if (assistantMessage && assistantMessage.content[0]?.type === 'text') {
-          analysis = assistantMessage.content[0].text.value
-          console.log('✅ OpenAI Assistant analysis generated successfully')
-        } else {
-          throw new Error('Resposta da assistant não encontrada')
-        }
-      } else {
-        throw new Error(`Assistant run failed with status: ${runStatus.status}`)
-      }
+      console.log('✅ OpenAI Chat analysis generated successfully')
       
     } catch (openaiError) {
       console.warn('⚠️ OpenAI failed, using demo analysis:', openaiError.message)

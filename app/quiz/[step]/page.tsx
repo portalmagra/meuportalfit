@@ -1,6 +1,6 @@
-// CLAUDE: Página de steps dinâmicos do quiz
-// TODO: Implementar lógica de navegação entre steps
-// TODO: Adicionar validação por step
+// CLAUDE: Pagina de steps dinamicos do quiz
+// TODO: Implementar logica de navegacao entre steps
+// TODO: Adicionar validacao por step
 // TODO: Salvar progresso em localStorage
 // TODO: Conectar com sistema de scoring
 export default function QuizStepPage({ params }: { params: { step: string } }) {
@@ -8,7 +8,7 @@ export default function QuizStepPage({ params }: { params: { step: string } }) {
   return (
     <div>
       <h1>Quiz Step: {params.step}</h1>
-      <p>TODO: Implementar conteúdo do step</p>
+      <p>TODO: Implementar conteudo do step</p>
     </div>
   );
 }

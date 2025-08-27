@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 
 export default function QuizPage() {
@@ -25,11 +24,11 @@ export default function QuizPage() {
             fontWeight: '900', 
             marginBottom: '1rem' 
           }}>
-            Quiz Funcionando!
+            Quiz MVP Funcionando!
           </h1>
           
           <p style={{ fontSize: '1.125rem', color: '#4b5563', marginBottom: '2rem' }}>
-            Arquivo criado com sucesso. Agora podemos adicionar as funcionalidades.
+            Versão limpa para deploy. Vamos adicionar funcionalidades depois.
           </p>
           
           <Link href="/" style={{ textDecoration: 'none' }}>

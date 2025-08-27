@@ -6,67 +6,67 @@ export default function HomePage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-blobs">
-          <div className="blob blob-1"></div>
-          <div className="blob blob-2"></div>
-          <div className="blob blob-3"></div>
+      <section className=&quot;hero-section&quot;>
+        <div className=&quot;hero-blobs&quot;>
+          <div className=&quot;blob blob-1&quot;></div>
+          <div className=&quot;blob blob-2&quot;></div>
+          <div className=&quot;blob blob-3&quot;></div>
         </div>
         
-        <div className="container">
+        <div className=&quot;container&quot;>
           {/* Trust Badge */}
-          <div className="trust-badge">
+          <div className=&quot;trust-badge&quot;>
             <span>🛡️</span>
             <span>+2.847 brasileiros confiam no MeuPortalFit</span>
             <span>⭐⭐⭐⭐⭐</span>
           </div>
 
           {/* Main Title */}
-          <h1 className="main-title">
-            <span className="gradient-text">Descubra os Produtos</span>
+          <h1 className=&quot;main-title&quot;>
+            <span className=&quot;gradient-text&quot;>Descubra os Produtos</span>
             <br />
             <span>de Saúde Ideais para</span>
             <br />
-            <span className="gradient-text">Você nos EUA</span>
+            <span className=&quot;gradient-text&quot;>Você nos EUA</span>
           </h1>
 
-          <p className="subtitle">
+          <p className=&quot;subtitle&quot;>
             Quiz inteligente personalizado para brasileiros. Nossa IA analisa suas necessidades 
             e recomenda os melhores produtos Amazon com base no seu perfil único.
           </p>
 
           {/* Main Button */}
-          <Link href="/quiz">
-            <button className="cta-button">
+          <Link href=&quot;/quiz&quot;>
+            <button className=&quot;cta-button&quot;>
               <span>🚀</span>
               <span>Fazer Meu Quiz Gratuito</span>
               <span>→</span>
             </button>
           </Link>
 
-          <p className="small-text">
+          <p className=&quot;small-text&quot;>
             Leva apenas 2-3 minutos • 100% gratuito • Resultado instantâneo
           </p>
 
           {/* Feature Cards */}
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">🎯</div>
+          <div className=&quot;features-grid&quot;>
+            <div className=&quot;feature-card&quot;>
+              <div className=&quot;feature-icon&quot;>🎯</div>
               <h3>100% Gratuito</h3>
               <p>Sem taxas ocultas</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">⚡</div>
+            <div className=&quot;feature-card&quot;>
+              <div className=&quot;feature-icon&quot;>⚡</div>
               <h3>2-3 minutos</h3>
               <p>Super rápido</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">🤖</div>
+            <div className=&quot;feature-card&quot;>
+              <div className=&quot;feature-icon&quot;>🤖</div>
               <h3>IA Avançada</h3>
               <p>Análise personalizada</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">🔒</div>
+            <div className=&quot;feature-card&quot;>
+              <div className=&quot;feature-icon&quot;>🔒</div>
               <h3>Dados Seguros</h3>
               <p>Privacidade total</p>
             </div>
@@ -75,15 +75,15 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="how-section">
-        <div className="container">
-          <h2>Como o <span className="gradient-text">MeuPortalFit</span> funciona?</h2>
-          <p className="section-subtitle">Três passos simples para descobrir os produtos de saúde ideais</p>
+      <section className=&quot;how-section&quot;>
+        <div className=&quot;container&quot;>
+          <h2>Como o <span className=&quot;gradient-text&quot;>MeuPortalFit</span> funciona?</h2>
+          <p className=&quot;section-subtitle&quot;>Três passos simples para descobrir os produtos de saúde ideais</p>
           
-          <div className="steps-grid">
-            <div className="step-card">
-              <div className="step-icon">📝</div>
-              <div className="step-number">1</div>
+          <div className=&quot;steps-grid&quot;>
+            <div className=&quot;step-card&quot;>
+              <div className=&quot;step-icon&quot;>📝</div>
+              <div className=&quot;step-number&quot;>1</div>
               <h3>Quiz Inteligente</h3>
               <p>Responda perguntas personalizadas sobre seus objetivos, estilo de vida e preferências</p>
               <ul>
@@ -93,9 +93,9 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className="step-card">
-              <div className="step-icon">🤖</div>
-              <div className="step-number">2</div>
+            <div className=&quot;step-card&quot;>
+              <div className=&quot;step-icon&quot;>🤖</div>
+              <div className=&quot;step-number&quot;>2</div>
               <h3>Análise por IA</h3>
               <p>Nossa IA avançada processa seu perfil único e identifica produtos compatíveis</p>
               <ul>
@@ -105,9 +105,9 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className="step-card">
-              <div className="step-icon">🎯</div>
-              <div className="step-number">3</div>
+            <div className=&quot;step-card&quot;>
+              <div className=&quot;step-icon&quot;>🎯</div>
+              <div className=&quot;step-number&quot;>3</div>
               <h3>Produtos Ideais</h3>
               <p>Receba recomendações personalizadas com explicação detalhada</p>
               <ul>
@@ -118,8 +118,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <Link href="/quiz">
-            <button className="cta-button">
+          <Link href=&quot;/quiz&quot;>
+            <button className=&quot;cta-button&quot;>
               <span>🚀</span>
               <span>Começar Meu Quiz Gratuito Agora</span>
               <span>→</span>
@@ -129,65 +129,65 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="testimonials-section">
-        <div className="container">
-          <h2><span className="gradient-text">Histórias de Sucesso</span></h2>
-          <p className="section-subtitle">Brasileiros que transformaram sua saúde</p>
+      <section className=&quot;testimonials-section&quot;>
+        <div className=&quot;container&quot;>
+          <h2><span className=&quot;gradient-text&quot;>Histórias de Sucesso</span></h2>
+          <p className=&quot;section-subtitle&quot;>Brasileiros que transformaram sua saúde</p>
 
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="testimonial-header">
-                <div className="avatar">MS</div>
-                <div className="user-info">
-                  <div className="name">Maria Santos</div>
-                  <div className="location">Dallas, TX</div>
+          <div className=&quot;testimonials-grid&quot;>
+            <div className=&quot;testimonial-card&quot;>
+              <div className=&quot;testimonial-header&quot;>
+                <div className=&quot;avatar&quot;>MS</div>
+                <div className=&quot;user-info&quot;>
+                  <div className=&quot;name&quot;>Maria Santos</div>
+                  <div className=&quot;location&quot;>Dallas, TX</div>
                 </div>
               </div>
-              <div className="stars">⭐⭐⭐⭐⭐</div>
-              <p>"Economizei mais de $150 no primeiro mês com as recomendações perfeitas!"</p>
+              <div className=&quot;stars&quot;>⭐⭐⭐⭐⭐</div>
+              <p>&quot;Economizei mais de $150 no primeiro mês com as recomendações perfeitas!&quot;</p>
             </div>
 
-            <div className="testimonial-card">
-              <div className="testimonial-header">
-                <div className="avatar">JS</div>
-                <div className="user-info">
-                  <div className="name">João Silva</div>
-                  <div className="location">Miami, FL</div>
+            <div className=&quot;testimonial-card&quot;>
+              <div className=&quot;testimonial-header&quot;>
+                <div className=&quot;avatar&quot;>JS</div>
+                <div className=&quot;user-info&quot;>
+                  <div className=&quot;name&quot;>João Silva</div>
+                  <div className=&quot;location&quot;>Miami, FL</div>
                 </div>
               </div>
-              <div className="stars">⭐⭐⭐⭐⭐</div>
-              <p>"A análise da IA é impressionante. Finalmente achei o que funciona para mim!"</p>
+              <div className=&quot;stars&quot;>⭐⭐⭐⭐⭐</div>
+              <p>&quot;A análise da IA é impressionante. Finalmente achei o que funciona para mim!&quot;</p>
             </div>
 
-            <div className="testimonial-card">
-              <div className="testimonial-header">
-                <div className="avatar">AR</div>
-                <div className="user-info">
-                  <div className="name">Ana Rodrigues</div>
-                  <div className="location">New York, NY</div>
+            <div className=&quot;testimonial-card&quot;>
+              <div className=&quot;testimonial-header&quot;>
+                <div className=&quot;avatar&quot;>AR</div>
+                <div className=&quot;user-info&quot;>
+                  <div className=&quot;name&quot;>Ana Rodrigues</div>
+                  <div className=&quot;location&quot;>New York, NY</div>
                 </div>
               </div>
-              <div className="stars">⭐⭐⭐⭐⭐</div>
-              <p>"Como enfermeira, fiquei impressionada com a precisão das recomendações."</p>
+              <div className=&quot;stars&quot;>⭐⭐⭐⭐⭐</div>
+              <p>&quot;Como enfermeira, fiquei impressionada com a precisão das recomendações.&quot;</p>
             </div>
           </div>
 
           {/* Stats */}
-          <div className="stats-grid">
-            <div className="stat-item">
-              <div className="stat-number gradient-text">2.847</div>
+          <div className=&quot;stats-grid&quot;>
+            <div className=&quot;stat-item&quot;>
+              <div className=&quot;stat-number gradient-text&quot;>2.847</div>
               <div>Brasileiros Atendidos</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number gradient-text">4.9/5</div>
+            <div className=&quot;stat-item&quot;>
+              <div className=&quot;stat-number gradient-text&quot;>4.9/5</div>
               <div>Avaliação Média</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number gradient-text">$2M+</div>
+            <div className=&quot;stat-item&quot;>
+              <div className=&quot;stat-number gradient-text&quot;>$2M+</div>
               <div>Economizado pelos Usuários</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number gradient-text">1.243</div>
+            <div className=&quot;stat-item&quot;>
+              <div className=&quot;stat-number gradient-text&quot;>1.243</div>
               <div>Avaliações 5 Estrelas</div>
             </div>
           </div>
@@ -195,28 +195,28 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="final-cta-section">
-        <div className="container">
+      <section className=&quot;final-cta-section&quot;>
+        <div className=&quot;container&quot;>
           <h2>Pronto para Descobrir os<br />Produtos Ideais para Você?</h2>
           <p>Junte-se a milhares de brasileiros que já descobriram os produtos de saúde perfeitos com nosso quiz inteligente.</p>
           
-          <Link href="/quiz">
-            <button className="cta-button-white">
+          <Link href=&quot;/quiz&quot;>
+            <button className=&quot;cta-button-white&quot;>
               <span>🚀</span>
               <span>Fazer Meu Quiz Gratuito Agora</span>
             </button>
           </Link>
           
-          <p className="final-benefits">✅ 100% Gratuito • ⚡ 2-3 Minutos • 🔒 Dados Seguros</p>
+          <p className=&quot;final-benefits&quot;>✅ 100% Gratuito • ⚡ 2-3 Minutos • 🔒 Dados Seguros</p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-brand gradient-text">MeuPortalFit</div>
+      <footer className=&quot;footer&quot;>
+        <div className=&quot;container&quot;>
+          <div className=&quot;footer-brand gradient-text&quot;>MeuPortalFit</div>
           <p>Seu portal personalizado para wellness</p>
-          <div className="footer-copyright">© 2025 Portal Solutions LLC. Todos os direitos reservados.</div>
+          <div className=&quot;footer-copyright&quot;>© 2025 Portal Solutions LLC. Todos os direitos reservados.</div>
         </div>
       </footer>
     </main>

@@ -1,9 +1,22 @@
-# Arquivo .gitignore (criar na raiz)
-.next
-node_modules
-.env.local
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Next.js
+.next/
+out/
+
+# Environment variables
 .env
-dist
+.env.local
+.env.production
+
+# System files
 .DS_Store
+Thumbs.db
+
+# Logs
 *.log
-.vercel
+
+# Cache
+.cache/

@@ -1,37 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MeuPortalFit
 
-## Getting Started
+Portal de fitness personalizado com quiz de avaliação e recomendações personalizadas.
 
-First, run the development server:
+## 🎯 STATUS ATUAL DO PROJETO
+**Última atualização:** 27 de Agosto, 2025  
+**Estado:** Em desenvolvimento - versão minimalista funcional  
+**Branch:** main  
+
+### Implementado ✅
+- Estrutura base Next.js 15 com App Router
+- Quiz básico com navegação por steps
+- Layout responsivo com CSS inline (sem Tailwind)
+- Sistema de testes com Jest configurado
+- Arquitetura limpa sem dependências desnecessárias
+
+### Em Andamento 🔄
+- Sistema de checkpoint automático (README + TODOs)
+- Documentação de contexto e decisões
+
+### Próximos Passos 📋
+- Completar funcionalidades do quiz
+- Implementar sistema de recomendações
+- Melhorar UX/UI
+- Expandir cobertura de testes
+
+## 🚀 Desenvolvimento
 
 ```bash
+# Desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Testes
+npm test
+npm run test:watch
+
+# Build
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Estrutura do Projeto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+app/
+├── quiz/[step]/     # Quiz com roteamento dinâmico
+├── globals.css      # Estilos globais
+├── layout.jsx       # Layout principal
+└── page.jsx         # Homepage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+docs/                # Documentação técnica
+scripts/             # Scripts de utilidade
+```
 
-## Learn More
+## 🔧 Stack Técnica
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** Next.js 15
+- **Frontend:** React 18 
+- **Linguagem:** TypeScript + JavaScript (híbrido)
+- **Testes:** Jest + Testing Library
+- **Estilos:** CSS inline (sem frameworks)
+- **Deploy:** Preparado para Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📋 TODOs Rápidos
+Para encontrar TODOs no código: `grep -r "// TODO\|// FIXME\|// CLAUDE:" .`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# meuportalfit
+## 🤖 Para Claude Code
+**Contexto:** Este é um projeto de portal fitness em desenvolvimento colaborativo.
+**Última sessão:** Implementando sistema de checkpoint para continuidade entre sessões.
+**Padrões:** Usar CSS inline, manter simplicidade, documentar decisões importantes.

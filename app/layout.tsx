@@ -1,3 +1,6 @@
+// CLAUDE: Layout principal - versão mais completa com CSS
+import './globals.css'
+
 export const metadata = {
   title: 'MeuPortalFit',
   description: 'Quiz personalizado para brasileiros nos EUA',

@@ -1,3 +1,8 @@
+// CLAUDE: Página principal do Quiz - versão minimalista
+// TODO: Implementar steps do quiz com estado
+// TODO: Adicionar validação de formulários
+// TODO: Conectar com API de recomendações
+// FIXME: Classes CSS não definidas (hero-section, blob, etc.)
 'use client';
 
 import Link from 'next/link';

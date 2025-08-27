@@ -8,26 +8,26 @@ type Language = 'pt' | 'es' | 'en'
 const content = {
   selectLanguage: { pt: 'Escolha seu idioma:', es: 'Elige tu idioma:', en: 'Choose your language:' },
   trustBadge: { pt: '+2.847 brasileiros confiam no MeuPortalFit', es: '+8.500 latinos confían en MeuPortalFit', en: '+12.000 people trust MeuPortalFit' },
-  headline1: { pt: 'Descubra os Produtos', es: 'Descubre los Productos', en: 'Discover the Products' },
-  headline2: { pt: 'de Saúde Ideais para', es: 'de Salud Ideales para', en: 'Perfect for Your Health' },
-  headline3: { pt: 'Você nos EUA', es: 'Ti en USA', en: 'Goals in the USA' },
+  headline1: { pt: 'Compre Certo e Economize', es: 'Compra Inteligente y Ahorra', en: 'Shop Smart and Save Money' },
+  headline2: { pt: 'Descubra os Produtos', es: 'Descubre los Productos', en: 'Discover the Products' },
+  headline3: { pt: 'Ideais para Você nos EUA', es: 'Ideales para Ti en USA', en: 'Perfect for You in the USA' },
   subtitle: { 
-    pt: 'Quiz inteligente personalizado para brasileiros. Nossa IA analisa suas necessidades e recomenda os melhores produtos Amazon com base no seu perfil único.',
-    es: 'Quiz inteligente personalizado para latinos. Nuestra IA analiza tus necesidades y recomienda los mejores productos Amazon basados en tu perfil único.',
-    en: 'Smart personalized quiz for health-conscious individuals. Our AI analyzes your needs and recommends the best Amazon products based on your unique profile.'
+    pt: 'Análise personalizada gratuita para brasileiras. Nossa IA identifica suas necessidades e recomenda produtos Amazon com até 40% de economia no seu perfil único.',
+    es: 'Análisis personalizado gratuito para latinas. Nuestra IA identifica tus necesidades y recomienda productos Amazon con hasta 40% de descuento en tu perfil único.',
+    en: 'Free personalized analysis for health-conscious women. Our AI identifies your needs and recommends Amazon products with up to 40% savings based on your unique profile.'
   },
-  ctaButton: { pt: 'Fazer Meu Quiz Gratuito', es: 'Hacer Mi Quiz Gratuito', en: 'Take My Free Quiz' },
+  ctaButton: { pt: 'Descobrir Meus Produtos Ideais', es: 'Descubrir Mis Productos Ideales', en: 'Discover My Ideal Products' },
   smallText: { 
     pt: 'Leva apenas 2-3 minutos • 100% gratuito • Resultado instantâneo',
     es: 'Solo toma 2-3 minutos • 100% gratis • Resultado instantáneo',
     en: 'Takes only 2-3 minutes • 100% free • Instant results'
   },
   howItWorksTitle: { pt: 'Como o MeuPortalFit Funciona', es: 'Cómo Funciona MeuPortalFit', en: 'How MeuPortalFit Works' },
-  step1Title: { pt: 'Responda o Quiz', es: 'Responde el Quiz', en: 'Take the Quiz' },
+  step1Title: { pt: 'Análise Personalizada', es: 'Análisis Personalizado', en: 'Personalized Analysis' },
   step1Desc: { 
-    pt: '8 perguntas inteligentes sobre suas necessidades, estilo de vida e objetivos de saúde nos EUA.',
-    es: '8 preguntas inteligentes sobre tus necesidades, estilo de vida y objetivos de salud en USA.',
-    en: '8 smart questions about your needs, lifestyle and health goals in the USA.'
+    pt: '8 perguntas estratégicas sobre suas necessidades, estilo de vida e objetivos de wellness nos EUA.',
+    es: '8 preguntas estratégicas sobre tus necesidades, estilo de vida y objetivos de bienestar en USA.',
+    en: '8 strategic questions about your needs, lifestyle and wellness goals in the USA.'
   },
   step2Title: { pt: 'IA Analisa seu Perfil', es: 'IA Analiza tu Perfil', en: 'AI Analyzes Your Profile' },
   step2Desc: { 
@@ -52,7 +52,7 @@ const content = {
     es: 'Únete a miles que ya descubrieron los productos de salud perfectos con nuestro quiz inteligente.',
     en: 'Join thousands who have already discovered perfect health products with our smart quiz.'
   },
-  finalCtaButton: { pt: 'Fazer Meu Quiz Gratuito Agora', es: 'Hacer Mi Quiz Gratuito Ahora', en: 'Take My Free Quiz Now' },
+  finalCtaButton: { pt: 'Descobrir Meus Produtos Agora', es: 'Descubrir Mis Productos Ahora', en: 'Discover My Products Now' },
   finalBenefits: { 
     pt: '✅ 100% Gratuito • ⚡ 2-3 Minutos • 🔒 Dados Seguros',
     es: '✅ 100% Gratis • ⚡ 2-3 Minutos • 🔒 Datos Seguros',
@@ -315,7 +315,7 @@ export default function HomePage() {
 
             {/* Main Button */}
             <div style={{ marginBottom: '1.5rem' }}>
-              <Link href="/quiz" style={{ textDecoration: 'none' }}>
+              <Link href="/analise" style={{ textDecoration: 'none' }}>
                 <button style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -540,7 +540,7 @@ export default function HomePage() {
             </p>
             
             <div style={{ marginBottom: '1.5rem' }}>
-              <Link href="/quiz" style={{ textDecoration: 'none' }}>
+              <Link href="/analise" style={{ textDecoration: 'none' }}>
                 <button style={{
                   display: 'inline-flex',
                   alignItems: 'center',

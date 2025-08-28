@@ -7,15 +7,31 @@ type Language = 'pt' | 'es' | 'en'
 
 interface Question {
   id: number
-  pt: string
-  es: string
-  en: string
-  options: {
+  pt?: string
+  es?: string  
+  en?: string
+  text?: {
+    pt: string
+    es: string
+    en: string
+  }
+  subtitle?: {
+    pt: string
+    es: string
+    en: string
+  }
+  options?: {
     pt: string[]
     es: string[]
     en: string[]
   }
-  category: 'lifestyle' | 'health' | 'budget' | 'goals'
+  answers?: {
+    pt: string[]
+    es: string[]
+    en: string[]
+  }
+  type?: 'comment'
+  category: 'lifestyle' | 'health' | 'budget' | 'goals' | 'additional'
 }
 
 // 8 perguntas estratégicas com gatilhos mentais
@@ -259,6 +275,26 @@ const questions: Question[] = [
       ]
     },
     category: 'goals'
+  },
+  {
+    id: 9,
+    type: 'comment' as const,
+    text: {
+      pt: "Alguma restrição ou preferência específica?",
+      es: "¿Alguna restricción o preferencia específica?", 
+      en: "Any specific restrictions or preferences?"
+    },
+    subtitle: {
+      pt: "Ex: intolerância à lactose, preferência vegana, alergias, medicamentos que usa, objetivos específicos...",
+      es: "Ej: intolerancia a la lactosa, preferencia vegana, alergias, medicamentos que usa, objetivos específicos...",
+      en: "Ex: lactose intolerance, vegan preference, allergies, medications you take, specific goals..."
+    },
+    options: {
+      pt: [],
+      es: [],
+      en: []
+    },
+    category: 'additional'
   }
 ]
 
@@ -266,6 +302,7 @@ export default function AnalysisPage() {
   const [language, setLanguage] = useState<Language>('pt')
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<number, number>>({})
+  const [comments, setComments] = useState('')
   const [isAnalyzing, setIsAnalyzing] = useState(false)
 
   const currentQuestion = questions[currentStep]
@@ -288,6 +325,7 @@ export default function AnalysisPage() {
           },
           body: JSON.stringify({
             answers: newAnswers,
+            comments: comments.trim(),
             language: language
           })
         })
@@ -309,6 +347,35 @@ export default function AnalysisPage() {
       }
     } else {
       setCurrentStep(prev => prev + 1)
+    }
+  }
+
+  const handleCommentSubmit = async () => {
+    if (isLastQuestion) {
+      setIsAnalyzing(true)
+      
+      try {
+        const response = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            answers: answers,
+            comments: comments.trim(),
+            language: language
+          })
+        })
+
+        const result = await response.json()
+        
+        if (result.success) {
+          window.location.href = `/analise/resultados?data=${encodeURIComponent(JSON.stringify(result))}`
+        }
+      } catch (error) {
+        console.error('Error:', error)
+        setIsAnalyzing(false)
+      }
     }
   }
 
@@ -442,14 +509,77 @@ export default function AnalysisPage() {
             color: '#1f2937',
             fontSize: '1.5rem',
             fontWeight: 700,
-            marginBottom: '2rem',
+            marginBottom: '1rem',
             textAlign: 'center'
           }}>
-            {currentQuestion[language]}
+{currentQuestion.text?.[language] || currentQuestion[language as keyof Question]}
           </h2>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {currentQuestion.options[language].map((option, index) => (
+          {currentQuestion.subtitle && (
+            <p style={{
+              color: '#6b7280',
+              fontSize: '0.9rem',
+              textAlign: 'center',
+              marginBottom: '2rem',
+              lineHeight: '1.5'
+            }}>
+              {currentQuestion.subtitle[language]}
+            </p>
+          )}
+
+          {currentQuestion.type === 'comment' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <textarea
+                value={comments}
+                onChange={(e) => setComments(e.target.value)}
+                placeholder={
+                  language === 'pt' ? 'Digite aqui suas restrições, alergias, preferências...' :
+                  language === 'es' ? 'Escriba aquí sus restricciones, alergias, preferencias...' :
+                  'Write here your restrictions, allergies, preferences...'
+                }
+                style={{
+                  width: '100%',
+                  minHeight: '120px',
+                  padding: '1rem',
+                  border: '2px solid #f3f4f6',
+                  borderRadius: '12px',
+                  fontSize: '1rem',
+                  resize: 'vertical',
+                  fontFamily: 'inherit',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#22c55e'}
+                onBlur={(e) => e.target.style.borderColor = '#f3f4f6'}
+              />
+              
+              <button
+                onClick={handleCommentSubmit}
+                disabled={isAnalyzing}
+                style={{
+                  padding: '1rem 2rem',
+                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '12px',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease',
+                  opacity: isAnalyzing ? 0.7 : 1
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              >
+                {isAnalyzing ? '🔍 Analisando...' : 
+                 language === 'pt' ? '🚀 Finalizar Análise' :
+                 language === 'es' ? '🚀 Finalizar Análisis' :
+                 '🚀 Complete Analysis'}
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {currentQuestion.options && currentQuestion.options[language].map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleAnswer(index)}
@@ -462,11 +592,7 @@ export default function AnalysisPage() {
                   fontSize: '1rem',
                   textAlign: 'left',
                   cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    borderColor: '#22c55e',
-                    transform: 'translateY(-2px)'
-                  }
+                  transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = '#22c55e'
@@ -482,8 +608,9 @@ export default function AnalysisPage() {
                 </span>
                 {option}
               </button>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Navigation */}
           <div style={{

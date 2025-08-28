@@ -259,7 +259,7 @@ function generatePersonalizedAnalysis(answers: Record<number, number>, language:
 
 export async function POST(request: NextRequest) {
   try {
-    const { answers, language = 'pt' } = await request.json()
+    const { answers, comments = '', language = 'pt' } = await request.json()
     
     if (!answers || typeof answers !== 'object') {
       return NextResponse.json(
@@ -303,9 +303,74 @@ export async function POST(request: NextRequest) {
       BUSCAR: termo1, termo2, termo3, termo4
       `
 
-      const userMessage = `Usuário completou análise em ${language}. Respostas: ${JSON.stringify(answers)}. 
-      Por favor, forneça uma análise personalizada culturalmente relevante para brasileiras/latinas nos EUA, focando em wellness com produtos Amazon disponíveis.
-      Termine com "BUSCAR: " seguido dos termos para buscar na Amazon.`
+      // Interpretar as respostas detalhadamente
+      const interpretAnswers = (answers: Record<number, number>, comments: string) => {
+        const interpretations = []
+        
+        // Pergunta 1: Maior desafio de saúde
+        if (answers[1] !== undefined) {
+          const challenges = ['energia', 'ansiedade', 'sono', 'imunidade', 'peso']
+          interpretations.push(`Desafio principal: ${challenges[answers[1]] || 'energia'}`)
+        }
+        
+        // Pergunta 2: Rotina
+        if (answers[2] !== undefined) {
+          const routines = ['sedentária', 'pouco tempo', 'horários irregulares', 'cansaço físico', 'flexível']
+          interpretations.push(`Estilo de vida: ${routines[answers[2]] || 'sedentária'}`)
+        }
+        
+        // Pergunta 3: Orçamento mensal
+        if (answers[3] !== undefined) {
+          const budgets = ['menos de $50', '$50-100', '$100-200', '$200-300', 'mais de $300']
+          interpretations.push(`Orçamento: ${budgets[answers[3]] || '$50-100'}`)
+        }
+        
+        // Pergunta 4: Experiência com suplementos
+        if (answers[4] !== undefined) {
+          const experiences = ['iniciante', 'resultados ruins', 'otimizar escolhas', 'busca eficiência', 'expert']
+          interpretations.push(`Experiência: ${experiences[answers[4]] || 'iniciante'}`)
+        }
+        
+        // Pergunta 5: Decisões de compra
+        if (answers[5] !== undefined) {
+          const decisions = ['pesquisa muito', 'recomendações amigas', 'lê reviews', 'garantia importante', 'decide rápido']
+          interpretations.push(`Perfil compra: ${decisions[answers[5]] || 'pesquisa muito'}`)
+        }
+        
+        // Pergunta 6: Objetivo principal 2025
+        if (answers[6] !== undefined) {
+          const goals = ['mais energia', 'reduzir ansiedade', 'cabelo/pele/unhas', 'digestão', 'saúde hormonal']
+          interpretations.push(`Objetivo 2025: ${goals[answers[6]] || 'mais energia'}`)
+        }
+        
+        // Pergunta 7: Preferência de recomendações
+        if (answers[7] !== undefined) {
+          const preferences = ['lista simples', 'explicação detalhada', 'cronograma uso', 'comparação preços', 'plano completo']
+          interpretations.push(`Prefere: ${preferences[answers[7]] || 'lista simples'}`)
+        }
+        
+        // Pergunta 8: Confiança na marca
+        if (answers[8] !== undefined) {
+          const trust = ['ingredientes naturais', 'certificações', 'avaliações latinas', 'preço justo', 'facilidade compra']
+          interpretations.push(`Valoriza: ${trust[answers[8]] || 'ingredientes naturais'}`)
+        }
+        
+        if (comments?.trim()) {
+          interpretations.push(`Restrições específicas: ${comments}`)
+        }
+        
+        return interpretations.join(' | ')
+      }
+
+      const detailedProfile = interpretAnswers(answers, comments)
+
+      const userMessage = `Usuário completou análise em ${language}. 
+      
+      PERFIL DETALHADO: ${detailedProfile}
+      
+      Com base neste perfil específico, forneça uma análise personalizada para brasileiras/latinas nos EUA. 
+      Considere o orçamento mencionado e recomende 3-5 produtos específicos.
+      Termine com "BUSCAR: " seguido de 3-5 termos específicos para buscar na Amazon.`
 
       const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
@@ -331,7 +396,7 @@ export async function POST(request: NextRequest) {
     
     // Extrair termos de busca da análise
     let recommendedProducts: any[] = []
-    const searchTermsMatch = analysis.match(/BUSCAR:\s*(.+)$/i)
+    const searchTermsMatch = analysis.match(/BUSCAR:\s*([^"]+)/i)
     
     if (searchTermsMatch) {
       // Separar a análise dos termos de busca
@@ -343,19 +408,32 @@ export async function POST(request: NextRequest) {
         .filter(term => term.length > 0)
       
       console.log('🔍 Searching Amazon for:', searchTerms)
+      console.log('🔍 Search terms matched:', searchTermsMatch[1])
       
-      // Buscar produtos na Amazon para cada termo
+      // Buscar produtos na Amazon para cada termo (mais produtos por termo)
       const amazonSearches = await Promise.all(
-        searchTerms.slice(0, 3).map(term => searchAmazonProducts(term, 2))
+        searchTerms.slice(0, 5).map(term => searchAmazonProducts(term, 3))
       )
       
-      // Combinar resultados e limitar a 5 produtos
+      // Combinar resultados, remover duplicatas e filtrar por orçamento
       const allProducts = amazonSearches.flat()
+      const budgetMap = { 0: 50, 1: 100, 2: 200, 3: 300, 4: 999 }
+      const maxBudget = budgetMap[answers[3] as keyof typeof budgetMap] || 100
+      
       recommendedProducts = allProducts
         .filter((product, index, self) => 
           index === self.findIndex(p => p.asin === product.asin)
         )
-        .slice(0, 5)
+        .filter(product => {
+          const price = parseFloat(product.price.replace('$', ''))
+          return price <= maxBudget * 0.4 // Cada produto até 40% do orçamento total
+        })
+        .sort((a, b) => {
+          const priceA = parseFloat(a.price.replace('$', ''))
+          const priceB = parseFloat(b.price.replace('$', ''))
+          return priceA - priceB // Ordenar por preço crescente
+        })
+        .slice(0, 6)
         .map(product => ({
           name: product.name,
           description: `Produto recomendado pela nossa especialista`,

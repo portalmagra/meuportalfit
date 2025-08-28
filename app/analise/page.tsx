@@ -5,656 +5,605 @@ import Link from 'next/link'
 
 type Language = 'pt' | 'es' | 'en'
 
-interface Question {
-  id: number
-  pt?: string
-  es?: string  
-  en?: string
-  text?: {
-    pt: string
-    es: string
-    en: string
+const content = {
+  // Headers e Títulos
+  pageTitle: { pt: 'Análise IA Personalizada', es: 'Análisis IA Personalizado', en: 'Personalized AI Analysis' },
+  heroTitle: { 
+    pt: 'Descubra Seus\nProdutos Ideais', 
+    es: 'Descubre Tus\nProductos Ideales', 
+    en: 'Discover Your\nIdeal Products' 
+  },
+  heroSubtitle: { 
+    pt: 'Análise personalizada gratuita - apenas 2-3 minutos', 
+    es: 'Análisis personalizado gratuito - solo 2-3 minutos', 
+    en: 'Free personalized analysis - only 2-3 minutes' 
+  },
+  
+  // Navegação
+  backToHome: { pt: '← Voltar para home', es: '← Volver a inicio', en: '← Back to home' },
+  
+  // Progresso
+  progressText: { pt: 'Pergunta', es: 'Pregunta', en: 'Question' },
+  progressOf: { pt: 'de', es: 'de', en: 'of' },
+  
+  // Perguntas
+  question1: { 
+    pt: 'Qual seu maior desafio de saúde nos EUA?', 
+    es: '¿Cuál es tu mayor desafío de salud en USA?', 
+    en: 'What is your biggest health challenge in the USA?' 
+  },
+  question2: { 
+    pt: 'Qual sua faixa etária?', 
+    es: '¿Cuál es tu rango de edad?', 
+    en: 'What is your age range?' 
+  },
+  question3: { 
+    pt: 'Qual seu objetivo principal?', 
+    es: '¿Cuál es tu objetivo principal?', 
+    en: 'What is your main goal?' 
+  },
+  
+  // Respostas
+  answer1a: { pt: 'A Manter energia durante o dia todo', es: 'A Mantener energía durante todo el día', en: 'A Maintain energy throughout the day' },
+  answer1b: { pt: 'B Melhorar a qualidade do sono', es: 'B Mejorar la calidad del sueño', en: 'B Improve sleep quality' },
+  answer1c: { pt: 'C Controlar o peso', es: 'C Controlar el peso', en: 'C Control weight' },
+  answer1d: { pt: 'D Fortalecer o sistema imunológico', es: 'D Fortalecer el sistema inmunológico', en: 'D Strengthen immune system' },
+  
+  answer2a: { pt: 'A 18-25 anos', es: 'A 18-25 años', en: 'A 18-25 years' },
+  answer2b: { pt: 'B 26-35 anos', es: 'B 26-35 años', en: 'B 26-35 years' },
+  answer2c: { pt: 'C 36-45 anos', es: 'C 36-45 años', en: 'C 36-45 years' },
+  answer2d: { pt: 'D 46+ anos', es: 'D 46+ años', en: 'D 46+ years' },
+  
+  answer3a: { pt: 'A Perder peso', es: 'A Perder peso', en: 'A Lose weight' },
+  answer3b: { pt: 'B Ganhar massa muscular', es: 'B Ganar masa muscular', en: 'B Gain muscle mass' },
+  answer3c: { pt: 'C Melhorar o bem-estar geral', es: 'C Mejorar el bienestar general', en: 'C Improve general well-being' },
+  answer3d: { pt: 'D Aumentar a performance', es: 'D Aumentar el rendimiento', en: 'D Increase performance' },
+  
+  // Botões
+  nextButton: { pt: 'Próxima Pergunta', es: 'Siguiente Pregunta', en: 'Next Question' },
+  startAnalysis: { pt: 'Começar Análise', es: 'Comenzar Análisis', en: 'Start Analysis' },
+  
+  // Footer
+  footerText: { 
+    pt: 'Análise personalizada para brasileiros nos EUA', 
+    es: 'Análisis personalizado para latinos en USA', 
+    en: 'Personalized analysis for Brazilians in the USA' 
   }
-  subtitle?: {
-    pt: string
-    es: string
-    en: string
-  }
-  options?: {
-    pt: string[]
-    es: string[]
-    en: string[]
-  }
-  answers?: {
-    pt: string[]
-    es: string[]
-    en: string[]
-  }
-  type?: 'comment'
-  category: 'lifestyle' | 'health' | 'budget' | 'goals' | 'additional'
 }
 
-// 8 perguntas estratégicas com gatilhos mentais
-const questions: Question[] = [
-  {
-    id: 1,
-    pt: "Qual seu maior desafio de saúde nos EUA?",
-    es: "¿Cuál es tu mayor desafío de salud en USA?",
-    en: "What's your biggest health challenge in the USA?",
-    options: {
-      pt: [
-        "Manter energia durante o dia todo",
-        "Controlar ansiedade e estresse",
-        "Melhorar qualidade do sono",
-        "Fortalecer imunidade",
-        "Controlar peso de forma saudável"
-      ],
-      es: [
-        "Mantener energía durante todo el día",
-        "Controlar ansiedad y estrés",
-        "Mejorar calidad del sueño",
-        "Fortalecer inmunidad",
-        "Controlar peso de forma saludable"
-      ],
-      en: [
-        "Maintaining energy throughout the day",
-        "Managing anxiety and stress",
-        "Improving sleep quality",
-        "Strengthening immunity",
-        "Managing weight healthily"
-      ]
-    },
-    category: 'health'
-  },
-  {
-    id: 2,
-    pt: "Como é sua rotina de trabalho/estudos?",
-    es: "¿Cómo es tu rutina de trabajo/estudios?",
-    en: "What's your work/study routine like?",
-    options: {
-      pt: [
-        "Home office - muito sedentária",
-        "Trabalho presencial - pouco tempo livre",
-        "Estudante - horários irregulares",
-        "Trabalho físico - muito cansaço",
-        "Autônoma - horários flexíveis"
-      ],
-      es: [
-        "Oficina en casa - muy sedentaria",
-        "Trabajo presencial - poco tiempo libre",
-        "Estudiante - horarios irregulares",
-        "Trabajo físico - mucho cansancio",
-        "Autónoma - horarios flexibles"
-      ],
-      en: [
-        "Home office - very sedentary",
-        "Office work - little free time",
-        "Student - irregular schedule",
-        "Physical work - very tiring",
-        "Self-employed - flexible hours"
-      ]
-    },
-    category: 'lifestyle'
-  },
-  {
-    id: 3,
-    pt: "Quanto você investe mensalmente em saúde/bem-estar?",
-    es: "¿Cuánto inviertes mensualmente en salud/bienestar?",
-    en: "How much do you invest monthly in health/wellness?",
-    options: {
-      pt: [
-        "Menos de $50 - orçamento apertado",
-        "$50-100 - investimento moderado",
-        "$100-200 - priorizo minha saúde",
-        "$200-300 - saúde é prioridade máxima",
-        "Mais de $300 - sem limites para bem-estar"
-      ],
-      es: [
-        "Menos de $50 - presupuesto ajustado",
-        "$50-100 - inversión moderada",
-        "$100-200 - priorizo mi salud",
-        "$200-300 - salud es máxima prioridad",
-        "Más de $300 - sin límites para bienestar"
-      ],
-      en: [
-        "Less than $50 - tight budget",
-        "$50-100 - moderate investment",
-        "$100-200 - I prioritize my health",
-        "$200-300 - health is top priority",
-        "More than $300 - no limits for wellness"
-      ]
-    },
-    category: 'budget'
-  },
-  {
-    id: 4,
-    pt: "Qual sua experiência com suplementos nos EUA?",
-    es: "¿Cuál es tu experiencia con suplementos en USA?",
-    en: "What's your experience with supplements in the USA?",
-    options: {
-      pt: [
-        "Nunca usei - não sei por onde começar",
-        "Já tentei alguns - resultados ruins",
-        "Uso poucos - quero otimizar escolhas",
-        "Uso vários - busco mais eficiência",
-        "Expert - sempre teste novidades"
-      ],
-      es: [
-        "Nunca usé - no sé por dónde empezar",
-        "Ya probé algunos - malos resultados",
-        "Uso pocos - quiero optimizar elecciones",
-        "Uso varios - busco más eficiencia",
-        "Experta - siempre pruebo novedades"
-      ],
-      en: [
-        "Never used - don't know where to start",
-        "Tried some - poor results",
-        "Use few - want to optimize choices",
-        "Use several - seeking more efficiency",
-        "Expert - always try new things"
-      ]
-    },
-    category: 'health'
-  },
-  {
-    id: 5,
-    pt: "Como você toma decisões de compra importantes?",
-    es: "¿Cómo tomas decisiones de compra importantes?",
-    en: "How do you make important purchase decisions?",
-    options: {
-      pt: [
-        "Pesquiso tudo antes - sou muito criteriosa",
-        "Confio em recomendações de amigas",
-        "Leio reviews e avaliações detalhadamente",
-        "Preciso de garantia e facilidade de devolução",
-        "Decido rápido se faz sentido para mim"
-      ],
-      es: [
-        "Investigo todo antes - soy muy criteriosa",
-        "Confío en recomendaciones de amigas",
-        "Leo reviews y evaluaciones detalladamente",
-        "Necesito garantía y facilidad de devolución",
-        "Decido rápido si tiene sentido para mí"
-      ],
-      en: [
-        "Research everything - I'm very thorough",
-        "Trust friends' recommendations",
-        "Read reviews and ratings carefully",
-        "Need warranty and easy returns",
-        "Decide quickly if it makes sense to me"
-      ]
-    },
-    category: 'lifestyle'
-  },
-  {
-    id: 6,
-    pt: "Qual seu principal objetivo de saúde para 2025?",
-    es: "¿Cuál es tu principal objetivo de salud para 2025?",
-    en: "What's your main health goal for 2025?",
-    options: {
-      pt: [
-        "Ter mais energia e disposição diária",
-        "Reduzir ansiedade e melhorar humor",
-        "Fortalecer cabelo, pele e unhas",
-        "Melhorar digestão e saúde intestinal",
-        "Otimizar saúde hormonal"
-      ],
-      es: [
-        "Tener más energía y disposición diaria",
-        "Reducir ansiedad y mejorar humor",
-        "Fortalecer cabello, piel y uñas",
-        "Mejorar digestión y salud intestinal",
-        "Optimizar salud hormonal"
-      ],
-      en: [
-        "Have more daily energy and vitality",
-        "Reduce anxiety and improve mood",
-        "Strengthen hair, skin and nails",
-        "Improve digestion and gut health",
-        "Optimize hormonal health"
-      ]
-    },
-    category: 'goals'
-  },
-  {
-    id: 7,
-    pt: "Como você prefere receber recomendações personalizadas?",
-    es: "¿Cómo prefieres recibir recomendaciones personalizadas?",
-    en: "How do you prefer to receive personalized recommendations?",
-    options: {
-      pt: [
-        "Lista simples - 3-5 produtos essenciais",
-        "Explicação detalhada - por que cada um",
-        "Cronograma de uso - quando tomar cada um",
-        "Comparação de preços - melhor custo-benefício",
-        "Plano completo - estilo de vida integrado"
-      ],
-      es: [
-        "Lista simple - 3-5 productos esenciales",
-        "Explicación detallada - por qué cada uno",
-        "Cronograma de uso - cuándo tomar cada uno",
-        "Comparación de precios - mejor costo-beneficio",
-        "Plan completo - estilo de vida integrado"
-      ],
-      en: [
-        "Simple list - 3-5 essential products",
-        "Detailed explanation - why each one",
-        "Usage schedule - when to take each",
-        "Price comparison - best value",
-        "Complete plan - integrated lifestyle"
-      ]
-    },
-    category: 'lifestyle'
-  },
-  {
-    id: 8,
-    pt: "Qual fator mais influencia sua confiança numa marca?",
-    es: "¿Qué factor más influye en tu confianza en una marca?",
-    en: "What factor most influences your trust in a brand?",
-    options: {
-      pt: [
-        "Ingredientes naturais e orgânicos",
-        "Certificações e testes de laboratório",
-        "Avaliações de outras brasileiras/latinas",
-        "Preço justo com qualidade comprovada",
-        "Facilidade de compra e entrega rápida"
-      ],
-      es: [
-        "Ingredientes naturales y orgánicos",
-        "Certificaciones y tests de laboratorio",
-        "Evaluaciones de otras brasileñas/latinas",
-        "Precio justo con calidad comprobada",
-        "Facilidad de compra y entrega rápida"
-      ],
-      en: [
-        "Natural and organic ingredients",
-        "Certifications and lab testing",
-        "Reviews from other Brazilian/Latina women",
-        "Fair price with proven quality",
-        "Easy purchase and fast delivery"
-      ]
-    },
-    category: 'goals'
-  },
-  {
-    id: 9,
-    type: 'comment' as const,
-    text: {
-      pt: "Alguma restrição ou preferência específica?",
-      es: "¿Alguna restricción o preferencia específica?", 
-      en: "Any specific restrictions or preferences?"
-    },
-    subtitle: {
-      pt: "Ex: intolerância à lactose, preferência vegana, alergias, medicamentos que usa, objetivos específicos...",
-      es: "Ej: intolerancia a la lactosa, preferencia vegana, alergias, medicamentos que usa, objetivos específicos...",
-      en: "Ex: lactose intolerance, vegan preference, allergies, medications you take, specific goals..."
-    },
-    options: {
-      pt: [],
-      es: [],
-      en: []
-    },
-    category: 'additional'
-  }
-]
-
-export default function AnalysisPage() {
+export default function AnalisePage() {
   const [language, setLanguage] = useState<Language>('pt')
-  const [currentStep, setCurrentStep] = useState(0)
-  const [answers, setAnswers] = useState<Record<number, number>>({})
-  const [comments, setComments] = useState('')
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [currentQuestion, setCurrentQuestion] = useState(1)
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({})
 
-  const currentQuestion = questions[currentStep]
-  const isLastQuestion = currentStep === questions.length - 1
-  const progress = ((currentStep + 1) / questions.length) * 100
+  const t = (key: keyof typeof content) => content[key]?.[language] || content[key]?.pt || key
 
-  const handleAnswer = async (optionIndex: number) => {
-    const newAnswers = { ...answers, [currentQuestion.id]: optionIndex }
-    setAnswers(newAnswers)
+  const questions = [
+    {
+      id: 1,
+      question: 'question1',
+      answers: [
+        { key: '1a', text: 'answer1a' },
+        { key: '1b', text: 'answer1b' },
+        { key: '1c', text: 'answer1c' },
+        { key: '1d', text: 'answer1d' }
+      ]
+    },
+    {
+      id: 2,
+      question: 'question2',
+      answers: [
+        { key: '2a', text: 'answer2a' },
+        { key: '2b', text: 'answer2b' },
+        { key: '2c', text: 'answer2c' },
+        { key: '2d', text: 'answer2d' }
+      ]
+    },
+    {
+      id: 3,
+      question: 'question3',
+      answers: [
+        { key: '3a', text: 'answer3a' },
+        { key: '3b', text: 'answer3b' },
+        { key: '3c', text: 'answer3c' },
+        { key: '3d', text: 'answer3d' }
+      ]
+    }
+  ]
 
-    if (isLastQuestion) {
-      // Enviar para análise
-      setIsAnalyzing(true)
-      
-      try {
-        const response = await fetch('/api/analyze', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            answers: newAnswers,
-            comments: comments.trim(),
-            language: language
-          })
-        })
+  const handleAnswer = (answerKey: string) => {
+    setAnswers(prev => ({ ...prev, [currentQuestion]: answerKey }))
+  }
 
-        const result = await response.json()
-        
-        if (result.success) {
-          // Redirecionar para página de resultados
-          const queryData = encodeURIComponent(JSON.stringify(result))
-          window.location.href = `/analise/resultados?data=${queryData}`
-        } else {
-          alert('Erro na análise. Tente novamente.')
-          setIsAnalyzing(false)
-        }
-      } catch (error) {
-        console.error('Erro:', error)
-        alert('Erro de conexão. Tente novamente.')
-        setIsAnalyzing(false)
-      }
-    } else {
-      setCurrentStep(prev => prev + 1)
+  const nextQuestion = () => {
+    if (currentQuestion < questions.length) {
+      setCurrentQuestion(currentQuestion + 1)
     }
   }
 
-  const handleCommentSubmit = async () => {
-    if (isLastQuestion) {
-      setIsAnalyzing(true)
-      
-      try {
-        const response = await fetch('/api/analyze', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            answers: answers,
-            comments: comments.trim(),
-            language: language
-          })
-        })
-
-        const result = await response.json()
-        
-        if (result.success) {
-          window.location.href = `/analise/resultados?data=${encodeURIComponent(JSON.stringify(result))}`
-        }
-      } catch (error) {
-        console.error('Error:', error)
-        setIsAnalyzing(false)
-      }
-    }
-  }
-
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1)
-    }
-  }
-
-  if (isAnalyzing) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem'
-      }}>
-        <div style={{
-          background: 'white',
-          borderRadius: '20px',
-          padding: '3rem',
-          textAlign: 'center',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)',
-          maxWidth: '500px'
-        }}>
-          <div style={{
-            width: '60px',
-            height: '60px',
-            border: '4px solid #f3f4f6',
-            borderTop: '4px solid #22c55e',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            margin: '0 auto 2rem'
-          }}></div>
-          <h2 style={{ color: '#1f2937', marginBottom: '1rem' }}>
-            🧠 Analisando seu perfil...
-          </h2>
-          <p style={{ color: '#6b7280' }}>
-            Nossa IA está processando suas respostas para encontrar os produtos ideais para você.
-          </p>
-        </div>
-      </div>
-    )
-  }
+  const currentQuestionData = questions.find(q => q.id === currentQuestion)
 
   return (
     <>
       <style jsx global>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .gradient-text {
+          background: linear-gradient(135deg, #22c55e, #3b82f6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: #22c55e !important;
+        }
+        
+        .question-card {
+          animation: fadeIn 0.5s ease-out;
+        }
+        
+        .answer-option {
+          transition: all 0.3s ease;
+        }
+        
+        .answer-option:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .answer-option.selected {
+          background: linear-gradient(135deg, #22c55e, #16a34a);
+          color: white;
+          border-color: transparent;
+        }
+        
+        @media (max-width: 768px) {
+          .header-nav {
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem 0;
+          }
+          
+          .nav-buttons {
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+          
+          .hero-title {
+            font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+          }
+          
+          .question-card {
+            margin: 1rem;
+            padding: 1.5rem;
+          }
         }
       `}</style>
-      
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-        padding: '2rem 1rem'
-      }}>
-        {/* Header */}
-        <div style={{
-          maxWidth: '800px',
-          margin: '0 auto',
-          textAlign: 'center',
-          marginBottom: '2rem'
-        }}>
-          <Link href="/" style={{
-            textDecoration: 'none',
-            color: '#6b7280',
-            fontSize: '0.9rem',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            marginBottom: '1rem'
-          }}>
-            ← Voltar para home
-          </Link>
-          
-          <h1 style={{
-            background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontSize: '2rem',
-            fontWeight: 900,
-            marginBottom: '0.5rem'
-          }}>
-            Descubra Seus Produtos Ideais
-          </h1>
-          
-          <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>
-            {language === 'pt' && 'Análise personalizada gratuita - apenas 2-3 minutos'}
-            {language === 'es' && 'Análisis personalizado gratuito - solo 2-3 minutos'}
-            {language === 'en' && 'Free personalized analysis - just 2-3 minutes'}
-          </p>
 
-          {/* Progress Bar */}
+      <main style={{ position: 'relative', overflow: 'hidden' }}>
+        {/* Header Unificado com Logo, Navegação e Idioma */}
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(10px)',
+          padding: '1rem 0',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000
+        }}>
           <div style={{
-            width: '100%',
-            height: '8px',
-            background: '#f3f4f6',
-            borderRadius: '10px',
-            overflow: 'hidden',
-            marginBottom: '1rem'
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 2rem'
           }}>
+            {/* Header Layout */}
             <div style={{
-              width: `${progress}%`,
-              height: '100%',
-              background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-              borderRadius: '10px',
-              transition: 'width 0.3s ease'
-            }}></div>
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '2rem'
+            }} className="header-nav">
+              {/* Logo MeuPortalFit */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.8rem',
+                flexShrink: 0
+              }}>
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  fontWeight: 900,
+                  fontSize: '1.2rem'
+                }}>
+                  M
+                </div>
+                <span style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 900,
+                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>
+                  MeuPortalFit
+                </span>
+              </div>
+
+              {/* Navegação para os 3 Tópicos */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                flexWrap: 'wrap'
+              }} className="nav-buttons">
+                <Link href="/analise" style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.6rem 1.2rem',
+                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                    color: 'white',
+                    border: '1px solid transparent',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 600,
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <span>🧠</span>
+                    <span>Análise IA</span>
+                  </button>
+                </Link>
+
+                <Link href="/produtos" style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.6rem 1.2rem',
+                    background: 'transparent',
+                    color: '#6b7280',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 500,
+                    transition: 'all 0.3s ease'
+                  }} onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)'
+                    e.currentTarget.style.color = 'white'
+                    e.currentTarget.style.borderColor = 'transparent'
+                  }} onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#6b7280'
+                    e.currentTarget.style.borderColor = '#e5e7eb'
+                  }}>
+                    <span>🛍️</span>
+                    <span>Produtos</span>
+                  </button>
+                </Link>
+
+                <Link href="/suporte" style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.6rem 1.2rem',
+                    background: 'transparent',
+                    color: '#6b7280',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 500,
+                    transition: 'all 0.3s ease'
+                  }} onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #8b5cf6, #7c3aed)'
+                    e.currentTarget.style.color = 'white'
+                    e.currentTarget.style.borderColor = 'transparent'
+                  }} onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#6b7280'
+                    e.currentTarget.style.borderColor = '#e5e7eb'
+                  }}>
+                    <span>💬</span>
+                    <span>Suporte</span>
+                  </button>
+                </Link>
+              </div>
+
+              {/* Idioma */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.8rem',
+                flexShrink: 0
+              }}>
+                <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Idioma:</span>
+                <div style={{ display: 'flex', gap: '0.3rem' }}>
+                  {[
+                    { code: 'pt' as Language, flag: '🇧🇷', label: 'PT' },
+                    { code: 'es' as Language, flag: '🇪🇸', label: 'ES' },
+                    { code: 'en' as Language, flag: '🇺🇸', label: 'EN' }
+                  ].map(lang => (
+                    <button
+                      key={lang.code}
+                      onClick={() => setLanguage(lang.code)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.3rem',
+                        padding: '0.4rem 0.8rem',
+                        background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
+                        color: language === lang.code ? 'white' : '#6b7280',
+                        border: language === lang.code ? 'none' : '1px solid #e5e7eb',
+                        borderRadius: '20px',
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                        fontWeight: language === lang.code ? 600 : 400,
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      <span>{lang.flag}</span>
+                      <span>{lang.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <p style={{ color: '#6b7280', fontSize: '0.9rem' }}>
-            Pergunta {currentStep + 1} de {questions.length}
-          </p>
         </div>
 
-        {/* Question Card */}
-        <div style={{
-          maxWidth: '600px',
-          margin: '0 auto',
-          background: 'white',
-          borderRadius: '20px',
-          padding: '2rem',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)'
+        {/* Hero Section */}
+        <section style={{
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
+          padding: '3rem 0',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
-          <h2 style={{
-            color: '#1f2937',
-            fontSize: '1.5rem',
-            fontWeight: 700,
-            marginBottom: '1rem',
+          {/* Animated Blobs */}
+          <div style={{
+            position: 'absolute',
+            top: '10%',
+            left: '10%',
+            width: '200px',
+            height: '200px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+            filter: 'blur(40px)',
+            opacity: 0.3,
+            animation: 'fadeIn 8s ease-in-out infinite',
+            zIndex: 1
+          }}></div>
+
+          <div style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            padding: '0 2rem',
+            position: 'relative',
+            zIndex: 10,
             textAlign: 'center'
           }}>
-{currentQuestion.text?.[language] || currentQuestion[language as keyof Question]}
-          </h2>
+            {/* Back to Home Link */}
+            <div style={{ marginBottom: '2rem' }}>
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <button style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.8rem 1.5rem',
+                  background: 'white',
+                  color: '#6b7280',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '25px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                }} onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)'
+                }} onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)'
+                }}>
+                  <span>←</span>
+                  <span>{t('backToHome')}</span>
+                </button>
+              </Link>
+            </div>
 
-          {currentQuestion.subtitle && (
+            <h1 style={{
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              fontWeight: 900,
+              lineHeight: 1.1,
+              marginBottom: '1.5rem',
+              color: '#1f2937',
+              whiteSpace: 'pre-line'
+            }} className="hero-title">
+              <span className="gradient-text">{t('heroTitle').split('\n')[0]}</span>
+              <br />
+              <span style={{ color: '#3b82f6' }}>{t('heroTitle').split('\n')[1]}</span>
+            </h1>
+
+            <p style={{
+              fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+              marginBottom: '2rem',
+              color: '#6b7280',
+              maxWidth: '600px',
+              margin: '0 auto 2rem',
+              lineHeight: 1.6
+            }}>
+              {t('heroSubtitle')}
+            </p>
+
+            {/* Progress Bar */}
+            <div style={{
+              background: '#e5e7eb',
+              borderRadius: '25px',
+              height: '8px',
+              marginBottom: '1rem',
+              overflow: 'hidden',
+              maxWidth: '400px',
+              margin: '0 auto 1rem'
+            }}>
+              <div style={{
+                background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                height: '100%',
+                width: `${(currentQuestion / questions.length) * 100}%`,
+                borderRadius: '25px',
+                transition: 'width 0.5s ease'
+              }}></div>
+            </div>
+
             <p style={{
               color: '#6b7280',
               fontSize: '0.9rem',
-              textAlign: 'center',
-              marginBottom: '2rem',
-              lineHeight: '1.5'
+              fontWeight: 500
             }}>
-              {currentQuestion.subtitle[language]}
+              {t('progressText')} {currentQuestion} {t('progressOf')} {questions.length}
             </p>
-          )}
-
-          {currentQuestion.type === 'comment' ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <textarea
-                value={comments}
-                onChange={(e) => setComments(e.target.value)}
-                placeholder={
-                  language === 'pt' ? 'Digite aqui suas restrições, alergias, preferências...' :
-                  language === 'es' ? 'Escriba aquí sus restricciones, alergias, preferencias...' :
-                  'Write here your restrictions, allergies, preferences...'
-                }
-                style={{
-                  width: '100%',
-                  minHeight: '120px',
-                  padding: '1rem',
-                  border: '2px solid #f3f4f6',
-                  borderRadius: '12px',
-                  fontSize: '1rem',
-                  resize: 'vertical',
-                  fontFamily: 'inherit',
-                  outline: 'none',
-                  transition: 'border-color 0.3s ease'
-                }}
-                onFocus={(e) => e.target.style.borderColor = '#22c55e'}
-                onBlur={(e) => e.target.style.borderColor = '#f3f4f6'}
-              />
-              
-              <button
-                onClick={handleCommentSubmit}
-                disabled={isAnalyzing}
-                style={{
-                  padding: '1rem 2rem',
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '12px',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s ease',
-                  opacity: isAnalyzing ? 0.7 : 1
-                }}
-                onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-              >
-                {isAnalyzing ? '🔍 Analisando...' : 
-                 language === 'pt' ? '🚀 Finalizar Análise' :
-                 language === 'es' ? '🚀 Finalizar Análisis' :
-                 '🚀 Complete Analysis'}
-              </button>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {currentQuestion.options && currentQuestion.options[language].map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleAnswer(index)}
-                style={{
-                  padding: '1rem 1.5rem',
-                  border: '2px solid #f3f4f6',
-                  borderRadius: '12px',
-                  background: 'white',
-                  color: '#1f2937',
-                  fontSize: '1rem',
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#22c55e'
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#f3f4f6'
-                  e.currentTarget.style.transform = 'translateY(0)'
-                }}
-              >
-                <span style={{ fontWeight: 600, color: '#22c55e', marginRight: '1rem' }}>
-                  {String.fromCharCode(65 + index)}
-                </span>
-                {option}
-              </button>
-              ))}
-            </div>
-          )}
-
-          {/* Navigation */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginTop: '2rem'
-          }}>
-            <button
-              onClick={handleBack}
-              disabled={currentStep === 0}
-              style={{
-                padding: '0.8rem 1.5rem',
-                background: currentStep === 0 ? '#f9fafb' : 'white',
-                color: currentStep === 0 ? '#9ca3af' : '#6b7280',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                cursor: currentStep === 0 ? 'not-allowed' : 'pointer'
-              }}
-            >
-              ← Anterior
-            </button>
-            
-            <div style={{
-              color: '#6b7280',
-              fontSize: '0.9rem',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              🔒 Dados seguros e privados
-            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Question Section */}
+        <section style={{ background: 'white', padding: '2rem 0' }}>
+          <div style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            padding: '0 2rem'
+          }}>
+            {currentQuestionData && (
+              <div className="question-card" style={{
+                background: 'white',
+                borderRadius: '25px',
+                padding: '3rem 2rem',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+                border: '2px solid #f3f4f6'
+              }}>
+                <h2 style={{
+                  fontSize: 'clamp(1.3rem, 4vw, 1.8rem)',
+                  fontWeight: 700,
+                  marginBottom: '2rem',
+                  color: '#1f2937',
+                  textAlign: 'center',
+                  lineHeight: 1.4
+                }}>
+                  {t(currentQuestionData.question as keyof typeof content)}
+                </h2>
+
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                  gap: '1rem',
+                  marginBottom: '2rem'
+                }}>
+                  {currentQuestionData.answers.map((answer, index) => (
+                    <button
+                      key={answer.key}
+                      onClick={() => handleAnswer(answer.key)}
+                      className={`answer-option ${answers[currentQuestion] === answer.key ? 'selected' : ''}`}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1rem',
+                        padding: '1.5rem',
+                        background: answers[currentQuestion] === answer.key ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'white',
+                        color: answers[currentQuestion] === answer.key ? 'white' : '#374151',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: '15px',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        fontWeight: 500,
+                        textAlign: 'left',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
+                      }}
+                    >
+                      <span style={{
+                        width: '30px',
+                        height: '30px',
+                        borderRadius: '50%',
+                        background: answers[currentQuestion] === answer.key ? 'rgba(255, 255, 255, 0.2)' : '#f3f4f6',
+                        color: answers[currentQuestion] === answer.key ? 'white' : '#22c55e',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 700,
+                        fontSize: '0.9rem'
+                      }}>
+                        {String.fromCharCode(65 + index)}
+                      </span>
+                      <span>{t(answer.text as keyof typeof content)}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Next Button */}
+                {answers[currentQuestion] && (
+                  <div style={{ textAlign: 'center' }}>
+                    <button
+                      onClick={nextQuestion}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.8rem',
+                        padding: '1rem 2rem',
+                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '25px',
+                        cursor: 'pointer',
+                        fontSize: '1.1rem',
+                        fontWeight: 700,
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 15px 35px rgba(34, 197, 94, 0.4)'
+                      }} onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)'
+                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.5)'
+                      }} onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(34, 197, 94, 0.4)'
+                      }}
+                    >
+                      <span>{currentQuestion === questions.length ? '🚀' : '→'}</span>
+                      <span>{currentQuestion === questions.length ? t('startAnalysis') : t('nextButton')}</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </section>
 
         {/* Footer */}
-        <div style={{
-          maxWidth: '600px',
-          margin: '2rem auto 0',
-          textAlign: 'center',
-          color: '#6b7280',
-          fontSize: '0.8rem'
+        <footer style={{
+          background: '#1f2937',
+          color: 'white',
+          padding: '2rem 0',
+          textAlign: 'center'
         }}>
-          <p>✅ Análise 100% gratuita • ⚡ Resultados em segundos • 🛡️ Recomendações personalizadas</p>
-        </div>
-      </div>
+          <div style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            padding: '0 2rem'
+          }}>
+            <p style={{ color: '#9ca3af', fontSize: '0.9rem' }}>
+              {t('footerText')}
+            </p>
+          </div>
+        </footer>
+      </main>
     </>
   )
 }

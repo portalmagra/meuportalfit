@@ -280,81 +280,28 @@ export async function searchAmazonProductsSmart(
 }
 
 /**
- * Chama a API da Amazon com os parâmetros corretos
+ * Chama a API da Amazon usando a implementação existente
  */
 async function callAmazonAPI(
   searchTerm: string,
   category: string,
   itemCount: number
 ): Promise<AmazonProduct[] | null> {
-  const AWS_ACCESS_KEY = process.env.AMAZON_ACCESS_KEY_ID;
-  const AWS_SECRET_KEY = process.env.AMAZON_SECRET_ACCESS_KEY;
-  const ASSOCIATE_TAG = process.env.AMAZON_ASSOCIATE_TAG || 'portal07d-20';
-  
-  if (!AWS_ACCESS_KEY || !AWS_SECRET_KEY) {
-    console.log('⚠️ Credenciais da Amazon não configuradas');
-    return null;
-  }
-  
-  const now = new Date();
-  const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
-  const dateStamp = amzDate.slice(0, 8);
-  
-  const payload = {
-    Keywords: searchTerm,
-    Resources: [
-      'Images.Primary.Large',
-      'ItemInfo.Title',
-      'ItemInfo.Features',
-      'Offers.Listings.Price',
-      'CustomerReviews.StarRating',
-      'DetailPageURL'
-    ],
-    PartnerTag: ASSOCIATE_TAG,
-    PartnerType: 'Associates',
-    Marketplace: 'www.amazon.com',
-    ItemCount: itemCount,
-    SearchIndex: category,
-    MinReviewsRating: 3.5, // Apenas produtos bem avaliados
-    Availability: 'Available' // Apenas produtos disponíveis
-  };
-  
-  // [Código de assinatura AWS continua o mesmo...]
-  // ... implementação da assinatura e chamada HTTP ...
+  // Importar a função do arquivo existente que já tem toda a lógica de assinatura
+  const { searchAmazonProducts } = await import('./amazon-api');
   
   try {
-    // Fazer a chamada para a API
-    const response = await fetch('https://webservices.amazon.com/paapi5/searchitems', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-amz-date': amzDate,
-        // ... outros headers com assinatura
-      },
-      body: JSON.stringify(payload)
-    });
+    // Usar a busca existente que já funciona
+    const products = await searchAmazonProducts(searchTerm, itemCount);
     
-    if (!response.ok) {
-      console.error('Amazon API error:', response.status);
-      return null;
-    }
-    
-    const data = await response.json();
-    
-    if (data.SearchResult?.Items?.length) {
-      return data.SearchResult.Items.map((item: any) => ({
-        name: item.ItemInfo?.Title?.DisplayValue || 'Produto',
-        asin: item.ASIN,
-        price: item.Offers?.Listings?.[0]?.Price?.DisplayAmount || '$0.00',
-        rating: item.CustomerReviews?.StarRating?.Value || 4.0,
-        imageUrl: item.Images?.Primary?.Large?.URL || '',
-        detailPageURL: item.DetailPageURL || `https://www.amazon.com/dp/${item.ASIN}?tag=${ASSOCIATE_TAG}`
-      }));
+    // Se encontrou produtos, retorná-los
+    if (products && products.length > 0) {
+      return products;
     }
     
     return null;
   } catch (error) {
-    console.error('Erro na chamada da API:', error);
+    console.error('Erro ao chamar API existente:', error);
     return null;
   }
 }

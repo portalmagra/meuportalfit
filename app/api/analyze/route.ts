@@ -368,30 +368,32 @@ export async function POST(request: NextRequest) {
     console.log(`✅ Total de ${recommendedProducts.length} produtos processados`)
     
     // Calcular resumo
-    const totalSavings = recommendedProducts.reduce((sum, product) => {
-      const price = parseFloat(product.price.replace('$', '').replace(',', ''))
-      return sum + (price * product.savings / 100)
-    }, 0)
-    
-    const budgetAnswer = answers[3] || 1
-    const budgetMap = ['budget', 'moderate', 'priority', 'premium', 'unlimited']
-    const budget = budgetMap[budgetAnswer] || 'moderate'
+const totalSavings = recommendedProducts.reduce((sum, product) => {
+  const price = parseFloat(product.price.replace('$', '').replace(',', ''))
+  return sum + (price * product.savings / 100)
+}, 0)
 
-    return NextResponse.json({
-      success: true,
-      analysis,
-      profile: {
-        language,
-        budget,
-        totalQuestions: Object.keys(answers).length
-      },
-      recommendations: recommendedProducts,
-      summary: {
-        totalProducts: recommendedProducts.length,
-        totalSavings: Math.round(totalSavings),
-        averageRating: recommendedProducts.reduce((sum, p) => sum + p.rating, 0) / recommendedProducts.length
-      }
-    })
+const budgetAnswer = answers[3] || 1
+const budgetMap = ['budget', 'moderate', 'priority', 'premium', 'unlimited']
+const budget = budgetMap[budgetAnswer] || 'moderate'
+
+return NextResponse.json({
+  success: true,
+  analysis,
+  profile: {
+    language,
+    budget,
+    totalQuestions: Object.keys(answers).length
+  },
+  recommendations: recommendedProducts,
+  summary: {
+    totalProducts: recommendedProducts.length,
+    totalSavings: Math.round(totalSavings),
+    averageRating: recommendedProducts.length > 0 
+      ? recommendedProducts.reduce((sum, p) => sum + p.rating, 0) / recommendedProducts.length
+      : 0  // <-- ESTA É A MUDANÇA IMPORTANTE
+  }
+})
 
   } catch (error) {
     console.error('Erro na análise:', error)

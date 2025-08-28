@@ -107,7 +107,7 @@ const stats = {
 
 export default function HomePage() {
   const [language, setLanguage] = useState<Language>('pt')
-  const t = (key: string) => content[key]?.[language] || content[key]?.pt || key
+  const t = (key: keyof typeof content) => content[key]?.[language] || content[key]?.pt || key
 
   return (
     <>
@@ -147,11 +147,11 @@ export default function HomePage() {
       `}</style>
 
       <main style={{ position: 'relative', overflow: 'hidden' }}>
-        {/* Language Selector Bar */}
+        {/* Language Selector Bar - MENOR E DISCRETO */}
         <div style={{
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(10px)',
-          padding: '1rem 0',
+          padding: '0.5rem 0',
           borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
           position: 'sticky',
           top: 0,
@@ -164,11 +164,11 @@ export default function HomePage() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '1rem',
+            gap: '0.5rem',
             flexWrap: 'wrap'
           }}>
-            <span style={{ color: '#6b7280', fontSize: '0.9rem' }}>{t('selectLanguage')}</span>
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <span style={{ color: '#6b7280', fontSize: '0.8rem' }}>{t('selectLanguage')}</span>
+            <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
               {[
                 { code: 'pt' as Language, flag: '🇧🇷', label: 'Português' },
                 { code: 'es' as Language, flag: '🇪🇸', label: 'Español' },
@@ -180,14 +180,14 @@ export default function HomePage() {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
+                    gap: '0.3rem',
+                    padding: '0.3rem 0.8rem',
                     background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
                     color: language === lang.code ? 'white' : '#6b7280',
                     border: language === lang.code ? 'none' : '1px solid #e5e7eb',
-                    borderRadius: '25px',
+                    borderRadius: '20px',
                     cursor: 'pointer',
-                    fontSize: '0.85rem',
+                    fontSize: '0.75rem',
                     fontWeight: language === lang.code ? 600 : 400,
                     transition: 'all 0.3s ease'
                   }}
@@ -200,7 +200,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Hero Section */}
+        {/* Hero Section - TRÊS TÓPICOS GIGANTES E CHAMATIVOS */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
           minHeight: '100vh',
@@ -208,7 +208,7 @@ export default function HomePage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '4rem 0',
+          padding: '2rem 0',
           overflow: 'hidden'
         }}>
           {/* Animated Blobs */}
@@ -269,13 +269,13 @@ export default function HomePage() {
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '50px',
-              padding: '1rem 2rem',
+              padding: '0.8rem 1.5rem',
               marginBottom: '2rem',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
               fontWeight: 600,
               color: '#1f2937',
               gap: '0.5rem',
-              fontSize: '0.9rem'
+              fontSize: '0.85rem'
             }}>
               <span>🛡️</span>
               <span>{t('trustBadge')}</span>
@@ -283,9 +283,9 @@ export default function HomePage() {
             </div>
 
             {/* Main Title */}
-            <div style={{ marginBottom: '2rem' }}>
+            <div style={{ marginBottom: '3rem' }}>
               <h1 style={{
-                fontSize: 'clamp(2rem, 6vw, 4.5rem)',
+                fontSize: 'clamp(2rem, 5vw, 3.5rem)',
                 fontWeight: 900,
                 lineHeight: 1.1,
                 color: '#1f2937',
@@ -302,46 +302,180 @@ export default function HomePage() {
               </h1>
             </div>
 
-            <p style={{
-              fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
-              color: '#6b7280',
-              maxWidth: '700px',
-              margin: '0 auto 3rem',
-              fontWeight: 500,
-              lineHeight: 1.6
+            {/* TRÊS TÓPICOS GIGANTES E CHAMATIVOS */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1.5rem',
+              maxWidth: '1000px',
+              margin: '0 auto 2rem'
             }}>
-              {t('subtitle')}
-            </p>
-
-            {/* Main Button */}
-            <div style={{ marginBottom: '1.5rem' }}>
+              {/* 1. ANÁLISE IA - VERDE VIBRANTE */}
               <Link href="/analise" style={{ textDecoration: 'none' }}>
-                <button style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                <div style={{
+                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                  borderRadius: '25px',
+                  padding: '2.5rem 2rem',
+                  textAlign: 'center',
                   color: 'white',
-                  fontSize: '1.1rem',
-                  fontWeight: 700,
-                  padding: '1.25rem 2.5rem',
-                  border: 'none',
-                  borderRadius: '50px',
-                  cursor: 'pointer',
+                  boxShadow: '0 20px 40px rgba(34, 197, 94, 0.3)',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 10px 30px rgba(34, 197, 94, 0.3)',
-                  transform: 'translateY(0)'
+                  cursor: 'pointer',
+                  border: '3px solid rgba(255, 255, 255, 0.2)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }} onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
+                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(34, 197, 94, 0.4)'
+                }} onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.3)'
                 }}>
-                  <span>🚀</span>
-                  <span>{t('ctaButton')}</span>
-                  <span>→</span>
-                </button>
+                  <div style={{
+                    fontSize: '4rem',
+                    marginBottom: '1rem',
+                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                  }}>🧠</div>
+                  <h2 style={{
+                    fontSize: '1.8rem',
+                    fontWeight: 900,
+                    marginBottom: '1rem',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                  }}>Análise IA</h2>
+                  <p style={{
+                    fontSize: '1rem',
+                    opacity: 0.95,
+                    lineHeight: 1.5,
+                    marginBottom: '1.5rem'
+                  }}>
+                    Quiz personalizado que analisa suas necessidades e recomenda produtos específicos
+                  </p>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '20px',
+                    padding: '0.8rem 1.5rem',
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    backdropFilter: 'blur(10px)'
+                  }}>
+                    🚀 COMEÇAR AGORA
+                  </div>
+                </div>
+              </Link>
+
+              {/* 2. PRODUTOS - AZUL VIBRANTE */}
+              <Link href="/produtos" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                  borderRadius: '25px',
+                  padding: '2.5rem 2rem',
+                  textAlign: 'center',
+                  color: 'white',
+                  boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  border: '3px solid rgba(255, 255, 255, 0.2)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }} onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
+                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(59, 130, 246, 0.4)'
+                }} onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(59, 130, 246, 0.3)'
+                }}>
+                  <div style={{
+                    fontSize: '4rem',
+                    marginBottom: '1rem',
+                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                  }}>🛍️</div>
+                  <h2 style={{
+                    fontSize: '1.8rem',
+                    fontWeight: 900,
+                    marginBottom: '1rem',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                  }}>Produtos por Área</h2>
+                  <p style={{
+                    fontSize: '1rem',
+                    opacity: 0.95,
+                    lineHeight: 1.5,
+                    marginBottom: '1.5rem'
+                  }}>
+                    14 categorias organizadas por necessidade: energia, sono, imunidade e muito mais
+                  </p>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '20px',
+                    padding: '0.8rem 1.5rem',
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    backdropFilter: 'blur(10px)'
+                  }}>
+                    🔍 VER PRODUTOS
+                  </div>
+                </div>
+              </Link>
+
+              {/* 3. SUPORTE - ROXO VIBRANTE */}
+              <Link href="/suporte" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                  borderRadius: '25px',
+                  padding: '2.5rem 2rem',
+                  textAlign: 'center',
+                  color: 'white',
+                  boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  border: '3px solid rgba(255, 255, 255, 0.2)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }} onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
+                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(139, 92, 246, 0.4)'
+                }} onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(139, 92, 246, 0.3)'
+                }}>
+                  <div style={{
+                    fontSize: '4rem',
+                    marginBottom: '1rem',
+                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                  }}>💬</div>
+                  <h2 style={{
+                    fontSize: '1.8rem',
+                    fontWeight: 900,
+                    marginBottom: '1rem',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                  }}>Suporte Personalizado</h2>
+                  <p style={{
+                    fontSize: '1rem',
+                    opacity: 0.95,
+                    lineHeight: 1.5,
+                    marginBottom: '1.5rem'
+                  }}>
+                    Consultas gratuitas em português com especialistas para suas necessidades específicas
+                  </p>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '20px',
+                    padding: '0.8rem 1.5rem',
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    backdropFilter: 'blur(10px)'
+                  }}>
+                    📞 AGENDAR CONSULTA
+                  </div>
+                </div>
               </Link>
             </div>
 
+            {/* Descrição Pequena */}
             <p style={{
               color: '#6b7280',
-              fontSize: '0.9rem'
+              fontSize: '0.9rem',
+              maxWidth: '600px',
+              margin: '0 auto'
             }}>
               {t('smallText')}
             </p>
@@ -372,46 +506,46 @@ export default function HomePage() {
               maxWidth: '900px',
               margin: '0 auto'
             }}>
-              {[
-                { number: '1', titleKey: 'step1Title', descKey: 'step1Desc' },
-                { number: '2', titleKey: 'step2Title', descKey: 'step2Desc' },
-                { number: '3', titleKey: 'step3Title', descKey: 'step3Desc' }
-              ].map((step, i) => (
-                <div key={i} style={{
-                  textAlign: 'center',
-                  padding: '2rem 1rem',
-                  borderRadius: '20px',
-                  background: '#f9fafb',
-                  border: '2px solid transparent'
-                }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '60px',
-                    height: '60px',
-                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                    color: 'white',
-                    borderRadius: '50%',
-                    fontSize: '1.5rem',
-                    fontWeight: 900,
-                    marginBottom: '1rem'
+                              {[
+                  { number: '1', titleKey: 'step1Title' as keyof typeof content, descKey: 'step1Desc' as keyof typeof content },
+                  { number: '2', titleKey: 'step2Title' as keyof typeof content, descKey: 'step2Desc' as keyof typeof content },
+                  { number: '3', titleKey: 'step3Title' as keyof typeof content, descKey: 'step3Desc' as keyof typeof content }
+                ].map((step, i) => (
+                  <div key={i} style={{
+                    textAlign: 'center',
+                    padding: '2rem 1rem',
+                    borderRadius: '20px',
+                    background: '#f9fafb',
+                    border: '2px solid transparent'
                   }}>
-                    {step.number}
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '60px',
+                      height: '60px',
+                      background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                      color: 'white',
+                      borderRadius: '50%',
+                      fontSize: '1.5rem',
+                      fontWeight: 900,
+                      marginBottom: '1rem'
+                    }}>
+                      {step.number}
+                    </div>
+                    <h3 style={{
+                      fontSize: '1.2rem',
+                      fontWeight: 700,
+                      marginBottom: '0.8rem',
+                      color: '#1f2937'
+                    }}>
+                      {t(step.titleKey)}
+                    </h3>
+                    <p style={{ color: '#6b7280', lineHeight: 1.5, fontSize: '0.9rem' }}>
+                      {t(step.descKey)}
+                    </p>
                   </div>
-                  <h3 style={{
-                    fontSize: '1.2rem',
-                    fontWeight: 700,
-                    marginBottom: '0.8rem',
-                    color: '#1f2937'
-                  }}>
-                    {t(step.titleKey)}
-                  </h3>
-                  <p style={{ color: '#6b7280', lineHeight: 1.5, fontSize: '0.9rem' }}>
-                    {t(step.descKey)}
-                  </p>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </section>

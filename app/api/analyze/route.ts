@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { searchAmazonProducts } from '../../../lib/amazon-api'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -294,10 +295,17 @@ export async function POST(request: NextRequest) {
       4. Considere clima americano (inverno rigoroso, ar seco)
       5. Foque em marcas vendidas na Amazon com boa reputação
       6. Máximo 200 palavras, direto ao ponto
+      7. IMPORTANTE: No final, liste 3-5 termos de busca para Amazon (exemplo: "vitamina d3", "magnesio glicinato", "probioticos mulheres")
+      
+      **Formato de resposta:**
+      [Sua análise personalizada aqui...]
+      
+      BUSCAR: termo1, termo2, termo3, termo4
       `
 
       const userMessage = `Usuário completou análise em ${language}. Respostas: ${JSON.stringify(answers)}. 
-      Por favor, forneça uma análise personalizada culturalmente relevante para brasileiras/latinas nos EUA, focando em wellness com produtos Amazon disponíveis.`
+      Por favor, forneça uma análise personalizada culturalmente relevante para brasileiras/latinas nos EUA, focando em wellness com produtos Amazon disponíveis.
+      Termine com "BUSCAR: " seguido dos termos para buscar na Amazon.`
 
       const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
@@ -305,7 +313,7 @@ export async function POST(request: NextRequest) {
           { role: "system", content: systemPrompt },
           { role: "user", content: userMessage }
         ],
-        max_tokens: 300,
+        max_tokens: 400,
         temperature: 0.7
       })
 
@@ -321,13 +329,57 @@ export async function POST(request: NextRequest) {
       analysis = generatePersonalizedAnalysis(answers, language)
     }
     
-    // Determinar orçamento baseado nas respostas (pergunta 3)
-    const budgetAnswer = answers[3] // Pergunta sobre investimento mensal
+    // Extrair termos de busca da análise
+    let recommendedProducts: any[] = []
+    const searchTermsMatch = analysis.match(/BUSCAR:\s*(.+)$/i)
+    
+    if (searchTermsMatch) {
+      // Separar a análise dos termos de busca
+      analysis = analysis.replace(/\n?BUSCAR:\s*.+$/i, '').trim()
+      
+      const searchTerms = searchTermsMatch[1]
+        .split(',')
+        .map(term => term.trim())
+        .filter(term => term.length > 0)
+      
+      console.log('🔍 Searching Amazon for:', searchTerms)
+      
+      // Buscar produtos na Amazon para cada termo
+      const amazonSearches = await Promise.all(
+        searchTerms.slice(0, 3).map(term => searchAmazonProducts(term, 2))
+      )
+      
+      // Combinar resultados e limitar a 5 produtos
+      const allProducts = amazonSearches.flat()
+      recommendedProducts = allProducts
+        .filter((product, index, self) => 
+          index === self.findIndex(p => p.asin === product.asin)
+        )
+        .slice(0, 5)
+        .map(product => ({
+          name: product.name,
+          description: `Produto recomendado pela nossa especialista`,
+          asin: product.asin,
+          price: product.price,
+          rating: product.rating,
+          category: "Recomendado",
+          benefits: ["Recomendação personalizada", "Disponível na Amazon", "Qualidade comprovada"],
+          amazonUrl: product.detailPageURL,
+          savings: Math.floor(Math.random() * 30) + 10
+        }))
+      
+      console.log(`✅ Found ${recommendedProducts.length} Amazon products`)
+    }
+    
+    // Fallback para produtos fixos se busca Amazon falhar
+    const budgetAnswer = answers[3] || 1
     const budgetMap = ['budget', 'moderate', 'priority', 'premium', 'unlimited']
     const budget = budgetMap[budgetAnswer] || 'moderate'
     
-    // Selecionar produtos baseado na análise
-    const recommendedProducts = selectProductsByProfile(analysis, budget)
+    if (recommendedProducts.length === 0) {
+      console.log('⚠️ Using fallback products from database')
+      recommendedProducts = selectProductsByProfile(analysis, budget)
+    }
     
     // Calcular economia total
     const totalSavings = recommendedProducts.reduce((sum, product) => {

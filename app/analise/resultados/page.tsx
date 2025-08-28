@@ -194,7 +194,7 @@ function ResultadosContent() {
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
           }}>
             <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#f59e0b' }}>
-              {summary.averageRating.toFixed(1)} ⭐
+{summary.averageRating ? summary.averageRating.toFixed(1) : '0.0'} ⭐
             </div>
             <div style={{ fontSize: '0.8rem', color: '#6b7280' }}>
               Avaliação Média
@@ -410,6 +410,10 @@ function ResultadosContent() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ textDecoration: 'none' }}
+                  onClick={() => {
+                    console.log(`🔗 Clicking Amazon link: ${product.amazonUrl}`)
+                    console.log(`📦 Product: ${product.name}`)
+                  }}
                 >
                   <button style={{
                     width: '100%',

@@ -7,259 +7,262 @@ const openai = new OpenAI({
   organization: null,
 })
 
-// Banco de dados de produtos Amazon com categorização
-const amazonProducts = {
-  energy: [
-    {
-      name: "Centrum Women Multivitamin",
-      description: "Multivitamínico completo para energia e vitalidade",
-      asin: "B00280M922",
-      price: "$14.99",
-      rating: 4.5,
-      category: "Energia",
-      benefits: ["Energia diária", "Saúde geral", "Vitaminas essenciais"]
-    },
-    {
-      name: "Nature Made B-Complex Energy",
-      description: "Complexo B para energia e metabolismo",
-      asin: "B000NXHALS",
-      price: "$12.99",
-      rating: 4.4,
-      category: "Energia",
-      benefits: ["Energia natural", "Metabolismo", "Sistema nervoso"]
-    }
-  ],
-  sleep: [
-    {
-      name: "Natrol Melatonin 5mg",
-      description: "Suporte natural para qualidade do sono",
-      asin: "B000GG5YC0",
-      price: "$8.99",
-      rating: 4.4,
-      category: "Sono",
-      benefits: ["Qualidade do sono", "Regulação circadiana", "Natural"]
-    },
-    {
-      name: "NOW Foods Magnesium Glycinate",
-      description: "Magnésio de alta absorção para relaxamento",
-      asin: "B00C7K34C4",
-      price: "$19.99",
-      rating: 4.5,
-      category: "Sono",
-      benefits: ["Relaxamento muscular", "Qualidade do sono", "Absorção superior"]
-    }
-  ],
-  anxiety: [
-    {
-      name: "Thorne L-Theanine",
-      description: "Aminoácido para calma e foco sem sonolência",
-      asin: "B01AWEIQR8",
-      price: "$42.00",
-      rating: 4.7,
-      category: "Ansiedade",
-      benefits: ["Reduz ansiedade", "Mantém foco", "Não causa sonolência"]
-    },
-    {
-      name: "Nature's Way Ashwagandha",
-      description: "Adaptógeno para controle de estresse",
-      asin: "B003B3OOPA",
-      price: "$12.98",
-      rating: 4.3,
-      category: "Estresse",
-      benefits: ["Reduz cortisol", "Adaptógeno", "Controle de estresse"]
-    }
-  ],
-  immunity: [
-    {
-      name: "Emergen-C Vitamin C 1000mg",
-      description: "Vitamina C com suporte imunológico",
-      asin: "B00A830SBG",
-      price: "$24.99",
-      rating: 4.5,
-      category: "Imunidade",
-      benefits: ["Suporte imunológico", "Vitamina C", "Sabor agradável"]
-    },
-    {
-      name: "Now Foods Vitamin D3 2000 IU",
-      description: "Vitamina D3 para imunidade e ossos",
-      asin: "B003BUJ1TU",
-      price: "$9.99",
-      rating: 4.6,
-      category: "Imunidade",
-      benefits: ["Sistema imunológico", "Saúde óssea", "Humor"]
-    }
-  ],
-  beauty: [
-    {
-      name: "Sports Research Collagen Peptides",
-      description: "Colágeno hidrolisado para pele, cabelo e unhas",
-      asin: "B01H7FZHZM",
-      price: "$29.95",
-      rating: 4.4,
-      category: "Beleza",
-      benefits: ["Pele saudável", "Cabelo forte", "Unhas resistentes"]
-    },
-    {
-      name: "Nature's Bounty Biotin 10,000mcg",
-      description: "Biotina para cabelo, pele e unhas",
-      asin: "B00029Y2WU",
-      price: "$11.49",
-      rating: 4.3,
-      category: "Beleza",
-      benefits: ["Crescimento capilar", "Pele saudável", "Unhas fortes"]
-    }
-  ],
-  digestion: [
-    {
-      name: "Garden of Life Dr. Formulated Probiotics",
-      description: "50 bilhões de probióticos para mulheres",
-      asin: "B01E5QVHIU",
-      price: "$44.95",
-      rating: 4.4,
-      category: "Digestão",
-      benefits: ["Saúde digestiva", "Específico para mulheres", "50 bilhões CFU"]
-    },
-    {
-      name: "NOW Foods Psyllium Husk Caps",
-      description: "Fibra natural para saúde digestiva",
-      asin: "B0013OXKHC",
-      price: "$11.99",
-      rating: 4.4,
-      category: "Digestão",
-      benefits: ["Fibra natural", "Saúde intestinal", "Regulação digestiva"]
-    }
-  ],
-  weight: [
-    {
-      name: "Hydroxycut Hardcore Elite",
-      description: "Suporte para metabolismo e energia",
-      asin: "B07H8K7P8J",
-      price: "$19.99",
-      rating: 4.1,
-      category: "Peso",
-      benefits: ["Metabolismo", "Energia", "Controle de apetite"]
-    }
-  ]
-}
-
-function generateAmazonUrl(asin: string): string {
-  const associateTag = 'portal07d-20' // Forçar uso da tag correta
-  return `https://www.amazon.com/dp/${asin}?tag=${associateTag}`
-}
-
-function selectProductsByProfile(analysis: string, budget: string): any[] {
-  const budgetMap: Record<string, number> = {
-    'budget': 50,
-    'moderate': 100, 
-    'priority': 200,
-    'premium': 300,
-    'unlimited': 999
-  }
+/**
+ * Gera termos de busca inteligentes baseados na análise
+ */
+function generateSmartSearchTerms(analysis: string): string[] {
+  const searchTerms: string[] = []
+  const analysisLower = analysis.toLowerCase()
   
-  const maxBudget = budgetMap[budget] || 100
-  let selectedProducts: any[] = []
-  
-  // Lógica de seleção baseada na análise da IA
-  if (analysis.toLowerCase().includes('energia')) {
-    selectedProducts.push(...amazonProducts.energy.slice(0, 2))
-  }
-  
-  if (analysis.toLowerCase().includes('sono')) {
-    selectedProducts.push(...amazonProducts.sleep.slice(0, 2))
-  }
-  
-  if (analysis.toLowerCase().includes('ansiedade') || analysis.toLowerCase().includes('estresse')) {
-    selectedProducts.push(...amazonProducts.anxiety.slice(0, 2))
-  }
-  
-  if (analysis.toLowerCase().includes('imunidade')) {
-    selectedProducts.push(...amazonProducts.immunity.slice(0, 2))
-  }
-  
-  if (analysis.toLowerCase().includes('beleza') || analysis.toLowerCase().includes('cabelo') || analysis.toLowerCase().includes('pele')) {
-    selectedProducts.push(...amazonProducts.beauty.slice(0, 2))
-  }
-  
-  if (analysis.toLowerCase().includes('digestão') || analysis.toLowerCase().includes('intestinal')) {
-    selectedProducts.push(...amazonProducts.digestion.slice(0, 2))
-  }
-  
-  if (analysis.toLowerCase().includes('peso')) {
-    selectedProducts.push(...amazonProducts.weight.slice(0, 1))
-  }
-  
-  // Filtrar por orçamento e remover duplicatas
-  const uniqueProducts = selectedProducts
-    .filter((product, index, self) => 
-      index === self.findIndex(p => p.asin === product.asin)
+  // ENERGIA/FADIGA
+  if (analysisLower.includes('energia') || analysisLower.includes('fadiga') || analysisLower.includes('cansaço')) {
+    searchTerms.push(
+      'vitamin b12 methylcobalamin energy',
+      'vitamin d3 5000iu supplement',
+      'coq10 energy supplement women',
+      'iron supplement for women'
     )
-    .filter(product => {
-      const price = parseFloat(product.price.replace('$', ''))
-      return price <= maxBudget
-    })
-    .slice(0, 5) // Máximo 5 produtos
-  
-  // Adicionar URLs da Amazon
-  return uniqueProducts.map(product => ({
-    ...product,
-    amazonUrl: generateAmazonUrl(product.asin),
-    savings: Math.floor(Math.random() * 30) + 10 // 10-40% economia simulada
-  }))
-}
-
-// Análises pré-criadas por perfil para demonstração
-const analysisTemplates = {
-  pt: {
-    energy_low_budget: "Querida, pelo seu perfil vejo que você está enfrentando aquela fadiga típica que muitas de nós brasileiras sentimos nos EUA! O clima, a rotina e a adaptação cobram seu preço. Para começar, recomendo Vitamina D3 (Now Foods 2000 IU) - essencial aqui onde temos menos sol que no Brasil. Um complexo B orgânico também vai te dar aquela energia que você precisa. Comece devagar, nós brasileiras temos metabolismo diferente!",
-    
-    anxiety_moderate: "Amiga, reconheço esse perfil! A ansiedade é super comum entre nós latinas nos EUA - a pressão, a língua, tudo é diferente né? Recomendo L-Theanine (Thorne é excelente) para acalmar sem dar sonolência, e Ashwagandha (Nature's Way) para controlar o cortisol. Esses produtos Amazon são testados e funcionam muito bem. Lembre: você não está sozinha nessa jornada!",
-    
-    sleep_premium: "Que bom que você prioriza sua saúde! Para alguém com seu perfil, recomendo Melatonina de qualidade (Natrol 5mg) e Magnésio Glicinate (Now Foods) - absorção superior. O sono aqui nos EUA é diferente mesmo, o ar seco e o estresse afetam muito. Estes produtos Amazon vão fazer toda diferença na sua qualidade de vida!",
-    
-    beauty_goals: "Menina, adoro seu foco! Para cabelo, pele e unhas resilientes no clima americano, colágeno hidrolisado (Sports Research) é fundamental. Biotina 10,000mcg (Nature's Bounty) também é chave. O inverno aqui resseca tudo né? Estes produtos Amazon são os queridinhos das brasileiras por aqui!"
-  },
-  
-  es: {
-    energy_low_budget: "Querida, entiendo perfectamente tu situación! Muchas latinas pasamos por esto en USA. Te recomiendo empezar con Vitamina D3 (Now Foods 2000 IU) - súper importante aquí donde hay menos sol que en casa. Un complejo B orgánico también te dará esa energía que necesitas. ¡Estos productos Amazon funcionan muy bien con nuestro metabolismo!",
-    
-    anxiety_moderate: "Hermana, reconozco este perfil perfectamente! La ansiedad es muy común entre nosotras - nueva cultura, presión, todo diferente. L-Theanine (Thorne es excelente) te ayudará a estar calmada sin sueño, y Ashwagandha (Nature's Way) controla el cortisol. Estos productos Amazon son probados y efectivos. ¡No estás sola en esto!",
-    
-    sleep_premium: "¡Qué bueno que priorizas tu salud! Para tu perfil recomiendo Melatonina de calidad (Natrol 5mg) y Magnesio Glicinate (Now Foods) con absorción superior. El clima seco de USA afecta mucho el sueño. ¡Estos productos Amazon harán toda la diferencia!",
-    
-    beauty_goals: "¡Me encanta tu enfoque! Para cabello, piel y uñas fuertes en el clima americano, colágeno hidrolizado (Sports Research) es fundamental. Biotina 10,000mcg (Nature's Bounty) también es clave. ¡El invierno aquí es durísimo! Estos productos Amazon son los favoritos de las latinas."
-  },
-  
-  en: {
-    energy_low_budget: "I completely understand your situation! Many women from our community face this challenge in the USA. I recommend starting with Vitamin D3 (Now Foods 2000 IU) - super important here where we get less sun than back home. An organic B-complex will also give you that energy boost you need. These Amazon products work great with our metabolism!",
-    
-    anxiety_moderate: "Sister, I recognize this profile perfectly! Anxiety is very common among us - new culture, pressure, everything different. L-Theanine (Thorne is excellent) will help you stay calm without drowsiness, and Ashwagandha (Nature's Way) controls cortisol. These Amazon products are tested and effective!",
-    
-    sleep_premium: "Great that you prioritize your health! For your profile I recommend quality Melatonin (Natrol 5mg) and Magnesium Glycinate (Now Foods) with superior absorption. The dry climate here really affects sleep. These Amazon products will make all the difference!",
-    
-    beauty_goals: "Love your focus! For strong hair, skin and nails in American weather, hydrolyzed collagen (Sports Research) is fundamental. Biotin 10,000mcg (Nature's Bounty) is also key. Winter here is tough on us! These Amazon products are favorites in our community."
   }
+  
+  // ANSIEDADE/ESTRESSE
+  if (analysisLower.includes('ansiedade') || analysisLower.includes('estresse') || analysisLower.includes('nervos')) {
+    searchTerms.push(
+      'l-theanine 200mg anxiety relief',
+      'ashwagandha ksm-66 stress',
+      'magnesium glycinate calm',
+      'gaba supplement natural calm'
+    )
+  }
+  
+  // SONO
+  if (analysisLower.includes('sono') || analysisLower.includes('dormir') || analysisLower.includes('insônia')) {
+    searchTerms.push(
+      'melatonin 5mg time release',
+      'magnesium glycinate sleep',
+      'valerian root sleep aid',
+      'l-tryptophan supplement'
+    )
+  }
+  
+  // IMUNIDADE
+  if (analysisLower.includes('imunidade') || analysisLower.includes('imune') || analysisLower.includes('gripe')) {
+    searchTerms.push(
+      'vitamin c 1000mg supplement',
+      'zinc picolinate 50mg immune',
+      'elderberry immune support',
+      'vitamin d3 k2 combination'
+    )
+  }
+  
+  // DIGESTÃO
+  if (analysisLower.includes('digestão') || analysisLower.includes('intestino') || analysisLower.includes('probiótico')) {
+    searchTerms.push(
+      'probiotics women 50 billion cfu',
+      'digestive enzymes supplement',
+      'psyllium husk fiber capsules',
+      'l-glutamine gut health'
+    )
+  }
+  
+  // BELEZA (Pele, Cabelo, Unhas)
+  if (analysisLower.includes('pele') || analysisLower.includes('cabelo') || analysisLower.includes('unha') || analysisLower.includes('colágeno')) {
+    searchTerms.push(
+      'collagen peptides powder',
+      'biotin 10000mcg hair growth',
+      'hyaluronic acid supplement',
+      'vitamin e mixed tocopherols'
+    )
+  }
+  
+  // PESO/METABOLISMO
+  if (analysisLower.includes('peso') || analysisLower.includes('metabolismo') || analysisLower.includes('emagrecer')) {
+    searchTerms.push(
+      'green tea extract egcg',
+      'apple cider vinegar capsules',
+      'chromium picolinate metabolism',
+      'cla weight management'
+    )
+  }
+  
+  // Se não identificou nada específico, usar termos gerais de wellness
+  if (searchTerms.length === 0) {
+    searchTerms.push(
+      'multivitamin women daily',
+      'omega 3 fish oil supplement',
+      'vitamin d3 2000iu',
+      'magnesium supplement women',
+      'probiotic women health'
+    )
+  }
+  
+  return searchTerms
 }
 
-function generatePersonalizedAnalysis(answers: Record<number, number>, language: string): string {
-  const templates = analysisTemplates[language as keyof typeof analysisTemplates] || analysisTemplates.pt
+/**
+ * Busca produtos de forma inteligente e adaptativa
+ */
+async function searchProductsSmart(
+  analysis: string,
+  targetCount: number = 6
+): Promise<any[]> {
+  let allProducts: any[] = []
+  let searchAttempts = 0
+  const maxAttempts = 20
   
-  // Lógica baseada nas respostas
-  const healthChallenge = answers[1] || 0  // Pergunta 1: desafio de saúde
-  const budget = answers[3] || 1           // Pergunta 3: orçamento
-  const goals = answers[6] || 0            // Pergunta 6: objetivos
+  // Gerar termos de busca baseados na análise
+  const smartTerms = generateSmartSearchTerms(analysis)
+  console.log(`🎯 Generated ${smartTerms.length} smart search terms`)
   
-  // Determinar perfil
-  if (healthChallenge === 0 && budget <= 1) return templates.energy_low_budget
-  if (healthChallenge === 1) return templates.anxiety_moderate
-  if (healthChallenge === 2 && budget >= 2) return templates.sleep_premium
-  if (goals === 2) return templates.beauty_goals
+  // Buscar com termos inteligentes
+  for (const term of smartTerms) {
+    if (allProducts.length >= targetCount || searchAttempts >= maxAttempts) break
+    
+    searchAttempts++
+    console.log(`🔍 Searching [${searchAttempts}/${maxAttempts}]: "${term}"`)
+    
+    try {
+      const results = await searchAmazonProducts(term, 3)
+      
+      if (results && results.length > 0) {
+        // Filtrar apenas produtos únicos (por ASIN)
+        const newProducts = results.filter(product => 
+          !allProducts.some(existing => existing.asin === product.asin)
+        )
+        
+        allProducts.push(...newProducts)
+        console.log(`✅ Found ${newProducts.length} unique products (total: ${allProducts.length})`)
+      }
+    } catch (error) {
+      console.warn(`⚠️ Search error for "${term}":`, error.message)
+    }
+  }
   
-  return templates.energy_low_budget // fallback
+  // Se ainda não tem produtos suficientes, buscar termos mais genéricos
+  if (allProducts.length < targetCount) {
+    console.log(`📦 Need more products (have ${allProducts.length}, want ${targetCount})`)
+    
+    const genericTerms = [
+      'bestseller supplement women',
+      'vitamin women health',
+      'natural supplement wellness',
+      'daily vitamin pack women',
+      'health supplement amazon choice'
+    ]
+    
+    for (const term of genericTerms) {
+      if (allProducts.length >= targetCount || searchAttempts >= maxAttempts) break
+      
+      searchAttempts++
+      console.log(`🔄 Generic search [${searchAttempts}/${maxAttempts}]: "${term}"`)
+      
+      try {
+        const results = await searchAmazonProducts(term, 2)
+        
+        if (results && results.length > 0) {
+          const newProducts = results.filter(product => 
+            !allProducts.some(existing => existing.asin === product.asin)
+          )
+          
+          allProducts.push(...newProducts)
+          console.log(`✅ Added ${newProducts.length} generic products (total: ${allProducts.length})`)
+        }
+      } catch (error) {
+        console.warn(`⚠️ Generic search error:`, error.message)
+      }
+    }
+  }
+  
+  // Ordenar por rating (melhores primeiro)
+  allProducts.sort((a, b) => (b.rating || 4.0) - (a.rating || 4.0))
+  
+  // Retornar apenas a quantidade desejada
+  return allProducts.slice(0, targetCount)
+}
+
+/**
+ * Gera descrição personalizada do produto
+ */
+function generateProductDescription(productName: string, language: string): string {
+  const name = productName.toLowerCase()
+  
+  if (language === 'pt') {
+    if (name.includes('theanine')) return 'Aminoácido natural para calma e foco sem sonolência'
+    if (name.includes('ashwagandha')) return 'Adaptógeno poderoso para controle do estresse'
+    if (name.includes('melatonin')) return 'Hormônio natural do sono para melhor descanso'
+    if (name.includes('magnesium')) return 'Mineral essencial para relaxamento e bem-estar'
+    if (name.includes('vitamin d')) return 'Vitamina do sol para energia e imunidade'
+    if (name.includes('b12') || name.includes('b-12')) return 'Vitamina B12 para energia sustentável'
+    if (name.includes('probiotic')) return 'Probióticos para saúde digestiva e imunidade'
+    if (name.includes('collagen')) return 'Colágeno para pele, cabelo e unhas saudáveis'
+    if (name.includes('omega')) return 'Ômega 3 para coração e cérebro saudáveis'
+    if (name.includes('biotin')) return 'Biotina para cabelo e unhas fortes'
+    if (name.includes('iron')) return 'Ferro para energia e vitalidade feminina'
+    if (name.includes('zinc')) return 'Zinco para imunidade e recuperação'
+    return 'Suplemento premium recomendado para seu perfil'
+  }
+  
+  // Default em inglês
+  if (name.includes('theanine')) return 'Natural amino acid for calm and focus without drowsiness'
+  if (name.includes('ashwagandha')) return 'Powerful adaptogen for stress management'
+  if (name.includes('melatonin')) return 'Natural sleep hormone for better rest'
+  if (name.includes('magnesium')) return 'Essential mineral for relaxation and wellness'
+  if (name.includes('vitamin d')) return 'Sunshine vitamin for energy and immunity'
+  if (name.includes('b12')) return 'Vitamin B12 for sustained energy'
+  if (name.includes('probiotic')) return 'Probiotics for digestive health and immunity'
+  if (name.includes('collagen')) return 'Collagen for healthy skin, hair and nails'
+  return 'Premium supplement recommended for your profile'
+}
+
+/**
+ * Identifica categoria do produto
+ */
+function identifyCategory(productName: string): string {
+  const name = productName.toLowerCase()
+  
+  if (name.includes('vitamin') || name.includes('vitamina')) return 'Vitaminas'
+  if (name.includes('magnesium') || name.includes('calcium') || name.includes('iron') || name.includes('zinc')) return 'Minerais'
+  if (name.includes('ashwagandha') || name.includes('theanine') || name.includes('gaba')) return 'Ansiedade/Estresse'
+  if (name.includes('melatonin') || name.includes('sleep') || name.includes('valerian')) return 'Sono'
+  if (name.includes('probiotic') || name.includes('enzyme') || name.includes('fiber')) return 'Digestão'
+  if (name.includes('collagen') || name.includes('biotin') || name.includes('hyaluronic')) return 'Beleza'
+  if (name.includes('omega') || name.includes('fish oil')) return 'Ômega 3'
+  if (name.includes('protein') || name.includes('whey')) return 'Proteína'
+  
+  return 'Bem-estar'
+}
+
+/**
+ * Gera benefícios do produto
+ */
+function generateBenefits(productName: string, language: string): string[] {
+  const name = productName.toLowerCase()
+  
+  if (language === 'pt') {
+    if (name.includes('theanine')) return ['Reduz ansiedade', 'Melhora foco', 'Sem sonolência']
+    if (name.includes('ashwagandha')) return ['Controla cortisol', 'Energia sustentável', 'Adaptógeno natural']
+    if (name.includes('melatonin')) return ['Melhora qualidade do sono', 'Regula ciclo circadiano', '100% natural']
+    if (name.includes('magnesium')) return ['Relaxamento muscular', 'Sono reparador', 'Anti-cãibras']
+    if (name.includes('vitamin d')) return ['Mais energia', 'Sistema imune forte', 'Humor equilibrado']
+    if (name.includes('b12')) return ['Energia o dia todo', 'Foco mental', 'Metabolismo ativo']
+    if (name.includes('probiotic')) return ['Digestão saudável', 'Imunidade forte', 'Bem-estar intestinal']
+    if (name.includes('collagen')) return ['Pele firme', 'Cabelo brilhante', 'Unhas fortes']
+    if (name.includes('omega')) return ['Coração saudável', 'Cérebro ativo', 'Anti-inflamatório']
+    if (name.includes('biotin')) return ['Crescimento capilar', 'Unhas resistentes', 'Pele radiante']
+    return ['Alta qualidade', 'Recomendação especializada', 'Resultados comprovados']
+  }
+  
+  // Default em inglês
+  if (name.includes('theanine')) return ['Reduces anxiety', 'Improves focus', 'No drowsiness']
+  if (name.includes('ashwagandha')) return ['Controls cortisol', 'Sustained energy', 'Natural adaptogen']
+  if (name.includes('melatonin')) return ['Better sleep quality', 'Regulates circadian rhythm', '100% natural']
+  if (name.includes('magnesium')) return ['Muscle relaxation', 'Restful sleep', 'Anti-cramp']
+  if (name.includes('vitamin d')) return ['More energy', 'Strong immunity', 'Balanced mood']
+  return ['High quality', 'Expert recommendation', 'Proven results']
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { answers, comments = '', language = 'pt' } = await request.json()
+    const { answers, language = 'pt' } = await request.json()
     
     if (!answers || typeof answers !== 'object') {
       return NextResponse.json(
@@ -268,17 +271,16 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Tentar análise com OpenAI primeiro, fallback para demo
-    let analysis
+    // Análise com OpenAI
+    let analysis = ''
     
     try {
-      // Usar chat completion diretamente com instruções da Curadora
       const systemPrompt = `
       Você é uma especialista em wellness para mulheres brasileiras e latinas nos EUA.
 
       **Seu perfil:**
       - Brasileira, viveu nos EUA por 10+ anos
-      - Conhece produtos disponíveis nas farmácias/Amazon americanas
+      - Conhece produtos disponíveis na Amazon americana
       - Entende desafios de adaptação cultural e climática
       - Foca em ingredientes naturais e marcas confiáveis
 
@@ -286,91 +288,26 @@ export async function POST(request: NextRequest) {
       - Brasileiras/latinas 25-45 anos nos EUA
       - Trabalhadoras (home office, estudantes, profissionais)
       - Orçamento $50-300/mês em wellness
-      - Querem qualidade mas com bom custo-benefício
+      - Querem qualidade com bom custo-benefício
 
       **Como responder:**
       1. Tom amigável e pessoal ("querida", "amiga")
       2. Mencione experiências culturais compartilhadas
-      3. Explique POR QUE cada produto é ideal
+      3. Explique O QUE a pessoa precisa e POR QUE
       4. Considere clima americano (inverno rigoroso, ar seco)
-      5. Foque em marcas vendidas na Amazon com boa reputação
-      6. Máximo 200 palavras, direto ao ponto
-      7. IMPORTANTE: No final, liste 3-5 termos de busca para Amazon (exemplo: "vitamina d3", "magnesio glicinato", "probioticos mulheres")
+      5. Seja específica sobre tipos de nutrientes necessários
+      6. Máximo 200 palavras
       
-      **Formato de resposta:**
-      [Sua análise personalizada aqui...]
-      
-      BUSCAR: termo1, termo2, termo3, termo4
+      **NÃO mencione produtos ou marcas específicas, apenas as necessidades nutricionais.**
       `
 
-      // Interpretar as respostas detalhadamente
-      const interpretAnswers = (answers: Record<number, number>, comments: string) => {
-        const interpretations = []
-        
-        // Pergunta 1: Maior desafio de saúde
-        if (answers[1] !== undefined) {
-          const challenges = ['energia', 'ansiedade', 'sono', 'imunidade', 'peso']
-          interpretations.push(`Desafio principal: ${challenges[answers[1]] || 'energia'}`)
-        }
-        
-        // Pergunta 2: Rotina
-        if (answers[2] !== undefined) {
-          const routines = ['sedentária', 'pouco tempo', 'horários irregulares', 'cansaço físico', 'flexível']
-          interpretations.push(`Estilo de vida: ${routines[answers[2]] || 'sedentária'}`)
-        }
-        
-        // Pergunta 3: Orçamento mensal
-        if (answers[3] !== undefined) {
-          const budgets = ['menos de $50', '$50-100', '$100-200', '$200-300', 'mais de $300']
-          interpretations.push(`Orçamento: ${budgets[answers[3]] || '$50-100'}`)
-        }
-        
-        // Pergunta 4: Experiência com suplementos
-        if (answers[4] !== undefined) {
-          const experiences = ['iniciante', 'resultados ruins', 'otimizar escolhas', 'busca eficiência', 'expert']
-          interpretations.push(`Experiência: ${experiences[answers[4]] || 'iniciante'}`)
-        }
-        
-        // Pergunta 5: Decisões de compra
-        if (answers[5] !== undefined) {
-          const decisions = ['pesquisa muito', 'recomendações amigas', 'lê reviews', 'garantia importante', 'decide rápido']
-          interpretations.push(`Perfil compra: ${decisions[answers[5]] || 'pesquisa muito'}`)
-        }
-        
-        // Pergunta 6: Objetivo principal 2025
-        if (answers[6] !== undefined) {
-          const goals = ['mais energia', 'reduzir ansiedade', 'cabelo/pele/unhas', 'digestão', 'saúde hormonal']
-          interpretations.push(`Objetivo 2025: ${goals[answers[6]] || 'mais energia'}`)
-        }
-        
-        // Pergunta 7: Preferência de recomendações
-        if (answers[7] !== undefined) {
-          const preferences = ['lista simples', 'explicação detalhada', 'cronograma uso', 'comparação preços', 'plano completo']
-          interpretations.push(`Prefere: ${preferences[answers[7]] || 'lista simples'}`)
-        }
-        
-        // Pergunta 8: Confiança na marca
-        if (answers[8] !== undefined) {
-          const trust = ['ingredientes naturais', 'certificações', 'avaliações latinas', 'preço justo', 'facilidade compra']
-          interpretations.push(`Valoriza: ${trust[answers[8]] || 'ingredientes naturais'}`)
-        }
-        
-        if (comments?.trim()) {
-          interpretations.push(`Restrições específicas: ${comments}`)
-        }
-        
-        return interpretations.join(' | ')
-      }
-
-      const detailedProfile = interpretAnswers(answers, comments)
-
-      const userMessage = `Usuário completou análise em ${language}. 
+      const userMessage = `
+      Respostas do quiz (0=primeira opção, 1=segunda, etc):
+      ${JSON.stringify(answers)}
       
-      PERFIL DETALHADO: ${detailedProfile}
-      
-      Com base neste perfil específico, forneça uma análise personalizada para brasileiras/latinas nos EUA. 
-      Considere o orçamento mencionado e recomende 3-5 produtos específicos.
-      Termine com "BUSCAR: " seguido de 3-5 termos específicos para buscar na Amazon.`
+      Analise e identifique as necessidades de saúde e bem-estar desta pessoa.
+      Responda em ${language === 'pt' ? 'português brasileiro' : language === 'es' ? 'espanhol' : 'inglês'}.
+      `
 
       const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
@@ -378,92 +315,67 @@ export async function POST(request: NextRequest) {
           { role: "system", content: systemPrompt },
           { role: "user", content: userMessage }
         ],
-        max_tokens: 400,
+        max_tokens: 300,
         temperature: 0.7
       })
 
-      analysis = completion.choices[0]?.message?.content
-      if (!analysis) {
-        throw new Error('No response from OpenAI')
-      }
-      
-      console.log('✅ OpenAI Chat analysis generated successfully')
+      analysis = completion.choices[0]?.message?.content || ''
+      console.log('✅ Análise personalizada gerada com sucesso')
       
     } catch (openaiError) {
-      console.warn('⚠️ OpenAI failed, using demo analysis:', openaiError.message)
-      analysis = generatePersonalizedAnalysis(answers, language)
+      console.warn('⚠️ OpenAI falhou, usando análise de fallback')
+      
+      // Análise de fallback baseada nas respostas
+      const healthChallenge = answers[1] || 0
+      const energyLevel = answers[2] || 0
+      const sleepQuality = answers[4] || 0
+      
+      if (language === 'pt') {
+        if (healthChallenge === 0 || energyLevel < 3) {
+          analysis = "Querida, vejo que você está lidando com fadiga e baixa energia - super comum entre nós que vivemos nos EUA! O ritmo acelerado e a adaptação cultural cobram seu preço. Você precisa de vitaminas do complexo B para energia sustentável, vitamina D3 (essencial com menos sol que no Brasil), e ferro se houver deficiência. Magnésio também ajuda muito com energia e qualidade do sono."
+        } else if (healthChallenge === 1) {
+          analysis = "Amiga, reconheço esse padrão de ansiedade e estresse - muitas de nós passamos por isso aqui! A pressão do dia a dia nos EUA é intensa. Você precisa de L-teanina para calma sem sonolência, magnésio glicinato para relaxamento, e adaptógenos como ashwagandha para equilibrar o cortisol. Ômega 3 também ajuda muito com o equilíbrio emocional."
+        } else if (healthChallenge === 2 || sleepQuality < 3) {
+          analysis = "Querida, problemas de sono são tão comuns entre brasileiras nos EUA! O clima seco, mudança de horário e estresse afetam muito. Você precisa de melatonina para regular o ciclo do sono, magnésio para relaxamento muscular, e L-triptofano para produção natural de serotonina. Vitamina D3 também ajuda a regular o ciclo circadiano."
+        } else {
+          analysis = "Pelo seu perfil, vejo que você busca manter sua saúde em dia - parabéns! Para mulheres como nós nos EUA, é essencial manter níveis adequados de vitamina D3, complexo B para energia, probióticos para saúde digestiva (a dieta americana afeta muito!), e ômega 3 para saúde geral. Um bom multivitamínico também faz diferença."
+        }
+      } else {
+        analysis = "Based on your responses, I can see you're dealing with common wellness challenges many of us face in the USA. You need B-complex vitamins for sustained energy, vitamin D3 for immunity and mood, magnesium for relaxation and better sleep, and probiotics for digestive health. These essentials will help you feel your best."
+      }
     }
     
-    // Extrair termos de busca da análise
-    let recommendedProducts: any[] = []
-    const searchTermsMatch = analysis.match(/BUSCAR:\s*([^"]+)/i)
+    // BUSCA INTELIGENTE DE PRODUTOS
+    console.log('🚀 Iniciando busca inteligente de produtos...')
     
-    if (searchTermsMatch) {
-      // Separar a análise dos termos de busca
-      analysis = analysis.replace(/\n?BUSCAR:\s*.+$/i, '').trim()
-      
-      const searchTerms = searchTermsMatch[1]
-        .split(',')
-        .map(term => term.trim())
-        .filter(term => term.length > 0)
-      
-      console.log('🔍 Searching Amazon for:', searchTerms)
-      console.log('🔍 Search terms matched:', searchTermsMatch[1])
-      
-      // Buscar produtos na Amazon para cada termo (mais produtos por termo)
-      const amazonSearches = await Promise.all(
-        searchTerms.slice(0, 5).map(term => searchAmazonProducts(term, 3))
-      )
-      
-      // Combinar resultados, remover duplicatas e filtrar por orçamento
-      const allProducts = amazonSearches.flat()
-      const budgetMap = { 0: 50, 1: 100, 2: 200, 3: 300, 4: 999 }
-      const maxBudget = budgetMap[answers[3] as keyof typeof budgetMap] || 100
-      
-      recommendedProducts = allProducts
-        .filter((product, index, self) => 
-          index === self.findIndex(p => p.asin === product.asin)
-        )
-        .filter(product => {
-          const price = parseFloat(product.price.replace('$', ''))
-          return price <= maxBudget * 0.4 // Cada produto até 40% do orçamento total
-        })
-        .sort((a, b) => {
-          const priceA = parseFloat(a.price.replace('$', ''))
-          const priceB = parseFloat(b.price.replace('$', ''))
-          return priceA - priceB // Ordenar por preço crescente
-        })
-        .slice(0, 6)
-        .map(product => ({
-          name: product.name,
-          description: `Produto recomendado pela nossa especialista`,
-          asin: product.asin,
-          price: product.price,
-          rating: product.rating,
-          category: "Recomendado",
-          benefits: ["Recomendação personalizada", "Disponível na Amazon", "Qualidade comprovada"],
-          amazonUrl: product.detailPageURL,
-          savings: Math.floor(Math.random() * 30) + 10
-        }))
-      
-      console.log(`✅ Found ${recommendedProducts.length} Amazon products`)
-    }
+    let recommendedProducts = await searchProductsSmart(analysis, 6)
     
-    // Fallback para produtos fixos se busca Amazon falhar
+    // Enriquecer produtos com informações adicionais
+    recommendedProducts = recommendedProducts.map((product, index) => ({
+      name: product.name,
+      description: generateProductDescription(product.name, language),
+      asin: product.asin,
+      price: product.price,
+      rating: product.rating || 4.0,
+      category: identifyCategory(product.name),
+      benefits: generateBenefits(product.name, language),
+      amazonUrl: product.detailPageURL || `https://www.amazon.com/dp/${product.asin}?tag=portal07d-20`,
+      savings: Math.floor(Math.random() * 20) + 15, // 15-35% economia
+      imageUrl: product.imageUrl || '',
+      featured: index === 0
+    }))
+    
+    console.log(`✅ Total de ${recommendedProducts.length} produtos processados`)
+    
+    // Calcular resumo
+    const totalSavings = recommendedProducts.reduce((sum, product) => {
+      const price = parseFloat(product.price.replace('$', '').replace(',', ''))
+      return sum + (price * product.savings / 100)
+    }, 0)
+    
     const budgetAnswer = answers[3] || 1
     const budgetMap = ['budget', 'moderate', 'priority', 'premium', 'unlimited']
     const budget = budgetMap[budgetAnswer] || 'moderate'
-    
-    if (recommendedProducts.length === 0) {
-      console.log('⚠️ Using fallback products from database')
-      recommendedProducts = selectProductsByProfile(analysis, budget)
-    }
-    
-    // Calcular economia total
-    const totalSavings = recommendedProducts.reduce((sum, product) => {
-      const price = parseFloat(product.price.replace('$', ''))
-      return sum + (price * product.savings / 100)
-    }, 0)
 
     return NextResponse.json({
       success: true,

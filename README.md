@@ -1,6 +1,6 @@
 # MeuPortalFit
 
-Portal de fitness personalizado com quiz de avaliação e recomendações personalizadas.
+Portal de Bem estar e Qualidade de vida personalizado com quiz de avaliação e recomendações personalizadas.
 
 ## 🎯 STATUS ATUAL DO PROJETO
 **Última atualização:** 27 de Agosto, 2025  
@@ -65,6 +65,6 @@ scripts/             # Scripts de utilidade
 Para encontrar TODOs no código: `grep -r "// TODO\|// FIXME\|// CLAUDE:" .`
 
 ## 🤖 Para Claude Code
-**Contexto:** Este é um projeto de portal fitness em desenvolvimento colaborativo.
+**Contexto:** Este é um projeto de meuportalfit em desenvolvimento colaborativo.
 **Última sessão:** Implementando sistema de checkpoint para continuidade entre sessões.
 **Padrões:** Usar CSS inline, manter simplicidade, documentar decisões importantes.

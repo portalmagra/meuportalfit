@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Header from '../components/Header'
 
 type Language = 'pt' | 'es' | 'en'
 
@@ -271,191 +272,13 @@ export default function SuportePage() {
 
       <main style={{ position: 'relative', overflow: 'hidden' }}>
         {/* Header Unificado com Logo, Navegação e Idioma */}
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
-          padding: '1rem 0',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 1000
-        }}>
-          <div style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
-            padding: '0 2rem'
-          }}>
-            {/* Header Layout */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: '2rem'
-            }} className="header-nav">
-              {/* Logo MeuPortalFit */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.8rem',
-                flexShrink: 0
-              }}>
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontWeight: 900,
-                  fontSize: '1.2rem'
-                }}>
-                  M
-                </div>
-                <span style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 900,
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}>
-                  MeuPortalFit
-                </span>
-              </div>
-
-              {/* Navegação para os 3 Tópicos */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                flexWrap: 'wrap'
-              }} className="nav-buttons">
-                <Link href="/analise" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.6rem 1.2rem',
-                    background: 'transparent',
-                    color: '#6b7280',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.3s ease'
-                  }} onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)'
-                    e.currentTarget.style.color = 'white'
-                    e.currentTarget.style.borderColor = 'transparent'
-                  }} onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.color = '#6b7280'
-                    e.currentTarget.style.borderColor = '#e5e7eb'
-                  }}>
-                    <span>🧠</span>
-                    <span>Análise IA</span>
-                  </button>
-                </Link>
-
-                <Link href="/produtos" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.6rem 1.2rem',
-                    background: 'transparent',
-                    color: '#6b7280',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.3s ease'
-                  }} onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)'
-                    e.currentTarget.style.color = 'white'
-                    e.currentTarget.style.borderColor = 'transparent'
-                  }} onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.color = '#6b7280'
-                    e.currentTarget.style.borderColor = '#e5e7eb'
-                  }}>
-                    <span>🛍️</span>
-                    <span>Produtos</span>
-                  </button>
-                </Link>
-
-                <Link href="/suporte" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.6rem 1.2rem',
-                    background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-                    color: 'white',
-                    border: '1px solid transparent',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 600,
-                    transition: 'all 0.3s ease'
-                  }}>
-                    <span>💬</span>
-                    <span>Suporte</span>
-                  </button>
-                </Link>
-              </div>
-
-              {/* Idioma */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.8rem',
-                flexShrink: 0
-              }}>
-                <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Idioma:</span>
-                <div style={{ display: 'flex', gap: '0.3rem' }}>
-                  {[
-                    { code: 'pt' as Language, flag: '🇧🇷', label: 'PT' },
-                    { code: 'es' as Language, flag: '🇪🇸', label: 'ES' },
-                    { code: 'en' as Language, flag: '🇺🇸', label: 'EN' }
-                  ].map(lang => (
-                    <button
-                      key={lang.code}
-                      onClick={() => setLanguage(lang.code)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.3rem',
-                        padding: '0.4rem 0.8rem',
-                        background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
-                        color: language === lang.code ? 'white' : '#6b7280',
-                        border: language === lang.code ? 'none' : '1px solid #e5e7eb',
-                        borderRadius: '20px',
-                        cursor: 'pointer',
-                        fontSize: '0.8rem',
-                        fontWeight: language === lang.code ? 600 : 400,
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      <span>{lang.flag}</span>
-                      <span>{lang.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Header language={language} onLanguageChange={setLanguage} />
 
         {/* Hero Section - GATILHO DE URGÊNCIA */}
         <section style={{
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)',
-          color: 'white',
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
           padding: '4rem 0',
+          textAlign: 'center',
           position: 'relative',
           overflow: 'hidden'
         }}>
@@ -507,7 +330,8 @@ export default function SuportePage() {
               lineHeight: 1.1,
               marginBottom: '1.5rem',
               whiteSpace: 'pre-line',
-              textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+              color: '#1f2937',
+              textShadow: 'none'
             }}>
               {t('heroTitle')}
             </h1>
@@ -519,7 +343,8 @@ export default function SuportePage() {
               maxWidth: '800px',
               margin: '0 auto 2rem',
               fontWeight: 600,
-              textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
+              color: '#6b7280',
+              textShadow: 'none'
             }}>
               {t('heroSubtitle')}
             </p>
@@ -577,7 +402,7 @@ export default function SuportePage() {
                 fontWeight: 900,
                 color: '#f59e0b',
                 margin: 0,
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                textShadow: 'none',
                 lineHeight: 1.4
               }}>
                 {t('urgencyText')}

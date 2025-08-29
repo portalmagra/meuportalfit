@@ -1,25 +1,34 @@
 'use client'
 
-import Link from 'next/link'
 import { useState } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-export default function Header() {
+type Language = 'pt' | 'es' | 'en'
+
+interface HeaderProps {
+  language?: Language
+  onLanguageChange?: (lang: Language) => void
+}
+
+export default function Header({ language = 'pt', onLanguageChange }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
 
-  const navigation = [
-    { name: '🏠 Início', href: '/', current: pathname === '/' },
-    { name: '🧠 Avaliação IA', href: '/analise', current: pathname.startsWith('/analise') },
-    { name: '🛍️ Produtos por Área', href: '/produtos', current: pathname.startsWith('/produtos') },
-    { name: '💬 Suporte', href: '/suporte', current: pathname.startsWith('/suporte') },
-  ]
+  const handleLanguageChange = (lang: Language) => {
+    if (onLanguageChange) {
+      onLanguageChange(lang)
+    }
+  }
+
+  const isActivePage = (path: string) => pathname === path
 
   return (
     <header style={{
-      background: 'white',
-      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-      borderBottom: '1px solid #e5e7eb',
+      background: 'rgba(255, 255, 255, 0.95)',
+      backdropFilter: 'blur(10px)',
+      padding: '1rem 0',
+      borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
       position: 'sticky',
       top: 0,
       zIndex: 1000
@@ -27,159 +36,257 @@ export default function Header() {
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: '0 1rem'
+        padding: '0 2rem'
       }}>
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          height: '64px'
+          gap: '2rem'
         }}>
           {/* Logo */}
-          <div>
-            <Link href="/" style={{ textDecoration: 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{
-                  width: '32px',
-                  height: '32px',
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: '8px'
-                }}>
-                  <span style={{ color: 'white', fontWeight: 'bold', fontSize: '14px' }}>M</span>
-                </div>
-                <span style={{
-                  fontSize: '20px',
-                  fontWeight: 'bold',
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}>
-                  MeuPortalFit
-                </span>
-              </div>
-            </Link>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.8rem'
+          }}>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontWeight: 900,
+              fontSize: '1.2rem'
+            }}>
+              M
+            </div>
+            <span style={{
+              fontSize: '1.5rem',
+              fontWeight: 900,
+              background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
+              MeuPortalFit
+            </span>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav style={{ display: 'none', gap: '32px' }} className="md:flex">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s',
-                  ...(item.current ? {
-                    background: '#dcfce7',
-                    color: '#15803d',
-                    borderBottom: '2px solid #22c55e'
-                  } : {
-                    color: '#374151',
-                    ':hover': {
-                      color: '#22c55e',
-                      background: '#f0fdf4'
-                    }
-                  })
-                }}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* CTA Button */}
-          <div style={{ display: 'none' }} className="md:block">
+          {/* Navegação Principal */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.5rem'
+          }}>
             <Link href="/analise" style={{ textDecoration: 'none' }}>
               <button style={{
-                background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                color: 'white',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                fontWeight: '500',
-                border: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.6rem 1.2rem',
+                background: isActivePage('/analise') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                color: isActivePage('/analise') ? 'white' : '#6b7280',
+                border: isActivePage('/analise') ? 'none' : '1px solid #e5e7eb',
+                borderRadius: '20px',
                 cursor: 'pointer',
-                fontSize: '14px'
+                fontSize: '0.9rem',
+                fontWeight: isActivePage('/analise') ? 600 : 500,
+                transition: 'all 0.3s ease'
               }}>
-                Começar Quiz
+                <span>🧠</span>
+                <span>Análise IA</span>
+              </button>
+            </Link>
+
+            <Link href="/produtos" style={{ textDecoration: 'none' }}>
+              <button style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.6rem 1.2rem',
+                background: isActivePage('/produtos') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                color: isActivePage('/produtos') ? 'white' : '#6b7280',
+                border: isActivePage('/produtos') ? 'none' : '1px solid #e5e7eb',
+                borderRadius: '20px',
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                fontWeight: isActivePage('/produtos') ? 600 : 500,
+                transition: 'all 0.3s ease'
+              }}>
+                <span>🛍️</span>
+                <span>Produtos</span>
+              </button>
+            </Link>
+
+            <Link href="/suporte" style={{ textDecoration: 'none' }}>
+              <button style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.6rem 1.2rem',
+                background: isActivePage('/suporte') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                color: isActivePage('/suporte') ? 'white' : '#6b7280',
+                border: isActivePage('/suporte') ? 'none' : '1px solid #e5e7eb',
+                borderRadius: '20px',
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                fontWeight: isActivePage('/suporte') ? 600 : 500,
+                transition: 'all 0.3s ease'
+              }}>
+                <span>💬</span>
+                <span>Suporte</span>
               </button>
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <div style={{ display: 'block' }} className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              style={{
-                color: '#374151',
-                padding: '8px',
-                border: 'none',
-                background: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
+          {/* Idioma */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.8rem'
+          }}>
+            <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Idioma:</span>
+            <div style={{ display: 'flex', gap: '0.3rem' }}>
+              {[
+                { code: 'pt' as const, flag: '🇧🇷', label: 'PT' },
+                { code: 'es' as const, flag: '🇪🇸', label: 'ES' },
+                { code: 'en' as const, flag: '🇺🇸', label: 'EN' }
+              ].map(lang => (
+                <button
+                  key={lang.code}
+                  onClick={() => handleLanguageChange(lang.code)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                    padding: '0.4rem 0.8rem',
+                    background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
+                    color: language === lang.code ? 'white' : '#6b7280',
+                    border: language === lang.code ? 'none' : '1px solid #e5e7eb',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem',
+                    fontWeight: language === lang.code ? 600 : 400,
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  <span>{lang.flag}</span>
+                  <span>{lang.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
+
+          {/* Hamburger Menu Mobile */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            style={{
+              display: 'none',
+              flexDirection: 'column',
+              gap: '4px',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '0.5rem'
+            }}
+          >
+            <div style={{
+              width: '20px',
+              height: '2px',
+              background: '#6b7280',
+              transition: 'all 0.3s ease'
+            }}></div>
+            <div style={{
+              width: '20px',
+              height: '2px',
+              background: '#6b7280',
+              transition: 'all 0.3s ease'
+            }}></div>
+            <div style={{
+              width: '20px',
+              height: '2px',
+              background: '#6b7280',
+              transition: 'all 0.3s ease'
+            }}></div>
+          </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            padding: '1rem 0',
             borderTop: '1px solid #e5e7eb',
-            padding: '1rem 0'
+            marginTop: '1rem'
           }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  style={{
-                    padding: '12px',
-                    borderRadius: '6px',
-                    fontSize: '16px',
-                    fontWeight: '500',
-                    textDecoration: 'none',
-                    color: item.current ? '#15803d' : '#374151',
-                    background: item.current ? '#dcfce7' : 'transparent',
-                    borderLeft: item.current ? '4px solid #22c55e' : 'none'
-                  }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div style={{ padding: '1rem 0' }}>
-                <Link href="/analise" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    width: '100%',
-                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                    color: 'white',
-                    padding: '12px 16px',
-                    borderRadius: '8px',
-                    fontWeight: '500',
-                    border: 'none',
-                    fontSize: '16px'
-                  }}>
-                    Começar Quiz
-                  </button>
-                </Link>
-              </div>
-            </div>
+            <Link href="/analise" style={{ textDecoration: 'none' }}>
+              <button style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '0.8rem',
+                background: isActivePage('/analise') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                color: isActivePage('/analise') ? 'white' : '#6b7280',
+                border: isActivePage('/analise') ? 'none' : '1px solid #e5e7eb',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: isActivePage('/analise') ? 600 : 500
+              }}>
+                <span>🧠</span>
+                <span>Análise IA</span>
+              </button>
+            </Link>
+
+            <Link href="/produtos" style={{ textDecoration: 'none' }}>
+              <button style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '0.8rem',
+                background: isActivePage('/produtos') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                color: isActivePage('/produtos') ? 'white' : '#6b7280',
+                border: isActivePage('/produtos') ? 'none' : '1px solid #e5e7eb',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: isActivePage('/produtos') ? 600 : 500
+              }}>
+                <span>🛍️</span>
+                <span>Produtos</span>
+              </button>
+            </Link>
+
+            <Link href="/suporte" style={{ textDecoration: 'none' }}>
+              <button style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '0.8rem',
+                background: isActivePage('/suporte') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                color: isActivePage('/suporte') ? 'white' : '#6b7280',
+                border: isActivePage('/suporte') ? 'none' : '1px solid #e5e7eb',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: isActivePage('/suporte') ? 600 : 500
+              }}>
+                <span>💬</span>
+                <span>Suporte</span>
+              </button>
+            </Link>
           </div>
         )}
       </div>

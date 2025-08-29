@@ -449,6 +449,273 @@ export default function AnalisePage() {
     return commitmentMap[answers['5']] || 'intermediário';
   };
 
+  // Produtos recomendados baseados no perfil
+  const getRecommendedProducts = (profile: any) => {
+    const productDatabase = {
+      'energia': [
+        {
+          name: 'NOW Foods L-Carnitine 500mg',
+          description: 'Aminoácido essencial para produção de energia celular',
+          price: '$18.99',
+          rating: '4.7/5',
+          image: '💪',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Nature Made B-Complex',
+          description: 'Vitaminas B para conversão de alimentos em energia',
+          price: '$12.99',
+          rating: '4.6/5',
+          image: '⚡',
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+        },
+        {
+          name: 'Garden of Life Vitamin Code Raw B-12',
+          description: 'B-12 natural para energia mental e física',
+          price: '$24.99',
+          rating: '4.8/5',
+          image: '🧠',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Jarrow Formulas CoQ10 200mg',
+          description: 'Coenzima Q10 para energia mitocondrial',
+          price: '$29.99',
+          rating: '4.7/5',
+          image: '🔋',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Thorne Research Magnesium Bisglycinate',
+          description: 'Magnésio para relaxamento muscular e recuperação',
+          price: '$22.99',
+          rating: '4.9/5',
+          image: '💆',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Pure Encapsulations D-Ribose',
+          description: 'Açúcar natural para produção de ATP',
+          price: '$19.99',
+          rating: '4.6/5',
+          image: '🍯',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        }
+      ],
+      'sono': [
+        {
+          name: 'Nature Made Melatonin 5mg',
+          description: 'Hormônio natural para regulação do sono',
+          price: '$8.99',
+          rating: '4.5/5',
+          image: '😴',
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+        },
+        {
+          name: 'NOW Foods 5-HTP 200mg',
+          description: 'Precursor da serotonina para sono profundo',
+          price: '$15.99',
+          rating: '4.7/5',
+          image: '🌙',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Thorne Research Magnesium Glycinate',
+          description: 'Magnésio para relaxamento e qualidade do sono',
+          price: '$24.99',
+          rating: '4.8/5',
+          image: '💆',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Pure Encapsulations L-Theanine 200mg',
+          description: 'Aminoácido para relaxamento mental',
+          price: '$18.99',
+          rating: '4.6/5',
+          image: '🧘',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Garden of Life Sleep & Relax',
+          description: 'Fórmula natural para sono reparador',
+          price: '$32.99',
+          rating: '4.7/5',
+          image: '🌿',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'NOW Foods Valerian Root 500mg',
+          description: 'Raiz natural para indução do sono',
+          price: '$12.99',
+          rating: '4.4/5',
+          image: '🌱',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        }
+      ],
+      'emagrecimento': [
+        {
+          name: 'NOW Foods Green Tea Extract 400mg',
+          description: 'Extrato de chá verde para metabolismo',
+          price: '$14.99',
+          rating: '4.6/5',
+          image: '🍃',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Thorne Research Meriva-SR',
+          description: 'Curcumina para controle de inflamação',
+          price: '$34.99',
+          rating: '4.8/5',
+          image: '🟡',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Pure Encapsulations CLA 1000mg',
+          description: 'Ácido linoleico conjugado para perda de gordura',
+          price: '$28.99',
+          rating: '4.7/5',
+          image: '🔥',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Garden of Life Raw Organic Protein',
+          description: 'Proteína orgânica para saciedade',
+          price: '$39.99',
+          rating: '4.9/5',
+          image: '🥛',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'NOW Foods Chromium Picolinate 200mcg',
+          description: 'Cromo para controle de açúcar no sangue',
+          price: '$9.99',
+          rating: '4.5/5',
+          image: '⚖️',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Nature Made Fish Oil 1000mg',
+          description: 'Ômega-3 para saúde metabólica',
+          price: '$16.99',
+          rating: '4.6/5',
+          image: '🐟',
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+        }
+      ],
+      'imunidade': [
+        {
+          name: 'Nature Made Vitamin D3 2000IU',
+          description: 'Vitamina D para sistema imunológico',
+          price: '$11.99',
+          rating: '4.7/5',
+          image: '☀️',
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+        },
+        {
+          name: 'NOW Foods Vitamin C 1000mg',
+          description: 'Vitamina C para defesa imunológica',
+          price: '$13.99',
+          rating: '4.6/5',
+          image: '🍊',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Thorne Research Zinc Picolinate',
+          description: 'Zinco para função imunológica',
+          price: '$19.99',
+          rating: '4.8/5',
+          image: '🛡️',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Pure Encapsulations Echinacea',
+          description: 'Echinacea para suporte imunológico',
+          price: '$22.99',
+          rating: '4.7/5',
+          image: '🌻',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'Garden of Life Probiotics',
+          description: 'Probióticos para saúde intestinal',
+          price: '$29.99',
+          rating: '4.9/5',
+          image: '🦠',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        },
+        {
+          name: 'NOW Foods Elderberry Extract',
+          description: 'Extrato de sabugueiro para imunidade',
+          price: '$17.99',
+          rating: '4.6/5',
+          image: '🫐',
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+        }
+      ]
+    };
+
+    const goal = profile?.primaryGoal || 'energia';
+    return productDatabase[goal as keyof typeof productDatabase] || productDatabase['energia'];
+  };
+
+  // Função para obter mensagem personalizada baseada no perfil
+  const getPersonalizedMessage = (profile: any) => {
+    const messages = {
+      'energia': {
+        title: 'Entendi perfeitamente sua necessidade de energia!',
+        explanation: 'Você está enfrentando fadiga constante que está impactando sua produtividade e qualidade de vida. Nossa análise identificou que você precisa de suplementos específicos para:',
+        benefits: [
+          'Aumentar a produção de ATP (energia celular)',
+          'Melhorar a função mitocondrial',
+          'Otimizar o metabolismo de carboidratos e gorduras',
+          'Reduzir a fadiga mental e física'
+        ],
+        solution: 'Os produtos que selecionei para você são cientificamente comprovados para aumentar seus níveis de energia de forma sustentável, sem os picos e quedas dos estimulantes.'
+      },
+      'sono': {
+        title: 'Identifiquei exatamente o que está afetando seu sono!',
+        explanation: 'Sua dificuldade para dormir está comprometendo sua recuperação, humor e saúde geral. Nossa análise revelou que você precisa de suplementos para:',
+        benefits: [
+          'Regular o ciclo circadiano natural',
+          'Aumentar a produção de melatonina',
+          'Reduzir o estresse e ansiedade',
+          'Melhorar a qualidade do sono profundo'
+        ],
+        solution: 'Os produtos recomendados trabalham em sinergia para criar as condições ideais para um sono reparador e restaurador.'
+      },
+      'emagrecimento': {
+        title: 'Descobri a chave para seu sucesso no emagrecimento!',
+        explanation: 'Seus esforços anteriores não funcionaram porque faltavam os suplementos corretos para otimizar seu metabolismo. Você precisa de produtos para:',
+        benefits: [
+          'Acelerar o metabolismo basal',
+          'Controlar a inflamação crônica',
+          'Reduzir a resistência à insulina',
+          'Aumentar a queima de gordura'
+        ],
+        solution: 'Esta combinação específica de suplementos vai transformar seu corpo em uma máquina de queimar gordura de forma natural e saudável.'
+      },
+      'imunidade': {
+        title: 'Identifiquei os pontos fracos do seu sistema imunológico!',
+        explanation: 'Sua imunidade baixa está te deixando vulnerável a infecções frequentes. Nossa análise mostrou que você precisa de suplementos para:',
+        benefits: [
+          'Fortalecer as células de defesa',
+          'Reduzir a inflamação crônica',
+          'Melhorar a função das barreiras imunológicas',
+          'Otimizar a resposta imunológica'
+        ],
+        solution: 'Esta combinação de vitaminas e minerais vai criar um escudo imunológico robusto para proteger sua saúde.'
+      }
+    };
+
+    const goal = profile?.primaryGoal || 'energia';
+    return messages[goal as keyof typeof messages] || messages['energia'];
+  };
+
+  // Função para abrir produto específico na Amazon
+  const handleOpenProduct = (productUrl: string) => {
+    window.open(productUrl, '_blank');
+  };
+
   return (
     <>
       <style jsx global>{`

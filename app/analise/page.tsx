@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Header from '../components/Header'
 
@@ -137,6 +137,19 @@ export default function AnalisePage() {
   const [comments, setComments] = useState('')
   const [showResults, setShowResults] = useState(false)
   const [analysisResults, setAnalysisResults] = useState<any>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detectar se é mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const t = (key: keyof typeof content) => content[key]?.[language] || content[key]?.pt || key
 
@@ -236,6 +249,73 @@ export default function AnalisePage() {
   }
 
   const currentQuestionData = questions.find(q => q.id === currentQuestion)
+
+  // Função para analisar o perfil do usuário
+  const analyzeProfile = () => {
+    console.log('🔍 analyzeProfile chamada!');
+    console.log('📝 Respostas:', answers);
+    console.log('💬 Comentários:', comments);
+    
+    // Mapear respostas para categorias
+    const categoryScoring = {
+      'energia': { triggers: ['1a', '2a', '3d', '4a', '5c', '6b', '7a', '8b'], weight: 1.2 },
+      'sono': { triggers: ['1b', '2b', '3c', '4b', '5b', '6a', '7b', '8a'], weight: 1.1 },
+      'emagrecimento': { triggers: ['1c', '2c', '3a', '4c', '5c', '6b', '7c', '8a'], weight: 1.3 },
+      'imunidade': { triggers: ['1d', '2d', '3c', '4d', '5d', '6c', '7d', '8c'], weight: 1.0 },
+      'hormonal': { triggers: ['1b', '2c', '3c', '4b', '5b', '6c', '7c', '8c'], weight: 1.4 },
+      'ansiedade': { triggers: ['1b', '2b', '3c', '4a', '5c', '6a', '7a', '8d'], weight: 1.2 },
+      'fadiga': { triggers: ['1a', '2b', '3d', '4a', '5c', '6a', '7a', '8b'], weight: 1.1 },
+      'afrodisiaco': { triggers: ['1c', '2a', '3b', '4c', '5a', '6b', '7b', '8d'], weight: 1.5 }
+    };
+
+    // Calcular scores para cada categoria
+    const scores: { [key: string]: number } = {};
+    
+    Object.entries(categoryScoring).forEach(([category, config]) => {
+      let score = 0;
+      config.triggers.forEach(trigger => {
+        if (Object.values(answers).includes(trigger)) {
+          score += config.weight;
+        }
+      });
+      scores[category] = score;
+    });
+
+    console.log('📊 Scores calculados:', scores);
+
+    // Ordenar categorias por score
+    const sortedCategories = Object.entries(scores)
+      .sort(([,a], [,b]) => b - a)
+      .slice(0, 3);
+
+    console.log('🏆 Top 3 categorias:', sortedCategories);
+
+    // Criar perfil do usuário
+    const userProfile = {
+      primaryGoal: getPrimaryGoal(answers),
+      lifestyle: getLifestyle(answers),
+      budget: getBudget(answers),
+      urgency: getUrgency(answers),
+      commitment: getCommitment(answers)
+    };
+
+    console.log('👤 Perfil do usuário:', userProfile);
+
+    // Definir resultados da análise
+    const results = {
+      userProfile,
+      topCategories: sortedCategories,
+      analysisDate: new Date().toISOString()
+    };
+
+    console.log('🎯 Resultados finais:', results);
+    console.log('✅ Definindo showResults como true');
+
+    setAnalysisResults(results);
+    setShowResults(true);
+    
+    console.log('🚀 Estados atualizados!');
+  };
 
   // Função para obter mensagem motivacional baseada no perfil
   const getMotivationalMessage = (profile: any) => {

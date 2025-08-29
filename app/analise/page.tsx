@@ -304,6 +304,71 @@ export default function AnalisePage() {
     window.location.href = '/';
   };
 
+  // Funções auxiliares para interpretar respostas
+  const getPrimaryGoal = (answers: { [key: string]: string }) => {
+    const goalMap: { [key: string]: string } = {
+      '1a': 'energia',
+      '1b': 'sono',
+      '1c': 'emagrecimento',
+      '1d': 'imunidade',
+      '3a': 'emagrecimento',
+      '3b': 'massa muscular',
+      '3c': 'bem-estar geral',
+      '3d': 'performance'
+    };
+    
+    for (const [question, answer] of Object.entries(answers)) {
+      if (goalMap[answer]) {
+        return goalMap[answer];
+      }
+    }
+    return 'bem-estar geral';
+  };
+
+  const getLifestyle = (answers: { [key: string]: string }) => {
+    const lifestyleMap: { [key: string]: string } = {
+      '2a': 'vida agitada',
+      '2b': 'carreira em ascensão',
+      '2c': 'equilíbrio família-trabalho',
+      '2d': 'foco em qualidade de vida'
+    };
+    
+    return lifestyleMap[answers['2']] || 'estilo de vida equilibrado';
+  };
+
+  const getBudget = (answers: { [key: string]: string }) => {
+    const budgetMap: { [key: string]: string } = {
+      '6a': '$50-100',
+      '6b': '$100-200',
+      '6c': '$200-500',
+      '6d': '$500+'
+    };
+    
+    return budgetMap[answers['6']] || '$100-200';
+  };
+
+  const getUrgency = (answers: { [key: string]: string }) => {
+    const urgencyMap: { [key: string]: string } = {
+      '7a': 'imediato (1-2 semanas)',
+      '7b': 'curto prazo (1 mês)',
+      '7c': 'médio prazo (2-3 meses)',
+      '7d': 'longo prazo (3+ meses)'
+    };
+    
+    return urgencyMap[answers['7']] || 'médio prazo';
+  };
+
+  const getCommitment = (answers: { [key: string]: string }) => {
+    const commitmentMap: { [key: string]: string } = {
+      '5a': 'iniciante',
+      '5b': 'intermediário',
+      '5c': 'avançado',
+      '5d': 'especialista'
+    };
+    
+    return commitmentMap[answers['5']] || 'intermediário';
+  };
+
   return (
     <>
       <style jsx global>{`
@@ -612,9 +677,8 @@ export default function AnalisePage() {
                 }}>
                   <button
                     onClick={() => {
-                      // Aqui você implementaria a lógica para processar a análise
-                      console.log('Análise completa:', { answers, comments })
-                      alert('🎯 Análise completa! Seus produtos personalizados estão sendo preparados...\n\n💡 Dica: Coloque no carrinho Amazon e reserve por 90 dias!')
+                      // Processar análise e mostrar resultados
+                      analyzeProfile();
                     }}
                     style={{
                       padding: '1rem 2rem',
@@ -635,8 +699,7 @@ export default function AnalisePage() {
                   <button
                     onClick={() => {
                       // Pular comentários e ir direto para resultados
-                      console.log('Análise sem comentários:', { answers })
-                      alert('🎯 Análise completa! Seus produtos personalizados estão sendo preparados...\n\n💡 Dica: Coloque no carrinho Amazon e reserve por 90 dias!')
+                      analyzeProfile();
                     }}
                     style={{
                       padding: '1rem 2rem',

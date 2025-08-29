@@ -121,12 +121,12 @@ export default function ProdutosPage() {
         {/* Header Unificado */}
         <Header language={language} onLanguageChange={setLanguage} />
 
-        {/* Hero Section Mínimo Absoluto */}
+        {/* Hero Section Mínimo Proporcional */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '0.05rem 0',
+          padding: '0.15rem 0',
           textAlign: 'center',
-          marginBottom: '0.1rem',
+          marginBottom: '0.2rem',
           minHeight: 'auto'
         }} className="hero-section">
           <div style={{
@@ -135,21 +135,21 @@ export default function ProdutosPage() {
             padding: '0 1rem'
           }}>
             <h1 style={{
-              fontSize: 'clamp(1.3rem, 3.5vw, 2rem)',
+              fontSize: 'clamp(1.4rem, 3.8vw, 2.2rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.3rem',
+              marginBottom: '0.4rem',
               color: '#1f2937'
             }} className="hero-title">
               Produtos Amazon Selecionados<br />Especialmente para Você
             </h1>
 
             <p style={{
-              fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
-              marginBottom: '0.3rem',
+              fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
+              marginBottom: '0.4rem',
               color: '#6b7280',
               maxWidth: '400px',
-              margin: '0 auto 0.3rem',
+              margin: '0 auto 0.4rem',
               lineHeight: 1.2
             }}>
               Kits estratégicos que funcionam.

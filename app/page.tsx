@@ -12,18 +12,79 @@ const content = {
   headline3: { pt: 'Ideais para Você nos EUA', es: 'Ideales para Ti en USA', en: 'Ideal for You in the USA' },
   selectLanguage: { pt: 'Escolha seu idioma:', es: 'Elige tu idioma:', en: 'Choose your language:' },
   trustText: { pt: '+2.847 brasileiros confiam no MeuPortalFit', es: '+2.847 brasileños confían en MeuPortalFit', en: '+2.847 Brazilians trust MeuPortalFit' },
-  stats: {
+  
+  // Seção "Como Funciona"
+  howItWorksTitle: { pt: 'Como o MeuPortalFit Funciona', es: 'Cómo Funciona MeuPortalFit', en: 'How MeuPortalFit Works' },
+  step1Title: { pt: 'Análise Personalizada', es: 'Análisis Personalizado', en: 'Personalized Analysis' },
+  step1Desc: { 
+    pt: '8 perguntas estratégicas sobre suas necessidades, estilo de vida e objetivos de wellness nos EUA.',
+    es: '8 preguntas estratégicas sobre tus necesidades, estilo de vida y objetivos de bienestar en USA.',
+    en: '8 strategic questions about your needs, lifestyle and wellness goals in the USA.'
+  },
+  step2Title: { pt: 'IA Analisa seu Perfil', es: 'IA Analiza tu Perfil', en: 'AI Analyzes Your Profile' },
+  step2Desc: { 
+    pt: 'Nossa inteligência artificial avançada processa suas respostas e identifica seu perfil único de wellness.',
+    es: 'Nuestra inteligencia artificial avanzada procesa tus respuestas e identifica tu perfil único de bienestar.',
+    en: 'Our advanced artificial intelligence processes your answers and identifies your unique wellness profile.'
+  },
+  step3Title: { pt: 'Receba Recomendações', es: 'Recibe Recomendaciones', en: 'Get Recommendations' },
+  step3Desc: { 
+    pt: 'Top 3-5 produtos Amazon personalizados com explicação detalhada do porquê são ideais para você.',
+    es: 'Top 3-5 productos Amazon personalizados con explicación detallada de por qué son ideales para ti.',
+    en: 'Top 3-5 personalized Amazon products with detailed explanation of why they are ideal for you.'
+  },
+  
+  // Seção de Depoimentos
+  testimonialsTitle: { pt: 'O que nossos usuários dizem', es: 'Lo que dicen nuestros usuarios', en: 'What our users say' },
+  testimonials: {
     pt: [
-      { number: '12.000', label: 'Pessoas Atendidas' },
-      { number: '4.9/5', label: 'Avaliação Média' },
-      { number: '$8M+', label: 'Economizados pelos Usuários' },
-      { number: '4.800', label: 'Avaliações 5 Estrelas' }
+      { initials: 'MR', name: 'Maria Rodriguez', location: 'Orlando, FL', text: '"Incrível! Encontrei exatamente os suplementos que precisava. A IA acertou em cheio minhas necessidades."' },
+      { initials: 'JS', name: 'João Silva', location: 'Miami, FL', text: '"A análise da IA é impressionante. Finalmente achei o que funciona para mim!"' },
+      { initials: 'AR', name: 'Ana Rodrigues', location: 'New York, NY', text: '"Como enfermeira, fiquei impressionada com a precisão das recomendações."' }
     ],
     es: [
-      { number: '12.000', label: 'Personas Atendidas' },
-      { number: '4.9/5', label: 'Evaluación Promedio' },
-      { number: '$8M+', label: 'Ahorrado por Usuarios' },
-      { number: '4.800', label: 'Evaluaciones 5 Estrellas' }
+      { initials: 'CR', name: 'Carmen Rodriguez', location: 'Los Angeles, CA', text: '"¡Increíble! Encontré exactamente los productos que mi familia necesitaba."' },
+      { initials: 'MG', name: 'Miguel González', location: 'Houston, TX', text: '"El análisis cultural es perfecto. Realmente entienden nuestras necesidades."' },
+      { initials: 'LM', name: 'Lucia Morales', location: 'Phoenix, AZ', text: '"Como madre, me encanta que piensen en toda la familia."' }
+    ],
+    en: [
+      { initials: 'JS', name: 'Jennifer Smith', location: 'San Francisco, CA', text: '"The AI recommendations are spot-on. Science-backed products I can trust."' },
+      { initials: 'MJ', name: 'Michael Johnson', location: 'Denver, CO', text: '"Finally, a quiz that understands my performance goals. Excellent results!"' },
+      { initials: 'SR', name: 'Sarah Roberts', location: 'Seattle, WA', text: '"Love how thorough the analysis is. Found products I never knew I needed."' }
+    ]
+  },
+  
+  // Seção Final CTA
+  finalCtaTitle: { 
+    pt: 'Pronto para Descobrir os\nProdutos Ideais para Você?',
+    es: 'Listo para Descubrir los\nProductos Ideales para Ti?',
+    en: 'Ready to Discover the\nPerfect Products for You?'
+  },
+  finalCtaText: { 
+    pt: 'Junte-se a milhares que já descobriram os produtos de saúde perfeitos com nosso quiz inteligente.',
+    es: 'Únete a miles que ya descubrieron los productos de salud perfectos con nuestro quiz inteligente.',
+    en: 'Join thousands who have already discovered perfect health products with our smart quiz.'
+  },
+  finalCtaButton: { pt: 'Descobrir Meus Produtos Agora', es: 'Descubrir Mis Productos Ahora', en: 'Discover My Products Now' },
+  finalBenefits: { 
+    pt: '✅ 100% Gratuito • ⚡ 2-3 Minutos • 🔒 Dados Seguros',
+    es: '✅ 100% Gratis • ⚡ 2-3 Minutos • 🔒 Datos Seguros',
+    en: '✅ 100% Free • ⚡ 2-3 Minutes • 🔒 Secure Data'
+  },
+  
+  // Estatísticas
+  stats: {
+    pt: [
+      { number: '2.847', label: 'Brasileiros Atendidos' },
+      { number: '4.9/5', label: 'Avaliação Média' },
+      { number: '$2M+', label: 'Economizado pelos Usuários' },
+      { number: '1.243', label: 'Avaliações 5 Estrelas' }
+    ],
+    es: [
+      { number: '8.500', label: 'Latinos Atendidos' },
+      { number: '4.8/5', label: 'Calificación Promedio' },
+      { number: '$5M+', label: 'Ahorrado por Usuarios' },
+      { number: '3.200', label: 'Reseñas 5 Estrellas' }
     ],
     en: [
       { number: '12.000', label: 'People Served' },
@@ -31,6 +92,14 @@ const content = {
       { number: '$8M+', label: 'Saved by Users' },
       { number: '4.800', label: '5-Star Reviews' }
     ]
+  },
+  
+  // Footer
+  footerTagline: { pt: 'Seu portal personalizado para wellness', es: 'Tu portal personalizado para bienestar', en: 'Your personalized wellness portal' },
+  footerCopyright: { 
+    pt: '© 2025 Portal Solutions LLC. Todos os direitos reservados.',
+    es: '© 2025 Portal Solutions LLC. Todos los derechos reservados.',
+    en: '© 2025 Portal Solutions LLC. All rights reserved.'
   }
 }
 
@@ -452,7 +521,36 @@ export default function HomePage() {
               gap: '1.5rem',
               marginBottom: '3rem'
             }}>
-              {/* testimonials content removed as per new_code */}
+              {/* Depoimentos dos usuários */}
+              <div style={{
+                background: 'white',
+                borderRadius: '15px',
+                padding: '2rem',
+                boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+                textAlign: 'center'
+              }}>
+                <p style={{
+                  fontSize: '1rem',
+                  color: '#4b5563',
+                  lineHeight: 1.6,
+                  marginBottom: '1rem'
+                }}>
+                  "Incrível! Encontrei exatamente os suplementos que precisava. A IA acertou em cheio minhas necessidades."
+                </p>
+                <p style={{
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  color: '#1f2937'
+                }}>
+                  Maria Rodriguez
+                </p>
+                <p style={{
+                  fontSize: '0.8rem',
+                  color: '#6b7280'
+                }}>
+                  Orlando, FL
+                </p>
+              </div>
             </div>
 
             {/* Stats */}
@@ -463,7 +561,98 @@ export default function HomePage() {
               maxWidth: '800px',
               margin: '0 auto'
             }}>
-              {/* stats content removed as per new_code */}
+              {/* Estatísticas */}
+              <div style={{
+                textAlign: 'center',
+                padding: '1.5rem 1rem',
+                borderRadius: '15px',
+                background: '#f0fdf4',
+                border: '1px solid #e0f2e9'
+              }}>
+                <p style={{
+                  fontSize: '2.5rem',
+                  fontWeight: 900,
+                  color: '#22c55e',
+                  marginBottom: '0.5rem'
+                }}>
+                  2.847
+                </p>
+                <p style={{
+                  fontSize: '0.9rem',
+                  color: '#6b7280'
+                }}>
+                  Brasileiros Atendidos
+                </p>
+              </div>
+              
+              <div style={{
+                textAlign: 'center',
+                padding: '1.5rem 1rem',
+                borderRadius: '15px',
+                background: '#f0fdf4',
+                border: '1px solid #e0f2e9'
+              }}>
+                <p style={{
+                  fontSize: '2.5rem',
+                  fontWeight: 900,
+                  color: '#22c55e',
+                  marginBottom: '0.5rem'
+                }}>
+                  4.9/5
+                </p>
+                <p style={{
+                  fontSize: '0.9rem',
+                  color: '#6b7280'
+                }}>
+                  Avaliação Média
+                </p>
+              </div>
+              
+              <div style={{
+                textAlign: 'center',
+                padding: '1.5rem 1rem',
+                borderRadius: '15px',
+                background: '#f0fdf4',
+                border: '1px solid #e0f2e9'
+              }}>
+                <p style={{
+                  fontSize: '2.5rem',
+                  fontWeight: 900,
+                  color: '#22c55e',
+                  marginBottom: '0.5rem'
+                }}>
+                  $2M+
+                </p>
+                <p style={{
+                  fontSize: '0.9rem',
+                  color: '#6b7280'
+                }}>
+                  Economizado pelos Usuários
+                </p>
+              </div>
+              
+              <div style={{
+                textAlign: 'center',
+                padding: '1.5rem 1rem',
+                borderRadius: '15px',
+                background: '#f0fdf4',
+                border: '1px solid #e0f2e9'
+              }}>
+                <p style={{
+                  fontSize: '2.5rem',
+                  fontWeight: 900,
+                  color: '#22c55e',
+                  marginBottom: '0.5rem'
+                }}>
+                  1.243
+                </p>
+                <p style={{
+                  fontSize: '0.9rem',
+                  color: '#6b7280'
+                }}>
+                  Avaliações 5 Estrelas
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -487,7 +676,7 @@ export default function HomePage() {
               lineHeight: 1.2,
               whiteSpace: 'pre-line'
             }}>
-              {/* finalCtaTitle content removed as per new_code */}
+              {t('finalCtaTitle')}
             </h2>
             <p style={{
               fontSize: '1.1rem',
@@ -495,7 +684,7 @@ export default function HomePage() {
               opacity: 0.95,
               lineHeight: 1.5
             }}>
-              {/* finalCtaText content removed as per new_code */}
+              {t('finalCtaText')}
             </p>
             
             <div style={{ marginBottom: '1.5rem' }}>
@@ -516,7 +705,7 @@ export default function HomePage() {
                   boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
                 }}>
                   <span>🚀</span>
-                  {/* finalCtaButton content removed as per new_code */}
+                  {t('finalCtaButton')}
                 </button>
               </Link>
             </div>
@@ -525,7 +714,7 @@ export default function HomePage() {
               color: 'rgba(255, 255, 255, 0.9)',
               fontSize: '0.9rem'
             }}>
-              {/* finalBenefits content removed as per new_code */}
+              {t('finalBenefits')}
             </p>
           </div>
         </section>
@@ -550,10 +739,10 @@ export default function HomePage() {
               MeuPortalFit
             </div>
             <p style={{ color: '#9ca3af', marginBottom: '1rem', fontSize: '0.9rem' }}>
-              {/* footerTagline content removed as per new_code */}
+              {t('footerTagline')}
             </p>
             <div style={{ color: '#6b7280', fontSize: '0.8rem' }}>
-              {/* footerCopyright content removed as per new_code */}
+              {t('footerCopyright')}
             </div>
           </div>
         </footer>

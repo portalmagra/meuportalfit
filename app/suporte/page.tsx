@@ -471,7 +471,7 @@ export default function SuportePage() {
                 </div>
                 <h3 style={{
                   fontSize: '1.2rem',
-                  fontWeight: 700',
+                  fontWeight: 700,
                   marginBottom: '1rem',
                   color: '#1f2937'
                 }}>

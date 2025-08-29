@@ -430,70 +430,196 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* How It Works */}
-        <section style={{ background: 'white', padding: '5rem 0' }}>
+        {/* Como Funciona Section */}
+        <section style={{
+          background: '#f8fafc',
+          padding: '4rem 0',
+          textAlign: 'center'
+        }}>
           <div style={{
             maxWidth: '1200px',
             margin: '0 auto',
-            padding: '0 2rem',
-            textAlign: 'center'
+            padding: '0 2rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
               fontWeight: 900,
               marginBottom: '3rem',
               color: '#1f2937'
             }}>
-              Como o <span className="gradient-text">MeuPortalFit</span> Funciona
+              <span className="gradient-text">Como Funciona</span> a Avaliação Personalizada
             </h2>
             
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
               gap: '2rem',
-              maxWidth: '900px',
-              margin: '0 auto'
+              marginBottom: '3rem'
             }}>
-                              {[
-                  { number: '1', titleKey: 'step1Title' as keyof typeof content, descKey: 'step1Desc' as keyof typeof content },
-                  { number: '2', titleKey: 'step2Title' as keyof typeof content, descKey: 'step2Desc' as keyof typeof content },
-                  { number: '3', titleKey: 'step3Title' as keyof typeof content, descKey: 'step3Desc' as keyof typeof content }
-                ].map((step, i) => (
-                  <div key={i} style={{
-                    textAlign: 'center',
-                    padding: '2rem 1rem',
-                    borderRadius: '20px',
-                    background: '#f9fafb',
-                    border: '2px solid transparent'
-                  }}>
-                    <div style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '60px',
-                      height: '60px',
-                      background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                      color: 'white',
-                      borderRadius: '50%',
-                      fontSize: '1.5rem',
-                      fontWeight: 900,
-                      marginBottom: '1rem'
-                    }}>
-                      {step.number}
-                    </div>
-                    <h3 style={{
-                      fontSize: '1.2rem',
-                      fontWeight: 700,
-                      marginBottom: '0.8rem',
-                      color: '#1f2937'
-                    }}>
-                      {t(step.titleKey)}
-                    </h3>
-                    <p style={{ color: '#6b7280', lineHeight: 1.5, fontSize: '0.9rem' }}>
-                      {t(step.descKey)}
-                    </p>
-                  </div>
-                ))}
+              {/* Passo 1 */}
+              <div style={{
+                background: 'white',
+                borderRadius: '20px',
+                padding: '2.5rem 2rem',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                border: '2px solid #e0f2e9',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '60px',
+                  height: '60px',
+                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem',
+                  fontSize: '1.5rem',
+                  fontWeight: 900,
+                  color: 'white'
+                }}>
+                  1
+                </div>
+                <h3 style={{
+                  fontSize: '1.3rem',
+                  fontWeight: 700,
+                  marginBottom: '1rem',
+                  color: '#1f2937'
+                }}>
+                  Análise da Rotina Alimentar
+                </h3>
+                <p style={{
+                  fontSize: '1rem',
+                  color: '#6b7280',
+                  lineHeight: 1.6
+                }}>
+                  Investigamos sua alimentação atual, identificando possíveis áreas de melhoria que podem estar impedindo seus resultados.
+                </p>
+              </div>
+
+              {/* Passo 2 */}
+              <div style={{
+                background: 'white',
+                borderRadius: '20px',
+                padding: '2.5rem 2rem',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                border: '2px solid #e0f2e9',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '60px',
+                  height: '60px',
+                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem',
+                  fontSize: '1.5rem',
+                  fontWeight: 900,
+                  color: 'white'
+                }}>
+                  2
+                </div>
+                <h3 style={{
+                  fontSize: '1.3rem',
+                  fontWeight: 700,
+                  marginBottom: '1rem',
+                  color: '#1f2937'
+                }}>
+                  Hábitos de Sono e Estresse
+                </h3>
+                <p style={{
+                  fontSize: '1rem',
+                  color: '#6b7280',
+                  lineHeight: 1.6
+                }}>
+                  Analisamos seu sono e níveis de estresse, ambos essenciais para o sucesso na desinflamação do corpo e resultados duradouros.
+                </p>
+              </div>
+
+              {/* Passo 3 */}
+              <div style={{
+                background: 'white',
+                borderRadius: '20px',
+                padding: '2.5rem 2rem',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                border: '2px solid #e0f2e9',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '60px',
+                  height: '60px',
+                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem',
+                  fontSize: '1.5rem',
+                  fontWeight: 900,
+                  color: 'white'
+                }}>
+                  3
+                </div>
+                <h3 style={{
+                  fontSize: '1.3rem',
+                  fontWeight: 700,
+                  marginBottom: '1rem',
+                  color: '#1f2937'
+                }}>
+                  Plano Personalizado
+                </h3>
+                <p style={{
+                  fontSize: '1rem',
+                  color: '#6b7280',
+                  lineHeight: 1.6
+                }}>
+                  Criamos um plano específico para seu caso, identificando todos os fatores que podem estar impactando os resultados que você busca.
+                </p>
+              </div>
+            </div>
+
+            {/* CTA para Avaliação */}
+            <div style={{
+              background: 'linear-gradient(135deg, #fef3c7, #fde68a)',
+              borderRadius: '20px',
+              padding: '2rem',
+              border: '2px solid #f59e0b',
+              marginTop: '2rem'
+            }}>
+              <h3 style={{
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                marginBottom: '1rem',
+                color: '#92400e'
+              }}>
+                🎯 Pronto para Descobrir o que Está Impedindo Seus Resultados?
+              </h3>
+              <p style={{
+                fontSize: '1.1rem',
+                color: '#92400e',
+                marginBottom: '1.5rem',
+                lineHeight: 1.5
+              }}>
+                <strong>30 minutos que podem mudar sua vida para sempre!</strong> Nossa avaliação personalizada identifica exatamente o que você precisa para alcançar seus objetivos.
+              </p>
+              <Link href="/suporte" style={{ textDecoration: 'none' }}>
+                <button style={{
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                  color: 'white',
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  borderRadius: '50px',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 8px 25px rgba(245, 158, 11, 0.3)'
+                }}>
+                  🚀 AGENDAR MINHA AVALIAÇÃO AGORA
+                </button>
+              </Link>
             </div>
           </div>
         </section>

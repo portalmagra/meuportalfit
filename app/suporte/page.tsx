@@ -277,224 +277,260 @@ export default function SuportePage() {
         {/* Hero Section - GATILHO DE URGÊNCIA */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
+          color: '#1f2937',
           padding: '4rem 0',
-          textAlign: 'center',
           position: 'relative',
           overflow: 'hidden'
         }}>
-          {/* Animated Elements */}
           <div style={{
-            position: 'absolute',
-            top: '10%',
-            right: '10%',
-            width: '200px',
-            height: '200px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #22c55e, #06b6d4, #3b82f6)',
-            filter: 'blur(40px)',
-            opacity: 0.4,
-            animation: 'float 6s ease-in-out infinite',
-            zIndex: 1
-          }}></div>
-
-          <div style={{
-            maxWidth: '1200px',
+            maxWidth: '800px',
             margin: '0 auto',
             padding: '0 2rem',
-            position: 'relative',
-            zIndex: 10,
             textAlign: 'center'
           }}>
-            {/* Urgency Badge */}
-            <div className="pulse-animation" style={{
+            {/* Banner de Oferta Limitada */}
+            <div style={{
+              background: 'linear-gradient(135deg, #fef3c7, #fde68a)',
+              borderRadius: '15px',
+              padding: '1rem 1.5rem',
+              marginBottom: '2rem',
+              border: '2px solid #f59e0b',
               display: 'inline-flex',
               alignItems: 'center',
-              background: 'linear-gradient(135deg, #f59e0b, #fbbf24, #fcd34d)',
-              borderRadius: '50px',
-              padding: '1.2rem 2.5rem',
-              marginBottom: '2rem',
-              boxShadow: '0 15px 50px rgba(245, 158, 11, 0.7)',
-              fontWeight: 900,
-              fontSize: '1.1rem',
-              gap: '0.8rem',
-              border: '3px solid rgba(255, 255, 255, 0.3)',
-              textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+              gap: '0.8rem'
             }}>
-              <span style={{ fontSize: '1.4rem', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}>⏰</span>
-              <span style={{ letterSpacing: '0.5px' }}>{t('urgencyTitle')}</span>
+              <span style={{ fontSize: '1.2rem' }}>⏰</span>
+              <span style={{
+                fontSize: '1rem',
+                fontWeight: 600,
+                color: '#92400e'
+              }}>
+                ATENÇÃO: Oferta Limitada
+              </span>
             </div>
 
             <h1 style={{
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 6vw, 3rem)',
               fontWeight: 900,
-              lineHeight: 1.1,
               marginBottom: '1.5rem',
               whiteSpace: 'pre-line',
-              color: '#1f2937',
-              textShadow: 'none'
+              textShadow: 'none',
+              lineHeight: 1.2
             }}>
-              {t('heroTitle')}
+              Descubra Por Que Você Não Está Alcançando Seus Objetivos
             </h1>
-
+            
             <p style={{
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
-              marginBottom: '2rem',
-              opacity: 1,
-              maxWidth: '800px',
+              fontSize: 'clamp(1.1rem, 4vw, 1.3rem)',
               margin: '0 auto 2rem',
               fontWeight: 600,
               color: '#6b7280',
-              textShadow: 'none'
+              textShadow: 'none',
+              lineHeight: 1.4
             }}>
-              {t('heroSubtitle')}
+              30 minutos que podem mudar sua vida para sempre
             </p>
 
-            {/* Badge de Preço - $10 DESTACADO */}
+            {/* Badge $10 */}
             <div style={{
+              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+              color: 'white',
+              padding: '1rem 2rem',
+              borderRadius: '50px',
               display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              background: 'linear-gradient(135deg, #fbbf24, #f59e0b, #d97706)',
-              borderRadius: '50px',
-              padding: '0.8rem 1.8rem',
-              marginBottom: '2rem',
-              boxShadow: '0 20px 50px rgba(251, 191, 36, 0.6)',
-              border: '4px solid rgba(255, 255, 255, 0.3)',
-              position: 'relative',
-              overflow: 'hidden'
+              gap: '1rem',
+              marginBottom: '1.5rem',
+              boxShadow: '0 8px 25px rgba(245, 158, 11, 0.3)',
+              fontSize: '1.5rem',
+              fontWeight: 700
             }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.8rem',
-                fontWeight: 900,
-                fontSize: '1.3rem',
-                color: 'white',
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-              }}>
-                <span style={{ fontSize: '1.5rem' }}>💰</span>
-                <span>APENAS</span>
-                <span style={{
-                  fontSize: '1.8rem',
-                  background: 'linear-gradient(135deg, #ffffff, #fef3c7)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
-                }}>$10</span>
-              </div>
+              <span>💰</span>
+              <span>APENAS $10</span>
             </div>
 
-            {/* Urgency Counter */}
+            {/* Mensagem de Urgência */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 191, 36, 0.15))',
-              border: '4px solid #f59e0b',
-              borderRadius: '30px',
-              padding: '2.5rem 3rem',
+              background: 'rgba(245, 158, 11, 0.1)',
+              border: '1px solid #f59e0b',
+              borderRadius: '12px',
+              padding: '1rem 1.5rem',
               marginBottom: '2rem',
-              maxWidth: '600px',
-              margin: '0 auto 2rem',
-              boxShadow: '0 12px 40px rgba(245, 158, 11, 0.4)',
-              position: 'relative'
+              display: 'inline-block'
             }}>
               <p style={{
-                fontSize: '1.3rem',
-                fontWeight: 900,
-                color: '#f59e0b',
-                margin: 0,
-                textShadow: 'none',
-                lineHeight: 1.4
+                color: '#92400e',
+                fontSize: '1rem',
+                fontWeight: 600,
+                margin: 0
               }}>
-                {t('urgencyText')}
+                ⚠️ Apenas 5 vagas disponíveis esta semana para avaliação
               </p>
             </div>
-
-            {/* CTA Button - WhatsApp Direto */}
-            <a href="https://wa.me/17862535032?text=Olá! Quero minha avaliação personalizada de $10. Pode me ajudar?" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <button className="pulse-animation" style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '1.2rem',
-                background: 'linear-gradient(135deg, #22c55e, #16a34a, #15803d)',
-                color: 'white',
-                fontSize: '1.3rem',
-                fontWeight: 900,
-                padding: '1.8rem 3.5rem',
-                border: '3px solid rgba(255, 255, 255, 0.3)',
-                borderRadius: '60px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 25px 60px rgba(34, 197, 94, 0.6)',
-                textTransform: 'uppercase',
-                letterSpacing: '1.5px',
-                textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
-              }}>
-                <span style={{ fontSize: '1.5rem', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}>🚀</span>
-                <span>QUERO MINHA AVALIAÇÃO AGORA</span>
-                <span style={{ fontSize: '1.2rem' }}>→</span>
-              </button>
-            </a>
           </div>
         </section>
 
-        {/* Benefits Section */}
-        <section style={{ background: 'white', padding: '5rem 0' }}>
+        {/* Seção Como Funciona a Avaliação */}
+        <section style={{
+          background: 'white',
+          padding: '4rem 0',
+          textAlign: 'center'
+        }}>
           <div style={{
-            maxWidth: '1200px',
+            maxWidth: '800px',
             margin: '0 auto',
-            padding: '0 2rem',
-            textAlign: 'center'
+            padding: '0 2rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-              fontWeight: 900,
+              fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
+              fontWeight: 700,
               marginBottom: '3rem',
               color: '#1f2937'
             }}>
-              {t('benefitsTitle')}
+              🎯 O que Você Vai Descobrir em 30 Minutos
             </h2>
 
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
               gap: '2rem',
-              maxWidth: '900px',
-              margin: '0 auto'
+              marginBottom: '3rem'
             }}>
-              {[
-                { benefit: 'benefit1', icon: '🎯' },
-                { benefit: 'benefit2', icon: '💡' },
-                { benefit: 'benefit3', icon: '🚀' }
-              ].map((item, i) => (
-                <div key={i} style={{
-                  background: '#f8fafc',
-                  borderRadius: '20px',
-                  padding: '2rem',
-                  border: '2px solid #e2e8f0',
-                  transition: 'all 0.3s ease'
-                }} onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-10px)'
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1)'
-                }} onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = 'none'
+              {/* Card 1 */}
+              <div style={{
+                background: '#f0fdf4',
+                borderRadius: '20px',
+                padding: '2rem',
+                border: '2px solid #e0f2e9'
+              }}>
+                <div style={{
+                  fontSize: '3rem',
+                  marginBottom: '1rem'
                 }}>
-                  <div style={{
-                    fontSize: '3rem',
-                    marginBottom: '1rem'
-                  }}>
-                    {item.icon}
-                  </div>
-                  <p style={{
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    color: '#1f2937',
-                    lineHeight: 1.5
-                  }}>
-                    {t(item.benefit as keyof typeof content)}
-                  </p>
+                  🎯
                 </div>
-              ))}
+                <h3 style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 700,
+                  marginBottom: '1rem',
+                  color: '#1f2937'
+                }}>
+                  O EXATO motivo pelo qual seus esforços não estão funcionando
+                </h3>
+                <p style={{
+                  color: '#6b7280',
+                  lineHeight: 1.5,
+                  fontSize: '0.9rem'
+                }}>
+                  Identificamos exatamente o que está impedindo seus resultados, mesmo que você não tenha percebido.
+                </p>
+              </div>
+
+              {/* Card 2 */}
+              <div style={{
+                background: '#f0fdf4',
+                borderRadius: '20px',
+                padding: '2rem',
+                border: '2px solid #e0f2e9'
+              }}>
+                <div style={{
+                  fontSize: '3rem',
+                  marginBottom: '1rem'
+                }}>
+                  💡
+                </div>
+                <h3 style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 700,
+                  marginBottom: '1rem',
+                  color: '#1f2937'
+                }}>
+                  Um plano personalizado baseado no SEU caso específico
+                </h3>
+                <p style={{
+                  color: '#6b7280',
+                  lineHeight: 1.5,
+                  fontSize: '0.9rem'
+                }}>
+                  Não mais soluções genéricas. Criamos um plano feito especificamente para suas necessidades.
+                </p>
+              </div>
+
+              {/* Card 3 */}
+              <div style={{
+                background: '#f0fdf4',
+                borderRadius: '20px',
+                padding: '2rem',
+                border: '2px solid #e0f2e9'
+              }}>
+                <div style={{
+                  fontSize: '3rem',
+                  marginBottom: '1rem'
+                }}>
+                  🚀
+                </div>
+                <h3 style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 700',
+                  marginBottom: '1rem',
+                  color: '#1f2937'
+                }}>
+                  Resultados reais em 30 dias ou menos
+                </h3>
+                <p style={{
+                  color: '#6b7280',
+                  lineHeight: 1.5,
+                  fontSize: '0.9rem'
+                }}>
+                  Com o plano correto, você verá mudanças reais em seu corpo e bem-estar em apenas 30 dias.
+                </p>
+              </div>
+            </div>
+
+            {/* CTA Principal */}
+            <div style={{
+              background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+              borderRadius: '20px',
+              padding: '2.5rem',
+              color: 'white',
+              marginBottom: '2rem'
+            }}>
+              <h3 style={{
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                marginBottom: '1rem'
+              }}>
+                🎯 Pronto para Descobrir o que Está Impedindo Seus Resultados?
+              </h3>
+              <p style={{
+                fontSize: '1.1rem',
+                marginBottom: '1.5rem',
+                opacity: 0.95
+              }}>
+                <strong>30 minutos que podem mudar sua vida para sempre!</strong> Nossa avaliação personalizada identifica exatamente o que você precisa.
+              </p>
+              
+              <a 
+                href={`https://wa.me/17862535032?text=${encodeURIComponent('Olá! Gostaria de agendar minha avaliação personalizada de $10. Tenho interesse em descobrir por que não estou alcançando meus objetivos de saúde e bem-estar.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
+              >
+                <button style={{
+                  background: 'white',
+                  color: '#22c55e',
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  borderRadius: '50px',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)'
+                }}>
+                  🚀 AGENDAR MINHA AVALIAÇÃO AGORA
+                </button>
+              </a>
             </div>
           </div>
         </section>

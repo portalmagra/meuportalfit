@@ -8,138 +8,97 @@ export default function ProdutosPage() {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
   const [searchTerm, setSearchTerm] = useState('')
 
-  const productCategories = [
+  // Categorias de produtos
+  const categories = [
     {
-      id: 'shot-afrodisiaco',
-      name: { pt: 'Shot Afrodisíaco', es: 'Shot Afrodisíaco', en: 'Aphrodisiac Shot' },
-      description: { pt: 'Suplementos naturais para aumentar libido e energia sexual', es: 'Suplementos naturales para aumentar libido y energía sexual', en: 'Natural supplements to increase libido and sexual energy' },
-      icon: '💕',
-      color: 'from-pink-500 to-rose-600',
-      category: 'health',
-      featured: true
-    },
-    {
-      id: 'menopausa',
-      name: { pt: 'Menopausa', es: 'Menopausia', en: 'Menopause' },
-      description: { pt: 'Suplementos para aliviar sintomas da menopausa', es: 'Suplementos para aliviar síntomas de la menopausia', en: 'Supplements to relieve menopause symptoms' },
-      icon: '🌸',
-      color: 'from-purple-500 to-pink-600',
-      category: 'health',
-      featured: true
-    },
-    {
-      id: 'energia',
-      name: { pt: 'Energia', es: 'Energía', en: 'Energy' },
-      description: { pt: 'Suplementos para aumentar energia e disposição', es: 'Suplementos para aumentar energía y disposición', en: 'Supplements to increase energy and disposition' },
-      icon: '⚡',
-      color: 'from-yellow-500 to-orange-600',
-      category: 'health',
-      featured: true
-    },
-    {
-      id: 'emagrecimento',
-      name: { pt: 'Emagrecimento', es: 'Pérdida de Peso', en: 'Weight Loss' },
-      description: { pt: 'Produtos para emagrecimento saudável e sustentável', es: 'Productos para pérdida de peso saludable y sostenible', en: 'Products for healthy and sustainable weight loss' },
-      icon: '🔥',
-      color: 'from-red-500 to-pink-600',
-      category: 'health',
-      featured: true
-    },
-    {
-      id: 'flacidez',
-      name: { pt: 'Flacidez', es: 'Flacidez', en: 'Sagging' },
-      description: { pt: 'Suplementos para firmar pele e músculos', es: 'Suplementos para firmar piel y músculos', en: 'Supplements to firm skin and muscles' },
+      name: 'Shot Afrodisíaco',
+      description: 'Suplementos naturais que ajudam o libido e energia sexual',
       icon: '💪',
-      color: 'from-blue-500 to-indigo-600',
-      category: 'health',
-      featured: false
+      href: '/produtos/shot-afrodisiaco'
     },
     {
-      id: 'sono',
-      name: { pt: 'Qualidade do Sono', es: 'Calidad del Sueño', en: 'Sleep Quality' },
-      description: { pt: 'Produtos para melhorar a qualidade do sono', es: 'Productos para mejorar la calidad del sueño', en: 'Products to improve sleep quality' },
+      name: 'Menopausa',
+      description: 'Produtos específicos para aliviar sintomas da menopausa',
+      icon: '🌸',
+      href: '/produtos/menopausa'
+    },
+    {
+      name: 'Energia',
+      description: 'Suplementos para aumentar energia e disposição diária',
+      icon: '⚡',
+      href: '/produtos/energia'
+    },
+    {
+      name: 'Emagrecimento',
+      description: 'Produtos naturais para perda de peso saudável',
+      icon: '🔥',
+      href: '/produtos/emagrecimento'
+    },
+    {
+      name: 'Flacidez',
+      description: 'Suplementos para firmar pele e músculos',
+      icon: '💪',
+      href: '/produtos/flacidez'
+    },
+    {
+      name: 'Qualidade do Sono',
+      description: 'Produtos para melhorar o sono e descanso',
       icon: '😴',
-      color: 'from-indigo-500 to-purple-600',
-      category: 'health',
-      featured: false
+      href: '/produtos/sono'
     },
     {
-      id: 'imunidade',
-      name: { pt: 'Imunidade', es: 'Inmunidad', en: 'Immunity' },
-      description: { pt: 'Suplementos para fortalecer o sistema imunológico', es: 'Suplementos para fortalecer el sistema inmunológico', en: 'Supplements to strengthen the immune system' },
+      name: 'Imunidade',
+      description: 'Fortalecimento do sistema imunológico',
       icon: '🛡️',
-      color: 'from-green-500 to-emerald-600',
-      category: 'health',
-      featured: false
+      href: '/produtos/imunidade'
     },
     {
-      id: 'balance-hormonal',
-      name: { pt: 'Equilíbrio Hormonal', es: 'Equilibrio Hormonal', en: 'Hormonal Balance' },
-      description: { pt: 'Suplementos para equilibrar hormônios', es: 'Suplementos para equilibrar hormonas', en: 'Supplements to balance hormones' },
+      name: 'Equilíbrio Hormonal',
+      description: 'Balance hormonal natural para mulheres',
       icon: '⚖️',
-      color: 'from-purple-500 to-violet-600',
-      category: 'health',
-      featured: false
+      href: '/produtos/hormonal'
     },
     {
-      id: 'utensilios-suporte',
-      name: { pt: 'Utensílios de Suporte', es: 'Utensilios de Apoyo', en: 'Support Utensils' },
-      description: { pt: 'Fitness, medicina, base cozinha', es: 'Fitness, medicina, base cocina', en: 'Fitness, medicine, kitchen base' },
-      icon: '🏋️',
-      color: 'from-gray-500 to-slate-600',
-      category: 'fitness',
-      featured: false
+      name: 'Utensílios de Suporte',
+      description: 'Fit medicine, base cozinha e acessórios',
+      icon: '🍳',
+      href: '/produtos/utensilios'
     },
     {
-      id: 'mercado-homens',
-      name: { pt: 'Mercado de Homens', es: 'Mercado de Hombres', en: 'Men Market' },
-      description: { pt: 'Produtos específicos para saúde masculina', es: 'Productos específicos para salud masculina', en: 'Specific products for men health' },
+      name: 'Mercado de Homens',
+      description: 'Produtos específicos para saúde masculina',
       icon: '👨',
-      color: 'from-blue-500 to-cyan-600',
-      category: 'health',
-      featured: false
+      href: '/produtos/homens'
     },
     {
-      id: 'snack-saudavel',
-      name: { pt: 'Snack Saudável', es: 'Snack Saludable', en: 'Healthy Snack' },
-      description: { pt: 'Lanches saudáveis e nutritivos', es: 'Bocadillos saludables y nutritivos', en: 'Healthy and nutritious snacks' },
-      icon: '🥗',
-      color: 'from-green-500 to-teal-600',
-      category: 'lifestyle',
-      featured: false
+      name: 'Snack Saudável',
+      description: 'Lanches nutritivos e práticos',
+      icon: '🥜',
+      href: '/produtos/snacks'
     },
     {
-      id: 'ansiedade',
-      name: { pt: 'Ansiedade', es: 'Ansiedad', en: 'Anxiety' },
-      description: { pt: 'Suplementos para controlar ansiedade', es: 'Suplementos para controlar ansiedad', en: 'Supplements to control anxiety' },
+      name: 'Ansiedade',
+      description: 'Produtos naturais para controle da ansiedade',
       icon: '🧘',
-      color: 'from-blue-500 to-indigo-600',
-      category: 'health',
-      featured: false
+      href: '/produtos/ansiedade'
     },
     {
-      id: 'fadiga',
-      name: { pt: 'Fadiga', es: 'Fatiga', en: 'Fatigue' },
-      description: { pt: 'Produtos para combater fadiga', es: 'Productos para combatir fatiga', en: 'Products to combat fatigue' },
+      name: 'Fadiga',
+      description: 'Suplementos para combater o cansaço',
       icon: '😴',
-      color: 'from-yellow-500 to-amber-600',
-      category: 'health',
-      featured: false
+      href: '/produtos/fadiga'
     },
     {
-      id: 'cozinhando-saudavel',
-      name: { pt: 'Cozinhando Saudável', es: 'Cocinando Saludable', en: 'Healthy Cooking' },
-      description: { pt: 'Temperos, óleos, sal, frigideiras', es: 'Especias, aceites, sal, sartenes', en: 'Spices, oils, salt, pans' },
-      icon: '👨‍🍳',
-      color: 'from-orange-500 to-red-600',
-      category: 'lifestyle',
-      featured: false
+      name: 'Cozinhando Saudável',
+      description: 'Temperos, óleos, sal e utensílios de cozinha',
+      icon: '🌿',
+      href: '/produtos/cozinha'
     }
   ]
 
-  const filteredCategories = productCategories.filter(category => {
-    const matchesSearch = category.name[language].toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         category.description[language].toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCategories = categories.filter(category => {
+    const matchesSearch = category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         category.description.toLowerCase().includes(searchTerm.toLowerCase())
     return matchesSearch
   })
 
@@ -241,7 +200,7 @@ export default function ProdutosPage() {
             gap: '2rem'
           }}>
             {filteredCategories.map(category => (
-              <div key={category.id} style={{
+              <div key={category.name} style={{
                 background: 'white',
                 borderRadius: '20px',
                 padding: '2rem',
@@ -249,22 +208,7 @@ export default function ProdutosPage() {
                 border: '2px solid #f3f4f6',
                 position: 'relative'
               }}>
-                {/* Featured Badge */}
-                {category.featured && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
-                    color: 'white',
-                    padding: '0.4rem 0.8rem',
-                    borderRadius: '15px',
-                    fontSize: '0.8rem',
-                    fontWeight: 600
-                  }}>
-                    ⭐ Destaque
-                  </div>
-                )}
+                {/* Category Header */}
 
                 {/* Category Header */}
                 <div style={{
@@ -285,20 +229,20 @@ export default function ProdutosPage() {
                       color: '#1f2937',
                       marginBottom: '0.5rem'
                     }}>
-                      {category.name[language]}
+                      {category.name}
                     </h3>
                     <p style={{
                       color: '#6b7280',
                       fontSize: '0.9rem',
                       lineHeight: 1.5
                     }}>
-                      {category.description[language]}
+                      {category.description}
                     </p>
                   </div>
                 </div>
 
                 {/* Botão para Ver Produtos */}
-                <Link href={`/produtos/${category.id}`} style={{ textDecoration: 'none' }}>
+                <Link href={category.href} style={{ textDecoration: 'none' }}>
                   <button style={{
                     width: '100%',
                     padding: '1rem',

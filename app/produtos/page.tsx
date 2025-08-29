@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Header from '../components/Header'
 
 export default function ProdutosPage() {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
@@ -103,170 +102,394 @@ export default function ProdutosPage() {
   })
 
   return (
-    <main style={{ padding: '0' }}>
-      {/* Header Unificado */}
-      <Header language={language} onLanguageChange={setLanguage} />
+    <>
+      <style jsx global>{`
+        @media (max-width: 768px) {
+          .header-nav {
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+          }
+          
+          .nav-buttons {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+          }
+          
+          .hero-title {
+            font-size: clamp(1.5rem, 4vw, 2rem) !important;
+          }
+          
+          .hero-section {
+            padding: 1.5rem 0 !important;
+          }
+          
+          .header-logo {
+            font-size: 1.2rem !important;
+          }
+          
+          .header-logo-icon {
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 1rem !important;
+          }
+          
+          .categories-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+          }
+          
+          .category-card {
+            padding: 1.5rem !important;
+          }
+        }
+      `}</style>
 
-      {/* Hero Section */}
-      <section style={{
-        background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-        padding: '4rem 0',
-        textAlign: 'center',
-        marginBottom: '2rem'
-      }}>
+      <main style={{ padding: '0' }}>
+        {/* Header Compacto com Logo Clicável */}
         <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '0 2rem'
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(10px)',
+          padding: '0.5rem 0',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000
         }}>
-          <h1 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: 900,
-            lineHeight: 1.1,
-            marginBottom: '1.5rem',
-            color: '#1f2937'
-          }}>
-            Produtos Amazon Selecionados<br />Especialmente para Você
-          </h1>
-
-          <p style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
-            marginBottom: '2rem',
-            color: '#6b7280',
-            maxWidth: '800px',
-            margin: '0 auto 2rem',
-            lineHeight: 1.6
-          }}>
-            Kits estratégicos que funcionam.
-          </p>
-
-          {/* Search Bar */}
           <div style={{
-            maxWidth: '600px',
-            margin: '0 auto 2rem',
-            position: 'relative'
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 1rem'
           }}>
-            <input
-              type="text"
-              placeholder="Buscar qualquer produto, categoria ou necessidade..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '1rem 1.5rem',
-                border: '2px solid #e5e7eb',
-                borderRadius: '50px',
-                fontSize: '1rem',
-                background: 'white',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
-              }}
-            />
+            {/* Header Layout Compacto */}
             <div style={{
-              position: 'absolute',
-              right: '1rem',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: '#9ca3af'
-            }}>
-              🔍
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section style={{
-        padding: '2rem 0',
-        background: 'white'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '0 2rem'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-            fontWeight: 800,
-            textAlign: 'center',
-            marginBottom: '3rem',
-            color: '#1f2937'
-          }}>
-            Nossas Categorias
-          </h2>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '2rem'
-          }}>
-            {filteredCategories.map(category => (
-              <div key={category.name} style={{
-                background: 'white',
-                borderRadius: '20px',
-                padding: '2rem',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                border: '2px solid #f3f4f6',
-                position: 'relative'
-              }}>
-                {/* Category Header */}
-
-                {/* Category Header */}
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '1rem'
+            }} className="header-nav">
+              {/* Logo MeuPortalFit Clicável */}
+              <Link href="/" style={{ textDecoration: 'none' }}>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '1rem',
-                  marginBottom: '1.5rem'
-                }}>
+                  gap: '0.6rem',
+                  flexShrink: 0,
+                  cursor: 'pointer'
+                }} className="header-logo">
                   <div style={{
-                    fontSize: '3rem'
-                  }}>
-                    {category.icon}
-                  </div>
-                  <div>
-                    <h3 style={{
-                      fontSize: '1.5rem',
-                      fontWeight: 700,
-                      color: '#1f2937',
-                      marginBottom: '0.5rem'
-                    }}>
-                      {category.name}
-                    </h3>
-                    <p style={{
-                      color: '#6b7280',
-                      fontSize: '0.9rem',
-                      lineHeight: 1.5
-                    }}>
-                      {category.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Botão para Ver Produtos */}
-                <Link href={category.href} style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    width: '100%',
-                    padding: '1rem',
-                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '12px',
-                    cursor: 'pointer',
-                    fontSize: '1rem',
-                    fontWeight: 600,
+                    width: '36px',
+                    height: '36px',
+                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                    borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.5rem'
+                    color: 'white',
+                    fontWeight: 900,
+                    fontSize: '1.1rem'
+                  }} className="header-logo-icon">
+                    M
+                  </div>
+                  <span style={{
+                    fontSize: '1.3rem',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
                   }}>
-                    <span>Ver Produtos</span>
-                    <span>→</span>
+                    MeuPortalFit
+                  </span>
+                </div>
+              </Link>
+
+              {/* Navegação Compacta */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                flexWrap: 'wrap'
+              }} className="nav-buttons">
+                <Link href="/analise" style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    padding: '0.5rem 1rem',
+                    background: 'transparent',
+                    color: '#6b7280',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '18px',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    transition: 'all 0.3s ease'
+                  }} onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)'
+                    e.currentTarget.style.color = 'white'
+                    e.currentTarget.style.borderColor = 'transparent'
+                  }} onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#6b7280'
+                    e.currentTarget.style.borderColor = '#e5e7eb'
+                  }}>
+                    <span>🧠</span>
+                    <span>Análise IA</span>
+                  </button>
+                </Link>
+
+                <Link href="/produtos" style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    padding: '0.5rem 1rem',
+                    background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                    color: 'white',
+                    border: '1px solid transparent',
+                    borderRadius: '18px',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <span>🛍️</span>
+                    <span>Produtos</span>
+                  </button>
+                </Link>
+
+                <Link href="/suporte" style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    padding: '0.5rem 1rem',
+                    background: 'transparent',
+                    color: '#6b7280',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '18px',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    transition: 'all 0.3s ease'
+                  }} onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #8b5cf6, #7c3aed)'
+                    e.currentTarget.style.color = 'white'
+                    e.currentTarget.style.borderColor = 'transparent'
+                  }} onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#6b7280'
+                    e.currentTarget.style.borderColor = '#e5e7eb'
+                  }}>
+                    <span>💬</span>
+                    <span>Suporte</span>
                   </button>
                 </Link>
               </div>
-            ))}
+
+              {/* Idioma Compacto */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                flexShrink: 0
+              }}>
+                <span style={{ color: '#6b7280', fontSize: '0.8rem', fontWeight: 500 }}>Idioma:</span>
+                <div style={{ display: 'flex', gap: '0.2rem' }}>
+                  {[
+                    { code: 'pt' as 'pt' | 'es' | 'en', flag: '🇧🇷', label: 'PT' },
+                    { code: 'es' as 'pt' | 'es' | 'en', flag: '🇪🇸', label: 'ES' },
+                    { code: 'en' as 'pt' | 'es' | 'en', flag: '🇺🇸', label: 'EN' }
+                  ].map(lang => (
+                    <button
+                      key={lang.code}
+                      onClick={() => setLanguage(lang.code)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.2rem',
+                        padding: '0.3rem 0.6rem',
+                        background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
+                        color: language === lang.code ? 'white' : '#6b7280',
+                        border: language === lang.code ? 'none' : '1px solid #e5e7eb',
+                        borderRadius: '16px',
+                        cursor: 'pointer',
+                        fontSize: '0.7rem',
+                        fontWeight: language === lang.code ? 600 : 400,
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      <span>{lang.flag}</span>
+                      <span>{lang.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
-    </main>
+
+        {/* Hero Section Compacto */}
+        <section style={{
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
+          padding: '1.5rem 0',
+          textAlign: 'center',
+          marginBottom: '1rem'
+        }} className="hero-section">
+          <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 1rem'
+          }}>
+            <h1 style={{
+              fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+              fontWeight: 900,
+              lineHeight: 1.1,
+              marginBottom: '1rem',
+              color: '#1f2937'
+            }} className="hero-title">
+              Produtos Amazon Selecionados<br />Especialmente para Você
+            </h1>
+
+            <p style={{
+              fontSize: 'clamp(0.9rem, 2vw, 1.2rem)',
+              marginBottom: '1rem',
+              color: '#6b7280',
+              maxWidth: '600px',
+              margin: '0 auto 1rem',
+              lineHeight: 1.4
+            }}>
+              Kits estratégicos que funcionam.
+            </p>
+
+            {/* Search Bar Compacto */}
+            <div style={{
+              maxWidth: '500px',
+              margin: '0 auto 1rem',
+              position: 'relative'
+            }}>
+              <input
+                type="text"
+                placeholder="Buscar qualquer produto, categoria ou necessidade..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.8rem 1.2rem',
+                  border: '2px solid #e5e7eb',
+                  borderRadius: '40px',
+                  fontSize: '0.9rem',
+                  background: 'white',
+                  boxShadow: '0 3px 15px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                right: '1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#9ca3af'
+              }}>
+                🔍
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Categories Section */}
+        <section style={{
+          padding: '1rem 0',
+          background: 'white'
+        }}>
+          <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '0 1rem'
+          }}>
+            <h2 style={{
+              fontSize: 'clamp(1.5rem, 3.5vw, 2rem)',
+              fontWeight: 800,
+              textAlign: 'center',
+              marginBottom: '2rem',
+              color: '#1f2937'
+            }}>
+              Nossas Categorias
+            </h2>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '1.5rem'
+            }} className="categories-grid">
+              {filteredCategories.map(category => (
+                <div key={category.name} style={{
+                  background: 'white',
+                  borderRadius: '16px',
+                  padding: '1.5rem',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
+                  border: '2px solid #f3f4f6',
+                  position: 'relative'
+                }} className="category-card">
+                  {/* Category Header */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.8rem',
+                    marginBottom: '1rem'
+                  }}>
+                    <div style={{
+                      fontSize: '2.5rem'
+                    }}>
+                      {category.icon}
+                    </div>
+                    <div>
+                      <h3 style={{
+                        fontSize: '1.3rem',
+                        fontWeight: 700,
+                        color: '#1f2937',
+                        marginBottom: '0.4rem'
+                      }}>
+                        {category.name}
+                      </h3>
+                      <p style={{
+                        color: '#6b7280',
+                        fontSize: '0.85rem',
+                        lineHeight: 1.4
+                      }}>
+                        {category.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Botão para Ver Produtos */}
+                  <Link href={category.href} style={{ textDecoration: 'none' }}>
+                    <button style={{
+                      width: '100%',
+                      padding: '0.8rem',
+                      background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      fontWeight: 600,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.4rem'
+                    }}>
+                      <span>Ver Produtos</span>
+                      <span>→</span>
+                    </button>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   )
 }

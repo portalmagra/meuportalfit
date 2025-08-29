@@ -96,6 +96,10 @@ export default function ProdutosPage() {
     }
   ]
 
+  // Estados para produtos Amazon
+  const [amazonProducts, setAmazonProducts] = useState<any[]>([])
+  const [loadingProducts, setLoadingProducts] = useState(false)
+
   const filteredCategories = categories.filter(category => {
     const matchesSearch = category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          category.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -104,18 +108,7 @@ export default function ProdutosPage() {
 
   return (
     <>
-      <style jsx global>{`
-        @media (max-width: 768px) {
-          .categories-grid {
-            grid-template-columns: 1fr !important;
-            gap: 1rem !important;
-          }
-          
-          .category-card {
-            padding: 1.5rem !important;
-          }
-        }
-      `}</style>
+
 
       <main style={{ padding: '0', background: 'white' }}>
         {/* Header Unificado */}

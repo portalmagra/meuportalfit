@@ -138,6 +138,8 @@ export default function AnalisePage() {
   const [showResults, setShowResults] = useState(false)
   const [analysisResults, setAnalysisResults] = useState<any>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState<any>(null);
 
   // Detectar se é mobile
   useEffect(() => {
@@ -376,7 +378,7 @@ export default function AnalisePage() {
   const handleBuyOnAmazon = () => {
     // Redirecionar para Amazon com busca baseada no perfil
     const searchQuery = encodeURIComponent(analysisResults?.userProfile?.primaryGoal || 'suplementos');
-    window.open(`https://www.amazon.com/s?k=${searchQuery}&tag=meuportalfit-20`, '_blank');
+    window.open(`https://www.amazon.com/s?k=${searchQuery}&tag=portal07d-20`, '_blank');
   };
 
   // Função para voltar ao início
@@ -459,7 +461,7 @@ export default function AnalisePage() {
           price: '$18.99',
           rating: '4.7/5',
           image: '💪',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Nature Made B-Complex',
@@ -467,7 +469,7 @@ export default function AnalisePage() {
           price: '$12.99',
           rating: '4.6/5',
           image: '⚡',
-          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=portal07d-20'
         },
         {
           name: 'Garden of Life Vitamin Code Raw B-12',
@@ -475,7 +477,7 @@ export default function AnalisePage() {
           price: '$24.99',
           rating: '4.8/5',
           image: '🧠',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Jarrow Formulas CoQ10 200mg',
@@ -483,7 +485,7 @@ export default function AnalisePage() {
           price: '$29.99',
           rating: '4.7/5',
           image: '🔋',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Thorne Research Magnesium Bisglycinate',
@@ -491,7 +493,7 @@ export default function AnalisePage() {
           price: '$22.99',
           rating: '4.9/5',
           image: '💆',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Pure Encapsulations D-Ribose',
@@ -499,7 +501,7 @@ export default function AnalisePage() {
           price: '$19.99',
           rating: '4.6/5',
           image: '🍯',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         }
       ],
       'sono': [
@@ -509,7 +511,7 @@ export default function AnalisePage() {
           price: '$8.99',
           rating: '4.5/5',
           image: '😴',
-          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=portal07d-20'
         },
         {
           name: 'NOW Foods 5-HTP 200mg',
@@ -517,7 +519,7 @@ export default function AnalisePage() {
           price: '$15.99',
           rating: '4.7/5',
           image: '🌙',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Thorne Research Magnesium Glycinate',
@@ -525,7 +527,7 @@ export default function AnalisePage() {
           price: '$24.99',
           rating: '4.8/5',
           image: '💆',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Pure Encapsulations L-Theanine 200mg',
@@ -533,7 +535,7 @@ export default function AnalisePage() {
           price: '$18.99',
           rating: '4.6/5',
           image: '🧘',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Garden of Life Sleep & Relax',
@@ -541,7 +543,7 @@ export default function AnalisePage() {
           price: '$32.99',
           rating: '4.7/5',
           image: '🌿',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'NOW Foods Valerian Root 500mg',
@@ -549,7 +551,7 @@ export default function AnalisePage() {
           price: '$12.99',
           rating: '4.4/5',
           image: '🌱',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         }
       ],
       'emagrecimento': [
@@ -559,7 +561,7 @@ export default function AnalisePage() {
           price: '$14.99',
           rating: '4.6/5',
           image: '🍃',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Thorne Research Meriva-SR',
@@ -567,7 +569,7 @@ export default function AnalisePage() {
           price: '$34.99',
           rating: '4.8/5',
           image: '🟡',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Pure Encapsulations CLA 1000mg',
@@ -575,7 +577,7 @@ export default function AnalisePage() {
           price: '$28.99',
           rating: '4.7/5',
           image: '🔥',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Garden of Life Raw Organic Protein',
@@ -583,7 +585,7 @@ export default function AnalisePage() {
           price: '$39.99',
           rating: '4.9/5',
           image: '🥛',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'NOW Foods Chromium Picolinate 200mcg',
@@ -591,7 +593,7 @@ export default function AnalisePage() {
           price: '$9.99',
           rating: '4.5/5',
           image: '⚖️',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Nature Made Fish Oil 1000mg',
@@ -599,7 +601,7 @@ export default function AnalisePage() {
           price: '$16.99',
           rating: '4.6/5',
           image: '🐟',
-          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=portal07d-20'
         }
       ],
       'imunidade': [
@@ -609,7 +611,7 @@ export default function AnalisePage() {
           price: '$11.99',
           rating: '4.7/5',
           image: '☀️',
-          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B000F4WT8Y?tag=portal07d-20'
         },
         {
           name: 'NOW Foods Vitamin C 1000mg',
@@ -617,7 +619,7 @@ export default function AnalisePage() {
           price: '$13.99',
           rating: '4.6/5',
           image: '🍊',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Thorne Research Zinc Picolinate',
@@ -625,7 +627,7 @@ export default function AnalisePage() {
           price: '$19.99',
           rating: '4.8/5',
           image: '🛡️',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Pure Encapsulations Echinacea',
@@ -633,7 +635,7 @@ export default function AnalisePage() {
           price: '$22.99',
           rating: '4.7/5',
           image: '🌻',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'Garden of Life Probiotics',
@@ -641,7 +643,7 @@ export default function AnalisePage() {
           price: '$29.99',
           rating: '4.9/5',
           image: '🦠',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         },
         {
           name: 'NOW Foods Elderberry Extract',
@@ -649,7 +651,7 @@ export default function AnalisePage() {
           price: '$17.99',
           rating: '4.6/5',
           image: '🫐',
-          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=meuportalfit-20'
+          url: 'https://www.amazon.com/dp/B0013OQJ7W?tag=portal07d-20'
         }
       ]
     };
@@ -1068,7 +1070,7 @@ export default function AnalisePage() {
           </div>
         </section>
 
-        {/* Seção de Resultados - Substituída por Reflexão Motivacional */}
+        {/* Seção de Resultados Personalizados com Produtos Específicos */}
         {showResults && (
           <div style={{
             padding: '2rem',
@@ -1077,31 +1079,33 @@ export default function AnalisePage() {
             marginTop: '2rem',
             textAlign: 'center'
           }}>
-            <h2 style={{
-              fontSize: isMobile ? '1.5rem' : '2rem',
-              color: '#1e293b',
-              marginBottom: '1.5rem',
-              fontWeight: 'bold'
-            }}>
-              🎯 Parabéns! Você acabou de identificar EXATAMENTE o que precisa!
-            </h2>
-
+            {/* Cabeçalho da Análise */}
             <div style={{
               backgroundColor: 'white',
-              padding: '1.5rem',
-              borderRadius: '8px',
+              padding: '2rem',
+              borderRadius: '12px',
               marginBottom: '2rem',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+              border: '3px solid #e0f2e9'
             }}>
+              <h2 style={{
+                fontSize: isMobile ? '1.8rem' : '2.2rem',
+                color: '#059669',
+                marginBottom: '1.5rem',
+                fontWeight: 'bold'
+              }}>
+                🎯 Análise Personalizada Completa
+              </h2>
+              
               <div style={{
                 fontSize: isMobile ? '1.1rem' : '1.3rem',
-                color: '#334155',
-                marginBottom: '1rem',
+                color: '#1e293b',
+                marginBottom: '1.5rem',
                 fontWeight: '600'
               }}>
-                💪 Sua meta: {analysisResults?.userProfile?.primaryGoal}
+                💪 Sua Meta Principal: <span style={{ color: '#059669' }}>{analysisResults?.userProfile?.primaryGoal}</span>
               </div>
-
+              
               <div style={{
                 fontSize: isMobile ? '0.9rem' : '1rem',
                 color: '#64748b',
@@ -1110,7 +1114,7 @@ export default function AnalisePage() {
               }}>
                 💡 Por que é importante: {getMotivationalMessage(analysisResults?.userProfile)}
               </div>
-
+              
               <div style={{
                 fontSize: isMobile ? '0.9rem' : '1rem',
                 color: '#64748b',
@@ -1119,7 +1123,7 @@ export default function AnalisePage() {
               }}>
                 🚀 O que você vai conseguir: {getBenefitsMessage(analysisResults?.userProfile)}
               </div>
-
+              
               <div style={{
                 fontSize: isMobile ? '1rem' : '1.1rem',
                 color: '#059669',
@@ -1129,19 +1133,176 @@ export default function AnalisePage() {
               </div>
             </div>
 
+            {/* Explicação Personalizada */}
+            <div style={{
+              backgroundColor: 'white',
+              padding: '2rem',
+              borderRadius: '12px',
+              marginBottom: '2rem',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+              textAlign: 'left'
+            }}>
+              <h3 style={{
+                fontSize: isMobile ? '1.4rem' : '1.6rem',
+                color: '#1e293b',
+                marginBottom: '1rem',
+                fontWeight: 'bold'
+              }}>
+                {getPersonalizedMessage(analysisResults?.userProfile)?.title}
+              </h3>
+              
+              <p style={{
+                fontSize: isMobile ? '1rem' : '1.1rem',
+                color: '#374151',
+                marginBottom: '1.5rem',
+                lineHeight: '1.6'
+              }}>
+                {getPersonalizedMessage(analysisResults?.userProfile)?.explanation}
+              </p>
+              
+              <ul style={{
+                marginBottom: '1.5rem',
+                paddingLeft: '1.5rem'
+              }}>
+                {getPersonalizedMessage(analysisResults?.userProfile)?.benefits.map((benefit, index) => (
+                  <li key={index} style={{
+                    fontSize: isMobile ? '0.9rem' : '1rem',
+                    color: '#374151',
+                    marginBottom: '0.5rem',
+                    lineHeight: '1.5'
+                  }}>
+                    ✅ {benefit}
+                  </li>
+                ))}
+              </ul>
+              
+              <p style={{
+                fontSize: isMobile ? '1rem' : '1.1rem',
+                color: '#059669',
+                fontWeight: '600',
+                fontStyle: 'italic'
+              }}>
+                💡 {getPersonalizedMessage(analysisResults?.userProfile)?.solution}
+              </p>
+            </div>
+
+            {/* Produtos Recomendados */}
+            <div style={{
+              backgroundColor: 'white',
+              padding: '2rem',
+              borderRadius: '12px',
+              marginBottom: '2rem',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+            }}>
+              <h3 style={{
+                fontSize: isMobile ? '1.4rem' : '1.6rem',
+                color: '#1e293b',
+                marginBottom: '1.5rem',
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}>
+                🛍️ Seus Produtos Personalizados Recomendados
+              </h3>
+              
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '1rem',
+                marginBottom: '2rem'
+              }}>
+                {getRecommendedProducts(analysisResults?.userProfile).map((product, index) => (
+                  <div key={index} style={{
+                    border: '2px solid #e0f2e9',
+                    borderRadius: '12px',
+                    padding: '1.5rem',
+                    backgroundColor: '#f8fafc',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer'
+                  }} onClick={() => handleOpenProduct(product.url)}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '1rem'
+                    }}>
+                      <span style={{
+                        fontSize: '2rem',
+                        marginRight: '1rem'
+                      }}>
+                        {product.image}
+                      </span>
+                      <div>
+                        <h4 style={{
+                          fontSize: isMobile ? '1rem' : '1.1rem',
+                          color: '#1e293b',
+                          fontWeight: '600',
+                          marginBottom: '0.5rem'
+                        }}>
+                          {product.name}
+                        </h4>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '1rem'
+                        }}>
+                          <span style={{
+                            color: '#059669',
+                            fontWeight: '600'
+                          }}>
+                            {product.price}
+                          </span>
+                          <span style={{
+                            color: '#f59e0b',
+                            fontWeight: '500'
+                          }}>
+                            ⭐ {product.rating}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <p style={{
+                      fontSize: isMobile ? '0.9rem' : '1rem',
+                      color: '#64748b',
+                      lineHeight: '1.5',
+                      marginBottom: '1rem'
+                    }}>
+                      {product.description}
+                    </p>
+                    
+                    <button style={{
+                      background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                      color: 'white',
+                      padding: '0.8rem 1.5rem',
+                      border: 'none',
+                      borderRadius: '25px',
+                      fontSize: '0.9rem',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      width: '100%'
+                    }}>
+                      🛒 Ver na Amazon
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Call to Action */}
             <div style={{
               fontSize: isMobile ? '1.1rem' : '1.3rem',
               color: '#dc2626',
               marginBottom: '2rem',
               fontWeight: 'bold',
-              padding: '1rem',
+              padding: '1.5rem',
               backgroundColor: '#fef2f2',
-              borderRadius: '8px',
-              border: '2px solid #fecaca'
+              borderRadius: '12px',
+              border: '3px solid #fecaca'
             }}>
               🚀 AGORA é o momento de agir! Compre já e comece sua transformação HOJE!
             </div>
 
+            {/* Botões de Ação */}
             <div style={{
               display: 'flex',
               flexDirection: isMobile ? 'column' : 'row',
@@ -1149,107 +1310,32 @@ export default function AnalisePage() {
               justifyContent: 'center',
               flexWrap: 'wrap'
             }}>
-              <button
-                onClick={handleBuyOnAmazon}
-                style={{
-                  padding: '1rem 2rem',
-                  backgroundColor: '#059669',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: isMobile ? '1rem' : '1.1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 6px rgba(5, 150, 105, 0.3)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(5, 150, 105, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(5, 150, 105, 0.3)';
-                }}
-              >
-                🛍️ Comprar na Amazon AGORA
-              </button>
-
-              <button
-                onClick={handleViewCategories}
-                style={{
-                  padding: '1rem 2rem',
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: isMobile ? '1rem' : '1.1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 6px rgba(59, 130, 246, 0.3)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(59, 130, 246, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(59, 130, 246, 0.3)';
-                }}
-              >
-                🔍 Ver sugestões de categorias
-              </button>
-
-              <button
-                onClick={handleShare}
-                style={{
-                  padding: '1rem 2rem',
-                  backgroundColor: '#8b5cf6',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: isMobile ? '1rem' : '1.1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 6px rgba(139, 92, 246, 0.3)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(139, 92, 246, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(139, 92, 246, 0.3)';
-                }}
-              >
+              <button onClick={handleShare} style={{
+                background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                color: 'white',
+                padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
+                border: 'none',
+                borderRadius: '50px',
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(139, 92, 246, 0.3)'
+              }}>
                 📤 Compartilhar
               </button>
-
-              <button
-                onClick={handleGoHome}
-                style={{
-                  padding: '1rem 2rem',
-                  backgroundColor: '#6b7280',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: isMobile ? '1rem' : '1.1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 6px rgba(107, 114, 128, 0.3)',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(107, 114, 128, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(107, 114, 128, 0.3)';
-                }}
-              >
+              <button onClick={handleGoHome} style={{
+                background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+                color: 'white',
+                padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
+                border: 'none',
+                borderRadius: '50px',
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(107, 114, 128, 0.3)'
+              }}>
                 🏠 Voltar ao Início
               </button>
             </div>
@@ -1273,6 +1359,288 @@ export default function AnalisePage() {
             </p>
           </div>
         </footer>
+
+        {/* MODAL DE RESULTADOS - NOVA JANELA */}
+        {showModal && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1rem'
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              maxWidth: '90vw',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              position: 'relative',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+            }}>
+              {/* Botão Fechar */}
+              <button
+                onClick={() => setShowModal(false)}
+                style={{
+                  position: 'absolute',
+                  top: '1rem',
+                  right: '1rem',
+                  background: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  fontSize: '1.2rem',
+                  cursor: 'pointer',
+                  zIndex: 1001
+                }}
+              >
+                ✕
+              </button>
+
+              {/* Conteúdo da Modal */}
+              <div style={{ padding: '2rem' }}>
+                <h2 style={{
+                  fontSize: isMobile ? '1.8rem' : '2.2rem',
+                  color: '#059669',
+                  marginBottom: '1.5rem',
+                  fontWeight: 'bold',
+                  textAlign: 'center'
+                }}>
+                  🎯 Sua Análise Personalizada
+                </h2>
+
+                {/* Explicação Personalizada */}
+                <div style={{
+                  backgroundColor: '#f8fafc',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  marginBottom: '2rem',
+                  border: '2px solid #e0f2e9'
+                }}>
+                  <h3 style={{
+                    fontSize: isMobile ? '1.4rem' : '1.6rem',
+                    color: '#1e293b',
+                    marginBottom: '1rem',
+                    fontWeight: 'bold'
+                  }}>
+                    Identifiquei exatamente o que está afetando seu {modalContent?.userProfile?.primaryGoal}!
+                  </h3>
+                  
+                  <p style={{
+                    fontSize: isMobile ? '1rem' : '1.1rem',
+                    color: '#374151',
+                    marginBottom: '1rem',
+                    lineHeight: '1.6'
+                  }}>
+                    Sua dificuldade está comprometendo sua recuperação, humor e saúde geral. Nossa análise revelou que você precisa de suplementos para:
+                  </p>
+                  
+                  <ul style={{
+                    marginBottom: '1rem',
+                    paddingLeft: '1.5rem'
+                  }}>
+                    <li style={{
+                      fontSize: isMobile ? '0.9rem' : '1rem',
+                      color: '#374151',
+                      marginBottom: '0.5rem',
+                      lineHeight: '1.5'
+                    }}>
+                      ✅ Regular o ciclo natural do seu corpo
+                    </li>
+                    <li style={{
+                      fontSize: isMobile ? '0.9rem' : '1rem',
+                      color: '#374151',
+                      marginBottom: '0.5rem',
+                      lineHeight: '1.5'
+                    }}>
+                      ✅ Aumentar sua energia e vitalidade
+                    </li>
+                    <li style={{
+                      fontSize: isMobile ? '0.9rem' : '1rem',
+                      color: '#374151',
+                      marginBottom: '0.5rem',
+                      lineHeight: '1.5'
+                    }}>
+                      ✅ Melhorar sua qualidade de vida
+                    </li>
+                  </ul>
+                  
+                  <p style={{
+                    fontSize: isMobile ? '1rem' : '1.1rem',
+                    color: '#059669',
+                    fontWeight: '600',
+                    fontStyle: 'italic'
+                  }}>
+                    💡 Os produtos recomendados trabalham em sinergia para criar as condições ideais para sua transformação!
+                  </p>
+                </div>
+
+                {/* Produtos Recomendados */}
+                <div style={{
+                  backgroundColor: 'white',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  marginBottom: '2rem',
+                  border: '2px solid #e0f2e9'
+                }}>
+                  <h3 style={{
+                    fontSize: isMobile ? '1.4rem' : '1.6rem',
+                    color: '#1e293b',
+                    marginBottom: '1.5rem',
+                    fontWeight: 'bold',
+                    textAlign: 'center'
+                  }}>
+                    🛍️ Seus Produtos Personalizados Recomendados
+                  </h3>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: '1rem',
+                    marginBottom: '2rem'
+                  }}>
+                    {getRecommendedProducts(modalContent?.userProfile).slice(0, 6).map((product, index) => (
+                      <div key={index} style={{
+                        border: '2px solid #e0f2e9',
+                        borderRadius: '12px',
+                        padding: '1.5rem',
+                        backgroundColor: '#f8fafc',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                      }} onClick={() => handleOpenProduct(product.url)}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          marginBottom: '1rem'
+                        }}>
+                          <span style={{
+                            fontSize: '2rem',
+                            marginRight: '1rem'
+                          }}>
+                            {product.image}
+                          </span>
+                          <div>
+                            <h4 style={{
+                              fontSize: isMobile ? '1rem' : '1.1rem',
+                              color: '#1e293b',
+                              fontWeight: '600',
+                              marginBottom: '0.5rem'
+                            }}>
+                              {product.name}
+                            </h4>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '1rem'
+                            }}>
+                              <span style={{
+                                color: '#059669',
+                                fontWeight: '600'
+                              }}>
+                                {product.price}
+                              </span>
+                              <span style={{
+                                color: '#f59e0b',
+                                fontWeight: '500'
+                              }}>
+                                ⭐ {product.rating}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <p style={{
+                          fontSize: isMobile ? '0.9rem' : '1rem',
+                          color: '#64748b',
+                          lineHeight: '1.5',
+                          marginBottom: '1rem'
+                        }}>
+                          {product.description}
+                        </p>
+                        
+                        <button style={{
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          color: 'white',
+                          padding: '0.8rem 1.5rem',
+                          border: 'none',
+                          borderRadius: '25px',
+                          fontSize: '0.9rem',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          width: '100%'
+                        }}>
+                          🛒 Ver na Amazon
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Call to Action */}
+                <div style={{
+                  fontSize: isMobile ? '1.1rem' : '1.3rem',
+                  color: '#dc2626',
+                  marginBottom: '2rem',
+                  fontWeight: 'bold',
+                  padding: '1.5rem',
+                  backgroundColor: '#fef2f2',
+                  borderRadius: '12px',
+                  border: '3px solid #fecaca',
+                  textAlign: 'center'
+                }}>
+                  🚀 AGORA é o momento de agir! Compre já e comece sua transformação HOJE!
+                </div>
+
+                {/* Botões de Ação */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  gap: '1rem',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap'
+                }}>
+                  <button onClick={handleShare} style={{
+                    background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                    color: 'white',
+                    padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
+                    border: 'none',
+                    borderRadius: '50px',
+                    fontSize: isMobile ? '0.9rem' : '1rem',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 4px 15px rgba(139, 92, 246, 0.3)'
+                  }}>
+                    📤 Compartilhar
+                  </button>
+                  <button onClick={() => setShowModal(false)} style={{
+                    background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+                    color: 'white',
+                    padding: isMobile ? '0.8rem 1.5rem' : '1rem 2rem',
+                    border: 'none',
+                    borderRadius: '50px',
+                    fontSize: isMobile ? '0.9rem' : '1rem',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 4px 15px rgba(107, 114, 128, 0.3)'
+                  }}>
+                    🔒 Fechar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </>
   )

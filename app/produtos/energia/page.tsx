@@ -30,6 +30,7 @@ interface ProductKit {
   savings: number
   benefits: string[]
   image: string
+  amazonSearchUrl: string
 }
 
 const products: Product[] = [
@@ -45,7 +46,7 @@ const products: Product[] = [
     asin: 'B08N5WRWNW',
     benefits: ['Aumenta força muscular', 'Melhora performance', 'Recuperação rápida'],
     features: ['5g por dose', 'Sem aditivos', 'Testado em laboratório'],
-    amazonUrl: 'https://amazon.com/dp/B08N5WRWNW',
+    amazonUrl: 'https://amazon.com/dp/B08N5WRWNW?tag=portal07d-20',
     prime: true,
     savings: 37
   },
@@ -61,7 +62,7 @@ const products: Product[] = [
     asin: 'B08N5WRWNX',
     benefits: ['Recuperação muscular', 'Reduz fadiga', 'Preserva massa magra'],
     features: ['2:1:1 ratio', 'Sabor natural', 'Sem açúcar'],
-    amazonUrl: 'https://amazon.com/dp/B08N5WRWNX',
+    amazonUrl: 'https://amazon.com/dp/B08N5WRWNX?tag=portal07d-20',
     prime: true,
     savings: 34
   },
@@ -77,7 +78,7 @@ const products: Product[] = [
     asin: 'B08N5WRWNY',
     benefits: ['Energia sustentada', 'Foco mental', 'Sem crash'],
     features: ['Cafeína natural', 'B-vitaminas', 'Aminoácidos'],
-    amazonUrl: 'https://amazon.com/dp/B08N5WRWNY',
+    amazonUrl: 'https://amazon.com/dp/B08N5WRWNY?tag=portal07d-20',
     prime: true,
     savings: 36
   },
@@ -93,7 +94,7 @@ const products: Product[] = [
     asin: 'B08N5WRWNZ',
     benefits: ['Construção muscular', 'Recuperação rápida', 'Baixo teor de gordura'],
     features: ['25g por dose', 'Baixo lactose', 'Múltiplos sabores'],
-    amazonUrl: 'https://amazon.com/dp/B08N5WRWNZ',
+    amazonUrl: 'https://amazon.com/dp/B08N5WRWNZ?tag=portal07d-20',
     prime: true,
     savings: 34
   }
@@ -109,7 +110,8 @@ const kits: ProductKit[] = [
     originalTotalPrice: '$129.99',
     savings: 38,
     benefits: ['Ganho de força', 'Recuperação otimizada', 'Energia sustentada'],
-    image: '/images/kits/performance-kit.jpg'
+    image: '/images/kits/performance-kit.jpg',
+    amazonSearchUrl: 'https://amazon.com/s?k=Creatina+Monohidratada+Premium+BCAA+Aminoácidos+Essenciais+Pré-treino+Energético+Natural+Proteína+Whey+Isolada&tag=portal07d-20'
   },
   {
     id: 'kit2',
@@ -120,7 +122,8 @@ const kits: ProductKit[] = [
     originalTotalPrice: '$99.99',
     savings: 35,
     benefits: ['Fundação muscular', 'Recuperação básica', 'Custo-benefício'],
-    image: '/images/kits/beginner-kit.jpg'
+    image: '/images/kits/beginner-kit.jpg',
+    amazonSearchUrl: 'https://amazon.com/dp/B08N5WRWNW?tag=portal07d-20'
   }
 ]
 
@@ -128,96 +131,116 @@ export default function EnergiaPage() {
   const [selectedTab, setSelectedTab] = useState<'produtos' | 'kits'>('produtos')
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+    <div style={{ minHeight: '100vh', background: 'white' }}>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center mb-6">
-            <Link href="/produtos" className="text-white hover:text-yellow-100 transition-colors">
+      <section style={{ background: 'linear-gradient(135deg, #f59e0b, #ea580c)', color: 'white', padding: '4rem 1rem' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <Link href="/produtos" style={{ color: 'white', textDecoration: 'none', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               ← Voltar às Categorias
             </Link>
           </div>
           
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          <div style={{ textAlign: 'center' }}>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', margin: '0 auto 1.5rem auto' }}>
               💪 Energia & Performance
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+            <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '800px', margin: '0 auto 2rem auto', opacity: 0.95 }}>
               Suplementos premium para aumentar sua energia, resistência e performance física
             </p>
             
-            <div className="flex justify-center space-x-4">
-              <button
-                onClick={() => setSelectedTab('produtos')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                  selectedTab === 'produtos'
-                    ? 'bg-white text-orange-600'
-                    : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30'
-                }`}
-              >
-                🛍️ Produtos Individuais
-              </button>
-              <button
-                onClick={() => setSelectedTab('kits')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                  selectedTab === 'kits'
-                    ? 'bg-white text-orange-600'
-                    : 'bg-white bg-opacity-20 text-white hover:bg-opacity-30'
-                }`}
-              >
-                📦 Kits Recomendados
-              </button>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                              <button
+                  onClick={() => setSelectedTab('produtos')}
+                  style={{
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.5rem',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                    border: 'none',
+                    cursor: 'pointer',
+                    ...(selectedTab === 'produtos' ? {
+                      background: 'white',
+                      color: '#ea580c'
+                    } : {
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      color: 'white'
+                    })
+                  }}
+                >
+                  🛍️ Produtos Individuais
+                </button>
+                <button
+                  onClick={() => setSelectedTab('kits')}
+                  style={{
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.5rem',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                    border: 'none',
+                    cursor: 'pointer',
+                    ...(selectedTab === 'kits' ? {
+                      background: 'white',
+                      color: '#ea580c'
+                    } : {
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      color: 'white'
+                    })
+                  }}
+                >
+                  📦 Kits Recomendados
+                </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Content */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section style={{ padding: '4rem 1rem' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
           {/* Tab Content */}
           {selectedTab === 'produtos' && (
             <div>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                <h2 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937', marginBottom: '1rem' }}>
                   Produtos Individuais
                 </h2>
-                <p className="text-lg text-gray-600">
+                <p style={{ fontSize: '1.125rem', color: '#6b7280' }}>
                   Escolha os produtos que melhor se adequam às suas necessidades
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
                 {products.map((product) => (
-                  <div key={product.id} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                  <div key={product.id} style={{ background: 'white', borderRadius: '0.75rem', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden', border: '1px solid #f3f4f6' }}>
                     {/* Product Image */}
-                    <div className="h-48 bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center">
-                      <div className="text-6xl">{product.name.includes('Creatina') ? '💪' : product.name.includes('BCAA') ? '🏃' : product.name.includes('Pré-treino') ? '⚡' : '🥛'}</div>
+                    <div style={{ height: '12rem', background: 'linear-gradient(135deg, #fef3c7, #fed7aa)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ fontSize: '4rem' }}>{product.name.includes('Creatina') ? '💪' : product.name.includes('BCAA') ? '🏃' : product.name.includes('Pré-treino') ? '⚡' : '🥛'}</div>
                     </div>
 
                     {/* Product Info */}
-                    <div className="p-6">
-                      <div className="flex justify-between items-start mb-3">
-                        <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                    <div style={{ padding: '1.5rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                        <span style={{ fontSize: '0.75rem', backgroundColor: '#dcfce7', color: '#166534', padding: '0.25rem 0.5rem', borderRadius: '9999px' }}>
                           -{product.savings}%
                         </span>
                         {product.prime && (
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                          <span style={{ fontSize: '0.75rem', backgroundColor: '#dbeafe', color: '#1e40af', padding: '0.25rem 0.5rem', borderRadius: '9999px' }}>
                             Prime
                           </span>
                         )}
                       </div>
 
-                      <h3 className="text-lg font-bold text-gray-900 mb-2">{product.name}</h3>
-                      <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+                      <h3 style={{ fontSize: '1.125rem', fontWeight: 'bold', color: '#111827', marginBottom: '0.5rem' }}>{product.name}</h3>
+                      <p style={{ color: '#4b5563', fontSize: '0.875rem', marginBottom: '1rem' }}>{product.description}</p>
 
                       {/* Benefits */}
-                      <div className="mb-4">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Benefícios:</h4>
-                        <div className="space-y-1">
+                      <div style={{ marginBottom: '1rem' }}>
+                        <h4 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#374151', marginBottom: '0.5rem' }}>Benefícios:</h4>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                           {product.benefits.map((benefit, index) => (
-                            <div key={index} className="flex items-center text-xs text-gray-600">
-                              <span className="text-green-500 mr-2">✓</span>
+                            <div key={index} style={{ display: 'flex', alignItems: 'center', fontSize: '0.75rem', color: '#4b5563' }}>
+                              <span style={{ color: '#10b981', marginRight: '0.5rem' }}>✓</span>
                               {benefit}
                             </div>
                           ))}
@@ -225,13 +248,13 @@ export default function EnergiaPage() {
                       </div>
 
                       {/* Features */}
-                      <div className="mb-4">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Características:</h4>
-                        <div className="flex flex-wrap gap-1">
+                      <div style={{ marginBottom: '1rem' }}>
+                        <h4 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#374151', marginBottom: '0.5rem' }}>Características:</h4>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
                           {product.features.map((feature, index) => (
                             <span
                               key={index}
-                              className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+                              style={{ fontSize: '0.75rem', backgroundColor: '#f3f4f6', color: '#4b5563', padding: '0.25rem 0.5rem', borderRadius: '0.25rem' }}
                             >
                               {feature}
                             </span>
@@ -240,19 +263,19 @@ export default function EnergiaPage() {
                       </div>
 
                       {/* Rating */}
-                      <div className="flex items-center mb-4">
-                        <div className="flex items-center">
-                          <span className="text-yellow-400 mr-1">{'★'.repeat(Math.floor(product.rating))}</span>
-                          <span className="text-sm text-gray-600">{product.rating}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ color: '#fbbf24', marginRight: '0.25rem' }}>{'★'.repeat(Math.floor(product.rating))}</span>
+                          <span style={{ fontSize: '0.875rem', color: '#4b5563' }}>{product.rating}</span>
                         </div>
-                        <span className="text-sm text-gray-500 ml-2">({product.reviewCount} reviews)</span>
+                        <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.5rem' }}>({product.reviewCount} reviews)</span>
                       </div>
 
                       {/* Price */}
-                      <div className="flex items-center justify-between mb-4">
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
                         <div>
-                          <span className="text-2xl font-bold text-gray-900">{product.price}</span>
-                          <span className="text-sm text-gray-500 line-through ml-2">{product.originalPrice}</span>
+                          <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#111827' }}>{product.price}</span>
+                          <span style={{ fontSize: '0.875rem', color: '#6b7280', textDecoration: 'line-through', marginLeft: '0.5rem' }}>{product.originalPrice}</span>
                         </div>
                       </div>
 
@@ -261,7 +284,7 @@ export default function EnergiaPage() {
                         href={product.amazonUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-center py-3 rounded-lg font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
+                        style={{ display: 'block', width: '100%', background: 'linear-gradient(to right, #eab308, #f97316)', color: 'white', textAlign: 'center', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', textDecoration: 'none' }}
                       >
                         🛒 Comprar na Amazon
                       </a>
@@ -274,44 +297,44 @@ export default function EnergiaPage() {
 
           {selectedTab === 'kits' && (
             <div>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                <h2 style={{ fontSize: '1.875rem', fontWeight: 'bold', color: '#111827', marginBottom: '1rem' }}>
                   Kits Recomendados
                 </h2>
-                <p className="text-lg text-gray-600">
+                <p style={{ fontSize: '1.125rem', color: '#4b5563' }}>
                   Combinações perfeitas para maximizar seus resultados
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
                 {kits.map((kit) => (
-                  <div key={kit.id} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                  <div key={kit.id} style={{ backgroundColor: 'white', borderRadius: '0.75rem', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden', border: '1px solid #f3f4f6' }}>
                     {/* Kit Header */}
-                    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-6">
-                      <div className="text-center">
-                        <h3 className="text-2xl font-bold mb-2">{kit.name}</h3>
-                        <p className="text-lg opacity-90">{kit.description}</p>
+                    <div style={{ background: 'linear-gradient(to right, #eab308, #f97316)', color: 'white', padding: '1.5rem' }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{kit.name}</h3>
+                        <p style={{ fontSize: '1.125rem', opacity: 0.9 }}>{kit.description}</p>
                       </div>
                     </div>
 
                     {/* Kit Content */}
-                    <div className="p-6">
+                    <div style={{ padding: '1.5rem' }}>
                       {/* Products in Kit */}
-                      <div className="mb-6">
-                        <h4 className="text-lg font-semibold text-gray-900 mb-3">Produtos Incluídos:</h4>
-                        <div className="space-y-3">
+                      <div style={{ marginBottom: '1.5rem' }}>
+                        <h4 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#111827', marginBottom: '0.75rem' }}>Produtos Incluídos:</h4>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                           {kit.products.map((product) => (
-                            <div key={product.id} className="flex items-center p-3 bg-gray-50 rounded-lg">
-                              <div className="w-10 h-10 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center mr-3">
-                                <span className="text-lg">{product.name.includes('Creatina') ? '💪' : product.name.includes('BCAA') ? '🏃' : product.name.includes('Pré-treino') ? '⚡' : '🥛'}</span>
+                            <div key={product.id} style={{ display: 'flex', alignItems: 'center', padding: '0.75rem', backgroundColor: '#f9fafb', borderRadius: '0.5rem' }}>
+                              <div style={{ width: '2.5rem', height: '2.5rem', background: 'linear-gradient(to bottom right, #fef3c7, #fed7aa)', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '0.75rem' }}>
+                                <span style={{ fontSize: '1.125rem' }}>{product.name.includes('Creatina') ? '💪' : product.name.includes('BCAA') ? '🏃' : product.name.includes('Pré-treino') ? '⚡' : '🥛'}</span>
                               </div>
-                              <div className="flex-1">
-                                <h5 className="font-medium text-gray-900">{product.name}</h5>
-                                <p className="text-sm text-gray-600">{product.description}</p>
+                              <div style={{ flex: 1 }}>
+                                <h5 style={{ fontWeight: '500', color: '#111827' }}>{product.name}</h5>
+                                <p style={{ fontSize: '0.875rem', color: '#4b5563' }}>{product.description}</p>
                               </div>
-                              <div className="text-right">
-                                <div className="text-sm font-medium text-gray-900">{product.price}</div>
-                                <div className="text-xs text-gray-500 line-through">{product.originalPrice}</div>
+                              <div style={{ textAlign: 'right' }}>
+                                <div style={{ fontSize: '0.875rem', fontWeight: '500', color: '#111827' }}>{product.price}</div>
+                                <div style={{ fontSize: '0.75rem', color: '#6b7280', textDecoration: 'line-through' }}>{product.originalPrice}</div>
                               </div>
                             </div>
                           ))}
@@ -319,12 +342,12 @@ export default function EnergiaPage() {
                       </div>
 
                       {/* Benefits */}
-                      <div className="mb-6">
-                        <h4 className="text-lg font-semibold text-gray-900 mb-3">Benefícios do Kit:</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div style={{ marginBottom: '1.5rem' }}>
+                        <h4 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#111827', marginBottom: '0.75rem' }}>Benefícios do Kit:</h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.5rem' }}>
                           {kit.benefits.map((benefit, index) => (
-                            <div key={index} className="flex items-center text-sm text-gray-600">
-                              <span className="text-green-500 mr-2">✓</span>
+                            <div key={index} style={{ display: 'flex', alignItems: 'center', fontSize: '0.875rem', color: '#4b5563' }}>
+                              <span style={{ color: '#10b981', marginRight: '0.5rem' }}>✓</span>
                               {benefit}
                             </div>
                           ))}
@@ -332,25 +355,25 @@ export default function EnergiaPage() {
                       </div>
 
                       {/* Pricing */}
-                      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg mb-6">
-                        <div className="flex justify-between items-center">
+                      <div style={{ background: 'linear-gradient(to right, #fefce8, #fed7aa)', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <div>
-                            <span className="text-2xl font-bold text-gray-900">{kit.totalPrice}</span>
-                            <span className="text-lg text-gray-500 line-through ml-2">{kit.originalTotalPrice}</span>
+                            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#111827' }}>{kit.totalPrice}</span>
+                            <span style={{ fontSize: '1.125rem', color: '#6b7280', textDecoration: 'line-through', marginLeft: '0.5rem' }}>{kit.originalTotalPrice}</span>
                           </div>
-                          <div className="text-right">
-                            <div className="text-lg font-bold text-green-600">-{kit.savings}%</div>
-                            <div className="text-sm text-gray-600">Economia total</div>
+                          <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: '1.125rem', fontWeight: 'bold', color: '#059669' }}>-{kit.savings}%</div>
+                            <div style={{ fontSize: '0.875rem', color: '#4b5563' }}>Economia total</div>
                           </div>
                         </div>
                       </div>
 
                       {/* CTA Button */}
                       <a
-                        href={`https://amazon.com/s?k=${kit.products.map(p => p.name).join('+')}`}
+                        href={kit.amazonSearchUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-center py-4 rounded-lg font-semibold hover:from-yellow-600 hover:to-orange-600 transition-all duration-200 text-lg"
+                        style={{ display: 'block', width: '100%', background: 'linear-gradient(to right, #eab308, #f97316)', color: 'white', textAlign: 'center', padding: '1rem', borderRadius: '0.5rem', fontWeight: '600', textDecoration: 'none', fontSize: '1.125rem' }}
                       >
                         🛒 Ver Kit na Amazon
                       </a>
@@ -364,22 +387,22 @@ export default function EnergiaPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-16">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-6">
+      <section style={{ background: 'linear-gradient(to right, #eab308, #f97316)', color: 'white', padding: '4rem 1rem' }}>
+        <div style={{ maxWidth: '64rem', margin: '0 auto', textAlign: 'center', padding: '0 1rem' }}>
+          <h2 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>
             Precisa de ajuda para escolher?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9 }}>
             Nossa análise de IA personalizada pode identificar exatamente quais produtos de energia você precisa
           </p>
-          <div className="space-x-4">
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/analise">
-              <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+              <button style={{ backgroundColor: 'white', color: '#ea580c', padding: '0.75rem 2rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer' }}>
                 🧠 Fazer Análise IA
               </button>
             </Link>
             <Link href="/suporte">
-              <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors">
+              <button style={{ border: '2px solid white', color: 'white', padding: '0.75rem 2rem', borderRadius: '0.5rem', fontWeight: '600', backgroundColor: 'transparent', cursor: 'pointer' }}>
                 💬 Falar com Especialista
               </button>
             </Link>

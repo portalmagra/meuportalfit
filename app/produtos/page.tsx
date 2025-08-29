@@ -124,9 +124,10 @@ export default function ProdutosPage() {
         {/* Hero Section Mínimo Absoluto */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '0.1rem 0',
+          padding: '0.05rem 0',
           textAlign: 'center',
-          marginBottom: '0.2rem'
+          marginBottom: '0.1rem',
+          minHeight: 'auto'
         }} className="hero-section">
           <div style={{
             maxWidth: '1200px',
@@ -134,22 +135,22 @@ export default function ProdutosPage() {
             padding: '0 1rem'
           }}>
             <h1 style={{
-              fontSize: 'clamp(1rem, 2.5vw, 1.4rem)',
+              fontSize: 'clamp(1.3rem, 3.5vw, 2rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.2rem',
+              marginBottom: '0.3rem',
               color: '#1f2937'
             }} className="hero-title">
               Produtos Amazon Selecionados<br />Especialmente para Você
             </h1>
 
             <p style={{
-              fontSize: 'clamp(0.6rem, 1.3vw, 0.8rem)',
-              marginBottom: '0.2rem',
+              fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
+              marginBottom: '0.3rem',
               color: '#6b7280',
-              maxWidth: '350px',
-              margin: '0 auto 0.2rem',
-              lineHeight: 1.1
+              maxWidth: '400px',
+              margin: '0 auto 0.3rem',
+              lineHeight: 1.2
             }}>
               Kits estratégicos que funcionam.
             </p>

@@ -331,12 +331,12 @@ export default function ProdutosPage() {
           </div>
         </div>
 
-        {/* Hero Section Mínimo */}
+        {/* Hero Section Mínimo Absoluto */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '0.4rem 0',
+          padding: '0.1rem 0',
           textAlign: 'center',
-          marginBottom: '0.3rem'
+          marginBottom: '0.2rem'
         }} className="hero-section">
           <div style={{
             maxWidth: '1200px',
@@ -344,30 +344,30 @@ export default function ProdutosPage() {
             padding: '0 1rem'
           }}>
             <h1 style={{
-              fontSize: 'clamp(1.1rem, 3vw, 1.6rem)',
+              fontSize: 'clamp(1rem, 2.5vw, 1.4rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.4rem',
+              marginBottom: '0.2rem',
               color: '#1f2937'
             }} className="hero-title">
               Produtos Amazon Selecionados<br />Especialmente para Você
             </h1>
 
             <p style={{
-              fontSize: 'clamp(0.7rem, 1.5vw, 0.9rem)',
-              marginBottom: '0.4rem',
+              fontSize: 'clamp(0.6rem, 1.3vw, 0.8rem)',
+              marginBottom: '0.2rem',
               color: '#6b7280',
-              maxWidth: '400px',
-              margin: '0 auto 0.4rem',
-              lineHeight: 1.2
+              maxWidth: '350px',
+              margin: '0 auto 0.2rem',
+              lineHeight: 1.1
             }}>
               Kits estratégicos que funcionam.
             </p>
 
-            {/* Search Bar Mínimo */}
+            {/* Search Bar Mínimo Absoluto */}
             <div style={{
-              maxWidth: '400px',
-              margin: '0 auto 0.3rem',
+              maxWidth: '350px',
+              margin: '0 auto 0.2rem',
               position: 'relative'
             }}>
               <input
@@ -377,12 +377,12 @@ export default function ProdutosPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '0.5rem 0.8rem',
+                  padding: '0.4rem 0.6rem',
                   border: '2px solid #e5e7eb',
-                  borderRadius: '25px',
-                  fontSize: '0.8rem',
+                  borderRadius: '20px',
+                  fontSize: '0.75rem',
                   background: 'white',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 1px 6px rgba(0, 0, 0, 0.1)'
                 }}
               />
               <div style={{

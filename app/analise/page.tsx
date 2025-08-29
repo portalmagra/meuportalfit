@@ -381,24 +381,24 @@ export default function AnalisePage() {
           </div>
         </div>
 
-        {/* Hero Section Ultra-Compacto */}
+        {/* Hero Section Mínimo */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '0.8rem 0',
+          padding: '0.4rem 0',
           position: 'relative',
           overflow: 'hidden'
         }} className="hero-section">
-          {/* Animated Blobs */}
+          {/* Animated Blobs Mínimos */}
           <div style={{
             position: 'absolute',
-            top: '10%',
-            left: '10%',
-            width: '150px',
-            height: '150px',
+            top: '5%',
+            left: '5%',
+            width: '80px',
+            height: '80px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-            filter: 'blur(30px)',
-            opacity: 0.2,
+            filter: 'blur(20px)',
+            opacity: 0.15,
             animation: 'fadeIn 8s ease-in-out infinite',
             zIndex: 1
           }}></div>
@@ -412,10 +412,10 @@ export default function AnalisePage() {
             textAlign: 'center'
           }}>
             <h1 style={{
-              fontSize: 'clamp(1.3rem, 3.5vw, 2rem)',
+              fontSize: 'clamp(1.1rem, 3vw, 1.6rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.6rem',
+              marginBottom: '0.4rem',
               color: '#1f2937',
               whiteSpace: 'pre-line'
             }} className="hero-title">
@@ -425,38 +425,38 @@ export default function AnalisePage() {
             </h1>
 
             <p style={{
-              fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
-              marginBottom: '0.6rem',
+              fontSize: 'clamp(0.7rem, 1.5vw, 0.9rem)',
+              marginBottom: '0.4rem',
               color: '#6b7280',
-              maxWidth: '450px',
-              margin: '0 auto 0.6rem',
-              lineHeight: 1.3
+              maxWidth: '400px',
+              margin: '0 auto 0.4rem',
+              lineHeight: 1.2
             }}>
               {t('heroSubtitle')}
             </p>
 
-            {/* Progress Bar Ultra-Compacto */}
+            {/* Progress Bar Mínimo */}
             <div style={{
               background: '#e5e7eb',
-              borderRadius: '15px',
-              height: '4px',
-              marginBottom: '0.3rem',
+              borderRadius: '10px',
+              height: '3px',
+              marginBottom: '0.2rem',
               overflow: 'hidden',
-              maxWidth: '250px',
-              margin: '0 auto 0.3rem'
+              maxWidth: '200px',
+              margin: '0 auto 0.2rem'
             }}>
               <div style={{
                 background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
                 height: '100%',
                 width: `${(currentQuestion / questions.length) * 100}%`,
-                borderRadius: '15px',
+                borderRadius: '10px',
                 transition: 'width 0.5s ease'
               }}></div>
             </div>
 
             <p style={{
               color: '#6b7280',
-              fontSize: '0.7rem',
+              fontSize: '0.6rem',
               fontWeight: 500
             }}>
               {t('progressText')} {currentQuestion} {t('progressOf')} {questions.length}

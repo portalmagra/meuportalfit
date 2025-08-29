@@ -331,12 +331,12 @@ export default function ProdutosPage() {
           </div>
         </div>
 
-        {/* Hero Section Ultra-Compacto */}
+        {/* Hero Section Mínimo */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '0.8rem 0',
+          padding: '0.4rem 0',
           textAlign: 'center',
-          marginBottom: '0.5rem'
+          marginBottom: '0.3rem'
         }} className="hero-section">
           <div style={{
             maxWidth: '1200px',
@@ -344,30 +344,30 @@ export default function ProdutosPage() {
             padding: '0 1rem'
           }}>
             <h1 style={{
-              fontSize: 'clamp(1.3rem, 3.5vw, 2rem)',
+              fontSize: 'clamp(1.1rem, 3vw, 1.6rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '0.6rem',
+              marginBottom: '0.4rem',
               color: '#1f2937'
             }} className="hero-title">
               Produtos Amazon Selecionados<br />Especialmente para Você
             </h1>
 
             <p style={{
-              fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
-              marginBottom: '0.6rem',
+              fontSize: 'clamp(0.7rem, 1.5vw, 0.9rem)',
+              marginBottom: '0.4rem',
               color: '#6b7280',
-              maxWidth: '500px',
-              margin: '0 auto 0.6rem',
-              lineHeight: 1.3
+              maxWidth: '400px',
+              margin: '0 auto 0.4rem',
+              lineHeight: 1.2
             }}>
               Kits estratégicos que funcionam.
             </p>
 
-            {/* Search Bar Ultra-Compacto */}
+            {/* Search Bar Mínimo */}
             <div style={{
-              maxWidth: '450px',
-              margin: '0 auto 0.5rem',
+              maxWidth: '400px',
+              margin: '0 auto 0.3rem',
               position: 'relative'
             }}>
               <input
@@ -377,12 +377,12 @@ export default function ProdutosPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '0.6rem 1rem',
+                  padding: '0.5rem 0.8rem',
                   border: '2px solid #e5e7eb',
-                  borderRadius: '30px',
-                  fontSize: '0.85rem',
+                  borderRadius: '25px',
+                  fontSize: '0.8rem',
                   background: 'white',
-                  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                 }}
               />
               <div style={{

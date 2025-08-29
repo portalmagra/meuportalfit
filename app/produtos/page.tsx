@@ -331,12 +331,12 @@ export default function ProdutosPage() {
           </div>
         </div>
 
-        {/* Hero Section Compacto */}
+        {/* Hero Section Ultra-Compacto */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '1.5rem 0',
+          padding: '0.8rem 0',
           textAlign: 'center',
-          marginBottom: '1rem'
+          marginBottom: '0.5rem'
         }} className="hero-section">
           <div style={{
             maxWidth: '1200px',
@@ -344,30 +344,30 @@ export default function ProdutosPage() {
             padding: '0 1rem'
           }}>
             <h1 style={{
-              fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+              fontSize: 'clamp(1.3rem, 3.5vw, 2rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '1rem',
+              marginBottom: '0.6rem',
               color: '#1f2937'
             }} className="hero-title">
               Produtos Amazon Selecionados<br />Especialmente para Você
             </h1>
 
             <p style={{
-              fontSize: 'clamp(0.9rem, 2vw, 1.2rem)',
-              marginBottom: '1rem',
+              fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
+              marginBottom: '0.6rem',
               color: '#6b7280',
-              maxWidth: '600px',
-              margin: '0 auto 1rem',
-              lineHeight: 1.4
+              maxWidth: '500px',
+              margin: '0 auto 0.6rem',
+              lineHeight: 1.3
             }}>
               Kits estratégicos que funcionam.
             </p>
 
-            {/* Search Bar Compacto */}
+            {/* Search Bar Ultra-Compacto */}
             <div style={{
-              maxWidth: '500px',
-              margin: '0 auto 1rem',
+              maxWidth: '450px',
+              margin: '0 auto 0.5rem',
               position: 'relative'
             }}>
               <input
@@ -377,12 +377,12 @@ export default function ProdutosPage() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '0.8rem 1.2rem',
+                  padding: '0.6rem 1rem',
                   border: '2px solid #e5e7eb',
-                  borderRadius: '40px',
-                  fontSize: '0.9rem',
+                  borderRadius: '30px',
+                  fontSize: '0.85rem',
                   background: 'white',
-                  boxShadow: '0 3px 15px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
                 }}
               />
               <div style={{
@@ -398,9 +398,9 @@ export default function ProdutosPage() {
           </div>
         </section>
 
-        {/* Categories Section */}
+        {/* Categories Section Ultra-Compacto */}
         <section style={{
-          padding: '1rem 0',
+          padding: '0.5rem 0',
           background: 'white'
         }}>
           <div style={{
@@ -409,10 +409,10 @@ export default function ProdutosPage() {
             padding: '0 1rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.5rem, 3.5vw, 2rem)',
+              fontSize: 'clamp(1.3rem, 3vw, 1.8rem)',
               fontWeight: 800,
               textAlign: 'center',
-              marginBottom: '2rem',
+              marginBottom: '1.5rem',
               color: '#1f2937'
             }}>
               Nossas Categorias

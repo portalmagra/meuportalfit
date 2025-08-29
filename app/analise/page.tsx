@@ -381,10 +381,10 @@ export default function AnalisePage() {
           </div>
         </div>
 
-        {/* Hero Section Compacto */}
+        {/* Hero Section Ultra-Compacto */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '1.5rem 0',
+          padding: '0.8rem 0',
           position: 'relative',
           overflow: 'hidden'
         }} className="hero-section">
@@ -412,10 +412,10 @@ export default function AnalisePage() {
             textAlign: 'center'
           }}>
             <h1 style={{
-              fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+              fontSize: 'clamp(1.3rem, 3.5vw, 2rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '1rem',
+              marginBottom: '0.6rem',
               color: '#1f2937',
               whiteSpace: 'pre-line'
             }} className="hero-title">
@@ -425,38 +425,38 @@ export default function AnalisePage() {
             </h1>
 
             <p style={{
-              fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
-              marginBottom: '1rem',
+              fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
+              marginBottom: '0.6rem',
               color: '#6b7280',
-              maxWidth: '500px',
-              margin: '0 auto 1rem',
-              lineHeight: 1.4
+              maxWidth: '450px',
+              margin: '0 auto 0.6rem',
+              lineHeight: 1.3
             }}>
               {t('heroSubtitle')}
             </p>
 
-            {/* Progress Bar Compacto */}
+            {/* Progress Bar Ultra-Compacto */}
             <div style={{
               background: '#e5e7eb',
-              borderRadius: '20px',
-              height: '6px',
-              marginBottom: '0.5rem',
+              borderRadius: '15px',
+              height: '4px',
+              marginBottom: '0.3rem',
               overflow: 'hidden',
-              maxWidth: '300px',
-              margin: '0 auto 0.5rem'
+              maxWidth: '250px',
+              margin: '0 auto 0.3rem'
             }}>
               <div style={{
                 background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
                 height: '100%',
                 width: `${(currentQuestion / questions.length) * 100}%`,
-                borderRadius: '20px',
+                borderRadius: '15px',
                 transition: 'width 0.5s ease'
               }}></div>
             </div>
 
             <p style={{
               color: '#6b7280',
-              fontSize: '0.8rem',
+              fontSize: '0.7rem',
               fontWeight: 500
             }}>
               {t('progressText')} {currentQuestion} {t('progressOf')} {questions.length}
@@ -464,8 +464,8 @@ export default function AnalisePage() {
           </div>
         </section>
 
-        {/* Question Section */}
-        <section style={{ background: 'white', padding: '1rem 0' }}>
+        {/* Question Section Ultra-Compacto */}
+        <section style={{ background: 'white', padding: '0.5rem 0' }}>
           <div style={{
             maxWidth: '800px',
             margin: '0 auto',
@@ -474,9 +474,9 @@ export default function AnalisePage() {
             {currentQuestionData && (
               <div className="question-card" style={{
                 background: 'white',
-                borderRadius: '20px',
-                padding: '2rem 1.5rem',
-                boxShadow: '0 15px 30px rgba(0, 0, 0, 0.1)',
+                borderRadius: '16px',
+                padding: '1.5rem 1rem',
+                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)',
                 border: '2px solid #f3f4f6'
               }}>
                 <h2 style={{

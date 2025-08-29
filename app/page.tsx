@@ -148,54 +148,50 @@ export default function HomePage() {
         {/* Header Unificado */}
         <Header language={language} onLanguageChange={setLanguage} />
 
-        {/* Hero Section - TRÊS TÓPICOS GIGANTES E CHAMATIVOS */}
+        {/* Hero Section - ULTRA-COMPACTO */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          minHeight: '100vh',
+          padding: '1rem 0',
           position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '2rem 0',
           overflow: 'hidden'
         }}>
-          {/* Animated Blobs */}
+          {/* Animated Blobs Compactos */}
           <div style={{
             position: 'absolute',
-            top: '10%',
-            left: '10%',
-            width: '300px',
-            height: '300px',
+            top: '5%',
+            left: '5%',
+            width: '150px',
+            height: '150px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-            filter: 'blur(40px)',
-            opacity: 0.3,
+            filter: 'blur(25px)',
+            opacity: 0.2,
             animation: 'float 8s ease-in-out infinite',
             zIndex: 1
           }}></div>
           <div style={{
             position: 'absolute',
-            top: '20%',
-            right: '15%',
-            width: '400px',
-            height: '400px',
+            top: '10%',
+            right: '10%',
+            width: '200px',
+            height: '200px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #06b6d4, #8b5cf6)',
-            filter: 'blur(40px)',
-            opacity: 0.3,
+            filter: 'blur(25px)',
+            opacity: 0.2,
             animation: 'float 8s ease-in-out infinite 2s',
             zIndex: 1
           }}></div>
           <div style={{
             position: 'absolute',
-            bottom: '15%',
-            left: '30%',
-            width: '350px',
-            height: '350px',
+            bottom: '10%',
+            left: '20%',
+            width: '180px',
+            height: '180px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #06b6d4, #22c55e)',
-            filter: 'blur(40px)',
-            opacity: 0.3,
+            filter: 'blur(25px)',
+            opacity: 0.2,
             animation: 'float 8s ease-in-out infinite 4s',
             zIndex: 1
           }}></div>
@@ -209,29 +205,29 @@ export default function HomePage() {
             zIndex: 10,
             textAlign: 'center'
           }}>
-            {/* Trust Badge */}
+            {/* Trust Badge Compacto */}
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '50px',
-              padding: '0.8rem 1.5rem',
-              marginBottom: '2rem',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              borderRadius: '40px',
+              padding: '0.6rem 1.2rem',
+              marginBottom: '1rem',
+              boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
               fontWeight: 600,
               color: '#1f2937',
-              gap: '0.5rem',
-              fontSize: '0.85rem'
+              gap: '0.4rem',
+              fontSize: '0.8rem'
             }}>
               <span>🛡️</span>
               <span>{t('trustText')}</span>
               <span>⭐⭐⭐⭐⭐</span>
             </div>
 
-            {/* Main Title */}
-            <div style={{ marginBottom: '3rem' }}>
+            {/* Main Title Compacto */}
+            <div style={{ marginBottom: '1.5rem' }}>
               <h1 style={{
                 fontSize: 'clamp(2rem, 5vw, 3.5rem)',
                 fontWeight: 900,

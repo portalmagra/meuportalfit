@@ -41,7 +41,7 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
     <header style={{
       background: 'rgba(255, 255, 255, 0.95)',
       backdropFilter: 'blur(10px)',
-      padding: '1rem 0',
+      padding: isMobile ? '0.5rem 0' : '1rem 0',
       borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
       position: 'sticky',
       top: 0,
@@ -50,24 +50,24 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: '0 2rem'
+        padding: isMobile ? '0 1rem' : '0 2rem'
       }}>
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          gap: '2rem'
+          gap: isMobile ? '1rem' : '2rem'
         }}>
           {/* Logo */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.8rem',
+            gap: isMobile ? '0.6rem' : '0.8rem',
             flexShrink: 0
           }}>
             <div style={{
-              width: '40px',
-              height: '40px',
+              width: isMobile ? '36px' : '40px',
+              height: isMobile ? '36px' : '40px',
               background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
               borderRadius: '8px',
               display: 'flex',
@@ -75,12 +75,12 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
               justifyContent: 'center',
               color: 'white',
               fontWeight: 900,
-              fontSize: '1.2rem'
+              fontSize: isMobile ? '1.1rem' : '1.2rem'
             }}>
               M
             </div>
             <span style={{
-              fontSize: '1.5rem',
+              fontSize: isMobile ? '1.3rem' : '1.5rem',
               fontWeight: 900,
               background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
               WebkitBackgroundClip: 'text',
@@ -96,20 +96,20 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '1.5rem'
+              gap: isMobile ? '1rem' : '1.5rem'
             }}>
               <Link href="/analise" style={{ textDecoration: 'none' }}>
                 <button style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.6rem 1.2rem',
+                  gap: isMobile ? '0.4rem' : '0.5rem',
+                  padding: isMobile ? '0.5rem 1rem' : '0.6rem 1.2rem',
                   background: isActivePage('/analise') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
                   color: isActivePage('/analise') ? 'white' : '#6b7280',
                   border: isActivePage('/analise') ? 'none' : '1px solid #e5e7eb',
                   borderRadius: '20px',
                   cursor: 'pointer',
-                  fontSize: '0.9rem',
+                  fontSize: isMobile ? '0.8rem' : '0.9rem',
                   fontWeight: isActivePage('/analise') ? 600 : 500,
                   transition: 'all 0.3s ease'
                 }}>
@@ -122,14 +122,14 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
                 <button style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.6rem 1.2rem',
-                  background: isActivePage('/produtos') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                  gap: isMobile ? '0.4rem' : '0.5rem',
+                  padding: isMobile ? '0.5rem 1rem' : '0.6rem 1.2rem',
+                  background: isActivePage('/produtos') ? 'linear-gradient(135deg, #3b82f6, #1d4ed8)' : 'transparent',
                   color: isActivePage('/produtos') ? 'white' : '#6b7280',
                   border: isActivePage('/produtos') ? 'none' : '1px solid #e5e7eb',
                   borderRadius: '20px',
                   cursor: 'pointer',
-                  fontSize: '0.9rem',
+                  fontSize: isMobile ? '0.8rem' : '0.9rem',
                   fontWeight: isActivePage('/produtos') ? 600 : 500,
                   transition: 'all 0.3s ease'
                 }}>
@@ -142,14 +142,14 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
                 <button style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.6rem 1.2rem',
-                  background: isActivePage('/suporte') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                  gap: isMobile ? '0.4rem' : '0.5rem',
+                  padding: isMobile ? '0.5rem 1rem' : '0.6rem 1.2rem',
+                  background: isActivePage('/suporte') ? 'linear-gradient(135deg, #8b5cf6, #7c3aed)' : 'transparent',
                   color: isActivePage('/suporte') ? 'white' : '#6b7280',
                   border: isActivePage('/suporte') ? 'none' : '1px solid #e5e7eb',
                   borderRadius: '20px',
                   cursor: 'pointer',
-                  fontSize: '0.9rem',
+                  fontSize: isMobile ? '0.8rem' : '0.9rem',
                   fontWeight: isActivePage('/suporte') ? 600 : 500,
                   transition: 'all 0.3s ease'
                 }}>
@@ -165,10 +165,10 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.8rem'
+              gap: isMobile ? '0.6rem' : '0.8rem'
             }}>
-              <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Idioma:</span>
-              <div style={{ display: 'flex', gap: '0.3rem' }}>
+              <span style={{ color: '#6b7280', fontSize: isMobile ? '0.8rem' : '0.9rem', fontWeight: 500 }}>Idioma:</span>
+              <div style={{ display: 'flex', gap: isMobile ? '0.2rem' : '0.3rem' }}>
                 {[
                   { code: 'pt' as const, flag: '🇧🇷', label: 'PT' },
                   { code: 'es' as const, flag: '🇪🇸', label: 'ES' },
@@ -180,14 +180,14 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.3rem',
-                      padding: '0.4rem 0.8rem',
+                      gap: isMobile ? '0.2rem' : '0.3rem',
+                      padding: isMobile ? '0.3rem 0.6rem' : '0.4rem 0.8rem',
                       background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
                       color: language === lang.code ? 'white' : '#6b7280',
                       border: language === lang.code ? 'none' : '1px solid #e5e7eb',
                       borderRadius: '20px',
                       cursor: 'pointer',
-                      fontSize: '0.8rem',
+                      fontSize: isMobile ? '0.7rem' : '0.8rem',
                       fontWeight: language === lang.code ? 600 : 400,
                       transition: 'all 0.3s ease'
                     }}

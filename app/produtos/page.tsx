@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Header from '../components/Header'
 
 export default function ProdutosPage() {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
@@ -105,36 +106,6 @@ export default function ProdutosPage() {
     <>
       <style jsx global>{`
         @media (max-width: 768px) {
-          .header-nav {
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 0.5rem 0;
-          }
-          
-          .nav-buttons {
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-          }
-          
-          .hero-title {
-            font-size: clamp(1.5rem, 4vw, 2rem) !important;
-          }
-          
-          .hero-section {
-            padding: 1.5rem 0 !important;
-          }
-          
-          .header-logo {
-            font-size: 1.2rem !important;
-          }
-          
-          .header-logo-icon {
-            width: 32px !important;
-            height: 32px !important;
-            font-size: 1rem !important;
-          }
-          
           .categories-grid {
             grid-template-columns: 1fr !important;
             gap: 1rem !important;
@@ -146,190 +117,9 @@ export default function ProdutosPage() {
         }
       `}</style>
 
-      <main style={{ padding: '0' }}>
-        {/* Header Compacto com Logo Clicável */}
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
-          padding: '0.5rem 0',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 1000
-        }}>
-          <div style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
-            padding: '0 1rem'
-          }}>
-            {/* Header Layout Compacto */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: '1rem'
-            }} className="header-nav">
-              {/* Logo MeuPortalFit Clicável */}
-              <Link href="/" style={{ textDecoration: 'none' }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.6rem',
-                  flexShrink: 0,
-                  cursor: 'pointer'
-                }} className="header-logo">
-                  <div style={{
-                    width: '36px',
-                    height: '36px',
-                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontWeight: 900,
-                    fontSize: '1.1rem'
-                  }} className="header-logo-icon">
-                    M
-                  </div>
-                  <span style={{
-                    fontSize: '1.3rem',
-                    fontWeight: 900,
-                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
-                  }}>
-                    MeuPortalFit
-                  </span>
-                </div>
-              </Link>
-
-              {/* Navegação Compacta */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                flexWrap: 'wrap'
-              }} className="nav-buttons">
-                <Link href="/analise" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.5rem 1rem',
-                    background: 'transparent',
-                    color: '#6b7280',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '18px',
-                    cursor: 'pointer',
-                    fontSize: '0.8rem',
-                    fontWeight: 500,
-                    transition: 'all 0.3s ease'
-                  }} onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)'
-                    e.currentTarget.style.color = 'white'
-                    e.currentTarget.style.borderColor = 'transparent'
-                  }} onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.color = '#6b7280'
-                    e.currentTarget.style.borderColor = '#e5e7eb'
-                  }}>
-                    <span>🧠</span>
-                    <span>Análise IA</span>
-                  </button>
-                </Link>
-
-                <Link href="/produtos" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.5rem 1rem',
-                    background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                    color: 'white',
-                    border: '1px solid transparent',
-                    borderRadius: '18px',
-                    cursor: 'pointer',
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    transition: 'all 0.3s ease'
-                  }}>
-                    <span>🛍️</span>
-                    <span>Produtos</span>
-                  </button>
-                </Link>
-
-                <Link href="/suporte" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.5rem 1rem',
-                    background: 'transparent',
-                    color: '#6b7280',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '18px',
-                    cursor: 'pointer',
-                    fontSize: '0.8rem',
-                    fontWeight: 500,
-                    transition: 'all 0.3s ease'
-                  }} onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #8b5cf6, #7c3aed)'
-                    e.currentTarget.style.color = 'white'
-                    e.currentTarget.style.borderColor = 'transparent'
-                  }} onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.color = '#6b7280'
-                    e.currentTarget.style.borderColor = '#e5e7eb'
-                  }}>
-                    <span>💬</span>
-                    <span>Suporte</span>
-                  </button>
-                </Link>
-              </div>
-
-              {/* Idioma Compacto */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                flexShrink: 0
-              }}>
-                <span style={{ color: '#6b7280', fontSize: '0.8rem', fontWeight: 500 }}>Idioma:</span>
-                <div style={{ display: 'flex', gap: '0.2rem' }}>
-                  {[
-                    { code: 'pt' as 'pt' | 'es' | 'en', flag: '🇧🇷', label: 'PT' },
-                    { code: 'es' as 'pt' | 'es' | 'en', flag: '🇪🇸', label: 'ES' },
-                    { code: 'en' as 'pt' | 'es' | 'en', flag: '🇺🇸', label: 'EN' }
-                  ].map(lang => (
-                    <button
-                      key={lang.code}
-                      onClick={() => setLanguage(lang.code)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.2rem',
-                        padding: '0.3rem 0.6rem',
-                        background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
-                        color: language === lang.code ? 'white' : '#6b7280',
-                        border: language === lang.code ? 'none' : '1px solid #e5e7eb',
-                        borderRadius: '16px',
-                        cursor: 'pointer',
-                        fontSize: '0.7rem',
-                        fontWeight: language === lang.code ? 600 : 400,
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      <span>{lang.flag}</span>
-                      <span>{lang.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <main style={{ padding: '0', background: 'white' }}>
+        {/* Header Unificado */}
+        <Header language={language} onLanguageChange={setLanguage} />
 
         {/* Hero Section Mínimo Absoluto */}
         <section style={{

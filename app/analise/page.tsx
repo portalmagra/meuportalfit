@@ -135,6 +135,8 @@ export default function AnalisePage() {
   const [answers, setAnswers] = useState<{ [key: string]: string }>({})
   const [showComments, setShowComments] = useState(false)
   const [comments, setComments] = useState('')
+  const [showResults, setShowResults] = useState(false)
+  const [analysisResults, setAnalysisResults] = useState<any>(null)
 
   const t = (key: keyof typeof content) => content[key]?.[language] || content[key]?.pt || key
 
@@ -234,6 +236,73 @@ export default function AnalisePage() {
   }
 
   const currentQuestionData = questions.find(q => q.id === currentQuestion)
+
+  // Função para obter mensagem motivacional baseada no perfil
+  const getMotivationalMessage = (profile: any) => {
+    const messages = {
+      'energia': 'Ter mais energia significa mais produtividade, melhor humor e qualidade de vida. É o primeiro passo para conquistar todos os seus objetivos!',
+      'sono': 'Um sono de qualidade é fundamental para recuperação muscular, controle hormonal e saúde mental. É a base de tudo!',
+      'emagrecimento': 'Perder peso de forma saudável vai te dar mais confiança, disposição e saúde. É uma transformação completa!',
+      'imunidade': 'Fortalecer sua imunidade é investir na sua saúde a longo prazo. Prevenção é sempre melhor que tratamento!',
+      'hormonal': 'Equilibrar seus hormônios vai transformar sua energia, humor e bem-estar. É a chave para se sentir melhor!',
+      'ansiedade': 'Controlar a ansiedade vai te dar mais paz mental e qualidade de vida. É essencial para seu bem-estar!',
+      'fadiga': 'Superar a fadiga vai te dar mais disposição para conquistar seus objetivos. É o que está te limitando!',
+      'afrodisiaco': 'Melhorar sua libido vai fortalecer seus relacionamentos e autoestima. É um investimento em você!'
+    };
+    return messages[profile.primaryGoal as keyof typeof messages] || 'Este objetivo é fundamental para sua transformação e bem-estar!';
+  };
+
+  // Função para obter mensagem de benefícios baseada no perfil
+  const getBenefitsMessage = (profile: any) => {
+    const benefits = {
+      'energia': 'Mais disposição para trabalhar, exercitar-se e aproveitar a vida. Você vai se sentir renovado!',
+      'sono': 'Acordar descansado, com mais foco e menos estresse. Sua qualidade de vida vai melhorar drasticamente!',
+      'emagrecimento': 'Mais confiança, saúde e disposição. Você vai se sentir mais atraente e confiante!',
+      'imunidade': 'Menos resfriados, mais resistência e saúde duradoura. É proteção para toda a vida!',
+      'hormonal': 'Mais energia, melhor humor e equilíbrio emocional. Você vai se sentir no controle!',
+      'ansiedade': 'Mais paz mental, melhor sono e relacionamentos. A vida fica mais leve!',
+      'fadiga': 'Mais disposição para conquistar seus sonhos. Nada mais vai te parar!',
+      'afrodisiaco': 'Mais intimidade, confiança e satisfação. Seus relacionamentos vão florescer!'
+    };
+    return benefits[profile.primaryGoal as keyof typeof benefits] || 'Transformação completa em sua qualidade de vida e bem-estar!';
+  };
+
+  // Função para compartilhar
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'MeuPortalFit - Análise Personalizada',
+          text: `Acabei de fazer minha análise personalizada no MeuPortalFit! Minha meta: ${analysisResults?.userProfile?.primaryGoal || 'bem-estar'}. 🎯✨`,
+          url: window.location.href
+        });
+      } catch (error) {
+        console.log('Erro ao compartilhar:', error);
+      }
+    } else {
+      // Fallback para copiar link
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copiado para a área de transferência!');
+    }
+  };
+
+  // Função para ver sugestões de categorias
+  const handleViewCategories = () => {
+    // Redirecionar para página de produtos
+    window.location.href = '/produtos';
+  };
+
+  // Função para comprar na Amazon
+  const handleBuyOnAmazon = () => {
+    // Redirecionar para Amazon com busca baseada no perfil
+    const searchQuery = encodeURIComponent(analysisResults?.userProfile?.primaryGoal || 'suplementos');
+    window.open(`https://www.amazon.com/s?k=${searchQuery}&tag=meuportalfit-20`, '_blank');
+  };
+
+  // Função para voltar ao início
+  const handleGoHome = () => {
+    window.location.href = '/';
+  };
 
   return (
     <>
@@ -588,6 +657,194 @@ export default function AnalisePage() {
             )}
           </div>
         </section>
+
+        {/* Seção de Resultados - Substituída por Reflexão Motivacional */}
+        {showResults && (
+          <div style={{
+            padding: '2rem',
+            backgroundColor: '#f8fafc',
+            borderRadius: '12px',
+            marginTop: '2rem',
+            textAlign: 'center'
+          }}>
+            <h2 style={{
+              fontSize: isMobile ? '1.5rem' : '2rem',
+              color: '#1e293b',
+              marginBottom: '1.5rem',
+              fontWeight: 'bold'
+            }}>
+              🎯 Parabéns! Você acabou de identificar EXATAMENTE o que precisa!
+            </h2>
+
+            <div style={{
+              backgroundColor: 'white',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              marginBottom: '2rem',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}>
+              <div style={{
+                fontSize: isMobile ? '1.1rem' : '1.3rem',
+                color: '#334155',
+                marginBottom: '1rem',
+                fontWeight: '600'
+              }}>
+                💪 Sua meta: {analysisResults?.userProfile?.primaryGoal}
+              </div>
+
+              <div style={{
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                color: '#64748b',
+                marginBottom: '1rem',
+                lineHeight: '1.6'
+              }}>
+                💡 Por que é importante: {getMotivationalMessage(analysisResults?.userProfile)}
+              </div>
+
+              <div style={{
+                fontSize: isMobile ? '0.9rem' : '1rem',
+                color: '#64748b',
+                marginBottom: '1rem',
+                lineHeight: '1.6'
+              }}>
+                🚀 O que você vai conseguir: {getBenefitsMessage(analysisResults?.userProfile)}
+              </div>
+
+              <div style={{
+                fontSize: isMobile ? '1rem' : '1.1rem',
+                color: '#059669',
+                fontWeight: '600'
+              }}>
+                💰 Seu investimento: {analysisResults?.userProfile?.budget}
+              </div>
+            </div>
+
+            <div style={{
+              fontSize: isMobile ? '1.1rem' : '1.3rem',
+              color: '#dc2626',
+              marginBottom: '2rem',
+              fontWeight: 'bold',
+              padding: '1rem',
+              backgroundColor: '#fef2f2',
+              borderRadius: '8px',
+              border: '2px solid #fecaca'
+            }}>
+              🚀 AGORA é o momento de agir! Compre já e comece sua transformação HOJE!
+            </div>
+
+            <div style={{
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              gap: '1rem',
+              justifyContent: 'center',
+              flexWrap: 'wrap'
+            }}>
+              <button
+                onClick={handleBuyOnAmazon}
+                style={{
+                  padding: '1rem 2rem',
+                  backgroundColor: '#059669',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: isMobile ? '1rem' : '1.1rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 6px rgba(5, 150, 105, 0.3)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(5, 150, 105, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(5, 150, 105, 0.3)';
+                }}
+              >
+                🛍️ Comprar na Amazon AGORA
+              </button>
+
+              <button
+                onClick={handleViewCategories}
+                style={{
+                  padding: '1rem 2rem',
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: isMobile ? '1rem' : '1.1rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 6px rgba(59, 130, 246, 0.3)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(59, 130, 246, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(59, 130, 246, 0.3)';
+                }}
+              >
+                🔍 Ver sugestões de categorias
+              </button>
+
+              <button
+                onClick={handleShare}
+                style={{
+                  padding: '1rem 2rem',
+                  backgroundColor: '#8b5cf6',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: isMobile ? '1rem' : '1.1rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 6px rgba(139, 92, 246, 0.3)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(139, 92, 246, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(139, 92, 246, 0.3)';
+                }}
+              >
+                📤 Compartilhar
+              </button>
+
+              <button
+                onClick={handleGoHome}
+                style={{
+                  padding: '1rem 2rem',
+                  backgroundColor: '#6b7280',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: isMobile ? '1rem' : '1.1rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 6px rgba(107, 114, 128, 0.3)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(107, 114, 128, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(107, 114, 128, 0.3)';
+                }}
+              >
+                🏠 Voltar ao Início
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Footer Compacto */}
         <footer style={{

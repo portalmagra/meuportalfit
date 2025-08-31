@@ -137,46 +137,54 @@ export default function AdminPage() {
       console.log('🔎 Buscando produto na API da Amazon...');
       const product = await getProductByASIN(asin);
       
-      if (product && !product.asin.startsWith('SEARCH')) {
-        console.log('✅ Produto encontrado na API:', product);
+      console.log('🔍 Resposta da API:', product);
+      
+      if (product && product.name && product.name !== 'Product') {
+        console.log('✅ Produto encontrado na API com dados reais:', product);
         
-        // Extrair benefícios e características da descrição
+        // Extrair benefícios e características inteligentemente
         const extractedBenefits = [
           'Produto original da Amazon',
           'Qualidade verificada pelos usuários',
-          'Entrega rápida disponível',
-          'Garantia do fabricante',
-          'Avaliações positivas'
+          'Entrega rápida disponível'
         ];
         
         const extractedFeatures = [
           'Marca reconhecida',
           'Especificações técnicas reais',
-          'Preço competitivo',
-          'Disponível para envio imediato',
-          'Suporte ao cliente'
+          'Preço competitivo'
         ];
         
-        // Se o produto tem informações específicas, usar elas
-        if (product.name && product.name !== 'Product') {
-          // Tentar extrair benefícios do nome do produto
-          if (product.name.toLowerCase().includes('vitamin')) {
-            extractedBenefits.push('Suplemento vitamínico de qualidade');
-          }
-          if (product.name.toLowerCase().includes('mineral')) {
-            extractedBenefits.push('Mineral essencial para saúde');
-          }
-          if (product.name.toLowerCase().includes('omega')) {
-            extractedBenefits.push('Ácidos graxos essenciais');
-          }
-          if (product.name.toLowerCase().includes('probiotic')) {
-            extractedBenefits.push('Probióticos para saúde intestinal');
-          }
+        // Adicionar benefícios específicos baseados no nome do produto
+        const productName = product.name.toLowerCase();
+        if (productName.includes('vitamin') || productName.includes('vitamina')) {
+          extractedBenefits.push('Suplemento vitamínico de alta qualidade');
+          extractedFeatures.push('Formulação cientificamente comprovada');
+        }
+        if (productName.includes('mineral') || productName.includes('mineral')) {
+          extractedBenefits.push('Mineral essencial para saúde');
+          extractedFeatures.push('Absorção otimizada');
+        }
+        if (productName.includes('omega')) {
+          extractedBenefits.push('Ácidos graxos essenciais');
+          extractedFeatures.push('Benefícios para coração e cérebro');
+        }
+        if (productName.includes('probiotic') || productName.includes('probiótico')) {
+          extractedBenefits.push('Probióticos para saúde intestinal');
+          extractedFeatures.push('Flora intestinal equilibrada');
+        }
+        if (productName.includes('collagen') || productName.includes('colágeno')) {
+          extractedBenefits.push('Colágeno para pele e articulações');
+          extractedFeatures.push('Anti-envelhecimento natural');
+        }
+        if (productName.includes('protein') || productName.includes('proteína')) {
+          extractedBenefits.push('Proteína de alta qualidade');
+          extractedFeatures.push('Construção muscular');
         }
         
         setProductForm({
-          name: product.name || `Produto Amazon ${asin}`,
-          description: product.name ? `${product.name} - Produto original da Amazon com ASIN ${asin}. ${product.name.includes('vitamin') ? 'Suplemento vitamínico de alta qualidade.' : 'Produto de saúde e bem-estar.'}` : `Descrição do produto com ASIN ${asin}`,
+          name: product.name,
+          description: `${product.name} - Produto original da Amazon com ASIN ${asin}. ${product.name.includes('vitamin') ? 'Suplemento vitamínico de alta qualidade.' : 'Produto de saúde e bem-estar.'}`,
           categoryId: productForm.categoryId,
           amazonUrl: finalUrl,
           currentPrice: product.price || '$0.00',
@@ -193,7 +201,7 @@ export default function AdminPage() {
       }
 
       // Fallback se a API não retornar dados
-      console.log('⚠️ API não retornou dados, usando fallback...');
+      console.log('⚠️ API não retornou dados reais, usando fallback...');
       setProductForm({
         name: `Produto Amazon ${asin}`,
         description: `Descrição do produto com ASIN ${asin}`,

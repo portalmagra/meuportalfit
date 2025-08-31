@@ -1,9 +1,9 @@
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 
 // === Amazon Product Advertising API v5 Configuration ===
 const AWS_ACCESS_KEY = process.env.AMAZON_ACCESS_KEY_ID!;
 const AWS_SECRET_KEY = process.env.AMAZON_SECRET_ACCESS_KEY!;
-const ASSOCIATE_TAG = 'portal07d-20';
+const ASSOCIATE_TAG = 'portalsolutio-20';
 const AWS_REGION = 'us-east-1';
 const SERVICE = 'ProductAdvertisingAPI';
 const HOST = 'webservices.amazon.com';
@@ -266,7 +266,7 @@ function generateIntelligentQueries(baseQuery: string): string[] {
     queries.push(cleanQuery);
   }
   
-  return [...new Set(queries)]; // Remover duplicatas
+  return Array.from(new Set(queries)); // Remover duplicatas
 }
 
 // === Função Principal de Busca com Curadoria ===
@@ -417,6 +417,35 @@ export async function searchAmazonProducts(
 // === Função auxiliar para URLs ===
 export function generateAmazonUrl(asin: string): string {
   return `https://www.amazon.com/dp/${asin}?tag=${ASSOCIATE_TAG}`;
+}
+
+// === Função para buscar produto específico por ASIN ===
+export async function getProductByASIN(asin: string): Promise<AmazonProduct | null> {
+  try {
+    console.log(`🔍 Buscando produto específico por ASIN: ${asin}`);
+    
+    if (!CREDENTIALS_VALID) {
+      console.log('❌ Credenciais da Amazon não válidas');
+      return null;
+    }
+
+    const products = await searchAmazonAPI(asin, 1, {
+      minRating: 0,
+      preferBestSellers: false,
+      preferAmazonChoice: false
+    });
+
+    if (products.length > 0) {
+      console.log('✅ Produto encontrado por ASIN:', products[0]);
+      return products[0];
+    }
+
+    console.log('❌ Produto não encontrado por ASIN');
+    return null;
+  } catch (error) {
+    console.error('❌ Erro ao buscar produto por ASIN:', error);
+    return null;
+  }
 }
 
 // === Função de busca especializada por categoria ===

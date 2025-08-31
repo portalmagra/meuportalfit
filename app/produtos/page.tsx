@@ -178,6 +178,7 @@ export default function ProdutosPage() {
               }}>
                 🔍
               </div>
+
             </div>
           </div>
         </section>
@@ -277,3 +278,4 @@ export default function ProdutosPage() {
     </>
   )
 }
+

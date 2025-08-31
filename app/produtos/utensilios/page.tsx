@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 interface Product {
   id: string
@@ -18,7 +18,7 @@ interface Product {
   features: string[]
 }
 
-export default function EnergiaPage() {
+export default function UtensiliosPage() {
   const [adminProducts, setAdminProducts] = useState<Product[]>([])
 
   useEffect(() => {
@@ -26,16 +26,16 @@ export default function EnergiaPage() {
     const savedProducts = localStorage.getItem('globalProducts')
     if (savedProducts) {
       const allProducts = JSON.parse(savedProducts)
-      // Filtrar apenas produtos da categoria "energia"
-      const energiaProducts = allProducts.filter((p: any) => p.categoryId === 'energia')
-      setAdminProducts(energiaProducts)
+      // Filtrar apenas produtos da categoria "utensilios"
+      const utensiliosProducts = allProducts.filter((p: any) => p.categoryId === 'utensilios')
+      setAdminProducts(utensiliosProducts)
     }
   }, [])
 
   return (
     <div style={{ minHeight: '100vh', background: 'white' }}>
       {/* Hero Section */}
-      <section style={{ background: 'linear-gradient(135deg, #f59e0b, #ea580c)', color: 'white', padding: '4rem 1rem' }}>
+      <section style={{ background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', color: 'white', padding: '4rem 1rem' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
             <Link href="/produtos" style={{ color: 'white', textDecoration: 'none', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -45,10 +45,10 @@ export default function EnergiaPage() {
           
           <div style={{ textAlign: 'center' }}>
             <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', margin: '0 auto 1.5rem auto' }}>
-              💪 Energia & Performance
+              🥄 Utensílios de Cozinha
             </h1>
             <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '800px', margin: '0 auto 2rem auto', opacity: 0.95 }}>
-              Suplementos premium para aumentar sua energia, resistência e performance física
+              Ferramentas essenciais para uma cozinha funcional e organizada
             </p>
           </div>
         </div>
@@ -71,8 +71,8 @@ export default function EnergiaPage() {
               {adminProducts.map((product) => (
                 <div key={product.id} style={{ background: 'white', borderRadius: '0.75rem', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden', border: '1px solid #f3f4f6' }}>
                   {/* Product Image */}
-                  <div style={{ height: '12rem', background: 'linear-gradient(135deg, #fef3c7, #fed7aa)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ fontSize: '4rem' }}>💪</div>
+                  <div style={{ height: '12rem', background: 'linear-gradient(135deg, #f3e8ff, #e9d5ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ fontSize: '4rem' }}>🥄</div>
                   </div>
 
                   {/* Product Info */}
@@ -136,7 +136,7 @@ export default function EnergiaPage() {
                       href={product.amazonUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ display: 'block', width: '100%', background: 'linear-gradient(to right, #eab308, #f97316)', color: 'white', textAlign: 'center', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', textDecoration: 'none' }}
+                      style={{ display: 'block', width: '100%', background: 'linear-gradient(to right, #8b5cf6, #7c3aed)', color: 'white', textAlign: 'center', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', textDecoration: 'none' }}
                     >
                       🛒 Comprar na Amazon
                     </a>
@@ -146,7 +146,7 @@ export default function EnergiaPage() {
             </div>
           ) : (
             <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>💪</div>
+              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🥄</div>
               <h3 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#374151', marginBottom: '1rem' }}>
                 Nenhum produto adicionado ainda
               </h3>
@@ -159,17 +159,17 @@ export default function EnergiaPage() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ background: 'linear-gradient(to right, #eab308, #f97316)', color: 'white', padding: '4rem 1rem' }}>
+      <section style={{ background: 'linear-gradient(to right, #8b5cf6, #7c3aed)', color: 'white', padding: '4rem 1rem' }}>
         <div style={{ maxWidth: '64rem', margin: '0 auto', textAlign: 'center', padding: '0 1rem' }}>
           <h2 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>
             Precisa de ajuda para escolher?
           </h2>
           <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9 }}>
-            Nossa análise de IA personalizada pode identificar exatamente quais produtos de energia você precisa
+            Nossa análise de IA personalizada pode identificar exatamente quais utensílios você precisa
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/analise">
-              <button style={{ backgroundColor: 'white', color: '#ea580c', padding: '0.75rem 2rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer' }}>
+              <button style={{ backgroundColor: 'white', color: '#7c3aed', padding: '0.75rem 2rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer' }}>
                 🧠 Fazer Análise IA
               </button>
             </Link>

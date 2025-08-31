@@ -49,6 +49,7 @@ export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [productForm, setProductForm] = useState({
     name: '',
     description: '',
@@ -378,9 +379,30 @@ export default function AdminPage() {
                     {categoryProducts.length} produto{categoryProducts.length !== 1 ? 's' : ''}
                   </div>
                   {categoryProducts.length > 0 && (
-                    <div style={{ fontSize: '12px', color: '#666' }}>
-                      Último: {categoryProducts[categoryProducts.length - 1].name}
-                    </div>
+                    <>
+                      <div style={{ fontSize: '12px', color: '#666', marginBottom: '15px' }}>
+                        Último: {categoryProducts[categoryProducts.length - 1].name}
+                      </div>
+                      <button
+                        onClick={() => setSelectedCategory(category)}
+                        style={{
+                          backgroundColor: '#007bff',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '6px',
+                          padding: '10px 20px',
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          transition: 'background-color 0.2s',
+                          width: '100%'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+                      >
+                        🔍 Ver Produtos ({categoryProducts.length})
+                      </button>
+                    </>
                   )}
                 </div>
               );
@@ -389,82 +411,7 @@ export default function AdminPage() {
         )}
       </div>
 
-      {/* Lista Completa de Produtos */}
-      <div style={{ marginBottom: '40px' }}>
-        <h2 style={{ color: '#333', marginBottom: '20px' }}>📦 Lista Completa de Produtos</h2>
-        {products.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic' }}>
-            Nenhum produto cadastrado ainda. Adicione seu primeiro produto!
-          </p>
-        ) : (
-          <div style={{ display: 'grid', gap: '15px' }}>
-            {products.map(product => {
-              const category = categories.find(c => c.id === product.categoryId);
-              return (
-                <div key={product.id} style={{
-                  border: '1px solid #dee2e6',
-                  borderRadius: '8px',
-                  padding: '20px',
-                  backgroundColor: 'white'
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-                    <h3 style={{ color: '#333', margin: 0, fontSize: '18px' }}>{product.name}</h3>
-                    <button
-                      onClick={() => {
-                        if (confirm(`Tem certeza que deseja excluir "${product.name}"?`)) {
-                          setProducts(products.filter(p => p.id !== product.id));
-                          alert(`✅ Produto "${product.name}" excluído com sucesso!`);
-                        }
-                      }}
-                      style={{
-                        backgroundColor: '#dc3545',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        padding: '8px 12px',
-                        fontSize: '14px',
-                        cursor: 'pointer',
-                        fontWeight: 'bold'
-                      }}
-                      title="Excluir produto"
-                    >
-                      🗑️ Excluir
-                    </button>
-                  </div>
-                  <p style={{ color: '#666', margin: '5px 0', fontSize: '14px' }}>
-                    <strong>Categoria:</strong> {category?.name || 'Não definida'}
-                  </p>
-                  <p style={{ color: '#666', margin: '5px 0', fontSize: '14px' }}>
-                    <strong>Preço:</strong> {product.currentPrice}
-                  </p>
-                  <p style={{ color: '#666', margin: '5px 0', fontSize: '14px' }}>
-                    <strong>Avaliação:</strong> {product.rating}/5 ({product.reviewCount} avaliações)
-                  </p>
-                  <div style={{ marginTop: '10px' }}>
-                    <a
-                      href={product.amazonUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        backgroundColor: '#ff9900',
-                        color: 'white',
-                        textDecoration: 'none',
-                        padding: '8px 16px',
-                        borderRadius: '4px',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        display: 'inline-block'
-                      }}
-                    >
-                      🔗 Ver na Amazon
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+
 
       {/* Lista de Categorias */}
       <div>
@@ -1009,6 +956,174 @@ export default function AdminPage() {
                 Adicionar Categoria
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Produtos da Categoria */}
+      {selectedCategory && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '12px',
+            maxWidth: '800px',
+            width: '90%',
+            maxHeight: '90vh',
+            overflowY: 'auto'
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              marginBottom: '25px',
+              paddingBottom: '20px',
+              borderBottom: '2px solid #dee2e6'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span style={{ fontSize: '32px', marginRight: '15px' }}>{selectedCategory.icon}</span>
+                <div>
+                  <h2 style={{ margin: 0, color: '#333', fontSize: '28px', fontWeight: 'bold' }}>
+                    {selectedCategory.name}
+                  </h2>
+                  <p style={{ margin: '5px 0 0 0', color: '#666', fontSize: '16px' }}>
+                    {selectedCategory.description}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedCategory(null)}
+                style={{
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  fontSize: '18px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                title="Fechar"
+              >
+                ✕
+              </button>
+            </div>
+
+            {(() => {
+              const categoryProducts = products.filter(p => p.categoryId === selectedCategory.id);
+              if (categoryProducts.length === 0) {
+                return (
+                  <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic', fontSize: '18px' }}>
+                    Nenhum produto cadastrado nesta categoria ainda.
+                  </p>
+                );
+              }
+
+              return (
+                <div style={{ display: 'grid', gap: '20px' }}>
+                  {categoryProducts.map(product => (
+                    <div key={product.id} style={{
+                      border: '1px solid #dee2e6',
+                      borderRadius: '10px',
+                      padding: '25px',
+                      backgroundColor: '#f8f9fa',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+                        <h3 style={{ color: '#333', margin: 0, fontSize: '20px', fontWeight: '600' }}>
+                          {product.name}
+                        </h3>
+                        <button
+                          onClick={() => {
+                            if (confirm(`Tem certeza que deseja excluir "${product.name}" da categoria "${selectedCategory.name}"?`)) {
+                              setProducts(products.filter(p => p.id !== product.id));
+                              alert(`✅ Produto "${product.name}" excluído com sucesso da categoria "${selectedCategory.name}"!`);
+                            }
+                          }}
+                          style={{
+                            backgroundColor: '#dc3545',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '6px',
+                            padding: '12px 18px',
+                            fontSize: '14px',
+                            cursor: 'pointer',
+                            fontWeight: 'bold',
+                            transition: 'background-color 0.2s'
+                          }}
+                          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c82333'}
+                          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#dc3545'}
+                          title={`Excluir ${product.name}`}
+                        >
+                          🗑️ Excluir
+                        </button>
+                      </div>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+                        <div>
+                          <p style={{ color: '#666', margin: '10px 0', fontSize: '15px' }}>
+                            <strong>💰 Preço:</strong> {product.currentPrice}
+                          </p>
+                          <p style={{ color: '#666', margin: '10px 0', fontSize: '15px' }}>
+                            <strong>⭐ Avaliação:</strong> {product.rating}/5 ({product.reviewCount} avaliações)
+                          </p>
+                          <p style={{ color: '#666', margin: '10px 0', fontSize: '15px' }}>
+                            <strong>📝 Descrição:</strong> {product.description}
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                          <a
+                            href={product.amazonUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              backgroundColor: '#ff9900',
+                              color: 'white',
+                              textDecoration: 'none',
+                              padding: '12px 20px',
+                              borderRadius: '6px',
+                              fontSize: '15px',
+                              fontWeight: 'bold',
+                              textAlign: 'center',
+                              transition: 'background-color 0.2s'
+                            }}
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e68900'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ff9900'}
+                          >
+                            🔗 Ver na Amazon
+                          </a>
+                          
+                          {product.benefits && product.benefits.length > 0 && (
+                            <div>
+                              <strong style={{ color: '#333', fontSize: '14px' }}>✅ Benefícios:</strong>
+                              <ul style={{ margin: '8px 0 0 20px', color: '#666', fontSize: '14px' }}>
+                                {product.benefits.map((benefit, index) => (
+                                  <li key={index}>{benefit}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
         </div>
       )}

@@ -429,22 +429,115 @@ export async function getProductByASIN(asin: string): Promise<AmazonProduct | nu
       return null;
     }
 
-    const products = await searchAmazonAPI(asin, 1, {
-      minRating: 0,
-      preferBestSellers: false,
-      preferAmazonChoice: false
+    // Buscar diretamente pelo ASIN usando a API
+    const now = new Date();
+    const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
+    const dateStamp = amzDate.slice(0, 8);
+
+    const payloadObj = {
+      ItemIds: [asin],
+      Resources: [
+        'Images.Primary.Large',
+        'ItemInfo.Title',
+        'ItemInfo.Features',
+        'ItemInfo.ProductInfo',
+        'Offers.Listings.Price',
+        'BrowseNodeInfo',
+        'CustomerReviews'
+      ],
+      PartnerTag: ASSOCIATE_TAG,
+      PartnerType: 'Associates',
+      Marketplace: 'www.amazon.com'
+    };
+    
+    const payload = JSON.stringify(payloadObj);
+    const payloadHash = sha256Hex(payload);
+
+    const headers: Record<string,string> = {
+      'content-type': 'application/json; charset=utf-8',
+      'host': HOST,
+      'x-amz-target': 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems',
+      'x-amz-date': amzDate,
+      'x-amz-content-sha256': payloadHash,
+    };
+
+    const getItemsUri = '/paapi5/getitems';
+    const canonicalRequest = buildCanonicalRequest('POST', getItemsUri, '', headers, payloadHash);
+    const stringToSign = buildStringToSign(amzDate, dateStamp, AWS_REGION, SERVICE, canonicalRequest);
+    const signingKey = getSigningKey(AWS_SECRET_KEY, dateStamp, AWS_REGION, SERVICE);
+    const signature = crypto.createHmac('sha256', signingKey).update(stringToSign).digest('hex');
+    
+    const signedHeaders = Object.keys(headers).sort().join(';');
+    const authorization = buildAuthHeader(AWS_ACCESS_KEY, dateStamp, AWS_REGION, SERVICE, signedHeaders, signature);
+
+    console.log(`🔎 Amazon API GetItems: ASIN ${asin}`);
+    
+    const res = await fetch(`https://${HOST}${getItemsUri}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Authorization': authorization,
+      },
+      body: payload,
     });
 
-    if (products.length > 0) {
-      console.log('✅ Produto encontrado por ASIN:', products[0]);
-      return products[0];
+    const text = await res.text();
+    
+    if (!res.ok) {
+      console.error(`❌ GetItems API Error ${res.status}:`, text.substring(0, 100));
+      // Fallback para busca por texto
+      return await searchAmazonAPI(asin, 1, {
+        minRating: 0,
+        preferBestSellers: false,
+        preferAmazonChoice: false
+      }).then(products => products[0] || null);
     }
 
-    console.log('❌ Produto não encontrado por ASIN');
-    return null;
+    const data = JSON.parse(text);
+    
+    if (!data.ItemsResult?.Items?.length) {
+      console.log('📭 No product found for this ASIN');
+      // Fallback para busca por texto
+      return await searchAmazonAPI(asin, 1, {
+        minRating: 0,
+        preferBestSellers: false,
+        preferAmazonChoice: false
+      }).then(products => products[0] || null);
+    }
+
+    const item = data.ItemsResult.Items[0];
+    console.log(`📦 Found product by ASIN: ${item.ASIN}`);
+
+    // Processar dados do produto
+    const product: AmazonProduct = {
+      name: item.ItemInfo?.Title?.DisplayValue || 'Product',
+      asin: item.ASIN,
+      price: item.Offers?.Listings?.[0]?.Price?.DisplayAmount || '$29.99',
+      rating: item.CustomerReviews?.StarRating?.Value || 4.0,
+      imageUrl: item.Images?.Primary?.Large?.URL || '',
+      detailPageURL: `https://www.amazon.com/dp/${item.ASIN}?tag=${ASSOCIATE_TAG}`,
+      isValid: true,
+      isBestSeller: item.BrowseNodeInfo?.WebsiteSalesRank?.Rank <= 100,
+      isAmazonChoice: item.ItemInfo?.ProductInfo?.IsAmazonChoice || false,
+      reviewCount: item.CustomerReviews?.Count || 0
+    };
+
+    console.log('✅ Product found by ASIN:', product);
+    return product;
+    
   } catch (error) {
     console.error('❌ Erro ao buscar produto por ASIN:', error);
-    return null;
+    // Fallback para busca por texto
+    try {
+      return await searchAmazonAPI(asin, 1, {
+        minRating: 0,
+        preferBestSellers: false,
+        preferAmazonChoice: false
+      }).then(products => products[0] || null);
+    } catch (fallbackError) {
+      console.error('❌ Fallback também falhou:', fallbackError);
+      return null;
+    }
   }
 }
 

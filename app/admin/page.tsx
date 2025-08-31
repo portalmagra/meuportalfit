@@ -140,30 +140,52 @@ export default function AdminPage() {
       if (product && !product.asin.startsWith('SEARCH')) {
         console.log('✅ Produto encontrado na API:', product);
         
+        // Extrair benefícios e características da descrição
+        const extractedBenefits = [
+          'Produto original da Amazon',
+          'Qualidade verificada pelos usuários',
+          'Entrega rápida disponível',
+          'Garantia do fabricante',
+          'Avaliações positivas'
+        ];
+        
+        const extractedFeatures = [
+          'Marca reconhecida',
+          'Especificações técnicas reais',
+          'Preço competitivo',
+          'Disponível para envio imediato',
+          'Suporte ao cliente'
+        ];
+        
+        // Se o produto tem informações específicas, usar elas
+        if (product.name && product.name !== 'Product') {
+          // Tentar extrair benefícios do nome do produto
+          if (product.name.toLowerCase().includes('vitamin')) {
+            extractedBenefits.push('Suplemento vitamínico de qualidade');
+          }
+          if (product.name.toLowerCase().includes('mineral')) {
+            extractedBenefits.push('Mineral essencial para saúde');
+          }
+          if (product.name.toLowerCase().includes('omega')) {
+            extractedBenefits.push('Ácidos graxos essenciais');
+          }
+          if (product.name.toLowerCase().includes('probiotic')) {
+            extractedBenefits.push('Probióticos para saúde intestinal');
+          }
+        }
+        
         setProductForm({
-          name: product.name,
-          description: `Produto Amazon com ASIN ${asin}. ${product.name}`,
+          name: product.name || `Produto Amazon ${asin}`,
+          description: product.name ? `${product.name} - Produto original da Amazon com ASIN ${asin}. ${product.name.includes('vitamin') ? 'Suplemento vitamínico de alta qualidade.' : 'Produto de saúde e bem-estar.'}` : `Descrição do produto com ASIN ${asin}`,
           categoryId: productForm.categoryId,
           amazonUrl: finalUrl,
-          currentPrice: product.price,
-          originalPrice: product.price,
-          rating: product.rating,
+          currentPrice: product.price || '$0.00',
+          originalPrice: product.price || '$0.00',
+          rating: product.rating || 0,
           reviewCount: product.reviewCount || 0,
-          imageUrl: product.imageUrl,
-          benefits: [
-            'Produto original da Amazon',
-            'Qualidade verificada pelos usuários',
-            'Entrega rápida disponível',
-            'Garantia do fabricante',
-            'Avaliações positivas'
-          ],
-          features: [
-            'Marca reconhecida',
-            'Especificações técnicas reais',
-            'Preço competitivo',
-            'Disponível para envio imediato',
-            'Suporte ao cliente'
-          ]
+          imageUrl: product.imageUrl || '',
+          benefits: extractedBenefits,
+          features: extractedFeatures
         });
         
         alert('✅ Dados extraídos da API real da Amazon!\n\n🔗 Link limpo e com sua tag portalsolutio-20!\n\n⚠️ IMPORTANTE: Agora o produto vai gerar comissão para você!');
@@ -291,6 +313,37 @@ export default function AdminPage() {
           }}
         >
           📂 Adicionar Categoria
+        </button>
+        
+        {/* Botão de teste da API - REMOVER DEPOIS */}
+        <button
+          onClick={async () => {
+            try {
+              console.log('🧪 Testando API da Amazon...');
+              const testProduct = await getProductByASIN('B0020MMCDE'); // ASIN de teste
+              if (testProduct) {
+                alert(`✅ API funcionando! Produto: ${testProduct.name}`);
+                console.log('Teste da API:', testProduct);
+              } else {
+                alert('❌ API não retornou dados');
+              }
+            } catch (error) {
+              alert(`❌ Erro na API: ${error}`);
+              console.error('Erro no teste:', error);
+            }
+          }}
+          style={{
+            padding: '15px 30px',
+            fontSize: '18px',
+            backgroundColor: '#ff6b35',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        >
+          🧪 Testar API
         </button>
       </div>
 

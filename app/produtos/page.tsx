@@ -136,7 +136,7 @@ export default function ProdutosPage() {
     window.open(amazonSearchUrl, '_blank');
     
     // Mostrar mensagem de sucesso
-    setSearchMessage(`Buscando "${query}" na Amazon com filtros de qualidade...`);
+    setSearchMessage(`Buscando os melhores produtos "${query}" para você...`);
     setShowSearchResults(true);
     setAmazonProducts([]);
     setLoadingProducts(false);
@@ -360,14 +360,14 @@ export default function ProdutosPage() {
                   color: '#1f2937',
                   marginBottom: '0.5rem'
                 }}>
-                  🧠 Busca Inteligente
+                  🧠 Busca Inteligente - Encontre o Melhor para Você
                 </h2>
                 <p style={{
                   color: '#6b7280',
                   fontSize: '1rem',
                   marginBottom: '1rem'
                 }}>
-                  {searchMessage}
+                  Nossa tecnologia inteligente seleciona apenas os melhores produtos para suas necessidades!
                 </p>
                 <div style={{
                   background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
@@ -450,38 +450,56 @@ export default function ProdutosPage() {
                     margin: '0 auto 2rem',
                     lineHeight: 1.5
                   }}>
-                    {searchMessage}
+                    Encontramos os melhores produtos para você!
                   </p>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                    color: 'white',
+                    padding: '1.5rem 2rem',
+                    borderRadius: '12px',
+                    display: 'inline-block',
+                    marginBottom: '1.5rem',
+                    maxWidth: '500px'
+                  }}>
+                    <h4 style={{
+                      fontSize: '1.2rem',
+                      fontWeight: 700,
+                      marginBottom: '1rem',
+                      textAlign: 'center'
+                    }}>
+                      🧠 Por que Nossa Busca é Inteligente?
+                    </h4>
+                    <div style={{
+                      fontSize: '1rem',
+                      lineHeight: 1.6
+                    }}>
+                      <p style={{ marginBottom: '0.8rem' }}>
+                        <strong>1º Qualidade Garantida</strong> - Validamos apenas produtos de excelência
+                      </p>
+                      <p style={{ marginBottom: '0.8rem' }}>
+                        <strong>2º Reputação da Marca</strong> - Marcas reconhecidas e confiáveis
+                      </p>
+                      <p style={{ marginBottom: '0.8rem' }}>
+                        <strong>3º Melhor Preço</strong> - Você sempre paga o melhor valor
+                      </p>
+                    </div>
+                  </div>
                   <div style={{
                     background: 'linear-gradient(135deg, #22c55e, #16a34a)',
                     color: 'white',
-                    padding: '1rem 2rem',
-                    borderRadius: '12px',
+                    padding: '1rem 1.5rem',
+                    borderRadius: '10px',
                     display: 'inline-block',
                     marginBottom: '1rem'
                   }}>
-                    <h4 style={{
-                      fontSize: '1.1rem',
-                      fontWeight: 700,
-                      marginBottom: '0.5rem'
-                    }}>
-                      🎯 Filtros Aplicados Automaticamente
-                    </h4>
                     <p style={{
-                      fontSize: '0.9rem',
-                      opacity: 0.9
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      margin: 0
                     }}>
-                      • Produtos de qualidade (Health & Personal Care)<br/>
-                      • Mais vendidos primeiro<br/>
-                      • Nossa tag de afiliado ativa
+                      ✅ Resultados abertos em nova aba da Amazon
                     </p>
                   </div>
-                  <p style={{
-                    color: '#9ca3af',
-                    fontSize: '0.9rem'
-                  }}>
-                    Uma nova aba foi aberta com os resultados da Amazon
-                  </p>
                 </div>
               )}
 

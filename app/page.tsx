@@ -226,8 +226,8 @@ export default function HomePage() {
               <span>⭐⭐⭐⭐⭐</span>
             </div>
 
-            {/* Main Title Compacto */}
-            <div style={{ marginBottom: '1rem' }}>
+            {/* Main Title Compacto - REMOVIDO */}
+            {/* <div style={{ marginBottom: '1rem' }}>
               <h1 style={{
                 fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
                 fontWeight: 900,
@@ -244,7 +244,7 @@ export default function HomePage() {
                   display: 'inline-block'
                 }}>{t('headline3')}</div>
               </h1>
-            </div>
+            </div> */}
 
             {/* TRÊS TÓPICOS GIGANTES E CHAMATIVOS */}
             <div style={{
@@ -276,16 +276,23 @@ export default function HomePage() {
                   e.currentTarget.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.3)'
                 }}>
                   <div style={{
-                    fontSize: '3rem',
-                    marginBottom: '0.5rem',
-                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-                  }}>🧠</div>
-                  <h2 style={{
-                    fontSize: '1.4rem',
-                    fontWeight: 900,
-                    marginBottom: '0.5rem',
-                    textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}>Análise Inteligente</h2>
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    <div style={{
+                      fontSize: '2rem',
+                      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                    }}>🧠</div>
+                    <h2 style={{
+                      fontSize: '1.4rem',
+                      fontWeight: 900,
+                      marginBottom: '0',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                    }}>Análise Inteligente</h2>
+                  </div>
                   <p style={{
                     fontSize: '1rem',
                     opacity: 0.95,
@@ -329,16 +336,23 @@ export default function HomePage() {
                   e.currentTarget.style.boxShadow = '0 20px 40px rgba(59, 130, 246, 0.3)'
                 }}>
                   <div style={{
-                    fontSize: '4rem',
-                    marginBottom: '1rem',
-                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-                  }}>🛍️</div>
-                  <h2 style={{
-                    fontSize: '1.8rem',
-                    fontWeight: 900,
-                    marginBottom: '1rem',
-                    textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}>Produtos Selecionados</h2>
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    <div style={{
+                      fontSize: '2rem',
+                      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                    }}>🛍️</div>
+                    <h2 style={{
+                      fontSize: '1.4rem',
+                      fontWeight: 900,
+                      marginBottom: '0',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                    }}>Produtos Selecionados</h2>
+                  </div>
                   <p style={{
                     fontSize: '1rem',
                     opacity: 0.95,
@@ -382,16 +396,23 @@ export default function HomePage() {
                   e.currentTarget.style.boxShadow = '0 20px 40px rgba(139, 92, 246, 0.3)'
                 }}>
                   <div style={{
-                    fontSize: '4rem',
-                    marginBottom: '1rem',
-                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-                  }}>💬</div>
-                  <h2 style={{
-                    fontSize: '1.8rem',
-                    fontWeight: 900,
-                    marginBottom: '1rem',
-                    textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}>Avaliação Personalizada</h2>
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    marginBottom: '0.5rem'
+                  }}>
+                    <div style={{
+                      fontSize: '2rem',
+                      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                    }}>💬</div>
+                    <h2 style={{
+                      fontSize: '1.4rem',
+                      fontWeight: 900,
+                      marginBottom: '0',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                    }}>Avaliação Personalizada</h2>
+                  </div>
                   <p style={{
                     fontSize: '1rem',
                     opacity: 0.95,

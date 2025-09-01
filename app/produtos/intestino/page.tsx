@@ -14,15 +14,17 @@ export default function IntestinoPage() {
     const loadProducts = () => {
       try {
         const storedProducts = localStorage.getItem('adminProducts')
+        console.log('🔄 Carregando produtos do localStorage:', storedProducts ? 'encontrado' : 'não encontrado')
         if (storedProducts) {
           const allProducts = JSON.parse(storedProducts)
           const intestinoProducts = allProducts.filter((product: any) => 
             product.categoryId === 'intestino'
           )
+          console.log('🫀 Produtos da categoria intestino:', intestinoProducts.length, 'produtos')
           setProducts(intestinoProducts)
         }
       } catch (error) {
-        console.error('Erro ao carregar produtos:', error)
+        console.error('❌ Erro ao carregar produtos:', error)
       } finally {
         setLoading(false)
       }
@@ -31,18 +33,28 @@ export default function IntestinoPage() {
     loadProducts()
     
     // Sincronizar com mudanças de outros dispositivos
-    const channel = new BroadcastChannel('admin-sync')
-    
-    channel.onmessage = (event) => {
-      if (event.data.type === 'products-updated') {
-        const intestinoProducts = event.data.products.filter((product: any) => 
-          product.categoryId === 'intestino'
-        )
-        setProducts(intestinoProducts)
+    try {
+      const channel = new BroadcastChannel('admin-sync')
+      console.log('📡 Escutando sincronização na página intestino')
+      
+      channel.onmessage = (event) => {
+        console.log('📨 Mensagem recebida:', event.data.type)
+        if (event.data.type === 'products-updated') {
+          const intestinoProducts = event.data.products.filter((product: any) => 
+            product.categoryId === 'intestino'
+          )
+          console.log('🫀 Produtos atualizados via sincronização:', intestinoProducts.length, 'produtos')
+          setProducts(intestinoProducts)
+        }
       }
+      
+      return () => {
+        console.log('🔌 Fechando canal de sincronização')
+        channel.close()
+      }
+    } catch (error) {
+      console.log('❌ BroadcastChannel não suportado na página intestino:', error)
     }
-    
-    return () => channel.close()
   }, [])
 
   return (

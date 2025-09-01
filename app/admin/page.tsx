@@ -94,6 +94,7 @@ export default function AdminPage() {
 
   // Salvar produtos no localStorage e sincronizar
   useEffect(() => {
+    console.log('💾 Salvando produtos no localStorage:', products.length, 'produtos');
     localStorage.setItem('adminProducts', JSON.stringify(products));
     // Também salvar na chave global para outras páginas
     localStorage.setItem('globalProducts', JSON.stringify(products));
@@ -101,13 +102,15 @@ export default function AdminPage() {
     // Sincronizar com outros dispositivos
     try {
       const channel = new BroadcastChannel('admin-sync');
+      console.log('📡 Enviando sincronização via BroadcastChannel');
       channel.postMessage({
         type: 'products-updated',
         products: products
       });
       channel.close();
+      console.log('✅ Sincronização enviada com sucesso');
     } catch (error) {
-      console.log('BroadcastChannel não suportado, sincronização local apenas');
+      console.log('❌ BroadcastChannel não suportado, sincronização local apenas:', error);
     }
   }, [products]);
 
@@ -136,9 +139,13 @@ export default function AdminPage() {
   };
 
   const addProduct = (product: Omit<Product, 'id'>) => {
+    console.log('🔍 addProduct chamado com:', product);
+    
     // Gerar URL amigável para o produto
     const productSlug = generateProductSlug(product.name);
     const productUrl = `/produtos/${product.categoryId}/${productSlug}`;
+    
+    console.log('🔗 URL gerada:', { productSlug, productUrl });
     
     if (editingProduct) {
       // Modo edição
@@ -147,6 +154,7 @@ export default function AdminPage() {
           ? { ...product, id: editingProduct.id, productUrl }
           : p
       );
+      console.log('📝 Produtos atualizados:', updatedProducts);
       setProducts(updatedProducts);
       setEditingProduct(null);
       alert(`✅ Produto "${product.name}" atualizado com sucesso!\n\n🔗 URL do produto: ${productUrl}`);
@@ -157,6 +165,7 @@ export default function AdminPage() {
         id: Date.now().toString(),
         productUrl
       };
+      console.log('➕ Novo produto:', newProduct);
       setProducts([...products, newProduct]);
       alert(`✅ Produto "${product.name}" adicionado com sucesso!\n\n🔗 URL do produto: ${productUrl}`);
     }

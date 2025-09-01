@@ -483,28 +483,35 @@ export default function HomePage() {
                   position: 'relative'
                 }}>
                 <div style={{
-                  width: '60px',
-                  height: '60px',
-                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1.5rem',
-                  fontSize: '1.5rem',
-                  fontWeight: 900,
-                  color: 'white'
+                  gap: '1rem',
+                  marginBottom: '1rem'
                 }}>
-                  1
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.2rem',
+                    fontWeight: 900,
+                    color: 'white',
+                    flexShrink: 0
+                  }}>
+                    1
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.3rem',
+                    fontWeight: 700,
+                    marginBottom: '0',
+                    color: '#1f2937'
+                  }}>
+                    Análise da Rotina Alimentar
+                  </h3>
                 </div>
-                <h3 style={{
-                  fontSize: '1.3rem',
-                  fontWeight: 700,
-                  marginBottom: '1rem',
-                  color: '#1f2937'
-                }}>
-                  Análise da Rotina Alimentar
-                </h3>
                 <p style={{
                   fontSize: '1rem',
                   color: '#6b7280',
@@ -524,28 +531,35 @@ export default function HomePage() {
                 position: 'relative'
               }}>
                 <div style={{
-                  width: '60px',
-                  height: '60px',
-                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1.5rem',
-                  fontSize: '1.5rem',
-                  fontWeight: 900,
-                  color: 'white'
+                  gap: '1rem',
+                  marginBottom: '1rem'
                 }}>
-                  2
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.2rem',
+                    fontWeight: 900,
+                    color: 'white',
+                    flexShrink: 0
+                  }}>
+                    2
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.3rem',
+                    fontWeight: 700,
+                    marginBottom: '0',
+                    color: '#1f2937'
+                  }}>
+                    Hábitos de Sono e Estresse
+                  </h3>
                 </div>
-                <h3 style={{
-                  fontSize: '1.3rem',
-                  fontWeight: 700,
-                  marginBottom: '1rem',
-                  color: '#1f2937'
-                }}>
-                  Hábitos de Sono e Estresse
-                </h3>
                 <p style={{
                   fontSize: '1rem',
                   color: '#6b7280',
@@ -565,28 +579,35 @@ export default function HomePage() {
                 position: 'relative'
               }}>
                 <div style={{
-                  width: '60px',
-                  height: '60px',
-                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1.5rem',
-                  fontSize: '1.5rem',
-                  fontWeight: 900,
-                  color: 'white'
+                  gap: '1rem',
+                  marginBottom: '1rem'
                 }}>
-                  3
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.2rem',
+                    fontWeight: 900,
+                    color: 'white',
+                    flexShrink: 0
+                  }}>
+                    3
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.3rem',
+                    fontWeight: 700,
+                    marginBottom: '0',
+                    color: '#1f2937'
+                  }}>
+                    Plano Personalizado
+                  </h3>
                 </div>
-                <h3 style={{
-                  fontSize: '1.3rem',
-                  fontWeight: 700,
-                  marginBottom: '1rem',
-                  color: '#1f2937'
-                }}>
-                  Plano Personalizado
-                </h3>
                 <p style={{
                   fontSize: '1rem',
                   color: '#6b7280',

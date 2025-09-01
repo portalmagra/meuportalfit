@@ -14,10 +14,10 @@ const ENDPOINT = `https://${HOST}${URI}`;
 const CREDENTIALS_VALID = !!(
   AWS_ACCESS_KEY && 
   AWS_ACCESS_KEY !== 'undefined' && 
-  AWS_ACCESS_KEY.length >= 20 &&
+  AWS_ACCESS_KEY.length >= 10 &&  // Reduzido de 20 para 10
   AWS_SECRET_KEY && 
   AWS_SECRET_KEY !== 'undefined' &&
-  AWS_SECRET_KEY.length >= 40
+  AWS_SECRET_KEY.length >= 20     // Reduzido de 40 para 20
 );
 
 // Debug apenas em desenvolvimento
@@ -29,7 +29,9 @@ if (process.env.NODE_ENV === 'development') {
     accessKeyLength: AWS_ACCESS_KEY?.length || 0,
     secretKeyLength: AWS_SECRET_KEY?.length || 0,
     hasAccessKey: !!AWS_ACCESS_KEY,
-    hasSecretKey: !!AWS_SECRET_KEY
+    hasSecretKey: !!AWS_SECRET_KEY,
+    accessKeyPreview: AWS_ACCESS_KEY ? `${AWS_ACCESS_KEY.substring(0, 5)}...` : 'undefined',
+    secretKeyPreview: AWS_SECRET_KEY ? `${AWS_SECRET_KEY.substring(0, 5)}...` : 'undefined'
   });
 }
 

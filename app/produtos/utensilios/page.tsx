@@ -1,186 +1,198 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Product {
-  id: string
-  name: string
-  description: string
-  categoryId: string
-  amazonUrl: string
-  currentPrice: string
-  originalPrice: string
-  rating: number
-  reviewCount: number
-  imageUrl: string
-  benefits: string[]
-  features: string[]
+  id: string;
+  name: string;
+  description: string;
+  categoryId: string;
+  amazonUrl: string;
+  currentPrice: string;
+  originalPrice: string;
+  rating: number;
+  reviewCount: number;
+  imageUrl: string;
+  benefits: string[];
+  features: string[];
 }
 
 export default function UtensiliosPage() {
-  const [adminProducts, setAdminProducts] = useState<Product[]>([])
+  const [adminProducts, setAdminProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     // Carregar produtos do localStorage
-    const savedProducts = localStorage.getItem('globalProducts')
+    const savedProducts = localStorage.getItem('globalProducts');
     if (savedProducts) {
-      const allProducts = JSON.parse(savedProducts)
-      // Filtrar apenas produtos da categoria "utensilios"
-      const utensiliosProducts = allProducts.filter((p: any) => p.categoryId === 'utensilios')
-      setAdminProducts(utensiliosProducts)
+      const products = JSON.parse(savedProducts);
+      // Filtrar apenas produtos da categoria 'utensilios'
+      const categoryProducts = products.filter((p: Product) => p.categoryId === 'utensilios');
+      setAdminProducts(categoryProducts);
     }
-  }, [])
+  }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: 'white' }}>
+    <div>
       {/* Hero Section */}
-      <section style={{ background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', color: 'white', padding: '4rem 1rem' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
-            <Link href="/produtos" style={{ color: 'white', textDecoration: 'none', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              ← Voltar às Categorias
+      <div style={{
+        background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+        color: 'white',
+        padding: '60px 20px',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '20px', fontWeight: 'bold' }}>
+            🛠️ Suporte para Utensílios
+          </h1>
+          <p style={{ fontSize: '1.2rem', marginBottom: '30px', opacity: 0.9 }}>
+            Produtos selecionados para facilitar sua rotina de saúde e bem-estar
+          </p>
+          <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/analise" style={{
+              padding: '15px 30px',
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '8px',
+              border: '2px solid rgba(255,255,255,0.3)',
+              fontWeight: 'bold',
+              transition: 'all 0.3s ease'
+            }}>
+              🧠 Avaliação Personalizada
+            </Link>
+            <Link href="/produtos" style={{
+              padding: '15px 30px',
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '8px',
+              border: '2px solid rgba(255,255,255,0.3)',
+              fontWeight: 'bold',
+              transition: 'all 0.3s ease'
+            }}>
+              🛍️ Ver Todas as Categorias
             </Link>
           </div>
-          
-          <div style={{ textAlign: 'center' }}>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', margin: '0 auto 1.5rem auto' }}>
-              🥄 Utensílios de Cozinha
-            </h1>
-            <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '800px', margin: '0 auto 2rem auto', opacity: 0.95 }}>
-              Ferramentas essenciais para uma cozinha funcional e organizada
-            </p>
-          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Content */}
-      <section style={{ padding: '4rem 1rem' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1f2937', marginBottom: '1rem' }}>
-              Produtos Disponíveis
+      {/* Conteúdo Principal */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
+        {adminProducts.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <h2 style={{ color: '#333', marginBottom: '20px' }}>
+              🛠️ Nenhum produto adicionado ainda para esta categoria
             </h2>
-            <p style={{ fontSize: '1.125rem', color: '#6b7280' }}>
-              Produtos selecionados para suas necessidades específicas
+            <p style={{ color: '#666', marginBottom: '30px', fontSize: '1.1rem' }}>
+              Nossos especialistas estão selecionando produtos específicos para facilitar sua rotina de saúde e bem-estar.
             </p>
+            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link href="/analise" style={{
+                padding: '15px 30px',
+                backgroundColor: '#6b7280',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}>
+                🧠 Fazer Avaliação Personalizada
+              </Link>
+              <Link href="/produtos" style={{
+                padding: '15px 30px',
+                backgroundColor: '#4b5563',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}>
+                🔍 Buscar Produtos
+              </Link>
+            </div>
           </div>
-
-          {adminProducts.length > 0 ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+        ) : (
+          <div>
+            <h2 style={{ textAlign: 'center', color: '#333', marginBottom: '40px', fontSize: '2rem' }}>
+              🛠️ Produtos Disponíveis
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
               {adminProducts.map((product) => (
-                <div key={product.id} style={{ background: 'white', borderRadius: '0.75rem', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)', overflow: 'hidden', border: '1px solid #f3f4f6' }}>
-                  {/* Product Image */}
-                  <div style={{ height: '12rem', background: 'linear-gradient(135deg, #f3e8ff, #e9d5ff)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ fontSize: '4rem' }}>🥄</div>
+                <div key={product.id} style={{
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '12px',
+                  padding: '25px',
+                  backgroundColor: 'white',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                  transition: 'transform 0.2s ease'
+                }}>
+                  <h3 style={{ color: '#333', marginBottom: '15px', fontSize: '1.3rem', fontWeight: 'bold' }}>
+                    {product.name}
+                  </h3>
+                  
+                  <p style={{ color: '#666', marginBottom: '20px', lineHeight: '1.6' }}>
+                    {product.description}
+                  </p>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <div>
+                      <p style={{ color: '#333', fontWeight: 'bold', fontSize: '1.2rem' }}>
+                        💰 {product.currentPrice}
+                      </p>
+                      <p style={{ color: '#666', fontSize: '0.9rem' }}>
+                        ⭐ {product.rating}/5 ({product.reviewCount} avaliações)
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Product Info */}
-                  <div style={{ padding: '1.5rem' }}>
-                    <h3 style={{ fontSize: '1.125rem', fontWeight: 'bold', color: '#111827', marginBottom: '0.5rem' }}>{product.name}</h3>
-                    <p style={{ color: '#4b5563', fontSize: '0.875rem', marginBottom: '1rem' }}>{product.description}</p>
-
-                    {/* Benefits */}
-                    {product.benefits && product.benefits.length > 0 && (
-                      <div style={{ marginBottom: '1rem' }}>
-                        <h4 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#374151', marginBottom: '0.5rem' }}>Benefícios:</h4>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                          {product.benefits.map((benefit, index) => (
-                            <div key={index} style={{ display: 'flex', alignItems: 'center', fontSize: '0.75rem', color: '#4b5563' }}>
-                              <span style={{ color: '#10b981', marginRight: '0.5rem' }}>✓</span>
-                              {benefit}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Features */}
-                    {product.features && product.features.length > 0 && (
-                      <div style={{ marginBottom: '1rem' }}>
-                        <h4 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#374151', marginBottom: '0.5rem' }}>Características:</h4>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
-                          {product.features.map((feature, index) => (
-                            <span
-                              key={index}
-                              style={{ fontSize: '0.75rem', backgroundColor: '#f3f4f6', color: '#4b5563', padding: '0.25rem 0.5rem', borderRadius: '0.25rem' }}
-                            >
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Rating */}
-                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span style={{ color: '#fbbf24', marginRight: '0.25rem' }}>{'★'.repeat(Math.floor(product.rating))}</span>
-                        <span style={{ fontSize: '0.875rem', color: '#4b5563' }}>{product.rating}</span>
-                      </div>
-                      <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.5rem' }}>({product.reviewCount} reviews)</span>
+                  {product.benefits && product.benefits.length > 0 && (
+                    <div style={{ marginBottom: '20px' }}>
+                      <h4 style={{ color: '#333', marginBottom: '10px', fontWeight: 'bold' }}>✅ Benefícios:</h4>
+                      <ul style={{ margin: 0, paddingLeft: '20px', color: '#666' }}>
+                        {product.benefits.map((benefit, index) => (
+                          <li key={index} style={{ marginBottom: '5px' }}>{benefit}</li>
+                        ))}
+                      </ul>
                     </div>
+                  )}
 
-                    {/* Price */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                      <div>
-                        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#111827' }}>{product.currentPrice}</span>
-                        {product.originalPrice && (
-                          <span style={{ fontSize: '0.875rem', color: '#6b7280', textDecoration: 'line-through', marginLeft: '0.5rem' }}>{product.originalPrice}</span>
-                        )}
-                      </div>
+                  {product.features && product.features.length > 0 && (
+                    <div style={{ marginBottom: '20px' }}>
+                      <h4 style={{ color: '#333', marginBottom: '10px', fontWeight: 'bold' }}>🔧 Características:</h4>
+                      <ul style={{ margin: 0, paddingLeft: '20px', color: '#666' }}>
+                        {product.features.map((feature, index) => (
+                          <li key={index} style={{ marginBottom: '5px' }}>{feature}</li>
+                        ))}
+                      </ul>
                     </div>
+                  )}
 
-                    {/* CTA Button */}
-                    <a
-                      href={product.amazonUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ display: 'block', width: '100%', background: 'linear-gradient(to right, #8b5cf6, #7c3aed)', color: 'white', textAlign: 'center', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: '600', textDecoration: 'none' }}
-                    >
-                      🛒 Comprar na Amazon
-                    </a>
-                  </div>
+                  <a
+                    href={product.amazonUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#ff9900',
+                      color: 'white',
+                      textDecoration: 'none',
+                      borderRadius: '8px',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      transition: 'background-color 0.2s ease'
+                    }}
+                  >
+                    🔗 Ver na Amazon
+                  </a>
                 </div>
               ))}
             </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🥄</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#374151', marginBottom: '1rem' }}>
-                Nenhum produto adicionado ainda
-              </h3>
-              <p style={{ color: '#6b7280', fontSize: '1.125rem', maxWidth: '500px', margin: '0 auto' }}>
-                Os produtos desta categoria serão adicionados em breve através da área administrativa.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section style={{ background: 'linear-gradient(to right, #8b5cf6, #7c3aed)', color: 'white', padding: '4rem 1rem' }}>
-        <div style={{ maxWidth: '64rem', margin: '0 auto', textAlign: 'center', padding: '0 1rem' }}>
-          <h2 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>
-            Precisa de ajuda para escolher?
-          </h2>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9 }}>
-            Nossa análise de IA personalizada pode identificar exatamente quais utensílios você precisa
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/analise">
-              <button style={{ backgroundColor: 'white', color: '#7c3aed', padding: '0.75rem 2rem', borderRadius: '0.5rem', fontWeight: '600', border: 'none', cursor: 'pointer' }}>
-                🧠 Fazer Análise IA
-              </button>
-            </Link>
-            <Link href="/suporte">
-              <button style={{ border: '2px solid white', color: 'white', padding: '0.75rem 2rem', borderRadius: '0.5rem', fontWeight: '600', backgroundColor: 'transparent', cursor: 'pointer' }}>
-                💬 Falar com Especialista
-              </button>
-            </Link>
           </div>
-        </div>
-      </section>
+        )}
+      </div>
     </div>
-  )
+  );
 }

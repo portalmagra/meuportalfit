@@ -50,6 +50,7 @@ export default function AdminPage() {
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [productForm, setProductForm] = useState({
     name: '',
     description: '',
@@ -92,11 +93,26 @@ export default function AdminPage() {
   };
 
   const addProduct = (product: Omit<Product, 'id'>) => {
-    const newProduct: Product = {
-      ...product,
-      id: Date.now().toString()
-    };
-    setProducts([...products, newProduct]);
+    if (editingProduct) {
+      // Modo edição
+      const updatedProducts = products.map(p => 
+        p.id === editingProduct.id 
+          ? { ...product, id: editingProduct.id }
+          : p
+      );
+      setProducts(updatedProducts);
+      setEditingProduct(null);
+      alert(`✅ Produto "${product.name}" atualizado com sucesso!`);
+    } else {
+      // Modo adição
+      const newProduct: Product = {
+        ...product,
+        id: Date.now().toString()
+      };
+      setProducts([...products, newProduct]);
+      alert(`✅ Produto "${product.name}" adicionado com sucesso!`);
+    }
+    
     setShowAddProduct(false);
     setProductForm({
       name: '',
@@ -111,7 +127,6 @@ export default function AdminPage() {
       benefits: [''],
       features: ['']
     });
-    alert(`✅ Produto "${product.name}" adicionado com sucesso!`);
   };
 
   const extractAmazonData = async (url: string) => {
@@ -323,81 +338,37 @@ export default function AdminPage() {
           📂 Adicionar Categoria
         </button>
         
-        {/* Botão de teste da API - REMOVER DEPOIS */}
-        <button
-          onClick={async () => {
-            try {
-              console.log('🧪 Testando API da Amazon...');
-              const testProduct = await getProductByASIN('B0020MMCDE'); // ASIN de teste
-              if (testProduct) {
-                alert(`✅ API funcionando! Produto: ${testProduct.name}`);
-                console.log('Teste da API:', testProduct);
-              } else {
-                alert('❌ API não retornou dados');
-              }
-            } catch (error) {
-              alert(`❌ Erro na API: ${error}`);
-              console.error('Erro no teste:', error);
-            }
-          }}
-          style={{
-            padding: '15px 30px',
-            fontSize: '18px',
-            backgroundColor: '#ff6b35',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontWeight: 'bold'
-          }}
-        >
-          🧪 Testar API
-        </button>
+
       </div>
 
       {/* Estatísticas */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-        gap: '20px', 
-        marginBottom: '40px' 
-      }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
         <div style={{
-          backgroundColor: '#f8f9fa',
+          backgroundColor: 'white',
           padding: '20px',
           borderRadius: '8px',
-          textAlign: 'center',
-          border: '1px solid #dee2e6'
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          textAlign: 'center'
         }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#495057' }}>📊 Total de Categorias</h3>
-          <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0, color: '#007bff' }}>
-            {categories.length} / {defaultCategories.length}
-          </p>
-          <small style={{ color: '#666' }}>Debug: {JSON.stringify(categories.map(c => c.name))}</small>
+          <div style={{ fontSize: '24px', marginBottom: '10px' }}>📊</div>
+          <h3 style={{ margin: '0 0 10px 0', color: '#333' }}>Total de Categorias</h3>
+          <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#007bff' }}>
+            {categories.length}
+          </div>
         </div>
+        
         <div style={{
-          backgroundColor: '#f8f9fa',
+          backgroundColor: 'white',
           padding: '20px',
           borderRadius: '8px',
-          textAlign: 'center',
-          border: '1px solid #dee2e6'
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          textAlign: 'center'
         }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#495057' }}>📦 Total de Produtos</h3>
-          <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0, color: '#28a745' }}>
+          <div style={{ fontSize: '24px', marginBottom: '10px' }}>📦</div>
+          <h3 style={{ margin: '0 0 10px 0', color: '#333' }}>Total de Produtos</h3>
+          <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#28a745' }}>
             {products.length}
-          </p>
-        </div>
-        <div style={{
-          backgroundColor: '#f8f9fa',
-          padding: '20px',
-          borderRadius: '8px',
-          textAlign: 'center',
-          border: '1px solid #dee2e6'
-        }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#495057' }}>🔗 Links Amazon</h3>
-          <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0, color: '#ff6b35' }}>
-            {products.filter(p => p.amazonUrl).length}
-          </p>
+          </div>
         </div>
       </div>
 
@@ -551,7 +522,9 @@ export default function AdminPage() {
             maxHeight: '90vh',
             overflowY: 'auto'
           }}>
-            <h2 style={{ marginBottom: '20px', color: '#333' }}>➕ Novo Produto</h2>
+            <h2 style={{ marginBottom: '20px', color: '#333' }}>
+              {editingProduct ? '✏️ Editar Produto' : '➕ Novo Produto'}
+            </h2>
             
             <div style={{ marginBottom: '15px' }}>
               <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
@@ -846,7 +819,23 @@ export default function AdminPage() {
 
             <div style={{ display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
               <button
-                onClick={() => setShowAddProduct(false)}
+                onClick={() => {
+                  setShowAddProduct(false);
+                  setEditingProduct(null);
+                  setProductForm({
+                    name: '',
+                    description: '',
+                    categoryId: '',
+                    amazonUrl: '',
+                    currentPrice: '',
+                    originalPrice: '',
+                    rating: 0,
+                    reviewCount: 0,
+                    imageUrl: '',
+                    benefits: [''],
+                    features: ['']
+                  });
+                }}
                 style={{
                   padding: '12px 24px',
                   backgroundColor: '#6c757d',
@@ -875,7 +864,7 @@ export default function AdminPage() {
                   cursor: 'pointer'
                 }}
               >
-                Adicionar Produto
+                {editingProduct ? 'Atualizar Produto' : 'Adicionar Produto'}
               </button>
             </div>
           </div>
@@ -1108,30 +1097,68 @@ export default function AdminPage() {
                         <h3 style={{ color: '#333', margin: 0, fontSize: '20px', fontWeight: '600' }}>
                           {product.name}
                         </h3>
-                        <button
-                          onClick={() => {
-                            if (confirm(`Tem certeza que deseja excluir "${product.name}" da categoria "${selectedCategory.name}"?`)) {
-                              setProducts(products.filter(p => p.id !== product.id));
-                              alert(`✅ Produto "${product.name}" excluído com sucesso da categoria "${selectedCategory.name}"!`);
-                            }
-                          }}
-                          style={{
-                            backgroundColor: '#dc3545',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '6px',
-                            padding: '12px 18px',
-                            fontSize: '14px',
-                            cursor: 'pointer',
-                            fontWeight: 'bold',
-                            transition: 'background-color 0.2s'
-                          }}
-                          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c82333'}
-                          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#dc3545'}
-                          title={`Excluir ${product.name}`}
-                        >
-                          🗑️ Excluir
-                        </button>
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                          <button
+                                                         onClick={() => {
+                               setEditingProduct(product);
+                               setProductForm({
+                                 name: product.name,
+                                 description: product.description,
+                                 categoryId: product.categoryId,
+                                 amazonUrl: product.amazonUrl,
+                                 currentPrice: product.currentPrice,
+                                 originalPrice: product.originalPrice,
+                                 rating: product.rating,
+                                 reviewCount: product.reviewCount,
+                                 imageUrl: product.imageUrl,
+                                 benefits: product.benefits,
+                                 features: product.features
+                               });
+                               setShowAddProduct(true);
+                               setSelectedCategory(null); // Fecha o modal de produtos
+                             }}
+                            style={{
+                              backgroundColor: '#ffc107',
+                              color: '#333',
+                              border: 'none',
+                              borderRadius: '6px',
+                              padding: '12px 18px',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                              fontWeight: 'bold',
+                              transition: 'background-color 0.2s'
+                            }}
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e0a800'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ffc107'}
+                            title={`Editar ${product.name}`}
+                          >
+                            ✏️ Editar
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm(`Tem certeza que deseja excluir "${product.name}" da categoria "${selectedCategory.name}"?`)) {
+                                setProducts(products.filter(p => p.id !== product.id));
+                                alert(`✅ Produto "${product.name}" excluído com sucesso da categoria "${selectedCategory.name}"!`);
+                              }
+                            }}
+                            style={{
+                              backgroundColor: '#dc3545',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '6px',
+                              padding: '12px 18px',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                              fontWeight: 'bold',
+                              transition: 'background-color 0.2s'
+                            }}
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c82333'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#dc3545'}
+                            title={`Excluir ${product.name}`}
+                          >
+                            🗑️ Excluir
+                          </button>
+                        </div>
                       </div>
                       
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>

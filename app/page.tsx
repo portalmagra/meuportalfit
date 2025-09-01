@@ -915,13 +915,56 @@ export default function HomePage() {
             </h2>
             <p style={{
               fontSize: '1.1rem',
-              marginBottom: '2rem',
+              marginBottom: '1rem',
               opacity: 0.95,
               lineHeight: 1.5
             }}>
               Você pode fazer uma busca inteligente direta na Amazon ou escolher produtos pré-selecionados em nossas categorias. 
-              Sempre seguimos nossa filosofia: <strong>1º Qualidade</strong> → <strong>2º Credibilidade da Marca</strong> → <strong>3º Melhor Preço</strong>.
+              Sempre seguimos nossa filosofia:
             </p>
+            
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.5rem',
+              marginBottom: '2rem',
+              padding: '1rem',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '15px',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '1rem',
+                fontWeight: 600
+              }}>
+                <span style={{ fontSize: '1.2rem' }}>🥇</span>
+                <span><strong>1º Qualidade</strong></span>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '1rem',
+                fontWeight: 600
+              }}>
+                <span style={{ fontSize: '1.2rem' }}>🏆</span>
+                <span><strong>2º Credibilidade da Marca</strong></span>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '1rem',
+                fontWeight: 600
+              }}>
+                <span style={{ fontSize: '1.2rem' }}>💰</span>
+                <span><strong>3º Melhor Preço</strong></span>
+              </div>
+            </div>
             
             <div style={{ marginBottom: '1rem' }}>
               <Link href="/produtos" style={{ textDecoration: 'none' }}>

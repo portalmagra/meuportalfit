@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getProductByASIN } from '../../lib/amazon-api';
+import { sendProductSync, saveProductsToStorage } from '../../lib/sync-utils';
 
 interface Category {
   id: string;
@@ -122,23 +123,9 @@ export default function AdminPage() {
 
   // Salvar produtos no localStorage e sincronizar
   useEffect(() => {
-    console.log('💾 Salvando produtos no localStorage:', products.length, 'produtos');
-    localStorage.setItem('adminProducts', JSON.stringify(products));
-    // Também salvar na chave global para outras páginas
-    localStorage.setItem('globalProducts', JSON.stringify(products));
-    
-    // Sincronizar com outros dispositivos
-    try {
-      const channel = new BroadcastChannel('admin-sync');
-      console.log('📡 Enviando sincronização via BroadcastChannel');
-      channel.postMessage({
-        type: 'products-updated',
-        products: products
-      });
-      channel.close();
-      console.log('✅ Sincronização enviada com sucesso');
-    } catch (error) {
-      console.log('❌ BroadcastChannel não suportado, sincronização local apenas:', error);
+    if (products.length > 0) {
+      saveProductsToStorage(products);
+      sendProductSync(products);
     }
   }, [products]);
 
@@ -195,9 +182,11 @@ export default function AdminPage() {
     
     console.log('🔗 URL gerada:', { productSlug, productUrl });
     
+    let updatedProducts: Product[];
+    
     if (editingProduct) {
       // Modo edição
-      const updatedProducts = products.map(p => 
+      updatedProducts = products.map(p => 
         p.id === editingProduct.id 
           ? { ...product, id: editingProduct.id, productUrl }
           : p
@@ -214,9 +203,15 @@ export default function AdminPage() {
         productUrl
       };
       console.log('➕ Novo produto:', newProduct);
-      setProducts([...products, newProduct]);
+      updatedProducts = [...products, newProduct];
+      setProducts(updatedProducts);
       alert(`✅ Produto "${product.name}" adicionado com sucesso!\n\n🔗 URL do produto: ${productUrl}`);
     }
+    
+    // Forçar sincronização imediata
+    console.log('🔄 Forçando sincronização imediata...');
+    saveProductsToStorage(updatedProducts);
+    sendProductSync(updatedProducts, editingProduct ? 'product-updated' : 'product-added');
     
     setShowAddProduct(false);
     setProductForm({

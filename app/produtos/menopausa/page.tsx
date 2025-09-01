@@ -20,15 +20,61 @@ interface Product {
 
 export default function MenopausaPage() {
   const [adminProducts, setAdminProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Carregar produtos do localStorage
-    const savedProducts = localStorage.getItem('globalProducts');
-    if (savedProducts) {
-      const products = JSON.parse(savedProducts);
-      // Filtrar apenas produtos da categoria 'menopausa'
-      const categoryProducts = products.filter((p: Product) => p.categoryId === 'menopausa');
-      setAdminProducts(categoryProducts);
+    // Carregar produtos do localStorage com sincronização robusta
+    const loadProducts = () => {
+      try {
+        // Tentar carregar de ambas as chaves para garantir sincronização
+        let savedProducts = localStorage.getItem('adminProducts');
+        if (!savedProducts) {
+          savedProducts = localStorage.getItem('globalProducts');
+        }
+        
+        console.log('🔄 Carregando produtos menopausa do localStorage:', savedProducts ? 'encontrado' : 'não encontrado')
+        if (savedProducts) {
+          const products = JSON.parse(savedProducts);
+          // Filtrar apenas produtos da categoria 'menopausa'
+          const categoryProducts = products.filter((p: Product) => p.categoryId === 'menopausa');
+          console.log('🌸 Produtos da categoria menopausa:', categoryProducts.length, 'produtos')
+          setAdminProducts(categoryProducts);
+        }
+      } catch (error) {
+        console.error('❌ Erro ao carregar produtos menopausa:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+    
+    // Sincronizar com mudanças de outros dispositivos
+    try {
+      const channel = new BroadcastChannel('admin-sync')
+      console.log('📡 Escutando sincronização na página menopausa')
+      
+      channel.onmessage = (event) => {
+        console.log('📨 Mensagem recebida menopausa:', event.data.type, event.data.action || '')
+        if (event.data.type === 'products-updated') {
+          const menopausaProducts = event.data.products.filter((product: any) => 
+            product.categoryId === 'menopausa'
+          )
+          console.log('🌸 Produtos atualizados via sincronização:', menopausaProducts.length, 'produtos')
+          setAdminProducts(menopausaProducts)
+          
+          // Atualizar localStorage local também
+          localStorage.setItem('adminProducts', JSON.stringify(event.data.products))
+          localStorage.setItem('globalProducts', JSON.stringify(event.data.products))
+        }
+      }
+      
+      return () => {
+        console.log('🔌 Fechando canal de sincronização menopausa')
+        channel.close()
+      }
+    } catch (error) {
+      console.log('❌ BroadcastChannel não suportado na página menopausa:', error)
     }
   }, []);
 
@@ -79,7 +125,16 @@ export default function MenopausaPage() {
 
       {/* Conteúdo Principal */}
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-        {adminProducts.length === 0 ? (
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+              ⏳
+            </div>
+            <p style={{ color: '#666', fontSize: '1.1rem' }}>
+              Carregando produtos...
+            </p>
+          </div>
+        ) : adminProducts.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px' }}>
             <h2 style={{ color: '#333', marginBottom: '20px' }}>
               🌸 Nenhum produto adicionado ainda para esta categoria

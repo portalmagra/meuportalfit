@@ -826,11 +826,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Final CTA */}
+        {/* Como Funciona a Análise IA */}
         <section style={{
-          background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
           color: 'white',
-          padding: '5rem 0',
+          padding: '3rem 0',
           textAlign: 'center'
         }}>
           <div style={{
@@ -839,52 +839,124 @@ export default function HomePage() {
             padding: '0 2rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
               fontWeight: 900,
-              marginBottom: '1.5rem',
-              lineHeight: 1.2,
-              whiteSpace: 'pre-line'
+              marginBottom: '1rem',
+              lineHeight: 1.2
             }}>
-              {t('finalCtaTitle')}
+              🧠 Como Funciona a Análise Inteligente
             </h2>
             <p style={{
               fontSize: '1.1rem',
-              marginBottom: '2.5rem',
+              marginBottom: '2rem',
               opacity: 0.95,
               lineHeight: 1.5
             }}>
-              {t('finalCtaText')}
+              Nossa inteligência artificial faz perguntas estratégicas para entender suas necessidades específicas. 
+              Em poucos minutos, você recebe recomendações personalizadas baseadas em sua rotina, objetivos e perfil único.
             </p>
             
-            <div style={{ marginBottom: '1.5rem' }}>
+            <div style={{ marginBottom: '1rem' }}>
               <Link href="/analise" style={{ textDecoration: 'none' }}>
                 <button style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '1rem',
+                  gap: '0.5rem',
                   background: 'white',
                   color: '#22c55e',
-                  fontSize: '1.1rem',
+                  fontSize: '1rem',
                   fontWeight: 700,
-                  padding: '1.25rem 2.5rem',
+                  padding: '1rem 2rem',
                   border: 'none',
                   borderRadius: '50px',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)'
                 }}>
                   <span>🚀</span>
-                  {t('finalCtaButton')}
+                  Fazer Análise Inteligente
                 </button>
               </Link>
             </div>
             
-            <p style={{
-              color: 'rgba(255, 255, 255, 0.9)',
-              fontSize: '0.9rem'
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '2rem',
+              flexWrap: 'wrap',
+              marginTop: '1.5rem'
             }}>
-              {t('finalBenefits')}
+              <span style={{ fontSize: '0.9rem', opacity: 0.9 }}>✅ 100% Gratuito</span>
+              <span style={{ fontSize: '0.9rem', opacity: 0.9 }}>⚡ 2-3 Minutos</span>
+              <span style={{ fontSize: '0.9rem', opacity: 0.9 }}>🔒 Dados Seguros</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Como Funciona os Produtos */}
+        <section style={{
+          background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+          color: 'white',
+          padding: '3rem 0',
+          textAlign: 'center'
+        }}>
+          <div style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            padding: '0 2rem'
+          }}>
+            <h2 style={{
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+              fontWeight: 900,
+              marginBottom: '1rem',
+              lineHeight: 1.2
+            }}>
+              🛍️ Como Funciona a Seleção de Produtos
+            </h2>
+            <p style={{
+              fontSize: '1.1rem',
+              marginBottom: '2rem',
+              opacity: 0.95,
+              lineHeight: 1.5
+            }}>
+              Você pode fazer uma busca inteligente direta na Amazon ou escolher produtos pré-selecionados em nossas categorias. 
+              Sempre seguimos nossa filosofia: <strong>1º Qualidade</strong> → <strong>2º Credibilidade da Marca</strong> → <strong>3º Melhor Preço</strong>.
             </p>
+            
+            <div style={{ marginBottom: '1rem' }}>
+              <Link href="/produtos" style={{ textDecoration: 'none' }}>
+                <button style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'white',
+                  color: '#3b82f6',
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  padding: '1rem 2rem',
+                  border: 'none',
+                  borderRadius: '50px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)'
+                }}>
+                  <span>🔍</span>
+                  Ver Produtos Selecionados
+                </button>
+              </Link>
+            </div>
+            
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '2rem',
+              flexWrap: 'wrap',
+              marginTop: '1.5rem'
+            }}>
+              <span style={{ fontSize: '0.9rem', opacity: 0.9 }}>🛒 Sem Custo Adicional</span>
+              <span style={{ fontSize: '0.9rem', opacity: 0.9 }}>🎯 Orientação Especializada</span>
+              <span style={{ fontSize: '0.9rem', opacity: 0.9 }}>⭐ Produtos Curados</span>
+            </div>
           </div>
         </section>
 

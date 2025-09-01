@@ -179,40 +179,40 @@ export default function ProdutosPage() {
               marginBottom: '0.4rem',
               color: '#1f2937'
             }} className="hero-title">
-              Produtos Amazon Selecionados<br />Especialmente para Você
+              Compre na Amazon com<br />Nossa Seleção Especializada
             </h1>
 
             <p style={{
               fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
               marginBottom: '0.4rem',
               color: '#6b7280',
-              maxWidth: '400px',
+              maxWidth: '500px',
               margin: '0 auto 0.4rem',
               lineHeight: 1.2
             }}>
-              Kits estratégicos que funcionam.
+              Qualidade garantida, preço competitivo. Sem custo adicional para você.
             </p>
 
-            {/* Search Bar Mínimo Absoluto */}
+            {/* Search Bar Aumentada */}
             <div style={{
-              maxWidth: '350px',
+              maxWidth: '450px',
               margin: '0 auto 0.2rem',
               position: 'relative'
             }}>
               <input
                 type="text"
-                placeholder="Buscar qualquer produto, categoria ou necessidade..."
+                placeholder="Buscar produtos Amazon com nossa seleção especializada..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={handleSearchKeyPress}
                 style={{
                   width: '100%',
-                  padding: '0.4rem 0.6rem',
+                  padding: '0.6rem 1rem',
                   border: '2px solid #e5e7eb',
-                  borderRadius: '20px',
-                  fontSize: '0.75rem',
+                  borderRadius: '25px',
+                  fontSize: '0.9rem',
                   background: 'white',
-                  boxShadow: '0 1px 6px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                 }}
               />
               <button
@@ -253,7 +253,7 @@ export default function ProdutosPage() {
                 fontSize: 'clamp(1.3rem, 3vw, 1.8rem)',
                 fontWeight: 800,
                 textAlign: 'center',
-                marginBottom: '1.5rem',
+                marginBottom: '1rem',
                 color: '#1f2937'
               }}>
                 Nossas Categorias
@@ -261,71 +261,52 @@ export default function ProdutosPage() {
 
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '1.5rem'
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '1rem'
               }} className="categories-grid">
                 {filteredCategories.map(category => (
-                  <div key={category.name} style={{
-                    background: 'white',
-                    borderRadius: '16px',
-                    padding: '1.5rem',
-                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
-                    border: '2px solid #f3f4f6',
-                    position: 'relative'
-                  }} className="category-card">
-                    {/* Category Header */}
+                  <Link href={category.href} key={category.name} style={{ textDecoration: 'none' }}>
                     <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.8rem',
-                      marginBottom: '1rem'
-                    }}>
+                      background: 'white',
+                      borderRadius: '16px',
+                      padding: '1.2rem',
+                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
+                      border: '2px solid #f3f4f6',
+                      position: 'relative',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease'
+                    }} className="category-card">
+                      {/* Category Header */}
                       <div style={{
-                        fontSize: '2.5rem'
-                      }}>
-                        {category.icon}
-                      </div>
-                      <div>
-                        <h3 style={{
-                          fontSize: '1.3rem',
-                          fontWeight: 700,
-                          color: '#1f2937',
-                          marginBottom: '0.4rem'
-                        }}>
-                          {category.name}
-                        </h3>
-                        <p style={{
-                          color: '#6b7280',
-                          fontSize: '0.85rem',
-                          lineHeight: 1.4
-                        }}>
-                          {category.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Botão para Ver Produtos */}
-                    <Link href={category.href} style={{ textDecoration: 'none' }}>
-                      <button style={{
-                        width: '100%',
-                        padding: '0.8rem',
-                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '10px',
-                        cursor: 'pointer',
-                        fontSize: '0.9rem',
-                        fontWeight: 600,
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '0.4rem'
+                        gap: '0.8rem'
                       }}>
-                        <span>Ver Produtos</span>
-                        <span>→</span>
-                      </button>
-                    </Link>
-                  </div>
+                        <div style={{
+                          fontSize: '2.2rem'
+                        }}>
+                          {category.icon}
+                        </div>
+                        <div>
+                          <h3 style={{
+                            fontSize: '1.2rem',
+                            fontWeight: 700,
+                            color: '#1f2937',
+                            marginBottom: '0.3rem'
+                          }}>
+                            {category.name}
+                          </h3>
+                          <p style={{
+                            color: '#6b7280',
+                            fontSize: '0.8rem',
+                            lineHeight: 1.3
+                          }}>
+                            {category.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>

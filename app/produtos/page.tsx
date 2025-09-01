@@ -99,6 +99,12 @@ export default function ProdutosPage() {
       description: 'Produtos para saúde intestinal e digestão',
       icon: '🫀',
       href: '/produtos/intestino'
+    },
+    {
+      name: 'Café',
+      description: 'Cafés especiais e produtos relacionados',
+      icon: '☕',
+      href: '/produtos/cafe'
     }
   ]
 

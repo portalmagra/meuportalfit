@@ -44,7 +44,8 @@ export default function AdminPage() {
     { id: 'ansiedade', name: 'Ansiedade', description: 'Suplementos para controle da ansiedade', color: '#AED6F1', icon: '🧘' },
     { id: 'fadiga', name: 'Fadiga', description: 'Produtos para combater cansaço e fadiga', color: '#FAD7A0', icon: '😴' },
     { id: 'cozinha', name: 'Cozinhando Saudável', description: 'Temperos, óleos, sal e utensílios de cozinha', color: '#A8E6CF', icon: '🌿' },
-    { id: 'intestino', name: 'Intestino', description: 'Produtos para saúde intestinal e digestão', color: '#FFB6C1', icon: '🫀' }
+    { id: 'intestino', name: 'Intestino', description: 'Produtos para saúde intestinal e digestão', color: '#FFB6C1', icon: '🫀' },
+    { id: 'cafe', name: 'Café', description: 'Cafés especiais e produtos relacionados', color: '#8B4513', icon: '☕' }
   ];
 
   const [categories, setCategories] = useState<Category[]>(defaultCategories);
@@ -74,8 +75,31 @@ export default function AdminPage() {
       setProducts(JSON.parse(savedProducts));
     }
     
-    // Salvar categorias no localStorage
-    localStorage.setItem('adminCategories', JSON.stringify(defaultCategories));
+    // Carregar categorias do localStorage ou usar padrão
+    const savedCategories = localStorage.getItem('adminCategories');
+    if (savedCategories) {
+      try {
+        const parsedCategories = JSON.parse(savedCategories);
+        // Mesclar categorias salvas com as padrão (evitar duplicatas)
+        const mergedCategories = [...defaultCategories];
+        parsedCategories.forEach((savedCat: Category) => {
+          const exists = mergedCategories.find(cat => cat.id === savedCat.id);
+          if (!exists) {
+            mergedCategories.push(savedCat);
+          }
+        });
+        setCategories(mergedCategories);
+        console.log('📋 Categorias carregadas:', mergedCategories.length, 'categorias');
+      } catch (error) {
+        console.error('❌ Erro ao carregar categorias:', error);
+        setCategories(defaultCategories);
+      }
+    } else {
+      // Primeira vez: salvar categorias padrão
+      setCategories(defaultCategories);
+      localStorage.setItem('adminCategories', JSON.stringify(defaultCategories));
+      console.log('📋 Categorias padrão salvas:', defaultCategories.length, 'categorias');
+    }
     
     // Sincronizar com outros dispositivos via BroadcastChannel
     const channel = new BroadcastChannel('admin-sync');
@@ -86,6 +110,10 @@ export default function AdminPage() {
         setProducts(event.data.products);
         localStorage.setItem('adminProducts', JSON.stringify(event.data.products));
         localStorage.setItem('globalProducts', JSON.stringify(event.data.products));
+      } else if (event.data.type === 'categories-updated') {
+        setCategories(event.data.categories);
+        localStorage.setItem('adminCategories', JSON.stringify(event.data.categories));
+        console.log('📋 Categorias sincronizadas:', event.data.categories.length, 'categorias');
       }
     };
     
@@ -119,8 +147,28 @@ export default function AdminPage() {
       ...category,
       id: category.name.toLowerCase().replace(/\s+/g, '-')
     };
-    setCategories([...categories, newCategory]);
+    
+    const updatedCategories = [...categories, newCategory];
+    setCategories(updatedCategories);
+    
+    // Salvar no localStorage
+    localStorage.setItem('adminCategories', JSON.stringify(updatedCategories));
+    
+    // Sincronizar com outros dispositivos
+    try {
+      const channel = new BroadcastChannel('admin-sync');
+      channel.postMessage({
+        type: 'categories-updated',
+        categories: updatedCategories
+      });
+      channel.close();
+      console.log('📋 Categoria sincronizada:', newCategory.name);
+    } catch (error) {
+      console.log('❌ Erro na sincronização da categoria:', error);
+    }
+    
     setShowAddCategory(false);
+    alert(`✅ Categoria "${category.name}" adicionada com sucesso!`);
   };
 
   // Função para gerar URL amigável do produto

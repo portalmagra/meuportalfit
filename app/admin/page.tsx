@@ -24,6 +24,7 @@ interface Product {
   imageUrl: string;
   benefits: string[];
   features: string[];
+  productUrl?: string;
 }
 
 export default function AdminPage() {
@@ -93,25 +94,45 @@ export default function AdminPage() {
     setShowAddCategory(false);
   };
 
+  // Função para gerar URL amigável do produto
+  const generateProductSlug = (productName: string): string => {
+    return productName.toLowerCase()
+      .replace(/[áàâãä]/g, 'a')
+      .replace(/[éèêë]/g, 'e')
+      .replace(/[íìîï]/g, 'i')
+      .replace(/[óòôõö]/g, 'o')
+      .replace(/[úùûü]/g, 'u')
+      .replace(/[ç]/g, 'c')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim()
+  };
+
   const addProduct = (product: Omit<Product, 'id'>) => {
+    // Gerar URL amigável para o produto
+    const productSlug = generateProductSlug(product.name);
+    const productUrl = `/produtos/${product.categoryId}/${productSlug}`;
+    
     if (editingProduct) {
       // Modo edição
       const updatedProducts = products.map(p => 
         p.id === editingProduct.id 
-          ? { ...product, id: editingProduct.id }
+          ? { ...product, id: editingProduct.id, productUrl }
           : p
       );
       setProducts(updatedProducts);
       setEditingProduct(null);
-      alert(`✅ Produto "${product.name}" atualizado com sucesso!`);
+      alert(`✅ Produto "${product.name}" atualizado com sucesso!\n\n🔗 URL do produto: ${productUrl}`);
     } else {
       // Modo adição
       const newProduct: Product = {
         ...product,
-        id: Date.now().toString()
+        id: Date.now().toString(),
+        productUrl
       };
       setProducts([...products, newProduct]);
-      alert(`✅ Produto "${product.name}" adicionado com sucesso!`);
+      alert(`✅ Produto "${product.name}" adicionado com sucesso!\n\n🔗 URL do produto: ${productUrl}`);
     }
     
     setShowAddProduct(false);

@@ -151,7 +151,7 @@ export default function HomePage() {
         {/* Hero Section - ULTRA-COMPACTO */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
-          padding: '1rem 0',
+          padding: '0.5rem 0',
           position: 'relative',
           overflow: 'hidden'
         }}>
@@ -213,13 +213,13 @@ export default function HomePage() {
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '40px',
-              padding: '0.6rem 1.2rem',
-              marginBottom: '1rem',
+              padding: '0.4rem 1rem',
+              marginBottom: '0.5rem',
               boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)',
               fontWeight: 600,
               color: '#1f2937',
               gap: '0.4rem',
-              fontSize: '0.8rem'
+              fontSize: '0.7rem'
             }}>
               <span>🛡️</span>
               <span>{t('trustText')}</span>
@@ -227,9 +227,9 @@ export default function HomePage() {
             </div>
 
             {/* Main Title Compacto */}
-            <div style={{ marginBottom: '1.5rem' }}>
+            <div style={{ marginBottom: '1rem' }}>
               <h1 style={{
-                fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+                fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
                 fontWeight: 900,
                 lineHeight: 1.1,
                 color: '#1f2937',
@@ -249,17 +249,17 @@ export default function HomePage() {
             {/* TRÊS TÓPICOS GIGANTES E CHAMATIVOS */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1.5rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+              gap: '1rem',
               maxWidth: '1000px',
-              margin: '0 auto 2rem'
+              margin: '0 auto 1rem'
             }}>
               {/* 1. ANÁLISE IA - VERDE VIBRANTE */}
               <Link href="/analise" style={{ textDecoration: 'none' }}>
                 <div style={{
                   background: 'linear-gradient(135deg, #22c55e, #16a34a)',
                   borderRadius: '25px',
-                  padding: '2.5rem 2rem',
+                  padding: '1.5rem 1.5rem',
                   textAlign: 'center',
                   color: 'white',
                   boxShadow: '0 20px 40px rgba(34, 197, 94, 0.3)',
@@ -276,14 +276,14 @@ export default function HomePage() {
                   e.currentTarget.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.3)'
                 }}>
                   <div style={{
-                    fontSize: '4rem',
-                    marginBottom: '1rem',
+                    fontSize: '3rem',
+                    marginBottom: '0.5rem',
                     filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
                   }}>🧠</div>
                   <h2 style={{
-                    fontSize: '1.8rem',
+                    fontSize: '1.4rem',
                     fontWeight: 900,
-                    marginBottom: '1rem',
+                    marginBottom: '0.5rem',
                     textShadow: '0 2px 4px rgba(0,0,0,0.2)'
                   }}>Análise Inteligente</h2>
                   <p style={{
@@ -312,7 +312,7 @@ export default function HomePage() {
                 <div style={{
                   background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
                   borderRadius: '25px',
-                  padding: '2.5rem 2rem',
+                  padding: '1.5rem 1.5rem',
                   textAlign: 'center',
                   color: 'white',
                   boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)',
@@ -365,7 +365,7 @@ export default function HomePage() {
                 <div style={{
                   background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
                   borderRadius: '25px',
-                  padding: '2.5rem 2rem',
+                  padding: '1.5rem 1.5rem',
                   textAlign: 'center',
                   color: 'white',
                   boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)',

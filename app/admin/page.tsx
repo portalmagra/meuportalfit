@@ -42,7 +42,8 @@ export default function AdminPage() {
     { id: 'snacks', name: 'Snack Saudável', description: 'Lanches nutritivos e funcionais', color: '#F8C471', icon: '🍎' },
     { id: 'ansiedade', name: 'Ansiedade', description: 'Suplementos para controle da ansiedade', color: '#AED6F1', icon: '🧘' },
     { id: 'fadiga', name: 'Fadiga', description: 'Produtos para combater cansaço e fadiga', color: '#FAD7A0', icon: '😴' },
-    { id: 'cozinha', name: 'Cozinhando Saudável', description: 'Temperos, óleos e utensílios para cozinha saudável', color: '#ABEBC6', icon: '🍳' }
+    { id: 'cozinha', name: 'Cozinhando Saudável', description: 'Temperos, óleos, sal e utensílios de cozinha', color: '#A8E6CF', icon: '🌿' },
+    { id: 'intestino', name: 'Intestino', description: 'Produtos para saúde intestinal e digestão', color: '#FFB6C1', icon: '🫁' }
   ];
 
   const [categories, setCategories] = useState<Category[]>(defaultCategories);

@@ -93,6 +93,12 @@ export default function ProdutosPage() {
       description: 'Temperos, óleos, sal e utensílios de cozinha',
       icon: '🌿',
       href: '/produtos/cozinha'
+    },
+    {
+      name: 'Intestino',
+      description: 'Produtos para saúde intestinal e digestão',
+      icon: '🫁',
+      href: '/produtos/intestino'
     }
   ]
 

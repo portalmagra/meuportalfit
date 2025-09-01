@@ -29,6 +29,20 @@ export default function IntestinoPage() {
     }
 
     loadProducts()
+    
+    // Sincronizar com mudanças de outros dispositivos
+    const channel = new BroadcastChannel('admin-sync')
+    
+    channel.onmessage = (event) => {
+      if (event.data.type === 'products-updated') {
+        const intestinoProducts = event.data.products.filter((product: any) => 
+          product.categoryId === 'intestino'
+        )
+        setProducts(intestinoProducts)
+      }
+    }
+    
+    return () => channel.close()
   }, [])
 
   return (
@@ -57,7 +71,7 @@ export default function IntestinoPage() {
               marginBottom: '0.4rem',
               color: '#1f2937'
             }} className="hero-title">
-              🫁 Produtos para Saúde Intestinal
+              🫀 Produtos para Saúde Intestinal
             </h1>
 
             <p style={{
@@ -294,7 +308,7 @@ export default function IntestinoPage() {
                   fontSize: '3rem',
                   marginBottom: '1rem'
                 }}>
-                  🫁
+                  🫀
                 </div>
                 <h2 style={{
                   fontSize: 'clamp(1.5rem, 4vw, 2rem)',

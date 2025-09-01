@@ -44,7 +44,7 @@ export default function AdminPage() {
     { id: 'ansiedade', name: 'Ansiedade', description: 'Suplementos para controle da ansiedade', color: '#AED6F1', icon: '🧘' },
     { id: 'fadiga', name: 'Fadiga', description: 'Produtos para combater cansaço e fadiga', color: '#FAD7A0', icon: '😴' },
     { id: 'cozinha', name: 'Cozinhando Saudável', description: 'Temperos, óleos, sal e utensílios de cozinha', color: '#A8E6CF', icon: '🌿' },
-    { id: 'intestino', name: 'Intestino', description: 'Produtos para saúde intestinal e digestão', color: '#FFB6C1', icon: '🫁' }
+    { id: 'intestino', name: 'Intestino', description: 'Produtos para saúde intestinal e digestão', color: '#FFB6C1', icon: '🫀' }
   ];
 
   const [categories, setCategories] = useState<Category[]>(defaultCategories);
@@ -76,13 +76,39 @@ export default function AdminPage() {
     
     // Salvar categorias no localStorage
     localStorage.setItem('adminCategories', JSON.stringify(defaultCategories));
+    
+    // Sincronizar com outros dispositivos via BroadcastChannel
+    const channel = new BroadcastChannel('admin-sync');
+    
+    // Escutar mudanças de outros dispositivos
+    channel.onmessage = (event) => {
+      if (event.data.type === 'products-updated') {
+        setProducts(event.data.products);
+        localStorage.setItem('adminProducts', JSON.stringify(event.data.products));
+        localStorage.setItem('globalProducts', JSON.stringify(event.data.products));
+      }
+    };
+    
+    return () => channel.close();
   }, []);
 
-  // Salvar produtos no localStorage
+  // Salvar produtos no localStorage e sincronizar
   useEffect(() => {
     localStorage.setItem('adminProducts', JSON.stringify(products));
     // Também salvar na chave global para outras páginas
     localStorage.setItem('globalProducts', JSON.stringify(products));
+    
+    // Sincronizar com outros dispositivos
+    try {
+      const channel = new BroadcastChannel('admin-sync');
+      channel.postMessage({
+        type: 'products-updated',
+        products: products
+      });
+      channel.close();
+    } catch (error) {
+      console.log('BroadcastChannel não suportado, sincronização local apenas');
+    }
   }, [products]);
 
   const addCategory = (category: Omit<Category, 'id'>) => {

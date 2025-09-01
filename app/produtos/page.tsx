@@ -97,7 +97,7 @@ export default function ProdutosPage() {
     {
       name: 'Intestino',
       description: 'Produtos para saúde intestinal e digestão',
-      icon: '🫁',
+      icon: '🫀',
       href: '/produtos/intestino'
     }
   ]

@@ -45,7 +45,7 @@ export default function AdminPage() {
     { id: 'ansiedade', name: 'Ansiedade', description: 'Suplementos para controle da ansiedade', color: '#AED6F1', icon: '🧘' },
     { id: 'fadiga', name: 'Fadiga', description: 'Produtos para combater cansaço e fadiga', color: '#FAD7A0', icon: '😴' },
     { id: 'cozinha', name: 'Cozinhando Saudável', description: 'Temperos, óleos, sal e utensílios de cozinha', color: '#A8E6CF', icon: '🌿' },
-    { id: 'intestino', name: 'Intestino', description: 'Produtos para saúde intestinal e digestão', color: '#FFB6C1', icon: '🫁' },
+    { id: 'intestino', name: 'Intestino', description: 'Produtos para saúde intestinal e digestão', color: '#FFB6C1', icon: '♻️' },
     { id: 'cafe', name: 'Café', description: 'Cafés especiais e produtos relacionados', color: '#8B4513', icon: '☕' }
   ];
 

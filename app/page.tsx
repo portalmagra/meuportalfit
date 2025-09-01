@@ -447,10 +447,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Como Funciona Section */}
+        {/* Como Funciona Section - COMPACTADO */}
         <section style={{
           background: '#f8fafc',
-          padding: '4rem 0',
+          padding: '2rem 0',
           textAlign: 'center'
         }}>
           <div style={{
@@ -459,9 +459,9 @@ export default function HomePage() {
             padding: '0 2rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(2rem, 5vw, 3rem)',
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
               fontWeight: 900,
-              marginBottom: '3rem',
+              marginBottom: '1.5rem',
               color: '#1f2937'
             }}>
               <span className="gradient-text">Como Funciona</span> a Avaliação Personalizada
@@ -469,19 +469,19 @@ export default function HomePage() {
             
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '2rem',
-              marginBottom: '3rem'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1rem',
+              marginBottom: '1.5rem'
             }}>
-              {/* Passo 1 */}
-              <div style={{
-                background: 'white',
-                borderRadius: '20px',
-                padding: '2.5rem 2rem',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                border: '2px solid #e0f2e9',
-                position: 'relative'
-              }}>
+                              {/* Passo 1 */}
+                <div style={{
+                  background: 'white',
+                  borderRadius: '20px',
+                  padding: '1.5rem 1.5rem',
+                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                  border: '2px solid #e0f2e9',
+                  position: 'relative'
+                }}>
                 <div style={{
                   width: '60px',
                   height: '60px',
@@ -621,7 +621,12 @@ export default function HomePage() {
               }}>
                 <strong>30 minutos que podem mudar sua vida para sempre!</strong> Nossa avaliação personalizada identifica exatamente o que você precisa para alcançar seus objetivos.
               </p>
-              <Link href="/suporte" style={{ textDecoration: 'none' }}>
+              <a 
+                href="https://wa.me/17862535032?text=Olá! Gostaria de agendar minha avaliação personalizada de bem-estar. Pode me ajudar?"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
+              >
                 <button style={{
                   background: 'linear-gradient(135deg, #f59e0b, #d97706)',
                   color: 'white',
@@ -636,7 +641,7 @@ export default function HomePage() {
                 }}>
                   🚀 AGENDAR MINHA AVALIAÇÃO AGORA
                 </button>
-              </Link>
+              </a>
             </div>
           </div>
         </section>

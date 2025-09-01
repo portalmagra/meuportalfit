@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Header from '../../components/Header'
-import { setupProductSync } from '../../lib/sync-utils'
+
 
 export default function CafePage() {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
@@ -11,7 +11,60 @@ export default function CafePage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    return setupProductSync('cafe', setProducts, setLoading)
+    // Carregar produtos da categoria "cafe" do localStorage
+    const loadProducts = () => {
+      try {
+        // Tentar carregar de ambas as chaves para garantir sincronização
+        let storedProducts = localStorage.getItem('adminProducts')
+        if (!storedProducts) {
+          storedProducts = localStorage.getItem('globalProducts')
+        }
+        
+        console.log('🔄 Carregando produtos do localStorage:', storedProducts ? 'encontrado' : 'não encontrado')
+        if (storedProducts) {
+          const allProducts = JSON.parse(storedProducts)
+          const cafeProducts = allProducts.filter((product: any) => 
+            product.categoryId === 'cafe'
+          )
+          console.log('☕ Produtos da categoria cafe:', cafeProducts.length, 'produtos')
+          setProducts(cafeProducts)
+        }
+      } catch (error) {
+        console.error('❌ Erro ao carregar produtos:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+    
+    // Sincronizar com mudanças de outros dispositivos
+    try {
+      const channel = new BroadcastChannel('admin-sync')
+      console.log('📡 Escutando sincronização na página cafe')
+      
+      channel.onmessage = (event) => {
+        console.log('📨 Mensagem recebida:', event.data.type, event.data.action || '')
+        if (event.data.type === 'products-updated') {
+          const cafeProducts = event.data.products.filter((product: any) => 
+            product.categoryId === 'cafe'
+          )
+          console.log('☕ Produtos atualizados via sincronização:', cafeProducts.length, 'produtos')
+          setProducts(cafeProducts)
+          
+          // Atualizar localStorage local também
+          localStorage.setItem('adminProducts', JSON.stringify(event.data.products))
+          localStorage.setItem('globalProducts', JSON.stringify(event.data.products))
+        }
+      }
+      
+      return () => {
+        console.log('🔌 Fechando canal de sincronização')
+        channel.close()
+      }
+    } catch (error) {
+      console.log('❌ BroadcastChannel não suportado na página cafe:', error)
+    }
   }, [])
 
   return (

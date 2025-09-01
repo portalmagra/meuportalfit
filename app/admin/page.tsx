@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getProductByASIN } from '../../lib/amazon-api';
-import { sendProductSync, saveProductsToStorage } from '../../lib/sync-utils';
+
 
 interface Category {
   id: string;
@@ -124,8 +124,24 @@ export default function AdminPage() {
   // Salvar produtos no localStorage e sincronizar
   useEffect(() => {
     if (products.length > 0) {
-      saveProductsToStorage(products);
-      sendProductSync(products);
+      console.log('💾 Salvando produtos no localStorage:', products.length, 'produtos');
+      localStorage.setItem('adminProducts', JSON.stringify(products));
+      localStorage.setItem('globalProducts', JSON.stringify(products));
+      
+      // Sincronizar com outros dispositivos
+      try {
+        const channel = new BroadcastChannel('admin-sync');
+        console.log('📡 Enviando sincronização via BroadcastChannel');
+        channel.postMessage({
+          type: 'products-updated',
+          products: products,
+          timestamp: Date.now()
+        });
+        channel.close();
+        console.log('✅ Sincronização enviada com sucesso');
+      } catch (error) {
+        console.log('❌ BroadcastChannel não suportado, sincronização local apenas:', error);
+      }
     }
   }, [products]);
 
@@ -210,8 +226,24 @@ export default function AdminPage() {
     
     // Forçar sincronização imediata
     console.log('🔄 Forçando sincronização imediata...');
-    saveProductsToStorage(updatedProducts);
-    sendProductSync(updatedProducts, editingProduct ? 'product-updated' : 'product-added');
+    localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+    localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+    
+    // Sincronizar com outros dispositivos
+    try {
+      const channel = new BroadcastChannel('admin-sync');
+      console.log('📡 Enviando sincronização imediata via BroadcastChannel');
+      channel.postMessage({
+        type: 'products-updated',
+        products: updatedProducts,
+        timestamp: Date.now(),
+        action: editingProduct ? 'product-updated' : 'product-added'
+      });
+      channel.close();
+      console.log('✅ Sincronização imediata enviada com sucesso');
+    } catch (error) {
+      console.log('❌ Erro na sincronização imediata:', error);
+    }
     
     setShowAddProduct(false);
     setProductForm({

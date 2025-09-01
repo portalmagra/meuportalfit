@@ -14,24 +14,24 @@ const content = {
   trustText: { pt: '+2.847 brasileiros confiam no MeuPortalFit', es: '+2.847 brasileños confían en MeuPortalFit', en: '+2.847 Brazilians trust MeuPortalFit' },
   
   // Seção "Como Funciona"
-  howItWorksTitle: { pt: 'Como o MeuPortalFit Funciona', es: 'Cómo Funciona MeuPortalFit', en: 'How MeuPortalFit Works' },
-  step1Title: { pt: 'Análise Personalizada', es: 'Análisis Personalizado', en: 'Personalized Analysis' },
+  howItWorksTitle: { pt: 'Agende sua Avaliação de Bem-Estar', es: 'Agenda tu Evaluación de Bienestar', en: 'Schedule Your Wellness Assessment' },
+  step1Title: { pt: 'Análise Inteligente', es: 'Análisis Inteligente', en: 'Intelligent Analysis' },
   step1Desc: { 
-    pt: '8 perguntas estratégicas sobre suas necessidades, estilo de vida e objetivos de wellness nos EUA.',
-    es: '8 preguntas estratégicas sobre tus necesidades, estilo de vida y objetivos de bienestar en USA.',
-    en: '8 strategic questions about your needs, lifestyle and wellness goals in the USA.'
+    pt: 'Perguntas simples que direcionam seu bem-estar. Gratuito e personalizado.',
+    es: 'Preguntas simples que dirigen tu bienestar. Gratis y personalizado.',
+    en: 'Simple questions that guide your wellness. Free and personalized.'
   },
-  step2Title: { pt: 'IA Analisa seu Perfil', es: 'IA Analiza tu Perfil', en: 'AI Analyzes Your Profile' },
+  step2Title: { pt: 'Produtos Selecionados', es: 'Productos Seleccionados', en: 'Selected Products' },
   step2Desc: { 
-    pt: 'Nossa inteligência artificial avançada processa suas respostas e identifica seu perfil único de wellness.',
-    es: 'Nuestra inteligencia artificial avanzada procesa tus respuestas e identifica tu perfil único de bienestar.',
-    en: 'Our advanced artificial intelligence processes your answers and identifies your unique wellness profile.'
+    pt: 'Suas melhores escolhas - qualidade e preço. Sem gastar nada por isso.',
+    es: 'Tus mejores opciones - calidad y precio. Sin gastar nada por esto.',
+    en: 'Your best choices - quality and price. Without spending anything for it.'
   },
-  step3Title: { pt: 'Receba Recomendações', es: 'Recibe Recomendaciones', en: 'Get Recommendations' },
+  step3Title: { pt: 'Avaliação Personalizada', es: 'Evaluación Personalizada', en: 'Personalized Assessment' },
   step3Desc: { 
-    pt: 'Top 3-5 produtos Amazon personalizados com explicação detalhada do porquê são ideais para você.',
-    es: 'Top 3-5 productos Amazon personalizados con explicación detallada de por qué son ideales para ti.',
-    en: 'Top 3-5 personalized Amazon products with detailed explanation of why they are ideal for you.'
+    pt: 'Contato humano por vídeo. Avaliação completa personalizada.',
+    es: 'Contacto humano por video. Evaluación completa personalizada.',
+    en: 'Human contact by video. Complete personalized assessment.'
   },
   
   // Seção de Depoimentos
@@ -285,14 +285,14 @@ export default function HomePage() {
                     fontWeight: 900,
                     marginBottom: '1rem',
                     textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}>Análise IA</h2>
+                  }}>Análise Inteligente</h2>
                   <p style={{
                     fontSize: '1rem',
                     opacity: 0.95,
                     lineHeight: 1.5,
                     marginBottom: '1.5rem'
                   }}>
-                    Quiz personalizado que analisa suas necessidades e recomenda produtos específicos
+                    Perguntas simples que direcionam seu bem-estar. Gratuito e personalizado.
                   </p>
                   <div style={{
                     background: 'rgba(255, 255, 255, 0.2)',
@@ -338,14 +338,14 @@ export default function HomePage() {
                     fontWeight: 900,
                     marginBottom: '1rem',
                     textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}>Produtos por Área</h2>
+                  }}>Produtos Selecionados</h2>
                   <p style={{
                     fontSize: '1rem',
                     opacity: 0.95,
                     lineHeight: 1.5,
                     marginBottom: '1.5rem'
                   }}>
-                    14 categorias organizadas por necessidade: energia, sono, imunidade e muito mais
+                    Suas melhores escolhas - qualidade e preço. Sem gastar nada por isso.
                   </p>
                   <div style={{
                     background: 'rgba(255, 255, 255, 0.2)',
@@ -391,14 +391,14 @@ export default function HomePage() {
                     fontWeight: 900,
                     marginBottom: '1rem',
                     textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                  }}>Suporte Personalizado</h2>
+                  }}>Avaliação Personalizada</h2>
                   <p style={{
                     fontSize: '1rem',
                     opacity: 0.95,
                     lineHeight: 1.5,
                     marginBottom: '1.5rem'
                   }}>
-                    Consultas gratuitas em português com especialistas para suas necessidades específicas
+                    Contato humano por vídeo. Avaliação completa personalizada.
                   </p>
                   <div style={{
                     background: 'rgba(255, 255, 255, 0.2)',

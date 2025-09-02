@@ -1025,76 +1025,47 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         </div>
       </div>
 
-      {/* Resumo de Produtos */}
+      {/* Categorias Disponíveis */}
       <div style={{ marginBottom: '40px' }}>
-        <h2 style={{ color: '#333', marginBottom: '20px' }}>📦 Resumo de Produtos</h2>
-        {products.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic' }}>
-            Nenhum produto cadastrado ainda. Adicione seu primeiro produto!
-          </p>
-        ) : (
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '15px' 
-          }}>
-            {categories.map(category => {
-              const categoryProducts = products.filter(p => p.categoryId === category.id);
-              return (
-                <div key={category.id} style={{
-                  border: '1px solid #dee2e6',
-                  borderRadius: '8px',
-                  padding: '20px',
-                  backgroundColor: 'white',
-                  textAlign: 'center'
-                }}>
-                  <div style={{ fontSize: '24px', marginBottom: '10px' }}>{category.icon}</div>
-                  <h3 style={{ margin: '0 0 10px 0', color: '#333', fontSize: '1.1rem' }}>
-                    {category.name}
-                  </h3>
-                  <div style={{
-                    backgroundColor: category.color,
-                    color: 'white',
-                    padding: '8px 16px',
-                    borderRadius: '20px',
-                    fontSize: '1.2rem',
-                    fontWeight: 'bold',
-                    marginBottom: '15px'
-                  }}>
-                    {categoryProducts.length} produto{categoryProducts.length !== 1 ? 's' : ''}
-                  </div>
-                  {categoryProducts.length > 0 && (
-                    <>
-                      <div style={{ fontSize: '12px', color: '#666', marginBottom: '15px' }}>
-                        Último: {categoryProducts[categoryProducts.length - 1].name}
-                      </div>
-                      <button
-                        onClick={() => setSelectedCategory(category)}
-                        style={{
-                          backgroundColor: '#007bff',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '6px',
-                          padding: '10px 20px',
-                          fontSize: '14px',
-                          cursor: 'pointer',
-                          fontWeight: 'bold',
-                          transition: 'background-color 0.2s',
-                          width: '100%'
-                        }}
-                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
-                      >
-                        🔍 Ver Produtos ({categoryProducts.length})
-                      </button>
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <h2 style={{ color: '#333', marginBottom: '20px' }}>📂 Categorias Disponíveis</h2>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+          gap: '15px' 
+        }}>
+          {categories.map(category => (
+            <div key={category.id} style={{
+              border: '1px solid #dee2e6',
+              borderRadius: '8px',
+              padding: '15px',
+              backgroundColor: 'white',
+              textAlign: 'center',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}>
+              <div style={{ fontSize: '24px', marginBottom: '8px' }}>{category.icon}</div>
+              <h3 style={{ margin: '0 0 8px 0', color: '#333', fontSize: '1rem' }}>
+                {category.name}
+              </h3>
+              <p style={{ fontSize: '12px', color: '#666', margin: '0 0 10px 0' }}>
+                {category.description}
+              </p>
+              <div style={{
+                backgroundColor: category.color,
+                color: 'white',
+                padding: '4px 12px',
+                borderRadius: '15px',
+                fontSize: '0.9rem',
+                fontWeight: 'bold',
+                marginBottom: '10px'
+              }}>
+                {products.filter(p => p.categoryId === category.id).length} produto{products.filter(p => p.categoryId === category.id).length !== 1 ? 's' : ''}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
+
 
 
 

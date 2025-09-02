@@ -174,15 +174,73 @@ export default function AdminPage() {
     
     loadData();
     
+    // Forçar sincronização manual ao carregar a página
+    const forceSync = () => {
+      try {
+        const channel = new BroadcastChannel('admin-sync');
+        console.log('🔄 Forçando sincronização manual...');
+        channel.postMessage({
+          type: 'force-sync',
+          timestamp: Date.now()
+        });
+        channel.close();
+        console.log('✅ Sincronização manual enviada');
+      } catch (error) {
+        console.log('❌ Erro na sincronização manual:', error);
+      }
+    };
+    
+    // Sincronização via localStorage (funciona entre dispositivos)
+    const syncFromLocalStorage = () => {
+      try {
+        // Tentar carregar de ambas as chaves
+        let mobileProducts = localStorage.getItem('adminProducts');
+        if (!mobileProducts) {
+          mobileProducts = localStorage.getItem('globalProducts');
+        }
+        
+        if (mobileProducts) {
+          const parsedProducts = JSON.parse(mobileProducts);
+          console.log('📱 Produtos encontrados no localStorage:', parsedProducts.length);
+          
+          // Atualizar estado se houver diferenças
+          if (JSON.stringify(parsedProducts) !== JSON.stringify(products)) {
+            console.log('🔄 Atualizando produtos do localStorage...');
+            setProducts(parsedProducts);
+            localStorage.setItem('adminProducts', JSON.stringify(parsedProducts));
+            localStorage.setItem('globalProducts', JSON.stringify(parsedProducts));
+            console.log('✅ Produtos sincronizados do localStorage');
+          }
+        }
+      } catch (error) {
+        console.log('❌ Erro na sincronização localStorage:', error);
+      }
+    };
+    
+    // Executar sincronização manual após 2 segundos
+    setTimeout(forceSync, 2000);
+    
+    // Executar sincronização localStorage a cada 5 segundos
+    const intervalId = setInterval(syncFromLocalStorage, 5000);
+    
+    // Limpar intervalo quando componente desmontar
+    return () => {
+      clearInterval(intervalId);
+      channel.close();
+    };
+    
     // Sincronizar com outros dispositivos via BroadcastChannel
     const channel = new BroadcastChannel('admin-sync');
     
     // Escutar mudanças de outros dispositivos
     channel.onmessage = (event) => {
+      console.log('📨 Mensagem recebida no admin:', event.data.type, event.data.action || '');
       if (event.data.type === 'products-updated') {
+        console.log('📦 Produtos recebidos via sincronização:', event.data.products.length, 'produtos');
         setProducts(event.data.products);
         localStorage.setItem('adminProducts', JSON.stringify(event.data.products));
         localStorage.setItem('globalProducts', JSON.stringify(event.data.products));
+        console.log('✅ Produtos sincronizados com localStorage');
       } else if (event.data.type === 'categories-updated') {
         setCategories(event.data.categories);
         localStorage.setItem('adminCategories', JSON.stringify(event.data.categories));
@@ -991,6 +1049,47 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
           📂 Adicionar Categoria
         </button>
         
+        <button
+          onClick={() => {
+            // Forçar sincronização manual via localStorage
+            try {
+              // Tentar carregar de ambas as chaves
+              let mobileProducts = localStorage.getItem('adminProducts');
+              if (!mobileProducts) {
+                mobileProducts = localStorage.getItem('globalProducts');
+              }
+              
+              if (mobileProducts) {
+                const parsedProducts = JSON.parse(mobileProducts);
+                console.log('📱 Produtos encontrados no localStorage:', parsedProducts.length);
+                
+                // Atualizar estado
+                setProducts(parsedProducts);
+                localStorage.setItem('adminProducts', JSON.stringify(parsedProducts));
+                localStorage.setItem('globalProducts', JSON.stringify(parsedProducts));
+                
+                alert(`🔄 Sincronização manual realizada!\n\n📦 Produtos encontrados: ${parsedProducts.length}\n\nVerifique o console para logs detalhados.`);
+              } else {
+                alert('❌ Nenhum produto encontrado no localStorage para sincronizar.');
+              }
+            } catch (error) {
+              alert('❌ Erro na sincronização manual: ' + error);
+            }
+          }}
+          style={{
+            padding: '15px 30px',
+            fontSize: '18px',
+            backgroundColor: '#ffc107',
+            color: '#333',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        >
+          🔄 Sincronizar
+        </button>
+        
 
       </div>
 
@@ -1698,10 +1797,16 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                               fontSize: '14px',
                               cursor: 'pointer',
                               fontWeight: 'bold',
-                              transition: 'background-color 0.2s'
+                              transition: 'background-color 0.2s',
+                              position: 'relative',
+                              zIndex: 1001,
+                              minHeight: '44px',
+                              touchAction: 'manipulation'
                             }}
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e0a800'}
                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ffc107'}
+                            onTouchStart={(e) => e.currentTarget.style.backgroundColor = '#e0a800'}
+                            onTouchEnd={(e) => e.currentTarget.style.backgroundColor = '#ffc107'}
                             title={`Editar ${product.name}`}
                           >
                             ✏️ Editar
@@ -1744,10 +1849,16 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                               fontSize: '14px',
                               cursor: 'pointer',
                               fontWeight: 'bold',
-                              transition: 'background-color 0.2s'
+                              transition: 'background-color 0.2s',
+                              position: 'relative',
+                              zIndex: 1001,
+                              minHeight: '44px',
+                              touchAction: 'manipulation'
                             }}
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c82333'}
                             onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#dc3545'}
+                            onTouchStart={(e) => e.currentTarget.style.backgroundColor = '#c82333'}
+                            onTouchEnd={(e) => e.currentTarget.style.backgroundColor = '#dc3545'}
                             title={`Excluir ${product.name}`}
                           >
                             🗑️ Excluir

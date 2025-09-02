@@ -11,45 +11,48 @@ export default function LinkExtractorPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 
-  const extractAndCleanAmazonUrl = async () => {
-    if (!amazonUrl.trim()) {
-      setError('Por favor, cole um link da Amazon')
-      return
-    }
+                const extractAndCleanAmazonUrl = async () => {
+                if (!amazonUrl.trim()) {
+                  setError('Por favor, cole um link da Amazon')
+                  return
+                }
 
-    setLoading(true)
-    setError('')
-    setSuccess(false)
+                setLoading(true)
+                setError('')
+                setSuccess(false)
 
-    try {
-      // Extrair ASIN do link da Amazon
-      const asinMatch = amazonUrl.match(/\/dp\/([A-Z0-9]{10})/)
-      if (!asinMatch) {
-        setError('Link da Amazon inválido. Use um link que contenha /dp/')
-        return
-      }
+                try {
+                  // Extrair ASIN do link da Amazon
+                  const asinMatch = amazonUrl.match(/\/dp\/([A-Z0-9]{10})/)
+                  if (!asinMatch) {
+                    setError('Link da Amazon inválido. Use um link que contenha /dp/')
+                    return
+                  }
 
-      const asin = asinMatch[1]
-      
-      // Criar link limpo com tag de comissão
-      const cleanUrl = `https://www.amazon.com/dp/${asin}?tag=portalsolutio-20`
-      
-      setProcessedUrl(cleanUrl)
-      setSuccess(true)
-      
-      // Copiar para clipboard automaticamente
-      try {
-        await navigator.clipboard.writeText(cleanUrl)
-      } catch (err) {
-        console.log('Não foi possível copiar automaticamente')
-      }
-      
-    } catch (error) {
-      setError('Erro ao processar o link. Tente novamente.')
-    } finally {
-      setLoading(false)
-    }
-  }
+                  const asin = asinMatch[1]
+                  
+                  // Criar link limpo com tag de comissão
+                  const cleanUrl = `https://www.amazon.com/dp/${asin}?tag=portalsolutio-20`
+                  
+                  setProcessedUrl(cleanUrl)
+                  setSuccess(true)
+                  
+                  // Abrir Amazon diretamente em nova aba
+                  window.open(cleanUrl, '_blank')
+                  
+                  // Copiar para clipboard automaticamente
+                  try {
+                    await navigator.clipboard.writeText(cleanUrl)
+                  } catch (err) {
+                    console.log('Não foi possível copiar automaticamente')
+                  }
+                  
+                } catch (error) {
+                  setError('Erro ao processar o link. Tente novamente.')
+                } finally {
+                  setLoading(false)
+                }
+              }
 
   const copyToClipboard = async () => {
     try {
@@ -66,27 +69,7 @@ export default function LinkExtractorPage() {
         {/* Header Unificado */}
         <Header language={language} onLanguageChange={setLanguage} />
 
-                            {/* Hero Section */}
-                    <section style={{
-                      background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                      padding: '1rem 0',
-                      textAlign: 'center'
-                    }}>
-          <div style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            padding: '0 2rem'
-          }}>
-                                    <h1 style={{
-                          fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-                          fontWeight: 'bold',
-                          color: 'white',
-                          marginBottom: '0.5rem'
-                        }}>
-                          Amazon
-                        </h1>
-          </div>
-        </section>
+                            
 
                             {/* Form Section */}
                     <section style={{
@@ -111,7 +94,7 @@ export default function LinkExtractorPage() {
                             marginBottom: '1rem',
                             textAlign: 'center'
                           }}>
-                            Link da Amazon
+                            Cole seu link da Amazon aqui
                           </h2>
 
                                         <div style={{ marginBottom: '1rem' }}>
@@ -120,14 +103,15 @@ export default function LinkExtractorPage() {
                                 type="url"
                                 value={amazonUrl}
                                 onChange={(e) => setAmazonUrl(e.target.value)}
-                                placeholder="https://www.amazon.com/dp/B07..."
+                                placeholder="Cole aqui o link da Amazon..."
                                 style={{
                                   width: '100%',
                                   padding: '0.75rem',
                                   border: '1px solid #d1d5db',
                                   borderRadius: '8px',
                                   fontSize: '1rem',
-                                  outline: 'none'
+                                  outline: 'none',
+                                  cursor: 'text'
                                 }}
                                 onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
                                 onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
@@ -151,8 +135,8 @@ export default function LinkExtractorPage() {
                                   gap: '0.5rem'
                                 }}
                               >
-                                {loading ? '⏳' : '🔍'}
-                                {loading ? 'Processando...' : 'Extrair e Limpar'}
+                                {loading ? '⏳' : '🛒'}
+                                {loading ? 'Processando...' : 'Ir para Amazon'}
                               </button>
                             </div>
                           </div>

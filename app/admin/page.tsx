@@ -1070,29 +1070,43 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
     });
   };
 
-  const deleteProduct = (productId: string) => {
+  const deleteProduct = async (productId: string) => {
     if (confirm('Tem certeza que deseja excluir este produto?')) {
-      // Remover do estado local
-      const updatedProducts = products.filter(p => p.id !== productId);
-      setProducts(updatedProducts);
-      
-      // Sincronizar localStorage
-      localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
-      localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
-      
-      // Sincronizar via BroadcastChannel
       try {
-        const channel = new BroadcastChannel('admin-sync');
-        channel.postMessage({
-          type: 'products-updated',
-          products: updatedProducts,
-          action: 'delete',
-          timestamp: Date.now()
-        });
-        channel.close();
-        console.log('✅ Produto excluído e sincronizado com sucesso');
+        // Deletar do Supabase primeiro
+        const deleted = await deleteProductFromSupabase(productId);
+        
+        if (deleted) {
+          // Remover do estado local
+          const updatedProducts = products.filter(p => p.id !== productId);
+          setProducts(updatedProducts);
+          
+          // Sincronizar localStorage
+          localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+          localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+          
+          // Sincronizar via BroadcastChannel
+          try {
+            const channel = new BroadcastChannel('admin-sync');
+            channel.postMessage({
+              type: 'products-updated',
+              products: updatedProducts,
+              action: 'delete',
+              timestamp: Date.now()
+            });
+            channel.close();
+            console.log('✅ Produto excluído do Supabase e sincronizado com sucesso');
+            alert('✅ Produto excluído com sucesso!');
+          } catch (error) {
+            console.log('❌ BroadcastChannel não suportado para exclusão');
+          }
+        } else {
+          console.error('❌ Falha ao deletar produto do Supabase');
+          alert('❌ Erro ao deletar produto. Tente novamente.');
+        }
       } catch (error) {
-        console.log('❌ BroadcastChannel não suportado para exclusão');
+        console.error('❌ Erro ao deletar produto:', error);
+        alert('❌ Erro ao deletar produto: ' + error);
       }
     }
   };
@@ -1230,39 +1244,34 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
               }
               
               // DEPOIS: Sincronizar produtos
-              const updatedProducts = localStorage.getItem('adminProducts');
-              if (updatedProducts) {
-                const parsedProducts = JSON.parse(updatedProducts);
-                if (parsedProducts.length > 0) {
-                  console.log('🔄 Sincronizando produtos:', parsedProducts.length);
-                  
-                  const supabaseProducts = parsedProducts.map((p: Product) => ({
-                    id: p.id,
-                    name: p.name,
-                    description: p.description,
-                    category_id: p.categoryId,
-                    amazon_url: p.amazonUrl,
-                    current_price: p.currentPrice,
-                    original_price: p.originalPrice,
-                    rating: p.rating,
-                    review_count: p.reviewCount,
-                    image_url: p.imageUrl,
-                    benefits: p.benefits,
-                    features: p.features,
-                    product_url: p.productUrl
-                  }));
-                  
-                  const success = await syncProductsToSupabase(supabaseProducts);
-                  if (success) {
-                    alert(`✅ Sincronização completa!\n\n📂 ${categories.length} categorias sincronizadas\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Sistema sincronizado!`);
-                  } else {
-                    alert('❌ Falha na sincronização de produtos. Verifique o console.');
-                  }
+              if (products.length > 0) {
+                console.log('🔄 Sincronizando produtos:', products.length);
+                
+                const supabaseProducts = products.map((p: Product) => ({
+                  id: p.id,
+                  name: p.name,
+                  description: p.description,
+                  category_id: p.categoryId,
+                  amazon_url: p.amazonUrl,
+                  current_price: p.currentPrice,
+                  original_price: p.originalPrice,
+                  rating: p.rating,
+                  review_count: p.reviewCount,
+                  image_url: p.imageUrl,
+                  benefits: p.benefits,
+                  features: p.features,
+                  product_url: p.productUrl,
+                  slug: (p as any).slug || generateSlug(p.name, p.id)
+                }));
+                
+                const success = await syncProductsToSupabase(supabaseProducts);
+                if (success) {
+                  alert(`✅ Sincronização completa!\n\n📂 ${categories.length} categorias sincronizadas\n📦 ${products.length} produtos sincronizados\n\n🔄 Sistema sincronizado!`);
                 } else {
-                  alert(`✅ Sincronização!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto para sincronizar.`);
+                  alert('❌ Falha na sincronização de produtos. Verifique o console.');
                 }
               } else {
-                alert(`✅ Sincronização!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto encontrado.`);
+                alert(`✅ Sincronização!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto para sincronizar.`);
               }
             } catch (error) {
               alert('❌ Erro na sincronização: ' + error);

@@ -35,14 +35,14 @@ export interface Product {
 // Funções para sincronização
 export const syncProductsToSupabase = async (products: Product[]) => {
   try {
-    // Limpar produtos existentes
-    await supabase.from('products').delete().neq('id', '')
-    
-    // Inserir novos produtos
+    // Usar upsert para evitar conflitos
     if (products.length > 0) {
       const { data, error } = await supabase
         .from('products')
-        .insert(products)
+        .upsert(products, { 
+          onConflict: 'id',
+          ignoreDuplicates: false 
+        })
       
       if (error) {
         console.error('❌ Erro ao sincronizar produtos:', error)
@@ -52,6 +52,7 @@ export const syncProductsToSupabase = async (products: Product[]) => {
       console.log('✅ Produtos sincronizados com Supabase:', products.length)
       return true
     }
+    return true
   } catch (error) {
     console.error('❌ Erro na sincronização:', error)
     return false

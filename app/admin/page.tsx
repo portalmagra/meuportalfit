@@ -225,7 +225,7 @@ export default function AdminPage() {
         if (localProducts) {
           const parsedProducts = JSON.parse(localProducts);
           if (parsedProducts.length > 0) {
-            console.log('🔄 Migrando produtos do localStorage para Supabase:', parsedProducts.length);
+            console.log('🔄 Sincronizando produtos do localStorage:', parsedProducts.length);
             
             const supabaseProducts = parsedProducts.map((p: Product) => ({
               id: p.id,
@@ -245,10 +245,10 @@ export default function AdminPage() {
             
             const success = await syncProductsToSupabase(supabaseProducts);
             if (success) {
-              console.log('✅ Produtos migrados para Supabase com sucesso!');
-              alert('✅ Produtos migrados para Supabase! Agora aparecerão em todos os dispositivos.');
+              console.log('✅ Produtos sincronizados com sucesso!');
+              alert('✅ Produtos sincronizados! Agora aparecerão em todos os dispositivos.');
             } else {
-              console.log('❌ Falha na migração para Supabase');
+              console.log('❌ Falha na sincronização');
             }
           }
         }
@@ -1118,7 +1118,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
               if (localProducts) {
                 const parsedProducts = JSON.parse(localProducts);
                 if (parsedProducts.length > 0) {
-                  console.log('🔄 Migrando produtos para Supabase:', parsedProducts.length);
+                  console.log('🔄 Sincronizando produtos:', parsedProducts.length);
                   
                   const supabaseProducts = parsedProducts.map((p: Product) => ({
                     id: p.id,
@@ -1138,19 +1138,19 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                   
                   const success = await syncProductsToSupabase(supabaseProducts);
                   if (success) {
-                    alert(`✅ Migração para Supabase realizada!\n\n📦 ${parsedProducts.length} produtos migrados\n\n🔄 Agora aparecerão em todos os dispositivos!`);
+                    alert(`✅ Sincronização realizada!\n\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Agora aparecerão em todos os dispositivos!`);
                   } else {
-                    alert('❌ Falha na migração para Supabase. Verifique o console.');
+                    alert('❌ Falha na sincronização. Verifique o console.');
+                  }
+                                  } else {
+                    alert('❌ Nenhum produto encontrado para sincronizar.');
                   }
                 } else {
-                  alert('❌ Nenhum produto encontrado no localStorage para migrar.');
+                  alert('❌ Nenhum produto encontrado.');
                 }
-              } else {
-                alert('❌ Nenhum produto encontrado no localStorage.');
+              } catch (error) {
+                alert('❌ Erro na sincronização: ' + error);
               }
-            } catch (error) {
-              alert('❌ Erro na migração: ' + error);
-            }
           }}
           style={{
             padding: '12px 20px',
@@ -1167,7 +1167,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
             zIndex: 1001
           }}
         >
-          🚀 Migrar para Supabase
+          🔄 Sincronizar
         </button>
         
 

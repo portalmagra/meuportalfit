@@ -38,7 +38,15 @@ export default function LinkExtractorPage() {
                   setSuccess(true)
                   
                   // Abrir Amazon diretamente em nova aba
-                  window.open(cleanUrl, '_blank')
+                  console.log('🔗 Tentando abrir:', cleanUrl)
+                  const link = document.createElement('a')
+                  link.href = cleanUrl
+                  link.target = '_blank'
+                  link.rel = 'noopener noreferrer'
+                  document.body.appendChild(link)
+                  link.click()
+                  document.body.removeChild(link)
+                  console.log('✅ Link clicado')
                   
                   // Copiar para clipboard automaticamente
                   try {
@@ -87,23 +95,23 @@ export default function LinkExtractorPage() {
                           borderRadius: '12px',
                           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
                         }}>
-                          <h2 style={{
-                            fontSize: '1.2rem',
-                            fontWeight: 'bold',
-                            color: '#1f2937',
-                            marginBottom: '1rem',
-                            textAlign: 'center'
-                          }}>
-                            Cole seu link da Amazon aqui
-                          </h2>
-
-                                        <div style={{ marginBottom: '1rem' }}>
+                                                    <div style={{ marginBottom: '1rem' }}>
+                            <h2 style={{
+                              fontSize: '1.2rem',
+                              fontWeight: 'bold',
+                              color: '#1f2937',
+                              marginBottom: '0.5rem',
+                              textAlign: 'center'
+                            }}>
+                              Cole seu link da Amazon aqui ⬇️
+                            </h2>
+                            
                             <div style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}>
                               <input
                                 type="url"
                                 value={amazonUrl}
                                 onChange={(e) => setAmazonUrl(e.target.value)}
-                                placeholder="Cole aqui o link da Amazon..."
+                                placeholder="https://www.amazon.com/dp/B07..."
                                 style={{
                                   width: '100%',
                                   padding: '0.75rem',
@@ -211,30 +219,32 @@ export default function LinkExtractorPage() {
                       📋 Copiar Link
                     </button>
                     
-                    <a
-                      href={processedUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: 'none' }}
+                    <button
+                      onClick={() => {
+                        const link = document.createElement('a')
+                        link.href = processedUrl
+                        link.target = '_blank'
+                        link.rel = 'noopener noreferrer'
+                        document.body.appendChild(link)
+                        link.click()
+                        document.body.removeChild(link)
+                      }}
+                      style={{
+                        padding: '0.75rem 1.5rem',
+                        backgroundColor: '#22c55e',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}
                     >
-                      <button
-                        style={{
-                          padding: '0.75rem 1.5rem',
-                          backgroundColor: '#22c55e',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '8px',
-                          cursor: 'pointer',
-                          fontSize: '1rem',
-                          fontWeight: 'bold',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem'
-                        }}
-                      >
-                        🛒 Ir para Amazon
-                      </button>
-                    </a>
+                      🛒 Ir para Amazon
+                    </button>
                   </div>
                 </div>
               )}
@@ -289,7 +299,7 @@ export default function LinkExtractorPage() {
                         }}>
                           <strong>Nenhum custo adicional para você!</strong>
                           <br />
-                          Ajude o projeto MeuPortalFit
+                          Projeto MeuPortalFit
                         </p>
                       </div>
                     </section>

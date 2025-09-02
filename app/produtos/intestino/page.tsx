@@ -10,10 +10,15 @@ export default function IntestinoPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Carregar produtos da categoria "intestino" do localStorage
+    // Carregar produtos da categoria "intestino" do localStorage com sincronização robusta
     const loadProducts = () => {
       try {
-        const storedProducts = localStorage.getItem('adminProducts')
+        // Tentar carregar de ambas as chaves para garantir sincronização
+        let storedProducts = localStorage.getItem('adminProducts')
+        if (!storedProducts) {
+          storedProducts = localStorage.getItem('globalProducts')
+        }
+        
         console.log('🔄 Carregando produtos do localStorage:', storedProducts ? 'encontrado' : 'não encontrado')
         if (storedProducts) {
           const allProducts = JSON.parse(storedProducts)
@@ -38,13 +43,17 @@ export default function IntestinoPage() {
       console.log('📡 Escutando sincronização na página intestino')
       
       channel.onmessage = (event) => {
-        console.log('📨 Mensagem recebida:', event.data.type)
+        console.log('📨 Mensagem recebida:', event.data.type, event.data.action || '')
         if (event.data.type === 'products-updated') {
           const intestinoProducts = event.data.products.filter((product: any) => 
             product.categoryId === 'intestino'
           )
           console.log('🫀 Produtos atualizados via sincronização:', intestinoProducts.length, 'produtos')
           setProducts(intestinoProducts)
+          
+          // Atualizar localStorage local também
+          localStorage.setItem('adminProducts', JSON.stringify(event.data.products))
+          localStorage.setItem('globalProducts', JSON.stringify(event.data.products))
         }
       }
       

@@ -919,7 +919,28 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
 
   const deleteProduct = (productId: string) => {
     if (confirm('Tem certeza que deseja excluir este produto?')) {
-      setProducts(products.filter(p => p.id !== productId));
+      // Remover do estado local
+      const updatedProducts = products.filter(p => p.id !== productId);
+      setProducts(updatedProducts);
+      
+      // Sincronizar localStorage
+      localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+      localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+      
+      // Sincronizar via BroadcastChannel
+      try {
+        const channel = new BroadcastChannel('admin-sync');
+        channel.postMessage({
+          type: 'products-updated',
+          products: updatedProducts,
+          action: 'delete',
+          timestamp: Date.now()
+        });
+        channel.close();
+        console.log('✅ Produto excluído e sincronizado com sucesso');
+      } catch (error) {
+        console.log('❌ BroadcastChannel não suportado para exclusão');
+      }
     }
   };
 
@@ -1717,7 +1738,29 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                           <button
                             onClick={() => {
                               if (confirm(`Tem certeza que deseja excluir "${product.name}" da categoria "${selectedCategory.name}"?`)) {
-                                setProducts(products.filter(p => p.id !== product.id));
+                                // Remover do estado local
+                                const updatedProducts = products.filter(p => p.id !== product.id);
+                                setProducts(updatedProducts);
+                                
+                                // Sincronizar localStorage
+                                localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+                                localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+                                
+                                // Sincronizar via BroadcastChannel
+                                try {
+                                  const channel = new BroadcastChannel('admin-sync');
+                                  channel.postMessage({
+                                    type: 'products-updated',
+                                    products: updatedProducts,
+                                    action: 'delete',
+                                    timestamp: Date.now()
+                                  });
+                                  channel.close();
+                                  console.log('✅ Produto excluído e sincronizado com sucesso');
+                                } catch (error) {
+                                  console.log('❌ BroadcastChannel não suportado para exclusão');
+                                }
+                                
                                 alert(`✅ Produto "${product.name}" excluído com sucesso da categoria "${selectedCategory.name}"!`);
                               }
                             }}

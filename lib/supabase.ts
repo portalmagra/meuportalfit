@@ -61,14 +61,14 @@ export const syncProductsToSupabase = async (products: Product[]) => {
 
 export const syncCategoriesToSupabase = async (categories: Category[]) => {
   try {
-    // Limpar categorias existentes
-    await supabase.from('categories').delete().neq('id', '')
-    
-    // Inserir novas categorias
+    // Usar upsert para evitar conflitos
     if (categories.length > 0) {
       const { data, error } = await supabase
         .from('categories')
-        .insert(categories)
+        .upsert(categories, { 
+          onConflict: 'id',
+          ignoreDuplicates: false 
+        })
       
       if (error) {
         console.error('❌ Erro ao sincronizar categorias:', error)
@@ -78,6 +78,7 @@ export const syncCategoriesToSupabase = async (categories: Category[]) => {
       console.log('✅ Categorias sincronizadas com Supabase:', categories.length)
       return true
     }
+    return true
   } catch (error) {
     console.error('❌ Erro na sincronização:', error)
     return false

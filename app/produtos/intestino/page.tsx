@@ -36,6 +36,7 @@ export default function IntestinoPage() {
           }
         } else {
           console.log('✅ Produtos carregados do Supabase:', products?.length || 0, 'produtos')
+          console.log('🔍 Dados dos produtos:', products)
           setProducts(products || [])
         }
       } catch (error) {
@@ -279,7 +280,7 @@ export default function IntestinoPage() {
                         marginTop: 'auto'
                       }}>
                         <Link 
-                          href={`/produtos/intestino/${product.slug || product.name.toLowerCase().replace(/[áàâãä]/g, 'a').replace(/[éèêë]/g, 'e').replace(/[íìîï]/g, 'i').replace(/[óòôõö]/g, 'o').replace(/[úùûü]/g, 'u').replace(/[ç]/g, 'c').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()}`} 
+                          href={`/produtos/intestino/${product.id}`} 
                           style={{ textDecoration: 'none', flex: 1 }}
                         >
                           <button style={{

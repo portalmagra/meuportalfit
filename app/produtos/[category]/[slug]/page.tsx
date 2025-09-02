@@ -23,12 +23,12 @@ export default function ProductPage({ params }: ProductPageProps) {
       try {
         console.log('🔄 Carregando produto:', params.slug, 'da categoria:', params.category)
         
-        // Buscar produto no Supabase por slug
+        // Buscar produto no Supabase por ID (temporário até slug estar pronto)
         const { data: products, error } = await supabase
           .from('products')
           .select('*')
           .eq('category_id', params.category)
-          .eq('slug', params.slug)
+          .eq('id', params.slug)
         
         if (error) {
           console.error('❌ Erro ao carregar produto do Supabase:', error)

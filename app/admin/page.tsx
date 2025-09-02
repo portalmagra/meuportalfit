@@ -203,14 +203,12 @@ export default function AdminPage() {
           const parsedProducts = JSON.parse(mobileProducts);
           console.log('📱 Produtos encontrados no localStorage:', parsedProducts.length);
           
-          // Atualizar estado se houver diferenças
-          if (JSON.stringify(parsedProducts) !== JSON.stringify(products)) {
-            console.log('🔄 Atualizando produtos do localStorage...');
-            setProducts(parsedProducts);
-            localStorage.setItem('adminProducts', JSON.stringify(parsedProducts));
-            localStorage.setItem('globalProducts', JSON.stringify(parsedProducts));
-            console.log('✅ Produtos sincronizados do localStorage');
-          }
+          // SEMPRE atualizar estado (não comparar)
+          console.log('🔄 Atualizando produtos do localStorage...');
+          setProducts(parsedProducts);
+          localStorage.setItem('adminProducts', JSON.stringify(parsedProducts));
+          localStorage.setItem('globalProducts', JSON.stringify(parsedProducts));
+          console.log('✅ Produtos sincronizados do localStorage');
         }
       } catch (error) {
         console.log('❌ Erro na sincronização localStorage:', error);
@@ -1077,12 +1075,12 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                 const parsedProducts = JSON.parse(mobileProducts);
                 console.log('📱 Produtos encontrados no localStorage:', parsedProducts.length);
                 
-                // Atualizar estado
+                // SEMPRE atualizar estado
                 setProducts(parsedProducts);
                 localStorage.setItem('adminProducts', JSON.stringify(parsedProducts));
                 localStorage.setItem('globalProducts', JSON.stringify(parsedProducts));
                 
-                alert(`🔄 Sincronização manual realizada!\n\n📦 Produtos encontrados: ${parsedProducts.length}\n\nVerifique o console para logs detalhados.`);
+                alert(`🔄 Sincronização manual realizada!\n\n📦 Produtos encontrados: ${parsedProducts.length}\n\n✅ Estado atualizado com sucesso!`);
               } else {
                 alert('❌ Nenhum produto encontrado no localStorage para sincronizar.');
               }
@@ -1193,7 +1191,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                   minHeight: '44px',
                   touchAction: 'manipulation',
                   position: 'relative',
-                  zIndex: 1001
+                  zIndex: 1
                 }}
                 onTouchStart={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
                 onTouchEnd={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
@@ -1734,7 +1732,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: 1000
+          zIndex: 9999
         }}>
           <div style={{
             backgroundColor: 'white',

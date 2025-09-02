@@ -294,7 +294,7 @@ export default function CafePage() {
                             <span>📄</span>
                             <span>Ver Detalhes</span>
                           </button>
-                        </Link>
+                        </a>
                         
                         <a
                           href={product.amazonUrl}

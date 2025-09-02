@@ -866,7 +866,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         benefits: p.benefits,
         features: p.features,
         product_url: p.productUrl,
-        slug: generateSlug(p.name, p.id)
+        slug: generateSlug(p.name, p.id) // Sempre gerar slug
       }));
       
       const success = await syncProductsToSupabase(supabaseProducts);

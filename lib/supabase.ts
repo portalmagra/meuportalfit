@@ -39,9 +39,17 @@ export const syncProductsToSupabase = async (products: Product[]) => {
   try {
     // Usar upsert para evitar conflitos
     if (products.length > 0) {
+      // Garantir que todos os produtos tenham slug
+      const productsWithSlug = products.map(product => ({
+        ...product,
+        slug: product.slug || generateSlug(product.name, product.id)
+      }))
+      
+      console.log('🔗 Produtos com slug garantido:', productsWithSlug.map(p => ({ id: p.id, name: p.name, slug: p.slug })))
+      
       const { data, error } = await supabase
         .from('products')
-        .upsert(products, { 
+        .upsert(productsWithSlug, { 
           onConflict: 'id',
           ignoreDuplicates: false 
         })
@@ -51,7 +59,7 @@ export const syncProductsToSupabase = async (products: Product[]) => {
         return false
       }
       
-      console.log('✅ Produtos sincronizados com Supabase:', products.length)
+      console.log('✅ Produtos sincronizados com Supabase:', productsWithSlug.length)
       return true
     }
     return true

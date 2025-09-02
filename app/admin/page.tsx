@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getProductByASIN } from '../../lib/amazon-api';
+import { generateSlug } from '../../lib/slug-generator';
 import { 
   supabase, 
   syncProductsToSupabase, 

@@ -279,7 +279,7 @@ export default function IntestinoPage() {
                         marginTop: 'auto'
                       }}>
                         <Link 
-                          href={`/produtos/intestino/${product.id}`} 
+                          href={`/produtos/intestino/${product.slug || product.name.toLowerCase().replace(/[áàâãä]/g, 'a').replace(/[éèêë]/g, 'e').replace(/[íìîï]/g, 'i').replace(/[óòôõö]/g, 'o').replace(/[úùûü]/g, 'u').replace(/[ç]/g, 'c').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()}`} 
                           style={{ textDecoration: 'none', flex: 1 }}
                         >
                           <button style={{

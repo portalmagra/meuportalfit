@@ -392,48 +392,88 @@ export default function AdminPage() {
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Header from '../../../components/Header'
+import { supabase } from '@/lib/supabase'
 
 interface Product {
   id: string
   name: string
   description: string
-  categoryId: string
-  amazonUrl: string
-  currentPrice: string
-  originalPrice: string
+  category_id: string
+  amazon_url: string
+  current_price: string
+  original_price: string
   rating: number
-  reviewCount: number
-  imageUrl: string
+  review_count: number
+  image_url: string
   benefits: string[]
   features: string[]
-  productUrl?: string
+  slug?: string
 }
 
-export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params }: { params: { slug: string } }) {
+export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Carregar produtos do localStorage
-    const loadProduct = () => {
+    const loadProduct = async () => {
       try {
-        let storedProducts = localStorage.getItem('adminProducts')
-        if (!storedProducts) {
-          storedProducts = localStorage.getItem('globalProducts')
+        const resolvedParams = await params;
+        
+        console.log('🔍 Buscando produto com:', {
+          category: '${categoryId}',
+          slug: resolvedParams.slug
+        })
+        
+        let { data: products, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('category_id', '${categoryId}')
+          .eq('slug', resolvedParams.slug)
+        
+        console.log('🔍 Resultado busca por slug:', products, error)
+        
+        // Se não encontrar por slug, tentar por ID
+        if (!products || products.length === 0) {
+          console.log('🔄 Tentando buscar por ID...')
+          const { data: productsById, error: errorById } = await supabase
+            .from('products')
+            .select('*')
+            .eq('category_id', '${categoryId}')
+            .eq('id', resolvedParams.slug)
+          
+          console.log('🔍 Resultado busca por ID:', productsById, errorById)
+          
+          if (productsById && productsById.length > 0) {
+            products = productsById
+            error = errorById
+          }
         }
         
-        if (storedProducts) {
-          const allProducts = JSON.parse(storedProducts)
-          const categoryProducts = allProducts.filter((p: Product) => p.categoryId === '${categoryId}')
-          
-          // Encontrar o produto pelo slug
-          const foundProduct = categoryProducts.find((p: Product) => {
-            const productSlug = p.name.toLowerCase()
-              .replace(/[áàâãä]/g, 'a')
-              .replace(/[éèêë]/g, 'e')
-              .replace(/[íìîï]/g, 'i')
-              .replace(/[óòôõö]/g, 'o')
+        if (error) {
+          console.error('❌ Erro ao carregar produto do Supabase:', error)
+          setError('Erro ao carregar produto')
+          return
+        }
+        
+        if (products && products.length > 0) {
+          console.log('✅ Produto encontrado:', products[0])
+          setProduct(products[0])
+        } else {
+          console.log('❌ Produto não encontrado')
+          setError('Produto não encontrado')
+        }
+      } catch (error) {
+        console.error('❌ Erro ao carregar produto:', error)
+        setError('Erro ao carregar produto')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProduct()
+  }, [params])
               .replace(/[úùûü]/g, 'u')
               .replace(/[ç]/g, 'c')
               .replace(/[^a-z0-9\\s-]/g, '')

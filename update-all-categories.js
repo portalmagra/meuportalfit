@@ -1,4 +1,24 @@
-'use client'
+// Script para aplicar a mesma lógica do intestino em todas as categorias
+const fs = require('fs');
+const path = require('path');
+
+const categories = [
+  'energia',
+  'emagrecimento', 
+  'flacidez',
+  'sono',
+  'imunidade',
+  'hormonal',
+  'utensilios',
+  'homens',
+  'snacks',
+  'ansiedade',
+  'fadiga',
+  'cozinha',
+  'cafe'
+];
+
+const template = `'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -21,22 +41,22 @@ interface Product {
   slug?: string;
 }
 
-export default function EmagrecimentoPage() {
+export default function {{CATEGORY_NAME}}Page() {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Carregar produtos da categoria "emagrecimento" do Supabase
+    // Carregar produtos da categoria "{{CATEGORY_ID}}" do Supabase
     const loadProducts = async () => {
       try {
         console.log('🔄 Carregando produtos do Supabase...')
         
-        // Buscar produtos da categoria emagrecimento no Supabase
+        // Buscar produtos da categoria {{CATEGORY_ID}} no Supabase
         const { data: products, error } = await supabase
           .from('products')
           .select('*')
-          .eq('category_id', 'emagrecimento')
+          .eq('category_id', '{{CATEGORY_ID}}')
         
         if (error) {
           console.error('❌ Erro ao carregar produtos do Supabase:', error)
@@ -44,11 +64,11 @@ export default function EmagrecimentoPage() {
           const storedProducts = localStorage.getItem('adminProducts') || localStorage.getItem('globalProducts')
           if (storedProducts) {
             const allProducts = JSON.parse(storedProducts)
-            const emagrecimentoProducts = allProducts.filter((product: any) => 
-              product.categoryId === 'emagrecimento'
+            const {{CATEGORY_ID}}Products = allProducts.filter((product: any) => 
+              product.categoryId === '{{CATEGORY_ID}}'
             )
-            console.log('🔄 Fallback para localStorage:', emagrecimentoProducts.length, 'produtos')
-            setProducts(emagrecimentoProducts)
+            console.log('🔄 Fallback para localStorage:', {{CATEGORY_ID}}Products.length, 'produtos')
+            setProducts({{CATEGORY_ID}}Products)
           }
         } else {
           console.log('✅ Produtos carregados do Supabase:', products?.length || 0, 'produtos')
@@ -67,10 +87,10 @@ export default function EmagrecimentoPage() {
         const storedProducts = localStorage.getItem('adminProducts') || localStorage.getItem('globalProducts')
         if (storedProducts) {
           const allProducts = JSON.parse(storedProducts)
-          const emagrecimentoProducts = allProducts.filter((product: any) => 
-            product.categoryId === 'emagrecimento'
+          const {{CATEGORY_ID}}Products = allProducts.filter((product: any) => 
+            product.categoryId === '{{CATEGORY_ID}}'
           )
-          setProducts(emagrecimentoProducts)
+          setProducts({{CATEGORY_ID}}Products)
         }
       } finally {
         setLoading(false)
@@ -82,7 +102,7 @@ export default function EmagrecimentoPage() {
     // Sincronizar com mudanças de outros dispositivos
     try {
       const channel = new BroadcastChannel('admin-sync')
-      console.log('📡 Escutando sincronização na página emagrecimento')
+      console.log('📡 Escutando sincronização na página {{CATEGORY_ID}}')
       
       channel.onmessage = (event) => {
         console.log('📨 Mensagem recebida:', event.data.type, event.data.action || '')
@@ -97,7 +117,7 @@ export default function EmagrecimentoPage() {
         channel.close()
       }
     } catch (error) {
-      console.log('❌ BroadcastChannel não suportado na página emagrecimento:', error)
+      console.log('❌ BroadcastChannel não suportado na página {{CATEGORY_ID}}:', error)
     }
   }, [])
 
@@ -109,7 +129,7 @@ export default function EmagrecimentoPage() {
 
         {/* Hero Section Mínimo Proporcional */}
         <section style={{
-          background: 'linear-gradient(135deg, #96CEB4, #27ae60)',
+          background: 'linear-gradient(135deg, {{CATEGORY_COLOR}})',
           padding: '0.15rem 0',
           textAlign: 'center',
           marginBottom: '0.2rem',
@@ -117,10 +137,10 @@ export default function EmagrecimentoPage() {
         }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '2.5rem', marginBottom: '20px', fontWeight: 'bold' }}>
-              🔥 Suporte para Emagrecimento
+              {{CATEGORY_ICON}} Suporte para {{CATEGORY_DISPLAY_NAME}}
             </h1>
             <p style={{ fontSize: '1.2rem', marginBottom: '30px', opacity: 0.9 }}>
-              Produtos para perda de peso saudável
+              {{CATEGORY_DESCRIPTION}}
             </p>
             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/analise" style={{
@@ -160,15 +180,15 @@ export default function EmagrecimentoPage() {
           ) : products.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px' }}>
               <h2 style={{ color: '#333', marginBottom: '20px' }}>
-                🔥 Nenhum produto adicionado ainda para esta categoria
+                {{CATEGORY_ICON}} Nenhum produto adicionado ainda para esta categoria
               </h2>
               <p style={{ color: '#666', marginBottom: '30px', fontSize: '1.1rem' }}>
-                Produtos para perda de peso saudável
+                {{CATEGORY_DESCRIPTION}}
               </p>
               <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Link href="/analise" style={{
                   padding: '15px 30px',
-                  backgroundColor: '#96CEB4, #27ae60',
+                  backgroundColor: '{{CATEGORY_COLOR}}',
                   color: 'white',
                   textDecoration: 'none',
                   borderRadius: '8px',
@@ -179,7 +199,7 @@ export default function EmagrecimentoPage() {
                 </Link>
                 <Link href="/produtos" style={{
                   padding: '15px 30px',
-                  backgroundColor: '#27ae60',
+                  backgroundColor: '{{CATEGORY_COLOR_SECONDARY}}',
                   color: 'white',
                   textDecoration: 'none',
                   borderRadius: '8px',
@@ -193,7 +213,7 @@ export default function EmagrecimentoPage() {
           ) : (
             <>
               <h2 style={{ textAlign: 'center', color: '#333', marginBottom: '40px', fontSize: '2rem' }}>
-                🔥 Produtos Disponíveis
+                {{CATEGORY_ICON}} Produtos Disponíveis
               </h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
                 {products.map((product) => (
@@ -270,7 +290,7 @@ export default function EmagrecimentoPage() {
                       marginTop: 'auto'
                     }}>
                       <a 
-                        href={`/produtos/emagrecimento/${product.slug || product.id}`} 
+                        href={\`/produtos/{{CATEGORY_ID}}/\${product.slug || product.id}\`} 
                         style={{ 
                           textDecoration: 'none', 
                           flex: 1,
@@ -333,4 +353,141 @@ export default function EmagrecimentoPage() {
       </main>
     </>
   )
+}`;
+
+const categoryConfigs = {
+  'energia': {
+    name: 'Energia',
+    displayName: 'Energia',
+    description: 'Produtos selecionados para aumentar energia e disposição',
+    icon: '⚡',
+    color: '#45B7D1, #3498db',
+    colorSecondary: '#3498db'
+  },
+  'emagrecimento': {
+    name: 'Emagrecimento',
+    displayName: 'Emagrecimento',
+    description: 'Produtos para perda de peso saudável',
+    icon: '🔥',
+    color: '#96CEB4, #27ae60',
+    colorSecondary: '#27ae60'
+  },
+  'flacidez': {
+    name: 'Flacidez',
+    displayName: 'Flacidez',
+    description: 'Suplementos para firmeza e elasticidade da pele',
+    icon: '✨',
+    color: '#FFEAA7, #f39c12',
+    colorSecondary: '#f39c12'
+  },
+  'sono': {
+    name: 'Qualidade do Sono',
+    displayName: 'Qualidade do Sono',
+    description: 'Produtos para melhorar a qualidade do sono',
+    icon: '😴',
+    color: '#DDA0DD, #9b59b6',
+    colorSecondary: '#9b59b6'
+  },
+  'imunidade': {
+    name: 'Imunidade',
+    displayName: 'Imunidade',
+    description: 'Fortalecimento do sistema imunológico',
+    icon: '🛡️',
+    color: '#98D8C8, #16a085',
+    colorSecondary: '#16a085'
+  },
+  'hormonal': {
+    name: 'Equilíbrio Hormonal',
+    displayName: 'Equilíbrio Hormonal',
+    description: 'Balance hormonal e bem-estar feminino',
+    icon: '⚖️',
+    color: '#F7DC6F, #f1c40f',
+    colorSecondary: '#f1c40f'
+  },
+  'utensilios': {
+    name: 'Utensílios de Suporte',
+    displayName: 'Utensílios de Suporte',
+    description: 'Ferramentas e equipamentos para fitness e saúde',
+    icon: '🏋️',
+    color: '#BB8FCE, #8e44ad',
+    colorSecondary: '#8e44ad'
+  },
+  'homens': {
+    name: 'Mercado de Homens',
+    displayName: 'Mercado de Homens',
+    description: 'Produtos específicos para saúde masculina',
+    icon: '👨',
+    color: '#85C1E9, #3498db',
+    colorSecondary: '#3498db'
+  },
+  'snacks': {
+    name: 'Snack Saudável',
+    displayName: 'Snack Saudável',
+    description: 'Lanches nutritivos e funcionais',
+    icon: '🍎',
+    color: '#F8C471, #f39c12',
+    colorSecondary: '#f39c12'
+  },
+  'ansiedade': {
+    name: 'Ansiedade',
+    displayName: 'Ansiedade',
+    description: 'Suplementos para controle da ansiedade',
+    icon: '🧘',
+    color: '#AED6F1, #3498db',
+    colorSecondary: '#3498db'
+  },
+  'fadiga': {
+    name: 'Fadiga',
+    displayName: 'Fadiga',
+    description: 'Produtos para combater cansaço e fadiga',
+    icon: '😴',
+    color: '#FAD7A0, #e67e22',
+    colorSecondary: '#e67e22'
+  },
+  'cozinha': {
+    name: 'Cozinhando Saudável',
+    displayName: 'Cozinhando Saudável',
+    description: 'Temperos, óleos, sal e utensílios de cozinha',
+    icon: '🌿',
+    color: '#A8E6CF, #27ae60',
+    colorSecondary: '#27ae60'
+  },
+  'cafe': {
+    name: 'Café',
+    displayName: 'Café',
+    description: 'Cafés especiais e produtos relacionados',
+    icon: '☕',
+    color: '#8B4513, #795548',
+    colorSecondary: '#795548'
+  }
+};
+
+function updateCategory(categoryId) {
+  const config = categoryConfigs[categoryId];
+  if (!config) {
+    console.log(`❌ Configuração não encontrada para: ${categoryId}`);
+    return;
+  }
+
+  const filePath = path.join(__dirname, 'app', 'produtos', categoryId, 'page.tsx');
+  
+  let content = template
+    .replace(/{{CATEGORY_NAME}}/g, config.name.replace(/\s+/g, ''))
+    .replace(/{{CATEGORY_ID}}/g, categoryId)
+    .replace(/{{CATEGORY_DISPLAY_NAME}}/g, config.displayName)
+    .replace(/{{CATEGORY_DESCRIPTION}}/g, config.description)
+    .replace(/{{CATEGORY_ICON}}/g, config.icon)
+    .replace(/{{CATEGORY_COLOR}}/g, config.color)
+    .replace(/{{CATEGORY_COLOR_SECONDARY}}/g, config.colorSecondary);
+
+  try {
+    fs.writeFileSync(filePath, content);
+    console.log(`✅ ${categoryId} atualizado com sucesso!`);
+  } catch (error) {
+    console.log(`❌ Erro ao atualizar ${categoryId}:`, error.message);
+  }
 }
+
+console.log('🔄 Atualizando todas as categorias...');
+categories.forEach(updateCategory);
+console.log('✅ Processo concluído!');

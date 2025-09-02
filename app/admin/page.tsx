@@ -1129,10 +1129,27 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
           📂 Adicionar Categoria
         </button>
         
-                <button
+                        <button
           onClick={async () => {
-            // Sincronizar categorias e produtos
+            // Limpar produto "Chia" e sincronizar
             try {
+              // Remover produto "Chia" do localStorage
+              const localProducts = localStorage.getItem('adminProducts');
+              if (localProducts) {
+                const parsedProducts = JSON.parse(localProducts);
+                const filteredProducts = parsedProducts.filter((p: Product) => 
+                  !p.name.toLowerCase().includes('chia')
+                );
+                
+                // Atualizar localStorage
+                localStorage.setItem('adminProducts', JSON.stringify(filteredProducts));
+                localStorage.setItem('globalProducts', JSON.stringify(filteredProducts));
+                setProducts(filteredProducts);
+                
+                console.log('🗑️ Produto "Chia" removido do localStorage');
+              }
+              
+              // Sincronizar categorias e produtos
               // PRIMEIRO: Sincronizar categorias
               console.log('🔄 Sincronizando categorias primeiro...');
               const supabaseCategories = categories.map(cat => ({
@@ -1152,9 +1169,9 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
               }
               
               // DEPOIS: Sincronizar produtos
-              const localProducts = localStorage.getItem('adminProducts');
-              if (localProducts) {
-                const parsedProducts = JSON.parse(localProducts);
+              const updatedProducts = localStorage.getItem('adminProducts');
+              if (updatedProducts) {
+                const parsedProducts = JSON.parse(updatedProducts);
                 if (parsedProducts.length > 0) {
                   console.log('🔄 Sincronizando produtos:', parsedProducts.length);
                   
@@ -1176,18 +1193,18 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                   
                   const success = await syncProductsToSupabase(supabaseProducts);
                   if (success) {
-                    alert(`✅ Sincronização completa!\n\n📂 ${categories.length} categorias sincronizadas\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Agora aparecerão em todos os dispositivos!`);
+                    alert(`✅ Limpeza e sincronização completa!\n\n🗑️ Produto "Chia" removido\n📂 ${categories.length} categorias sincronizadas\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Sistema limpo e sincronizado!`);
                   } else {
                     alert('❌ Falha na sincronização de produtos. Verifique o console.');
                   }
                 } else {
-                  alert(`✅ Categorias sincronizadas!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto para sincronizar.`);
+                  alert(`✅ Limpeza e sincronização!\n\n🗑️ Produto "Chia" removido\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto para sincronizar.`);
                 }
               } else {
-                alert(`✅ Categorias sincronizadas!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto encontrado.`);
+                alert(`✅ Limpeza e sincronização!\n\n🗑️ Produto "Chia" removido\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto encontrado.`);
               }
             } catch (error) {
-              alert('❌ Erro na sincronização: ' + error);
+              alert('❌ Erro na limpeza/sincronização: ' + error);
             }
           }}
           style={{
@@ -1205,7 +1222,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
             zIndex: 1001
           }}
         >
-          🔄 Sincronizar
+          🗑️ Limpar Chia & Sincronizar
         </button>
         
 

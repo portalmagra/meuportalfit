@@ -542,7 +542,7 @@ export default function IntestinoPage() {
                 )}
 
                 {/* Benefícios */}
-                {selectedProduct.benefits && (
+                {selectedProduct.benefits && typeof selectedProduct.benefits === 'string' && (
                   <div style={{ marginBottom: '1rem' }}>
                     <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                       Benefícios:
@@ -567,7 +567,7 @@ export default function IntestinoPage() {
                 )}
 
                 {/* Características */}
-                {selectedProduct.features && (
+                {selectedProduct.features && typeof selectedProduct.features === 'string' && (
                   <div style={{ marginBottom: '1rem' }}>
                     <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                       Características:

@@ -1071,19 +1071,28 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
   };
 
   const deleteProduct = async (productId: string) => {
+    console.log('🗑️ deleteProduct chamado com ID:', productId);
+    
     if (confirm('Tem certeza que deseja excluir este produto?')) {
       try {
+        console.log('🗑️ Confirmado, deletando do Supabase...');
+        
         // Deletar do Supabase primeiro
         const deleted = await deleteProductFromSupabase(productId);
+        console.log('🗑️ Resultado da deleção do Supabase:', deleted);
         
         if (deleted) {
+          console.log('🗑️ Supabase OK, removendo do estado local...');
+          
           // Remover do estado local
           const updatedProducts = products.filter(p => p.id !== productId);
+          console.log('🗑️ Produtos após filtro:', updatedProducts.length);
           setProducts(updatedProducts);
           
           // Sincronizar localStorage
           localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
           localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+          console.log('🗑️ localStorage atualizado');
           
           // Sincronizar via BroadcastChannel
           try {
@@ -1098,7 +1107,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
             console.log('✅ Produto excluído do Supabase e sincronizado com sucesso');
             alert('✅ Produto excluído com sucesso!');
           } catch (error) {
-            console.log('❌ BroadcastChannel não suportado para exclusão');
+            console.log('❌ BroadcastChannel não suportado para exclusão:', error);
           }
         } else {
           console.error('❌ Falha ao deletar produto do Supabase');
@@ -1108,6 +1117,8 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         console.error('❌ Erro ao deletar produto:', error);
         alert('❌ Erro ao deletar produto: ' + error);
       }
+    } else {
+      console.log('🗑️ Deleção cancelada pelo usuário');
     }
   };
 

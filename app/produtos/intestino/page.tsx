@@ -290,7 +290,8 @@ export default function IntestinoPage() {
                           style={{ 
                             textDecoration: 'none', 
                             flex: 1,
-                            display: 'block'
+                            display: 'block',
+                            cursor: 'pointer'
                           }}
                         >
                           <button style={{
@@ -306,8 +307,7 @@ export default function IntestinoPage() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: '0.4rem',
-                            pointerEvents: 'none'
+                            gap: '0.4rem'
                           }}>
                             <span>📄</span>
                             <span>Ver Detalhes</span>

@@ -267,9 +267,14 @@ export default function CafePage() {
                         gap: '0.5rem',
                         marginTop: 'auto'
                       }}>
-                        <Link 
-                          href={product.productUrl || `/produtos/cafe/${product.name.toLowerCase().replace(/[áàâãä]/g, 'a').replace(/[éèêë]/g, 'e').replace(/[íìîï]/g, 'i').replace(/[óòôõö]/g, 'o').replace(/[úùûü]/g, 'u').replace(/[ç]/g, 'c').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()}`} 
-                          style={{ textDecoration: 'none', flex: 1 }}
+                        <a 
+                          href={`/produtos/cafe/${product.slug || product.id}`} 
+                          style={{ 
+                            textDecoration: 'none', 
+                            flex: 1,
+                            display: 'block',
+                            cursor: 'pointer'
+                          }}
                         >
                           <button style={{
                             width: '100%',

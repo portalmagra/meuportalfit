@@ -40,6 +40,8 @@ export default function IntestinoPage() {
           if (products && products.length > 0) {
             console.log('🔍 Slug do primeiro produto:', products[0].slug)
             console.log('🔍 ID do primeiro produto:', products[0].id)
+            console.log('🔍 Nome do primeiro produto:', products[0].name)
+            console.log('🔍 Categoria do primeiro produto:', products[0].category_id)
           }
           setProducts(products || [])
         }
@@ -283,9 +285,13 @@ export default function IntestinoPage() {
                         gap: '0.5rem',
                         marginTop: 'auto'
                       }}>
-                        <Link 
+                        <a 
                           href={`/produtos/intestino/${product.slug || product.id}`} 
-                          style={{ textDecoration: 'none', flex: 1 }}
+                          style={{ 
+                            textDecoration: 'none', 
+                            flex: 1,
+                            display: 'block'
+                          }}
                         >
                           <button style={{
                             width: '100%',
@@ -300,12 +306,13 @@ export default function IntestinoPage() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: '0.4rem'
+                            gap: '0.4rem',
+                            pointerEvents: 'none'
                           }}>
                             <span>📄</span>
                             <span>Ver Detalhes</span>
                           </button>
-                        </Link>
+                        </a>
                         
                         <a
                           href={product.amazonUrl || product.amazon_url}

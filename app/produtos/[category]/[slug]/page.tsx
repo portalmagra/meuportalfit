@@ -1,15 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
 import Header from '../../../components/Header'
 import { supabase } from '@/lib/supabase'
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     category: string
     slug: string
-  }
+  }>
 }
 
 export default function ProductPage({ params }: ProductPageProps) {
@@ -18,17 +18,27 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Desempacotar params usando React.use()
+  const resolvedParams = use(params)
+
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        console.log('🔄 Carregando produto:', params.slug, 'da categoria:', params.category)
+        console.log('🔄 Carregando produto:', resolvedParams.slug, 'da categoria:', resolvedParams.category)
         
         // Buscar produto no Supabase por slug ou ID
+        console.log('🔍 Buscando produto com:', {
+          category: resolvedParams.category,
+          slug: resolvedParams.slug
+        })
+        
         let { data: products, error } = await supabase
           .from('products')
           .select('*')
-          .eq('category_id', params.category)
-          .eq('slug', params.slug)
+          .eq('category_id', resolvedParams.category)
+          .eq('slug', resolvedParams.slug)
+        
+        console.log('🔍 Resultado busca por slug:', products, error)
         
         // Se não encontrar por slug, tentar por ID
         if (!products || products.length === 0) {
@@ -36,13 +46,26 @@ export default function ProductPage({ params }: ProductPageProps) {
           const { data: productsById, error: errorById } = await supabase
             .from('products')
             .select('*')
-            .eq('category_id', params.category)
-            .eq('id', params.slug)
+            .eq('category_id', resolvedParams.category)
+            .eq('id', resolvedParams.slug)
+          
+          console.log('🔍 Resultado busca por ID:', productsById, errorById)
           
           if (productsById && productsById.length > 0) {
             products = productsById
             error = errorById
           }
+        }
+        
+        // Se ainda não encontrar, buscar todos os produtos da categoria para debug
+        if (!products || products.length === 0) {
+          console.log('🔄 Buscando todos os produtos da categoria para debug...')
+          const { data: allProducts, error: allError } = await supabase
+            .from('products')
+            .select('*')
+            .eq('category_id', resolvedParams.category)
+          
+          console.log('🔍 Todos os produtos da categoria:', allProducts)
         }
         
         if (error) {
@@ -67,7 +90,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     }
 
     loadProduct()
-  }, [params.category, params.slug])
+  }, [resolvedParams.category, resolvedParams.slug])
 
   if (loading) {
     return (
@@ -109,7 +132,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           }}>
             O produto que você está procurando não foi encontrado.
           </p>
-          <Link href={`/produtos/${params.category}`}>
+          <Link href={`/produtos/${resolvedParams.category}`}>
             <button style={{
               padding: '0.75rem 1.5rem',
               backgroundColor: '#3b82f6',
@@ -122,7 +145,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               alignItems: 'center',
               gap: '0.5rem'
             }}>
-              ← Voltar à Categoria {params.category.charAt(0).toUpperCase() + params.category.slice(1)}
+              ← Voltar à Categoria {resolvedParams.category.charAt(0).toUpperCase() + resolvedParams.category.slice(1)}
             </button>
           </Link>
         </main>
@@ -140,8 +163,8 @@ export default function ProductPage({ params }: ProductPageProps) {
             Produtos
           </Link>
           {' > '}
-          <Link href={`/produtos/${params.category}`} style={{ color: '#3b82f6', textDecoration: 'none' }}>
-            {params.category.charAt(0).toUpperCase() + params.category.slice(1)}
+          <Link href={`/produtos/${resolvedParams.category}`} style={{ color: '#3b82f6', textDecoration: 'none' }}>
+            {resolvedParams.category.charAt(0).toUpperCase() + resolvedParams.category.slice(1)}
           </Link>
           {' > '}
           <span style={{ color: '#6b7280' }}>{product.name}</span>
@@ -314,7 +337,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </a>
               )}
               
-              <Link href={`/produtos/${params.category}`}>
+              <Link href={`/produtos/${resolvedParams.category}`}>
                 <button style={{
                   padding: '0.75rem 1.5rem',
                   backgroundColor: '#6b7280',

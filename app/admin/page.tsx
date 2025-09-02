@@ -766,26 +766,13 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
     console.log('📄 Conteúdo da página:', pageContent.substring(0, 200) + '...');
   };
 
-  // Função para gerar URL amigável do produto
-  const generateProductSlug = (productName: string): string => {
-    return productName.toLowerCase()
-      .replace(/[áàâãä]/g, 'a')
-      .replace(/[éèêë]/g, 'e')
-      .replace(/[íìîï]/g, 'i')
-      .replace(/[óòôõö]/g, 'o')
-      .replace(/[úùûü]/g, 'u')
-      .replace(/[ç]/g, 'c')
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim()
-  };
+
 
   const addProduct = async (product: Omit<Product, 'id'>) => {
     console.log('🔍 addProduct chamado com:', product);
     
-    // Gerar URL amigável para o produto
-    const productSlug = generateProductSlug(product.name);
+    // Gerar slug usando a função importada
+    const productSlug = generateSlug(product.name);
     const productUrl = `/produtos/${product.categoryId}/${productSlug}`;
     
     console.log('🔗 URL gerada:', { productSlug, productUrl });
@@ -838,7 +825,8 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         image_url: p.imageUrl,
         benefits: p.benefits,
         features: p.features,
-        product_url: p.productUrl
+        product_url: p.productUrl,
+        slug: generateSlug(p.name, p.id)
       }));
       
       const success = await syncProductsToSupabase(supabaseProducts);

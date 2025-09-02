@@ -30,6 +30,7 @@ export interface Product {
   benefits: string[]
   features: string[]
   product_url?: string
+  slug?: string
   created_at?: string
 }
 

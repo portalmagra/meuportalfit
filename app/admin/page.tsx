@@ -221,6 +221,25 @@ export default function AdminPage() {
     // Migrar produtos existentes do localStorage para Supabase
     const migrateLocalProductsToSupabase = async () => {
       try {
+        // PRIMEIRO: Sincronizar categorias
+        console.log('🔄 Sincronizando categorias primeiro...');
+        const supabaseCategories = categories.map(cat => ({
+          id: cat.id,
+          name: cat.name,
+          description: cat.description,
+          color: cat.color,
+          icon: cat.icon
+        }));
+        
+        const categoriesSuccess = await syncCategoriesToSupabase(supabaseCategories);
+        if (categoriesSuccess) {
+          console.log('✅ Categorias sincronizadas com sucesso!');
+        } else {
+          console.log('❌ Falha na sincronização de categorias');
+          return;
+        }
+        
+        // DEPOIS: Sincronizar produtos
         const localProducts = localStorage.getItem('adminProducts');
         if (localProducts) {
           const parsedProducts = JSON.parse(localProducts);
@@ -1110,10 +1129,29 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
           📂 Adicionar Categoria
         </button>
         
-        <button
+                <button
           onClick={async () => {
-            // Migrar produtos para Supabase
+            // Sincronizar categorias e produtos
             try {
+              // PRIMEIRO: Sincronizar categorias
+              console.log('🔄 Sincronizando categorias primeiro...');
+              const supabaseCategories = categories.map(cat => ({
+                id: cat.id,
+                name: cat.name,
+                description: cat.description,
+                color: cat.color,
+                icon: cat.icon
+              }));
+              
+              const categoriesSuccess = await syncCategoriesToSupabase(supabaseCategories);
+              if (categoriesSuccess) {
+                console.log('✅ Categorias sincronizadas com sucesso!');
+              } else {
+                alert('❌ Falha na sincronização de categorias. Verifique o console.');
+                return;
+              }
+              
+              // DEPOIS: Sincronizar produtos
               const localProducts = localStorage.getItem('adminProducts');
               if (localProducts) {
                 const parsedProducts = JSON.parse(localProducts);
@@ -1138,19 +1176,19 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                   
                   const success = await syncProductsToSupabase(supabaseProducts);
                   if (success) {
-                    alert(`✅ Sincronização realizada!\n\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Agora aparecerão em todos os dispositivos!`);
+                    alert(`✅ Sincronização completa!\n\n📂 ${categories.length} categorias sincronizadas\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Agora aparecerão em todos os dispositivos!`);
                   } else {
-                    alert('❌ Falha na sincronização. Verifique o console.');
-                  }
-                                  } else {
-                    alert('❌ Nenhum produto encontrado para sincronizar.');
+                    alert('❌ Falha na sincronização de produtos. Verifique o console.');
                   }
                 } else {
-                  alert('❌ Nenhum produto encontrado.');
+                  alert(`✅ Categorias sincronizadas!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto para sincronizar.`);
                 }
-              } catch (error) {
-                alert('❌ Erro na sincronização: ' + error);
+              } else {
+                alert(`✅ Categorias sincronizadas!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto encontrado.`);
               }
+            } catch (error) {
+              alert('❌ Erro na sincronização: ' + error);
+            }
           }}
           style={{
             padding: '12px 20px',

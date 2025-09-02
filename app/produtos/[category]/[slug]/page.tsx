@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Header from '../../../components/Header'
@@ -224,7 +226,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             )}
 
             {/* Benefits */}
-            {product.benefits && (
+            {product.benefits && typeof product.benefits === 'string' && (
               <div style={{ marginBottom: '1rem' }}>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                   Benefícios:
@@ -249,7 +251,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             )}
 
             {/* Features */}
-            {product.features && (
+            {product.features && typeof product.features === 'string' && (
               <div style={{ marginBottom: '1rem' }}>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                   Características:

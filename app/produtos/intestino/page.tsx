@@ -9,8 +9,6 @@ export default function IntestinoPage() {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedProduct, setSelectedProduct] = useState<any>(null)
-  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     // Carregar produtos da categoria "intestino" do Supabase
@@ -280,12 +278,11 @@ export default function IntestinoPage() {
                         gap: '0.5rem',
                         marginTop: 'auto'
                       }}>
-                        <button 
-                          onClick={() => {
-                            setSelectedProduct(product)
-                            setShowModal(true)
-                          }}
-                          style={{
+                        <Link 
+                          href={`/produtos/intestino/${product.id}`} 
+                          style={{ textDecoration: 'none', flex: 1 }}
+                        >
+                          <button style={{
                             width: '100%',
                             padding: '0.8rem',
                             background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
@@ -299,11 +296,11 @@ export default function IntestinoPage() {
                             alignItems: 'center',
                             justifyContent: 'center',
                             gap: '0.4rem'
-                          }}
-                        >
-                          <span>📄</span>
-                          <span>Ver Detalhes</span>
-                        </button>
+                          }}>
+                            <span>📄</span>
+                            <span>Ver Detalhes</span>
+                          </button>
+                        </Link>
                         
                         <a
                           href={product.amazonUrl || product.amazon_url}
@@ -416,225 +413,7 @@ export default function IntestinoPage() {
         </section>
       </main>
 
-      {/* Modal de Detalhes do Produto */}
-      {showModal && selectedProduct && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 9999,
-          padding: '1rem'
-        }}>
-          <div style={{
-            background: 'white',
-            borderRadius: '16px',
-            padding: '2rem',
-            maxWidth: '800px',
-            width: '100%',
-            maxHeight: '90vh',
-            overflow: 'auto',
-            position: 'relative'
-          }}>
-            {/* Botão Fechar */}
-            <button
-              onClick={() => setShowModal(false)}
-              style={{
-                position: 'absolute',
-                top: '1rem',
-                right: '1rem',
-                background: 'none',
-                border: 'none',
-                fontSize: '1.5rem',
-                cursor: 'pointer',
-                color: '#6b7280'
-              }}
-            >
-              ✕
-            </button>
 
-            {/* Conteúdo do Modal */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '2rem',
-              marginBottom: '2rem'
-            }}>
-              {/* Imagem do Produto */}
-              <div>
-                {(selectedProduct.imageUrl || selectedProduct.image_url) ? (
-                  <img 
-                    src={selectedProduct.imageUrl || selectedProduct.image_url} 
-                    alt={selectedProduct.name}
-                    style={{
-                      width: '100%',
-                      maxWidth: '300px',
-                      height: 'auto',
-                      borderRadius: '0.5rem'
-                    }}
-                  />
-                ) : (
-                  <div style={{
-                    width: '100%',
-                    maxWidth: '300px',
-                    height: '200px',
-                    backgroundColor: '#f3f4f6',
-                    borderRadius: '0.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#6b7280'
-                  }}>
-                    Sem imagem
-                  </div>
-                )}
-              </div>
-
-              {/* Informações do Produto */}
-              <div>
-                <h2 style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                  marginBottom: '1rem',
-                  color: '#1f2937'
-                }}>
-                  {selectedProduct.name}
-                </h2>
-                
-                <p style={{
-                  fontSize: '1rem',
-                  marginBottom: '1rem',
-                  color: '#6b7280',
-                  lineHeight: '1.6'
-                }}>
-                  {selectedProduct.description}
-                </p>
-
-                {/* Preço */}
-                {(selectedProduct.price || selectedProduct.current_price) && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <span style={{
-                      fontSize: '1.3rem',
-                      fontWeight: 'bold',
-                      color: '#059669'
-                    }}>
-                      ${selectedProduct.price || selectedProduct.current_price}
-                    </span>
-                  </div>
-                )}
-
-                {/* Avaliação */}
-                {selectedProduct.rating && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <span style={{ color: '#f59e0b' }}>
-                      {'★'.repeat(Math.floor(selectedProduct.rating))}
-                      {'☆'.repeat(5 - Math.floor(selectedProduct.rating))}
-                    </span>
-                    <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
-                      ({selectedProduct.review_count || 0} avaliações)
-                    </span>
-                  </div>
-                )}
-
-                {/* Benefícios */}
-                {selectedProduct.benefits && typeof selectedProduct.benefits === 'string' && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-                      Benefícios:
-                    </h3>
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                      {selectedProduct.benefits.split(',').map((benefit: string, index: number) => (
-                        <li key={index} style={{ 
-                          marginBottom: '0.25rem',
-                          paddingLeft: '1rem',
-                          position: 'relative'
-                        }}>
-                          <span style={{
-                            position: 'absolute',
-                            left: 0,
-                            color: '#059669'
-                          }}>✓</span>
-                          {benefit.trim()}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Características */}
-                {selectedProduct.features && typeof selectedProduct.features === 'string' && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-                      Características:
-                    </h3>
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                      {selectedProduct.features.split(',').map((feature: string, index: number) => (
-                        <li key={index} style={{ 
-                          marginBottom: '0.25rem',
-                          paddingLeft: '1rem',
-                          position: 'relative'
-                        }}>
-                          <span style={{
-                            position: 'absolute',
-                            left: 0,
-                            color: '#3b82f6'
-                          }}>•</span>
-                          {feature.trim()}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Botões de Ação */}
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                  {(selectedProduct.amazonUrl || selectedProduct.amazon_url) && (
-                    <a 
-                      href={selectedProduct.amazonUrl || selectedProduct.amazon_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        padding: '0.75rem 1.5rem',
-                        backgroundColor: '#ff9900',
-                        color: 'white',
-                        textDecoration: 'none',
-                        borderRadius: '0.5rem',
-                        fontSize: '1rem',
-                        fontWeight: 'bold',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem'
-                      }}
-                    >
-                      🛒 Comprar na Amazon
-                    </a>
-                  )}
-                  
-                  <button
-                    onClick={() => setShowModal(false)}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      backgroundColor: '#6b7280',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '0.5rem',
-                      fontSize: '1rem',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Fechar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }

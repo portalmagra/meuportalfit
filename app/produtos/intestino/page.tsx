@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Header from '../../components/Header'
+import { supabase } from '@/lib/supabase'
 
 export default function IntestinoPage() {
   const [language, setLanguage] = useState<'pt' | 'es' | 'en'>('pt')
@@ -10,26 +11,44 @@ export default function IntestinoPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Carregar produtos da categoria "intestino" do localStorage com sincronização robusta
-    const loadProducts = () => {
+    // Carregar produtos da categoria "intestino" do Supabase
+    const loadProducts = async () => {
       try {
-        // Tentar carregar de ambas as chaves para garantir sincronização
-        let storedProducts = localStorage.getItem('adminProducts')
-        if (!storedProducts) {
-          storedProducts = localStorage.getItem('globalProducts')
-        }
+        console.log('🔄 Carregando produtos do Supabase...')
         
-        console.log('🔄 Carregando produtos do localStorage:', storedProducts ? 'encontrado' : 'não encontrado')
+        // Buscar produtos da categoria intestino no Supabase
+        const { data: products, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('category_id', 'intestino')
+        
+        if (error) {
+          console.error('❌ Erro ao carregar produtos do Supabase:', error)
+          // Fallback para localStorage se Supabase falhar
+          const storedProducts = localStorage.getItem('adminProducts') || localStorage.getItem('globalProducts')
+          if (storedProducts) {
+            const allProducts = JSON.parse(storedProducts)
+            const intestinoProducts = allProducts.filter((product: any) => 
+              product.categoryId === 'intestino'
+            )
+            console.log('🔄 Fallback para localStorage:', intestinoProducts.length, 'produtos')
+            setProducts(intestinoProducts)
+          }
+        } else {
+          console.log('✅ Produtos carregados do Supabase:', products?.length || 0, 'produtos')
+          setProducts(products || [])
+        }
+      } catch (error) {
+        console.error('❌ Erro ao carregar produtos:', error)
+        // Fallback para localStorage
+        const storedProducts = localStorage.getItem('adminProducts') || localStorage.getItem('globalProducts')
         if (storedProducts) {
           const allProducts = JSON.parse(storedProducts)
           const intestinoProducts = allProducts.filter((product: any) => 
             product.categoryId === 'intestino'
           )
-          console.log('🫀 Produtos da categoria intestino:', intestinoProducts.length, 'produtos')
           setProducts(intestinoProducts)
         }
-      } catch (error) {
-        console.error('❌ Erro ao carregar produtos:', error)
       } finally {
         setLoading(false)
       }
@@ -45,15 +64,8 @@ export default function IntestinoPage() {
       channel.onmessage = (event) => {
         console.log('📨 Mensagem recebida:', event.data.type, event.data.action || '')
         if (event.data.type === 'products-updated') {
-          const intestinoProducts = event.data.products.filter((product: any) => 
-            product.categoryId === 'intestino'
-          )
-          console.log('🫀 Produtos atualizados via sincronização:', intestinoProducts.length, 'produtos')
-          setProducts(intestinoProducts)
-          
-          // Atualizar localStorage local também
-          localStorage.setItem('adminProducts', JSON.stringify(event.data.products))
-          localStorage.setItem('globalProducts', JSON.stringify(event.data.products))
+          // Recarregar do Supabase quando houver mudanças
+          loadProducts()
         }
       }
       
@@ -92,7 +104,7 @@ export default function IntestinoPage() {
               marginBottom: '0.4rem',
               color: '#1f2937'
             }} className="hero-title">
-              🫀 Produtos para Saúde Intestinal
+              ♻️ Produtos para Saúde Intestinal
             </h1>
 
             <p style={{
@@ -329,7 +341,7 @@ export default function IntestinoPage() {
                   fontSize: '3rem',
                   marginBottom: '1rem'
                 }}>
-                  🫀
+                  ♻️
                 </div>
                 <h2 style={{
                   fontSize: 'clamp(1.5rem, 4vw, 2rem)',

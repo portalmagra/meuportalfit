@@ -1131,23 +1131,8 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         
                         <button
           onClick={async () => {
-            // Limpar produto "Chia" e sincronizar
+            // Sincronizar categorias e produtos
             try {
-              // Remover produto "Chia" do localStorage
-              const localProducts = localStorage.getItem('adminProducts');
-              if (localProducts) {
-                const parsedProducts = JSON.parse(localProducts);
-                const filteredProducts = parsedProducts.filter((p: Product) => 
-                  !p.name.toLowerCase().includes('chia')
-                );
-                
-                // Atualizar localStorage
-                localStorage.setItem('adminProducts', JSON.stringify(filteredProducts));
-                localStorage.setItem('globalProducts', JSON.stringify(filteredProducts));
-                setProducts(filteredProducts);
-                
-                console.log('🗑️ Produto "Chia" removido do localStorage');
-              }
               
               // Sincronizar categorias e produtos
               // PRIMEIRO: Sincronizar categorias
@@ -1193,18 +1178,18 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                   
                   const success = await syncProductsToSupabase(supabaseProducts);
                   if (success) {
-                    alert(`✅ Limpeza e sincronização completa!\n\n🗑️ Produto "Chia" removido\n📂 ${categories.length} categorias sincronizadas\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Sistema limpo e sincronizado!`);
+                    alert(`✅ Sincronização completa!\n\n📂 ${categories.length} categorias sincronizadas\n📦 ${parsedProducts.length} produtos sincronizados\n\n🔄 Sistema sincronizado!`);
                   } else {
                     alert('❌ Falha na sincronização de produtos. Verifique o console.');
                   }
                 } else {
-                  alert(`✅ Limpeza e sincronização!\n\n🗑️ Produto "Chia" removido\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto para sincronizar.`);
+                  alert(`✅ Sincronização!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto para sincronizar.`);
                 }
               } else {
-                alert(`✅ Limpeza e sincronização!\n\n🗑️ Produto "Chia" removido\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto encontrado.`);
+                alert(`✅ Sincronização!\n\n📂 ${categories.length} categorias sincronizadas\n\n📦 Nenhum produto encontrado.`);
               }
             } catch (error) {
-              alert('❌ Erro na limpeza/sincronização: ' + error);
+              alert('❌ Erro na sincronização: ' + error);
             }
           }}
           style={{
@@ -1222,7 +1207,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
             zIndex: 1001
           }}
         >
-          🗑️ Limpar Chia & Sincronizar
+          🔄 Sincronizar
         </button>
         
 

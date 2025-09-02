@@ -178,6 +178,27 @@ export const updateProductInSupabase = async (id: string, updates: Partial<Produ
 
 export const deleteProductFromSupabase = async (id: string) => {
   try {
+    console.log('🗑️ deleteProductFromSupabase chamado com ID:', id)
+    
+    // Primeiro, verificar se o produto existe
+    const { data: existingProduct, error: checkError } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+    
+    if (checkError) {
+      console.error('❌ Erro ao verificar produto:', checkError)
+      return false
+    }
+    
+    if (!existingProduct || existingProduct.length === 0) {
+      console.log('❌ Produto não encontrado no Supabase:', id)
+      return false
+    }
+    
+    console.log('✅ Produto encontrado no Supabase:', existingProduct[0].name)
+    
+    // Tentar deletar o produto
     const { error } = await supabase
       .from('products')
       .delete()
@@ -189,7 +210,25 @@ export const deleteProductFromSupabase = async (id: string) => {
     }
     
     console.log('✅ Produto excluído do Supabase:', id)
-    return true
+    
+    // Verificar se foi realmente deletado
+    const { data: checkDeleted, error: checkDeletedError } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+    
+    if (checkDeletedError) {
+      console.error('❌ Erro ao verificar se foi deletado:', checkDeletedError)
+      return false
+    }
+    
+    if (!checkDeleted || checkDeleted.length === 0) {
+      console.log('✅ Confirmação: Produto foi realmente deletado do Supabase')
+      return true
+    } else {
+      console.log('❌ Produto ainda existe no Supabase após tentativa de deleção')
+      return false
+    }
   } catch (error) {
     console.error('❌ Erro ao excluir produto:', error)
     return false

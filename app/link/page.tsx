@@ -91,7 +91,7 @@ export default function LinkExtractorPage() {
               marginBottom: '2rem',
               lineHeight: '1.6'
             }}>
-              Cole qualquer link da Amazon e receba um link limpo com comissão garantida!
+              Cole seu link da Amazon e receba um link limpo!
             </p>
           </div>
         </section>
@@ -176,7 +176,7 @@ export default function LinkExtractorPage() {
                   marginTop: '0.5rem',
                   display: 'block'
                 }}>
-                  Cole qualquer link da Amazon e clique em "Extrair e Limpar" para receber um link com comissão garantida
+                  Cole seu link da Amazon e clique em "Extrair e Limpar" para receber um link limpo
                 </small>
               </div>
 
@@ -210,40 +210,71 @@ export default function LinkExtractorPage() {
                     ✅ Link Processado com Sucesso!
                   </h3>
                   
-                  <div style={{
-                    backgroundColor: 'white',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '6px',
-                    padding: '1rem',
-                    marginBottom: '1rem',
-                    wordBreak: 'break-all'
-                  }}>
-                    <strong style={{ color: '#374151' }}>Link com Comissão:</strong>
-                    <br />
-                    <span style={{ color: '#059669', fontSize: '0.9rem' }}>
-                      {processedUrl}
-                    </span>
-                  </div>
+                                     <div style={{
+                     backgroundColor: 'white',
+                     border: '1px solid #d1d5db',
+                     borderRadius: '6px',
+                     padding: '1rem',
+                     marginBottom: '1rem',
+                     wordBreak: 'break-all'
+                   }}>
+                     <strong style={{ color: '#374151' }}>Link Limpo:</strong>
+                     <br />
+                     <span style={{ color: '#059669', fontSize: '0.9rem' }}>
+                       {processedUrl}
+                     </span>
+                   </div>
 
-                  <button
-                    onClick={copyToClipboard}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      backgroundColor: '#3b82f6',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      fontSize: '1rem',
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      margin: '0 auto'
-                    }}
-                  >
-                    📋 Copiar Link
-                  </button>
+                  <div style={{
+                    display: 'flex',
+                    gap: '1rem',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap'
+                  }}>
+                    <button
+                      onClick={copyToClipboard}
+                      style={{
+                        padding: '0.75rem 1.5rem',
+                        backgroundColor: '#3b82f6',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}
+                    >
+                      📋 Copiar Link
+                    </button>
+                    
+                    <a
+                      href={processedUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <button
+                        style={{
+                          padding: '0.75rem 1.5rem',
+                          backgroundColor: '#22c55e',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontSize: '1rem',
+                          fontWeight: 'bold',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
+                        }}
+                      >
+                        🛒 Ir para Amazon
+                      </button>
+                    </a>
+                  </div>
                 </div>
               )}
 
@@ -268,9 +299,9 @@ export default function LinkExtractorPage() {
                   lineHeight: '1.6',
                   paddingLeft: '1.5rem'
                 }}>
-                  <li>Cole qualquer link da Amazon no campo acima</li>
+                  <li>Cole seu link da Amazon no campo acima</li>
                   <li>Clique em "Extrair e Limpar"</li>
-                  <li>Receba um link limpo com comissão garantida</li>
+                  <li>Receba um link limpo</li>
                   <li>Use o link para suas compras e ajude o projeto!</li>
                 </ol>
               </div>
@@ -302,7 +333,7 @@ export default function LinkExtractorPage() {
               lineHeight: '1.6',
               fontSize: '1rem'
             }}>
-              Usando nossos links da Amazon, você ajuda a manter o projeto ativo e recebe os mesmos preços!
+              Usando nossos links da Amazon, você ajuda a manter o projeto ativo!
               <br />
               <strong>Nenhum custo adicional para você!</strong>
             </p>

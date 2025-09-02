@@ -224,13 +224,13 @@ export default function IntestinoPage() {
                       display: 'flex',
                       flexDirection: 'column'
                     }}>
-                      {product.imageUrl && (
+                      {(product.imageUrl || product.image_url) && (
                         <div style={{
                           textAlign: 'center',
                           marginBottom: '1rem'
                         }}>
                           <img
-                            src={product.imageUrl}
+                            src={product.imageUrl || product.image_url}
                             alt={product.name}
                             style={{
                               maxWidth: '200px',
@@ -262,14 +262,14 @@ export default function IntestinoPage() {
                         </p>
                       )}
 
-                      {product.price && (
+                      {(product.price || product.current_price) && (
                         <div style={{
                           fontSize: '1.3rem',
                           fontWeight: 700,
                           color: '#059669',
                           marginBottom: '1rem'
                         }}>
-                          {product.price}
+                          ${product.price || product.current_price}
                         </div>
                       )}
 
@@ -279,7 +279,7 @@ export default function IntestinoPage() {
                         marginTop: 'auto'
                       }}>
                         <Link 
-                          href={product.productUrl || `/produtos/intestino/${product.name.toLowerCase().replace(/[áàâãä]/g, 'a').replace(/[éèêë]/g, 'e').replace(/[íìîï]/g, 'i').replace(/[óòôõö]/g, 'o').replace(/[úùûü]/g, 'u').replace(/[ç]/g, 'c').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()}`} 
+                          href={product.productUrl || `/produtos/intestino/${product.id || product.name.toLowerCase().replace(/[áàâãä]/g, 'a').replace(/[éèêë]/g, 'e').replace(/[íìîï]/g, 'i').replace(/[óòôõö]/g, 'o').replace(/[úùûü]/g, 'u').replace(/[ç]/g, 'c').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()}`} 
                           style={{ textDecoration: 'none', flex: 1 }}
                         >
                           <button style={{
@@ -303,7 +303,7 @@ export default function IntestinoPage() {
                         </Link>
                         
                         <a
-                          href={product.amazonUrl}
+                          href={product.amazonUrl || product.amazon_url}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{ textDecoration: 'none', flex: 1 }}

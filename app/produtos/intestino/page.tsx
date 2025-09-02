@@ -37,6 +37,10 @@ export default function IntestinoPage() {
         } else {
           console.log('✅ Produtos carregados do Supabase:', products?.length || 0, 'produtos')
           console.log('🔍 Dados dos produtos:', products)
+          if (products && products.length > 0) {
+            console.log('🔍 Slug do primeiro produto:', products[0].slug)
+            console.log('🔍 ID do primeiro produto:', products[0].id)
+          }
           setProducts(products || [])
         }
       } catch (error) {
@@ -280,7 +284,7 @@ export default function IntestinoPage() {
                         marginTop: 'auto'
                       }}>
                         <Link 
-                          href={`/produtos/intestino/${product.id}`} 
+                          href={`/produtos/intestino/${product.slug || product.id}`} 
                           style={{ textDecoration: 'none', flex: 1 }}
                         >
                           <button style={{

@@ -2071,32 +2071,48 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
                             ✏️ Editar
                           </button>
                           <button
-                            onClick={() => {
+                            onClick={async () => {
                               if (confirm(`Tem certeza que deseja excluir "${product.name}" da categoria "${selectedCategory.name}"?`)) {
-                                // Remover do estado local
-                                const updatedProducts = products.filter(p => p.id !== product.id);
-                                setProducts(updatedProducts);
+                                console.log('🗑️ Botão de exclusão clicado para:', product.name, 'ID:', product.id);
                                 
-                                // Sincronizar localStorage
-                                localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
-                                localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
-                                
-                                // Sincronizar via BroadcastChannel
                                 try {
-                                  const channel = new BroadcastChannel('admin-sync');
-                                  channel.postMessage({
-                                    type: 'products-updated',
-                                    products: updatedProducts,
-                                    action: 'delete',
-                                    timestamp: Date.now()
-                                  });
-                                  channel.close();
-                                  console.log('✅ Produto excluído e sincronizado com sucesso');
+                                  // Deletar do Supabase primeiro
+                                  const deleted = await deleteProductFromSupabase(product.id);
+                                  console.log('🗑️ Resultado da deleção do Supabase:', deleted);
+                                  
+                                  if (deleted) {
+                                    // Remover do estado local
+                                    const updatedProducts = products.filter(p => p.id !== product.id);
+                                    setProducts(updatedProducts);
+                                    
+                                    // Sincronizar localStorage
+                                    localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+                                    localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+                                    
+                                    // Sincronizar via BroadcastChannel
+                                    try {
+                                      const channel = new BroadcastChannel('admin-sync');
+                                      channel.postMessage({
+                                        type: 'products-updated',
+                                        products: updatedProducts,
+                                        action: 'delete',
+                                        timestamp: Date.now()
+                                      });
+                                      channel.close();
+                                      console.log('✅ Produto excluído do Supabase e sincronizado com sucesso');
+                                    } catch (error) {
+                                      console.log('❌ BroadcastChannel não suportado para exclusão:', error);
+                                    }
+                                    
+                                    alert(`✅ Produto "${product.name}" excluído com sucesso da categoria "${selectedCategory.name}"!`);
+                                  } else {
+                                    console.error('❌ Falha ao deletar produto do Supabase');
+                                    alert('❌ Erro ao deletar produto. Tente novamente.');
+                                  }
                                 } catch (error) {
-                                  console.log('❌ BroadcastChannel não suportado para exclusão');
+                                  console.error('❌ Erro ao deletar produto:', error);
+                                  alert('❌ Erro ao deletar produto: ' + error);
                                 }
-                                
-                                alert(`✅ Produto "${product.name}" excluído com sucesso da categoria "${selectedCategory.name}"!`);
                               }
                             }}
                             style={{

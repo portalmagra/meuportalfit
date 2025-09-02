@@ -1065,6 +1065,53 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
     }
   };
 
+  // Função para atualizar slug de produtos existentes
+  const updateExistingProductSlugs = async () => {
+    try {
+      console.log('🔄 Atualizando slugs de produtos existentes...');
+      
+      // Buscar todos os produtos sem slug
+      const { data: products, error } = await supabase
+        .from('products')
+        .select('*')
+        .is('slug', null);
+      
+      if (error) {
+        console.error('❌ Erro ao buscar produtos:', error);
+        return;
+      }
+      
+      console.log('📦 Produtos sem slug encontrados:', products?.length || 0);
+      
+      if (products && products.length > 0) {
+        // Atualizar cada produto
+        for (const product of products) {
+          const slug = generateSlug(product.name, product.id);
+          console.log(`🔗 Gerando slug para ${product.name}: ${slug}`);
+          
+          const { error: updateError } = await supabase
+            .from('products')
+            .update({ slug: slug })
+            .eq('id', product.id);
+          
+          if (updateError) {
+            console.error(`❌ Erro ao atualizar ${product.name}:`, updateError);
+          } else {
+            console.log(`✅ ${product.name} atualizado com sucesso!`);
+          }
+        }
+        
+        alert(`✅ ${products.length} produtos atualizados com slugs!`);
+      } else {
+        alert('✅ Todos os produtos já têm slugs!');
+      }
+      
+    } catch (error) {
+      console.error('❌ Erro ao atualizar slugs:', error);
+      alert('❌ Erro ao atualizar slugs: ' + error);
+    }
+  };
+
   return (
     <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
       <h1 style={{ textAlign: 'center', color: '#333', marginBottom: '30px' }}>
@@ -1197,6 +1244,26 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
           }}
         >
           🔄 Sincronizar
+        </button>
+        
+        <button
+          onClick={updateExistingProductSlugs}
+          style={{
+            padding: '12px 20px',
+            fontSize: '16px',
+            backgroundColor: '#17a2b8',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            minHeight: '44px',
+            touchAction: 'manipulation',
+            position: 'relative',
+            zIndex: 1001
+          }}
+        >
+          🔗 Atualizar Slugs
         </button>
         
 

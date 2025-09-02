@@ -1017,18 +1017,28 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
       </h1>
 
       {/* Botões principais */}
-      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginBottom: '40px' }}>
+      <div style={{ 
+        display: 'flex', 
+        gap: '10px', 
+        justifyContent: 'center', 
+        marginBottom: '40px',
+        flexWrap: 'wrap'
+      }}>
         <button
           onClick={() => setShowAddProduct(true)}
           style={{
-            padding: '15px 30px',
-            fontSize: '18px',
+            padding: '12px 20px',
+            fontSize: '16px',
             backgroundColor: '#007bff',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
             cursor: 'pointer',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            minHeight: '44px',
+            touchAction: 'manipulation',
+            position: 'relative',
+            zIndex: 1001
           }}
         >
           ➕ Adicionar Produto
@@ -1036,14 +1046,18 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         <button
           onClick={() => setShowAddCategory(true)}
           style={{
-            padding: '15px 30px',
-            fontSize: '18px',
+            padding: '12px 20px',
+            fontSize: '16px',
             backgroundColor: '#28a745',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
             cursor: 'pointer',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            minHeight: '44px',
+            touchAction: 'manipulation',
+            position: 'relative',
+            zIndex: 1001
           }}
         >
           📂 Adicionar Categoria
@@ -1077,14 +1091,18 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
             }
           }}
           style={{
-            padding: '15px 30px',
-            fontSize: '18px',
+            padding: '12px 20px',
+            fontSize: '16px',
             backgroundColor: '#ffc107',
             color: '#333',
             border: 'none',
             borderRadius: '8px',
             cursor: 'pointer',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            minHeight: '44px',
+            touchAction: 'manipulation',
+            position: 'relative',
+            zIndex: 1001
           }}
         >
           🔄 Sincronizar
@@ -1129,8 +1147,8 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         <h2 style={{ color: '#333', marginBottom: '20px' }}>📂 Categorias Disponíveis</h2>
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-          gap: '15px' 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', 
+          gap: '10px' 
         }}>
           {categories.map(category => (
             <div key={category.id} style={{
@@ -1159,6 +1177,29 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
               }}>
                 {products.filter(p => p.categoryId === category.id).length} produto{products.filter(p => p.categoryId === category.id).length !== 1 ? 's' : ''}
               </div>
+              
+              <button
+                onClick={() => setSelectedCategory(category)}
+                style={{
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px 16px',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  width: '100%',
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
+                  position: 'relative',
+                  zIndex: 1001
+                }}
+                onTouchStart={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+                onTouchEnd={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+              >
+                🔍 Ver Produtos ({products.filter(p => p.categoryId === category.id).length})
+              </button>
             </div>
           ))}
         </div>

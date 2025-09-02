@@ -66,119 +66,96 @@ export default function LinkExtractorPage() {
         {/* Header Unificado */}
         <Header language={language} onLanguageChange={setLanguage} />
 
-        {/* Hero Section */}
-        <section style={{
-          background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-          padding: '3rem 0',
-          textAlign: 'center'
-        }}>
+                            {/* Hero Section */}
+                    <section style={{
+                      background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                      padding: '1rem 0',
+                      textAlign: 'center'
+                    }}>
           <div style={{
             maxWidth: '800px',
             margin: '0 auto',
             padding: '0 2rem'
           }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 5vw, 3rem)',
-              fontWeight: 'bold',
-              color: 'white',
-              marginBottom: '1rem'
-            }}>
-              🔗 Extrator de Links Amazon
-            </h1>
-            <p style={{
-              fontSize: '1.2rem',
-              color: 'rgba(255,255,255,0.9)',
-              marginBottom: '2rem',
-              lineHeight: '1.6'
-            }}>
-              Cole seu link da Amazon e receba um link limpo!
-            </p>
+                                    <h1 style={{
+                          fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+                          fontWeight: 'bold',
+                          color: 'white',
+                          marginBottom: '0.5rem'
+                        }}>
+                          Amazon
+                        </h1>
           </div>
         </section>
 
-        {/* Form Section */}
-        <section style={{
-          padding: '3rem 0',
-          background: 'white'
-        }}>
-          <div style={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            padding: '0 2rem'
-          }}>
-            <div style={{
-              backgroundColor: '#f8fafc',
-              padding: '2rem',
-              borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-            }}>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                color: '#1f2937',
-                marginBottom: '1.5rem',
-                textAlign: 'center'
-              }}>
-                📋 Cole o Link da Amazon
-              </h2>
+                            {/* Form Section */}
+                    <section style={{
+                      padding: '1rem 0',
+                      background: 'white'
+                    }}>
+                      <div style={{
+                        maxWidth: '600px',
+                        margin: '0 auto',
+                        padding: '0 1rem'
+                      }}>
+                        <div style={{
+                          backgroundColor: '#f8fafc',
+                          padding: '1rem',
+                          borderRadius: '12px',
+                          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                        }}>
+                          <h2 style={{
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            color: '#1f2937',
+                            marginBottom: '1rem',
+                            textAlign: 'center'
+                          }}>
+                            Link da Amazon
+                          </h2>
 
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{
-                  display: 'block',
-                  marginBottom: '0.5rem',
-                  fontWeight: 'bold',
-                  color: '#374151'
-                }}>
-                  Link da Amazon: *
-                </label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <input
-                    type="url"
-                    value={amazonUrl}
-                    onChange={(e) => setAmazonUrl(e.target.value)}
-                    placeholder="https://www.amazon.com/dp/B07..."
-                    style={{
-                      flex: 1,
-                      padding: '0.75rem',
-                      border: '1px solid #d1d5db',
-                      borderRadius: '8px',
-                      fontSize: '1rem',
-                      outline: 'none'
-                    }}
-                    onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                    onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-                  />
-                  <button
-                    onClick={extractAndCleanAmazonUrl}
-                    disabled={loading}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      backgroundColor: loading ? '#9ca3af' : '#f59e0b',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      cursor: loading ? 'not-allowed' : 'pointer',
-                      fontSize: '1rem',
-                      fontWeight: 'bold',
-                      whiteSpace: 'nowrap',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem'
-                    }}
-                  >
-                    {loading ? '⏳' : '🔍'}
-                    {loading ? 'Processando...' : 'Extrair e Limpar'}
-                  </button>
-                </div>
-                <small style={{
-                  color: '#6b7280',
-                  fontSize: '0.875rem',
-                  marginTop: '0.5rem',
-                  display: 'block'
-                }}>
-                  Cole seu link da Amazon e clique em "Extrair e Limpar" para receber um link limpo
-                </small>
-              </div>
+                                        <div style={{ marginBottom: '1rem' }}>
+                            <div style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}>
+                              <input
+                                type="url"
+                                value={amazonUrl}
+                                onChange={(e) => setAmazonUrl(e.target.value)}
+                                placeholder="https://www.amazon.com/dp/B07..."
+                                style={{
+                                  width: '100%',
+                                  padding: '0.75rem',
+                                  border: '1px solid #d1d5db',
+                                  borderRadius: '8px',
+                                  fontSize: '1rem',
+                                  outline: 'none'
+                                }}
+                                onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                                onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+                              />
+                              <button
+                                onClick={extractAndCleanAmazonUrl}
+                                disabled={loading}
+                                style={{
+                                  width: '100%',
+                                  padding: '0.75rem',
+                                  backgroundColor: loading ? '#9ca3af' : '#f59e0b',
+                                  color: 'white',
+                                  border: 'none',
+                                  borderRadius: '8px',
+                                  cursor: loading ? 'not-allowed' : 'pointer',
+                                  fontSize: '1rem',
+                                  fontWeight: 'bold',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '0.5rem'
+                                }}
+                              >
+                                {loading ? '⏳' : '🔍'}
+                                {loading ? 'Processando...' : 'Extrair e Limpar'}
+                              </button>
+                            </div>
+                          </div>
 
               {error && (
                 <div style={{
@@ -278,67 +255,60 @@ export default function LinkExtractorPage() {
                 </div>
               )}
 
-              {/* Instructions */}
-              <div style={{
-                backgroundColor: '#eff6ff',
-                border: '1px solid #bfdbfe',
-                padding: '1.5rem',
-                borderRadius: '8px',
-                marginTop: '2rem'
-              }}>
-                <h3 style={{
-                  color: '#1e40af',
-                  marginBottom: '1rem',
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold'
-                }}>
-                  📋 Como Usar:
-                </h3>
-                <ol style={{
-                  color: '#374151',
-                  lineHeight: '1.6',
-                  paddingLeft: '1.5rem'
-                }}>
-                  <li>Cole seu link da Amazon no campo acima</li>
-                  <li>Clique em "Extrair e Limpar"</li>
-                  <li>Receba um link limpo</li>
-                  <li>Use o link para suas compras e ajude o projeto!</li>
-                </ol>
-              </div>
+                                        {/* Instructions */}
+                          <div style={{
+                            backgroundColor: '#eff6ff',
+                            border: '1px solid #bfdbfe',
+                            padding: '1rem',
+                            borderRadius: '8px',
+                            marginTop: '1rem'
+                          }}>
+                            <h3 style={{
+                              color: '#1e40af',
+                              marginBottom: '0.5rem',
+                              fontSize: '1rem',
+                              fontWeight: 'bold'
+                            }}>
+                              Como Usar:
+                            </h3>
+                            <ol style={{
+                              color: '#374151',
+                              lineHeight: '1.4',
+                              paddingLeft: '1rem',
+                              fontSize: '0.9rem'
+                            }}>
+                              <li>Cole seu link da Amazon</li>
+                              <li>Clique em "Extrair e Limpar"</li>
+                              <li>Receba um link limpo</li>
+                              <li>Use o link e ajude o projeto!</li>
+                            </ol>
+                          </div>
             </div>
           </div>
         </section>
 
-        {/* Footer Info */}
-        <section style={{
-          padding: '2rem 0',
-          background: '#f8fafc',
-          textAlign: 'center'
-        }}>
-          <div style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            padding: '0 2rem'
-          }}>
-            <h3 style={{
-              color: '#1f2937',
-              marginBottom: '1rem',
-              fontSize: '1.2rem',
-              fontWeight: 'bold'
-            }}>
-              🤝 Ajude o MeuPortalFit
-            </h3>
-            <p style={{
-              color: '#6b7280',
-              lineHeight: '1.6',
-              fontSize: '1rem'
-            }}>
-              Usando nossos links da Amazon, você ajuda a manter o projeto ativo!
-              <br />
-              <strong>Nenhum custo adicional para você!</strong>
-            </p>
-          </div>
-        </section>
+                            {/* Footer Info */}
+                    <section style={{
+                      padding: '1rem 0',
+                      background: '#f8fafc',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{
+                        maxWidth: '800px',
+                        margin: '0 auto',
+                        padding: '0 1rem'
+                      }}>
+                        <p style={{
+                          color: '#6b7280',
+                          lineHeight: '1.4',
+                          fontSize: '0.9rem'
+                        }}>
+                          <strong>Nenhum custo adicional para você!</strong>
+                          <br />
+                          Ajude o projeto MeuPortalFit
+                        </p>
+                      </div>
+                    </section>
       </main>
     </>
   )

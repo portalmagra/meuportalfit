@@ -218,6 +218,48 @@ export default function AdminPage() {
     // Executar sincronização manual após 2 segundos
     setTimeout(forceSync, 2000);
     
+    // Migrar produtos existentes do localStorage para Supabase
+    const migrateLocalProductsToSupabase = async () => {
+      try {
+        const localProducts = localStorage.getItem('adminProducts');
+        if (localProducts) {
+          const parsedProducts = JSON.parse(localProducts);
+          if (parsedProducts.length > 0) {
+            console.log('🔄 Migrando produtos do localStorage para Supabase:', parsedProducts.length);
+            
+            const supabaseProducts = parsedProducts.map((p: Product) => ({
+              id: p.id,
+              name: p.name,
+              description: p.description,
+              category_id: p.categoryId,
+              amazon_url: p.amazonUrl,
+              current_price: p.currentPrice,
+              original_price: p.originalPrice,
+              rating: p.rating,
+              review_count: p.reviewCount,
+              image_url: p.imageUrl,
+              benefits: p.benefits,
+              features: p.features,
+              product_url: p.productUrl
+            }));
+            
+            const success = await syncProductsToSupabase(supabaseProducts);
+            if (success) {
+              console.log('✅ Produtos migrados para Supabase com sucesso!');
+              alert('✅ Produtos migrados para Supabase! Agora aparecerão em todos os dispositivos.');
+            } else {
+              console.log('❌ Falha na migração para Supabase');
+            }
+          }
+        }
+      } catch (error) {
+        console.log('❌ Erro na migração:', error);
+      }
+    };
+    
+    // Executar migração na primeira vez
+    setTimeout(migrateLocalProductsToSupabase, 1000);
+    
     // Executar sincronização localStorage a cada 5 segundos
     const intervalId = setInterval(syncFromLocalStorage, 5000);
     
@@ -779,10 +821,17 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         product_url: p.productUrl
       }));
       
-      await syncProductsToSupabase(supabaseProducts);
-      console.log('✅ Produtos sincronizados com Supabase');
+      const success = await syncProductsToSupabase(supabaseProducts);
+      if (success) {
+        console.log('✅ Produtos sincronizados com Supabase');
+        alert('✅ Produto salvo no Supabase com sucesso!');
+      } else {
+        console.log('❌ Falha na sincronização com Supabase');
+        alert('⚠️ Produto salvo localmente. Erro na sincronização Supabase.');
+      }
     } catch (error) {
       console.log('❌ Erro na sincronização com Supabase:', error);
+      alert('⚠️ Produto salvo localmente. Erro na sincronização Supabase: ' + error);
     }
     
     // Sincronizar com outros dispositivos
@@ -1062,30 +1111,45 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
         </button>
         
         <button
-          onClick={() => {
-            // Forçar sincronização manual via localStorage
+          onClick={async () => {
+            // Migrar produtos para Supabase
             try {
-              // Tentar carregar de ambas as chaves
-              let mobileProducts = localStorage.getItem('adminProducts');
-              if (!mobileProducts) {
-                mobileProducts = localStorage.getItem('globalProducts');
-              }
-              
-              if (mobileProducts) {
-                const parsedProducts = JSON.parse(mobileProducts);
-                console.log('📱 Produtos encontrados no localStorage:', parsedProducts.length);
-                
-                // SEMPRE atualizar estado
-                setProducts(parsedProducts);
-                localStorage.setItem('adminProducts', JSON.stringify(parsedProducts));
-                localStorage.setItem('globalProducts', JSON.stringify(parsedProducts));
-                
-                alert(`🔄 Sincronização manual realizada!\n\n📦 Produtos encontrados: ${parsedProducts.length}\n\n✅ Estado atualizado com sucesso!`);
+              const localProducts = localStorage.getItem('adminProducts');
+              if (localProducts) {
+                const parsedProducts = JSON.parse(localProducts);
+                if (parsedProducts.length > 0) {
+                  console.log('🔄 Migrando produtos para Supabase:', parsedProducts.length);
+                  
+                  const supabaseProducts = parsedProducts.map((p: Product) => ({
+                    id: p.id,
+                    name: p.name,
+                    description: p.description,
+                    category_id: p.categoryId,
+                    amazon_url: p.amazonUrl,
+                    current_price: p.currentPrice,
+                    original_price: p.originalPrice,
+                    rating: p.rating,
+                    review_count: p.reviewCount,
+                    image_url: p.imageUrl,
+                    benefits: p.benefits,
+                    features: p.features,
+                    product_url: p.productUrl
+                  }));
+                  
+                  const success = await syncProductsToSupabase(supabaseProducts);
+                  if (success) {
+                    alert(`✅ Migração para Supabase realizada!\n\n📦 ${parsedProducts.length} produtos migrados\n\n🔄 Agora aparecerão em todos os dispositivos!`);
+                  } else {
+                    alert('❌ Falha na migração para Supabase. Verifique o console.');
+                  }
+                } else {
+                  alert('❌ Nenhum produto encontrado no localStorage para migrar.');
+                }
               } else {
-                alert('❌ Nenhum produto encontrado no localStorage para sincronizar.');
+                alert('❌ Nenhum produto encontrado no localStorage.');
               }
             } catch (error) {
-              alert('❌ Erro na sincronização manual: ' + error);
+              alert('❌ Erro na migração: ' + error);
             }
           }}
           style={{
@@ -1103,7 +1167,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
             zIndex: 1001
           }}
         >
-          🔄 Sincronizar
+          🚀 Migrar para Supabase
         </button>
         
 

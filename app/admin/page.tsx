@@ -1441,7 +1441,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: 1000
+          zIndex: 9999
         }}>
           <div style={{
             backgroundColor: 'white',

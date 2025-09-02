@@ -15,16 +15,10 @@ export const metadata = {
     siteName: 'MeuPortalFit',
     images: [
       {
-        url: '/images/og/meuportalfit-og.jpg',
+        url: '/logo.svg',
         width: 1200,
         height: 630,
         alt: 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
-      },
-      {
-        url: '/images/og/meuportalfit-og-square.jpg',
-        width: 600,
-        height: 600,
-        alt: 'MeuPortalFit Logo',
       },
     ],
     locale: 'pt_BR',
@@ -36,7 +30,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
     description: 'Descubra produtos Amazon personalizados para suas necessidades de saúde e bem-estar.',
-    images: ['/images/og/meuportalfit-og.jpg'],
+    images: ['/logo.svg'],
     creator: '@meuportalfit',
     site: '@meuportalfit',
   },
@@ -49,7 +43,7 @@ export const metadata = {
     'og:image:alt': 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
     
     // WhatsApp específico
-    'og:image:secure_url': 'https://meuportalfit.com/images/og/meuportalfit-og.jpg',
+    'og:image:secure_url': 'https://meuportalfit.com/logo.svg',
     
     // Informações da empresa
     'og:site_name': 'MeuPortalFit',
@@ -72,15 +66,11 @@ export const metadata = {
   // Ícones
   icons: {
     icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon.ico' },
-      { url: '/images/icons/icon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/images/icons/icon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
     apple: [
-      { url: '/images/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/images/icons/safari-pinned-tab.svg', color: '#22c55e' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
   },
   

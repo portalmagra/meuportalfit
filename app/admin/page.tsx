@@ -2,6 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import { getProductByASIN } from '../../lib/amazon-api';
+import { 
+  supabase, 
+  syncProductsToSupabase, 
+  syncCategoriesToSupabase,
+  loadProductsFromSupabase,
+  loadCategoriesFromSupabase,
+  addProductToSupabase,
+  updateProductInSupabase,
+  deleteProductFromSupabase,
+  addCategoryToSupabase,
+  type Product as SupabaseProduct,
+  type Category as SupabaseCategory
+} from '../../lib/supabase';
 
 
 interface Category {
@@ -70,37 +83,96 @@ export default function AdminPage() {
   });
 
   useEffect(() => {
-    // Carregar produtos do localStorage
-    const savedProducts = localStorage.getItem('adminProducts');
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
-    }
-    
-    // Carregar categorias do localStorage ou usar padrão
-    const savedCategories = localStorage.getItem('adminCategories');
-    if (savedCategories) {
+    const loadData = async () => {
       try {
-        const parsedCategories = JSON.parse(savedCategories);
-        // Mesclar categorias salvas com as padrão (evitar duplicatas)
-        const mergedCategories = [...defaultCategories];
-        parsedCategories.forEach((savedCat: Category) => {
-          const exists = mergedCategories.find(cat => cat.id === savedCat.id);
-          if (!exists) {
-            mergedCategories.push(savedCat);
+        // Tentar carregar do Supabase primeiro
+        console.log('🔄 Carregando dados do Supabase...');
+        const supabaseProducts = await loadProductsFromSupabase();
+        const supabaseCategories = await loadCategoriesFromSupabase();
+        
+        if (supabaseProducts.length > 0) {
+          // Mapear produtos do Supabase para formato local
+          const mappedProducts = supabaseProducts.map((p: SupabaseProduct) => ({
+            id: p.id,
+            name: p.name,
+            description: p.description,
+            categoryId: p.category_id,
+            amazonUrl: p.amazon_url,
+            currentPrice: p.current_price,
+            originalPrice: p.original_price,
+            rating: p.rating,
+            reviewCount: p.review_count,
+            imageUrl: p.image_url,
+            benefits: p.benefits,
+            features: p.features,
+            productUrl: p.product_url
+          }));
+          
+          setProducts(mappedProducts);
+          localStorage.setItem('adminProducts', JSON.stringify(mappedProducts));
+          localStorage.setItem('globalProducts', JSON.stringify(mappedProducts));
+          console.log('✅ Produtos carregados do Supabase:', mappedProducts.length);
+        } else {
+          // Fallback para localStorage
+          const savedProducts = localStorage.getItem('adminProducts');
+          if (savedProducts) {
+            setProducts(JSON.parse(savedProducts));
+            console.log('📦 Produtos carregados do localStorage');
           }
-        });
-        setCategories(mergedCategories);
-        console.log('📋 Categorias carregadas:', mergedCategories.length, 'categorias');
+        }
+        
+        if (supabaseCategories.length > 0) {
+          setCategories(supabaseCategories);
+          localStorage.setItem('adminCategories', JSON.stringify(supabaseCategories));
+          console.log('✅ Categorias carregadas do Supabase:', supabaseCategories.length);
+        } else {
+          // Fallback para localStorage ou padrão
+          const savedCategories = localStorage.getItem('adminCategories');
+          if (savedCategories) {
+            try {
+              const parsedCategories = JSON.parse(savedCategories);
+              const mergedCategories = [...defaultCategories];
+              parsedCategories.forEach((savedCat: Category) => {
+                const exists = mergedCategories.find(cat => cat.id === savedCat.id);
+                if (!exists) {
+                  mergedCategories.push(savedCat);
+                }
+              });
+              setCategories(mergedCategories);
+              console.log('📋 Categorias carregadas do localStorage:', mergedCategories.length);
+            } catch (error) {
+              console.error('❌ Erro ao carregar categorias:', error);
+              setCategories(defaultCategories);
+            }
+          } else {
+            setCategories(defaultCategories);
+            localStorage.setItem('adminCategories', JSON.stringify(defaultCategories));
+            console.log('📋 Categorias padrão salvas:', defaultCategories.length);
+          }
+        }
       } catch (error) {
-        console.error('❌ Erro ao carregar categorias:', error);
-        setCategories(defaultCategories);
+        console.error('❌ Erro ao carregar dados:', error);
+        // Fallback para localStorage
+        const savedProducts = localStorage.getItem('adminProducts');
+        const savedCategories = localStorage.getItem('adminCategories');
+        
+        if (savedProducts) {
+          setProducts(JSON.parse(savedProducts));
+        }
+        
+        if (savedCategories) {
+          try {
+            setCategories(JSON.parse(savedCategories));
+          } catch (error) {
+            setCategories(defaultCategories);
+          }
+        } else {
+          setCategories(defaultCategories);
+        }
       }
-    } else {
-      // Primeira vez: salvar categorias padrão
-      setCategories(defaultCategories);
-      localStorage.setItem('adminCategories', JSON.stringify(defaultCategories));
-      console.log('📋 Categorias padrão salvas:', defaultCategories.length, 'categorias');
-    }
+    };
+    
+    loadData();
     
     // Sincronizar com outros dispositivos via BroadcastChannel
     const channel = new BroadcastChannel('admin-sync');
@@ -145,7 +217,7 @@ export default function AdminPage() {
     }
   }, [products]);
 
-  const addCategory = (category: Omit<Category, 'id'>) => {
+  const addCategory = async (category: Omit<Category, 'id'>) => {
     const newCategory: Category = {
       ...category,
       id: category.name.toLowerCase().replace(/\s+/g, '-')
@@ -156,6 +228,22 @@ export default function AdminPage() {
     
     // Salvar no localStorage
     localStorage.setItem('adminCategories', JSON.stringify(updatedCategories));
+    
+    // Sincronizar com Supabase
+    try {
+      const supabaseCategory = {
+        id: newCategory.id,
+        name: newCategory.name,
+        description: newCategory.description,
+        color: newCategory.color,
+        icon: newCategory.icon
+      };
+      
+      await addCategoryToSupabase(supabaseCategory);
+      console.log('✅ Categoria sincronizada com Supabase:', newCategory.name);
+    } catch (error) {
+      console.log('❌ Erro na sincronização com Supabase:', error);
+    }
     
     // Sincronizar com outros dispositivos
     try {
@@ -575,7 +663,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
       .trim()
   };
 
-  const addProduct = (product: Omit<Product, 'id'>) => {
+  const addProduct = async (product: Omit<Product, 'id'>) => {
     console.log('🔍 addProduct chamado com:', product);
     
     // Gerar URL amigável para o produto
@@ -610,10 +698,36 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
       alert(`✅ Produto "${product.name}" adicionado com sucesso!\n\n🔗 URL do produto: ${productUrl}`);
     }
     
-    // Forçar sincronização imediata
-    console.log('🔄 Forçando sincronização imediata...');
+    // Sincronizar com Supabase e localStorage
+    console.log('🔄 Sincronizando com Supabase...');
+    
+    // Salvar no localStorage
     localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
     localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+    
+    // Sincronizar com Supabase
+    try {
+      const supabaseProducts = updatedProducts.map(p => ({
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        category_id: p.categoryId,
+        amazon_url: p.amazonUrl,
+        current_price: p.currentPrice,
+        original_price: p.originalPrice,
+        rating: p.rating,
+        review_count: p.reviewCount,
+        image_url: p.imageUrl,
+        benefits: p.benefits,
+        features: p.features,
+        product_url: p.productUrl
+      }));
+      
+      await syncProductsToSupabase(supabaseProducts);
+      console.log('✅ Produtos sincronizados com Supabase');
+    } catch (error) {
+      console.log('❌ Erro na sincronização com Supabase:', error);
+    }
     
     // Sincronizar com outros dispositivos
     try {
@@ -963,59 +1077,7 @@ export default function ${categoryName.replace(/\s+/g, '')}ProductPage({ params 
 
 
 
-      {/* Lista de Categorias */}
-      <div>
-        <h2 style={{ color: '#333', marginBottom: '20px' }}>📂 Categorias Disponíveis ({categories.length})</h2>
-        {categories.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic' }}>
-            Carregando categorias...
-          </p>
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '15px' }}>
-            {categories.map(category => (
-              <div key={category.id} style={{
-                border: '1px solid #dee2e6',
-                borderRadius: '8px',
-                padding: '20px',
-                backgroundColor: 'white',
-                position: 'relative'
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <h3 style={{ margin: '0 0 10px 0', color: '#333' }}>
-                      <span style={{ fontSize: '24px', marginRight: '10px' }}>{category.icon}</span>
-                      {category.name}
-                    </h3>
-                    <p style={{ margin: '0 0 10px 0', color: '#666' }}>{category.description}</p>
-                    <span style={{
-                      backgroundColor: category.color,
-                      color: 'white',
-                      padding: '4px 8px',
-                      borderRadius: '4px',
-                      fontSize: '12px'
-                    }}>
-                      {products.filter(p => p.categoryId === category.id).length} produtos
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => deleteCategory(category.id)}
-                    style={{
-                      padding: '8px',
-                      backgroundColor: '#dc3545',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    ❌
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+
 
       {/* Modal Adicionar Produto */}
       {showAddProduct && (

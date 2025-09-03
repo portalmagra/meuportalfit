@@ -14,7 +14,7 @@
     "crypto-js": "^4.2.0",
     "dotenv": "^17.2.1",
     "next": "^15.5.0",
-    "openai": "^5.16.0",
+    "openai": "^5.18.1",
     "paapi5-nodejs-sdk": "^1.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

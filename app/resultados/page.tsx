@@ -184,6 +184,52 @@ function ResultadosContent() {
                 color: #374151;
                 line-height: 1.6;
               }
+              .contexto-cultural {
+                background: #fef3c7;
+                padding: 20px;
+                border-radius: 8px;
+                border: 2px solid #f59e0b;
+                font-size: 16px;
+                color: #374151;
+                line-height: 1.6;
+                margin-top: 15px;
+              }
+              .insights-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+                margin-top: 20px;
+              }
+              .insight-card {
+                padding: 15px;
+                border-radius: 8px;
+                border: 2px solid;
+              }
+              .insight-card.verde {
+                background: #f0fdf4;
+                border-color: #bbf7d0;
+              }
+              .insight-card.azul {
+                background: #eff6ff;
+                border-color: #93c5fd;
+              }
+              .insight-card.amarelo {
+                background: #fef3c7;
+                border-color: #f59e0b;
+              }
+              .insight-title {
+                font-weight: bold;
+                font-size: 16px;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+              }
+              .insight-text {
+                font-size: 14px;
+                color: #374151;
+                line-height: 1.4;
+              }
               .habito { 
                 margin: 15px 0; 
                 padding: 15px; 
@@ -218,6 +264,30 @@ function ResultadosContent() {
               .produto-nome { font-size: 18px; font-weight: bold; color: #1e293b; margin-bottom: 8px; }
               .produto-desc { font-size: 14px; color: #64748b; margin-bottom: 8px; }
               .produto-preco { color: #059669; font-weight: bold; }
+              .produto-why { 
+                background: #f0fdf4; 
+                padding: 10px; 
+                border-radius: 6px; 
+                border: 1px solid #bbf7d0;
+                font-style: italic;
+                color: #059669;
+                font-size: 13px;
+                margin-top: 8px;
+              }
+              .produtos-adicionais {
+                background: #f8fafc;
+                padding: 20px;
+                border-radius: 8px;
+                border: 2px solid #e0f2e9;
+                margin-top: 20px;
+              }
+              .produto-adicional {
+                border: 2px solid #bbf7d0;
+                border-radius: 8px;
+                padding: 12px;
+                background: white;
+                margin: 10px 0;
+              }
               .footer { 
                 text-align: center; 
                 margin-top: 40px; 
@@ -263,16 +333,56 @@ function ResultadosContent() {
             
             ${analysisResults?.analise || analysisResults?.analysis ? `
             <div class="section">
-              <div class="section-title">🤖 {t('analise')}</div>
+              <div class="section-title">🧠 Análise Personalizada Detalhada</div>
               <div class="analise">
+                <strong style="color: #1e293b;">📊 Resumo da Sua Avaliação:</strong><br/>
                 ${analysisResults.analise || analysisResults.analysis}
+              </div>
+              
+              ${analysisResults?.contexto_cultural ? `
+              <div class="contexto-cultural">
+                <strong style="color: #92400e;">🌍 Contexto Cultural:</strong><br/>
+                ${analysisResults.contexto_cultural}
+              </div>
+              ` : ''}
+              
+              <div class="insights-grid">
+                <div class="insight-card verde">
+                  <div class="insight-title">
+                    <span style="font-size: 18px;">💡</span>
+                    Principais Insights:
+                  </div>
+                  <div class="insight-text">
+                    Baseado nas suas respostas, identificamos pontos-chave para otimizar seu bem-estar e alcançar seus objetivos de saúde.
+                  </div>
+                </div>
+                
+                <div class="insight-card azul">
+                  <div class="insight-title">
+                    <span style="font-size: 18px;">🎯</span>
+                    Objetivos Identificados:
+                  </div>
+                  <div class="insight-text">
+                    Focamos em melhorar sua energia, qualidade do sono e equilíbrio geral para resultados duradouros.
+                  </div>
+                </div>
+                
+                <div class="insight-card amarelo">
+                  <div class="insight-title">
+                    <span style="font-size: 18px;">⚡</span>
+                    Potencial de Melhoria:
+                  </div>
+                  <div class="insight-text">
+                    Com as mudanças sugeridas, você pode ver melhorias significativas em 2-4 semanas.
+                  </div>
+                </div>
               </div>
             </div>
             ` : ''}
             
             ${analysisResults?.habitos && analysisResults.habitos.length > 0 ? `
             <div class="section">
-              <div class="section-title">✅ {t('habitos')} para Você</div>
+              <div class="section-title">✅ Checklist de Hábitos para Você</div>
               ${analysisResults.habitos.map((habito: string) => `
                 <div class="habito">
                   <div class="check">✓</div>
@@ -282,18 +392,66 @@ function ResultadosContent() {
             </div>
             ` : ''}
             
-            ${analysisResults?.produtos && analysisResults.produtos.length > 0 ? `
             <div class="section">
-              <div class="section-title">🛍️ {t('produtos')}</div>
+              <div class="section-title">🛍️ Produtos Selecionados para Você</div>
+              
+              ${analysisResults?.produtos && analysisResults.produtos.length > 0 ? `
               ${analysisResults.produtos.map((produto: any) => `
                 <div class="produto">
                   <div class="produto-nome">${produto.name}</div>
                   <div class="produto-desc">${produto.description}</div>
                   <div class="produto-preco">${produto.price} ⭐ ${produto.rating}</div>
+                  <div class="produto-why">💡 ${produto.whyPerfect}</div>
                 </div>
               `).join('')}
+              ` : ''}
+              
+              <div class="produtos-adicionais">
+                <div style="font-size: 18px; font-weight: bold; color: #1e293b; margin-bottom: 15px; text-align: center;">
+                  🎯 Produtos Recomendados Adicionais
+                </div>
+                
+                <div class="produto-adicional">
+                  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 18px; margin-right: 8px;">💊</span>
+                    <strong style="font-size: 16px; color: #1e293b;">Vitamina D3 2000 IU</strong>
+                  </div>
+                  <div style="font-size: 14px; color: #64748b; line-height: 1.4;">
+                    Essencial para imunidade e energia, especialmente importante no inverno americano.
+                  </div>
+                </div>
+                
+                <div class="produto-adicional">
+                  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 18px; margin-right: 8px;">🌙</span>
+                    <strong style="font-size: 16px; color: #1e293b;">Magnésio para Sono</strong>
+                  </div>
+                  <div style="font-size: 14px; color: #64748b; line-height: 1.4;">
+                    Melhora a qualidade do sono e relaxamento muscular, ideal para quem tem dificuldade para dormir.
+                  </div>
+                </div>
+                
+                <div class="produto-adicional">
+                  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 18px; margin-right: 8px;">⚡</span>
+                    <strong style="font-size: 16px; color: #1e293b;">Complexo B Energético</strong>
+                  </div>
+                  <div style="font-size: 14px; color: #64748b; line-height: 1.4;">
+                    Aumenta energia natural, melhora foco e reduz fadiga, perfeito para o dia a dia.
+                  </div>
+                </div>
+                
+                <div class="produto-adicional">
+                  <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 18px; margin-right: 8px;">🐟</span>
+                    <strong style="font-size: 16px; color: #1e293b;">Ômega 3 Premium</strong>
+                  </div>
+                  <div style="font-size: 14px; color: #64748b; line-height: 1.4;">
+                    Suporte para coração, cérebro e inflamação, essencial para saúde geral.
+                  </div>
+                </div>
+              </div>
             </div>
-            ` : ''}
             
             <div class="footer">
               <p style="font-size: 18px; font-weight: bold; color: #1e293b; margin-bottom: 20px;">

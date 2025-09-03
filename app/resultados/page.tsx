@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function ResultadosPage() {
+function ResultadosContent() {
   const [analysisResults, setAnalysisResults] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
@@ -848,5 +848,42 @@ export default function ResultadosPage() {
         }
       `}</style>
     </main>
+  )
+}
+
+export default function ResultadosPage() {
+  return (
+    <Suspense fallback={
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)'
+      }}>
+        <div style={{
+          textAlign: 'center',
+          padding: '2rem'
+        }}>
+          <div style={{
+            width: '50px',
+            height: '50px',
+            border: '4px solid #e5e7eb',
+            borderTop: '4px solid #22c55e',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 1rem'
+          }}></div>
+          <p style={{
+            color: '#6b7280',
+            fontSize: '1.1rem'
+          }}>
+            Carregando...
+          </p>
+        </div>
+      </div>
+    }>
+      <ResultadosContent />
+    </Suspense>
   )
 }

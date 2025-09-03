@@ -457,74 +457,10 @@ export default function AnalisePage() {
         </section>
 
         {/* Quiz Section */}
-        <section style={{ background: 'white', padding: '2rem 0' }}>
+        <section style={{ background: 'white', padding: '1rem 0' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 1rem' }}>
             {!showComments ? (
               <div>
-                {/* Progress Bar */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: currentQuestion === 0 ? '1rem' : '2rem',
-                  padding: currentQuestion === 0 ? '0.5rem' : '1rem',
-                  background: '#f8fafc',
-                  borderRadius: '12px',
-                  border: '2px solid #e0f2e9'
-                }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1rem'
-                  }}>
-                    <div style={{
-                      width: currentQuestion === 0 ? '30px' : '40px',
-                      height: currentQuestion === 0 ? '30px' : '40px',
-                      background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontWeight: 900,
-                      fontSize: currentQuestion === 0 ? '0.9rem' : '1.2rem'
-                    }}>
-                      {currentQuestion + 1}
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: currentQuestion === 0 ? '0.9rem' : '1.1rem',
-                        fontWeight: 600,
-                        color: '#1e293b'
-                      }}>
-                        {currentQuestion + 1} {t('progressOf')} {questions.length}
-                      </div>
-                      <div style={{
-                        fontSize: currentQuestion === 0 ? '0.8rem' : '0.9rem',
-                        color: '#6b7280'
-                      }}>
-                        {Math.round(((currentQuestion + 1) / questions.length) * 100)}% completo
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={handleStartOver}
-                    style={{
-                      padding: '0.5rem 1rem',
-                      background: 'transparent',
-                      color: '#6b7280',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '20px',
-                      cursor: 'pointer',
-                      fontSize: '0.9rem',
-                      transition: 'all 0.3s ease'
-                    }}
-                  >
-                    🔄 Recomeçar
-                  </button>
-                </div>
-
                 {/* Question */}
                 <div style={{
                   background: 'white',
@@ -535,71 +471,70 @@ export default function AnalisePage() {
                   border: '3px solid #e0f2e9'
                 }}>
                   <h2 style={{
-                    fontSize: isMobile ? '1.3rem' : '1.6rem',
+                    fontSize: isMobile ? '1.4rem' : '1.6rem',
                     color: '#1e293b',
                     marginBottom: '2rem',
                     fontWeight: 'bold',
+                    textAlign: 'center',
                     lineHeight: '1.4'
                   }}>
-                    {questions[currentQuestion].text}
+                    {t(`question${questions[currentQuestion].id}`)}
                   </h2>
                   
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                    gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
                     gap: '1rem'
                   }}>
-                    {questions[currentQuestion].answers.map((answer) => (
+                    {questions[currentQuestion].answers.map((option: string, index: number) => (
                       <button
-                        key={answer}
-                        onClick={() => handleAnswer(questions[currentQuestion].id, answer)}
+                        key={index}
+                        onClick={() => handleAnswer(questions[currentQuestion].id, option)}
                         style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '1rem',
                           padding: '1.5rem',
-                          background: answers[questions[currentQuestion].id] === answer ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'white',
-                          color: answers[questions[currentQuestion].id] === answer ? 'white' : '#1e293b',
-                          border: answers[questions[currentQuestion].id] === answer ? 'none' : '2px solid #e0f2e9',
+                          background: answers[questions[currentQuestion].id] === option ? '#f0fdf4' : 'white',
+                          border: answers[questions[currentQuestion].id] === option ? '3px solid #22c55e' : '2px solid #e0f2e9',
                           borderRadius: '12px',
                           cursor: 'pointer',
                           fontSize: '1rem',
-                          fontWeight: 500,
-                          textAlign: 'left',
+                          fontWeight: '500',
+                          color: '#374151',
                           transition: 'all 0.3s ease',
-                          boxShadow: answers[questions[currentQuestion].id] === answer ? '0 8px 25px rgba(34, 197, 94, 0.3)' : '0 2px 10px rgba(0,0,0,0.1)'
+                          textAlign: 'left',
+                          width: '100%'
                         }}
                       >
                         <div style={{
+                          width: '40px',
+                          height: '40px',
+                          background: answers[questions[currentQuestion].id] === option ? 'linear-gradient(135deg, #22c55e, #16a34a)' : '#f8fafc',
+                          borderRadius: '50%',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '1rem'
+                          justifyContent: 'center',
+                          color: answers[questions[currentQuestion].id] === option ? 'white' : '#6b7280',
+                          fontWeight: 'bold',
+                          fontSize: '1.1rem',
+                          border: answers[questions[currentQuestion].id] === option ? 'none' : '2px solid #e0f2e9'
                         }}>
-                          <div style={{
-                            width: '30px',
-                            height: '30px',
-                            background: answers[questions[currentQuestion].id] === answer ? 'rgba(255,255,255,0.2)' : '#f0fdf4',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontWeight: 'bold',
-                            fontSize: '1.1rem'
-                          }}>
-                            {answer.toUpperCase()}
-                          </div>
-                          <span style={{ lineHeight: '1.4' }}>
-                            {t(`answer${questions[currentQuestion].id}${answer}`)}
-                          </span>
+                          {String.fromCharCode(65 + index)}
                         </div>
+                        <span style={{ flex: 1 }}>{option}</span>
                       </button>
                     ))}
                   </div>
                 </div>
-
-                {/* Navigation */}
+                
+                {/* Navigation Buttons */}
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  gap: '1rem'
+                  gap: '1rem',
+                  marginBottom: '2rem'
                 }}>
                   <button
                     onClick={handleBack}
@@ -617,7 +552,7 @@ export default function AnalisePage() {
                       opacity: currentQuestion === 0 ? 0.5 : 1
                     }}
                   >
-                    ← Anterior
+                    ← {t('backButton')}
                   </button>
                   
                   <button
@@ -711,24 +646,6 @@ export default function AnalisePage() {
             )}
           </div>
         </section>
-
-        {/* Footer Compacto */}
-        <footer style={{
-          background: '#1f2937',
-          color: 'white',
-          padding: '1.5rem 0',
-          textAlign: 'center'
-        }}>
-          <div style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            padding: '0 1rem'
-          }}>
-            <p style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
-              {t('footerText')}
-            </p>
-          </div>
-        </footer>
       </main>
     </>
   )

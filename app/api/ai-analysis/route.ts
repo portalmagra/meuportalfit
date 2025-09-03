@@ -64,7 +64,8 @@ export async function POST(request: NextRequest) {
 - Sempre forneça EXATAMENTE 5 hábitos
 - Cada hábito deve ter formato: "**Hábito X:** Título - Explicação prática"
 - Mantenha a análise limpa, sem código ou formatação HTML
-- Foque em hábitos específicos e acionáveis`,
+- Foque em hábitos específicos e acionáveis
+- Use contexto brasileiro/latino nos EUA`,
 
         en: `You are a wellness expert for Brazilians and Latinos in the USA.
 
@@ -118,7 +119,8 @@ export async function POST(request: NextRequest) {
 - Always provide EXACTLY 5 habits
 - Each habit should have format: "**Habit X:** Title - Practical explanation"
 - Keep the analysis clean, without code or HTML formatting
-- Focus on specific and actionable habits`,
+- Focus on specific and actionable habits
+- Use Brazilian/Latino context in the USA`,
 
         es: `Eres una especialista en wellness para brasileños y latinos en USA.
 
@@ -172,7 +174,8 @@ export async function POST(request: NextRequest) {
 - Siempre proporciona EXACTAMENTE 5 hábitos
 - Cada hábito debe tener formato: "**Hábito X:** Título - Explicación práctica"
 - Mantén el análisis limpio, sin código o formato HTML
-- Enfócate en hábitos específicos y accionables`
+- Enfócate en hábitos específicos y accionables
+- Usa contexto brasileño/latino en USA`
       }
       
       return prompts[lang as keyof typeof prompts] || prompts.pt
@@ -184,6 +187,8 @@ export async function POST(request: NextRequest) {
 
 Respostas do usuário: ${JSON.stringify(answers)}
 Comentários adicionais: ${comments || 'Nenhum comentário adicional'}
+
+IMPORTANTE: Responda APENAS no idioma ${language === 'pt' ? 'português' : language === 'es' ? 'espanhol' : 'inglês'} e use o contexto cultural apropriado (brasileiros/latinos nos EUA).
 
 Forneça EXATAMENTE 5 hábitos comportamentais estruturados e mantenha a análise limpa e organizada.`
 

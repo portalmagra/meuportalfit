@@ -2,11 +2,14 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 
 function ResultadosContent() {
   const [analysisResults, setAnalysisResults] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
+  const { t } = useTranslation()
+  const [language, setLanguage] = useState('pt')
 
   useEffect(() => {
     const loadResults = async () => {
@@ -14,7 +17,8 @@ function ResultadosContent() {
         // Pegar dados da URL
         const answers = searchParams.get('answers')
         const comments = searchParams.get('comments')
-        const language = searchParams.get('language') || 'pt' // Default para português
+        const lang = searchParams.get('language') || 'pt'
+        setLanguage(lang)
         
         if (answers) {
           const parsedAnswers = JSON.parse(decodeURIComponent(answers))
@@ -28,7 +32,7 @@ function ResultadosContent() {
             body: JSON.stringify({
               answers: parsedAnswers,
               comments: comments || '',
-              language: language
+              language: lang
             })
           })
 
@@ -58,18 +62,18 @@ function ResultadosContent() {
   // Função para compartilhar
   const shareResults = () => {
     const url = 'https://meuportalfit.com/analise'
-    const text = `Adorei! É muito instrutivo e vale a pena fazer! 🎯 Compartilhe com sua amiga, ela vai gostar: ${url}`
+    const text = `${t('shareMessage')} ${url}`
     
     if (navigator.share) {
       navigator.share({
-        title: 'Minha Avaliação Personalizada - MeuPortalFit',
+        title: t('shareTitle'),
         text: text,
         url: url
       })
     } else {
       // Fallback para copiar link
       navigator.clipboard.writeText(text).then(() => {
-        alert('Mensagem copiada para a área de transferência!')
+        alert(t('copiedMessage'))
       })
     }
   }

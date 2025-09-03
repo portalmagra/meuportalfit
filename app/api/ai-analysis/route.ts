@@ -211,15 +211,32 @@ Forneça EXATAMENTE 5 hábitos comportamentais estruturados e mantenha a anális
     // Tentar fazer parse do JSON
     let parsedResponse
     try {
-      // Extrair JSON da resposta
-      const jsonMatch = response.match(/\{[\s\S]*\}/)
+      // Limpar a resposta e extrair JSON
+      let cleanedResponse = response.trim()
+      
+      // Remover possíveis caracteres extras no início e fim
+      if (cleanedResponse.startsWith('```json')) {
+        cleanedResponse = cleanedResponse.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+      }
+      if (cleanedResponse.startsWith('```')) {
+        cleanedResponse = cleanedResponse.replace(/^```\s*/, '').replace(/\s*```$/, '')
+      }
+      
+      // Tentar encontrar JSON válido
+      const jsonMatch = cleanedResponse.match(/\{[\s\S]*\}/)
       if (jsonMatch) {
-        parsedResponse = JSON.parse(jsonMatch[0])
+        try {
+          parsedResponse = JSON.parse(jsonMatch[0])
+        } catch (innerError) {
+          console.error('Inner JSON parse error:', innerError)
+          throw new Error('Invalid JSON structure')
+        }
       } else {
         throw new Error('No JSON found in response')
       }
     } catch (parseError) {
       console.error('Error parsing JSON:', parseError)
+      console.log('Raw response:', response)
       
       // Fallback JSON baseado no idioma
       const fallbackResponse = {

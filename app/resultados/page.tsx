@@ -327,61 +327,23 @@ function ResultadosContent() {
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-              <a href="/analise" style={{ textDecoration: 'none' }}>
+              <a href="https://wa.me/17862535032?text=Olá! Gostaria de saber mais sobre o MeuPortalFit." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                 <button style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
                   padding: '0.6rem 1.2rem',
-                  background: 'transparent',
-                  color: '#6b7280',
-                  border: '1px solid #e5e7eb',
+                  background: 'linear-gradient(135deg, #25d366, #128c7e)',
+                  color: 'white',
+                  border: 'none',
                   borderRadius: '20px',
                   cursor: 'pointer',
                   fontSize: '0.9rem',
-                  fontWeight: 500,
-                  transition: 'all 0.3s ease'
-                }}>
-                  <span>🧠</span>
-                  <span>Análise IA</span>
-                </button>
-              </a>
-              <a href="/produtos" style={{ textDecoration: 'none' }}>
-                <button style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.6rem 1.2rem',
-                  background: 'transparent',
-                  color: '#6b7280',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '20px',
-                  cursor: 'pointer',
-                  fontSize: '0.9rem',
-                  fontWeight: 500,
-                  transition: 'all 0.3s ease'
-                }}>
-                  <span>🛍️</span>
-                  <span>Produtos</span>
-                </button>
-              </a>
-              <a href="/suporte" style={{ textDecoration: 'none' }}>
-                <button style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.6rem 1.2rem',
-                  background: 'transparent',
-                  color: '#6b7280',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '20px',
-                  cursor: 'pointer',
-                  fontSize: '0.9rem',
-                  fontWeight: 500,
+                  fontWeight: '500',
                   transition: 'all 0.3s ease'
                 }}>
                   <span>💬</span>
-                  <span>Suporte</span>
+                  <span>Fale Conosco</span>
                 </button>
               </a>
             </div>

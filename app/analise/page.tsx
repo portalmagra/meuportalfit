@@ -7,14 +7,14 @@ const translations = {
   // Headers e Títulos
   pageTitle: { pt: 'Avaliação Personalizada', es: 'Evaluación Personalizada', en: 'Personalized Evaluation' },
   heroTitle: { 
-    pt: 'Sua Avaliação\nPersonalizada', 
-    es: 'Tu Evaluación\nPersonalizada', 
-    en: 'Your Personalized\nEvaluation' 
+    pt: 'Avaliação Gratuita\nfeita por Inteligência Artificial', 
+    es: 'Evaluación Gratuita\nhecha por Inteligencia Artificial', 
+    en: 'Free Evaluation\nmade by Artificial Intelligence' 
   },
   heroSubtitle: { 
-    pt: 'Avaliação gratuita feita por Inteligência Artificial', 
-    es: 'Evaluación gratuita hecha por Inteligencia Artificial', 
-    en: 'Free evaluation made by Artificial Intelligence' 
+    pt: 'Personalizada para brasileiros nos EUA', 
+    es: 'Personalizada para latinos en USA', 
+    en: 'Personalized for Brazilians in the USA' 
   },
   
   // Navegação
@@ -98,25 +98,34 @@ const translations = {
   answer8d: { pt: 'Tudo junto (Transformação completa)', es: 'Todo junto (Transformación completa)', en: 'Everything together (Complete transformation)' },
   
   // Botões
-  nextButton: { pt: 'Próxima Pergunta', es: 'Siguiente Pregunta', en: 'Next Question' },
-  startAnalysis: { pt: 'Começar Análise', es: 'Comenzar Análisis', en: 'Start Analysis' },
-  seeResults: { pt: '🎯 Ver Resultados', es: '🎯 Ver Resultados', en: '🎯 See Results' },
+  nextButton: { pt: 'Próxima', es: 'Siguiente', en: 'Next' },
+  seeResults: { pt: 'Ver Resultados', es: 'Ver Resultados', en: 'See Results' },
+  backButton: { pt: 'Anterior', es: 'Anterior', en: 'Previous' },
+  restartButton: { pt: 'Recomeçar', es: 'Reiniciar', en: 'Restart' },
   
-  // Comentários
-  additionalInfo: { pt: 'Informações Adicionais (Opcional)', es: 'Información Adicional (Opcional)', en: 'Additional Information (Optional)' },
-  additionalInfoPlaceholder: { pt: 'Conte-nos mais sobre seus objetivos, rotina, ou qualquer informação que possa ajudar na análise...', es: 'Cuéntanos más sobre tus objetivos, rutina, o cualquier información que pueda ayudar en el análisis...', en: 'Tell us more about your goals, routine, or any information that might help in the analysis...' },
+  // Informações Adicionais
+  additionalInfo: { pt: 'Informações Adicionais', es: 'Información Adicional', en: 'Additional Information' },
+  optional: { pt: '(Opcional)', es: '(Opcional)', en: '(Optional)' },
+  additionalInfoPlaceholder: { 
+    pt: 'Conte-nos mais sobre seus objetivos, rotina, ou qualquer informação que possa ajudar na análise...', 
+    es: 'Cuéntanos más sobre tus objetivos, rutina, o cualquier información que pueda ayudar en el análisis...', 
+    en: 'Tell us more about your goals, routine, or any information that can help with the analysis...' 
+  },
   
-  // Footer
-  footerText: { pt: 'Avaliação personalizada para brasileiros nos EUA', es: 'Evaluación personalizada para brasileños en USA', en: 'Personalized evaluation for Brazilians in the USA' }
+  // Menu
+  menuTitle: { pt: 'Menu', es: 'Menú', en: 'Menu' },
+  languageTitle: { pt: 'Idioma', es: 'Idioma', en: 'Language' },
+  contactUs: { pt: 'Fale Conosco', es: 'Contáctanos', en: 'Contact Us' }
 }
 
 export default function AnalisePage() {
-  const [language, setLanguage] = useState('pt')
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<{ [key: string]: string }>({})
+  const [language, setLanguage] = useState('pt')
   const [comments, setComments] = useState('')
   const [showComments, setShowComments] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
 
   const t = (key: string) => {
     const translation = translations[key as keyof typeof translations]
@@ -137,10 +146,18 @@ export default function AnalisePage() {
     { id: '8', text: t('question8'), answers: ['a', 'b', 'c', 'd'] }
   ]
 
-  // Detectar mobile
+  // Detectar se é mobile
   const [isMobile, setIsMobile] = useState(false)
+  
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   // Função para analisar o perfil
@@ -234,90 +251,161 @@ export default function AnalisePage() {
               </div>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                <a href="https://wa.me/17862535032?text=Olá! Gostaria de saber mais sobre o MeuPortalFit." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.6rem 1.2rem',
-                    background: 'linear-gradient(135deg, #25d366, #128c7e)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.3s ease'
-                  }}>
-                    <span>💬</span>
-                    <span>Fale Conosco</span>
+                {/* Menu Hamburger */}
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setShowMenu(!showMenu)}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '3px',
+                      padding: '0.5rem',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <div style={{
+                      width: '20px',
+                      height: '2px',
+                      background: '#6b7280',
+                      borderRadius: '1px'
+                    }}></div>
+                    <div style={{
+                      width: '20px',
+                      height: '2px',
+                      background: '#6b7280',
+                      borderRadius: '1px'
+                    }}></div>
+                    <div style={{
+                      width: '20px',
+                      height: '2px',
+                      background: '#6b7280',
+                      borderRadius: '1px'
+                    }}></div>
                   </button>
-                </a>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                  <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Idioma:</span>
-                  <div style={{ display: 'flex', gap: '0.3rem' }}>
-                    <button
-                      onClick={() => setLanguage('pt')}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.3rem',
-                        padding: '0.4rem 0.8rem',
-                        background: language === 'pt' ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
-                        color: language === 'pt' ? 'white' : '#6b7280',
-                        border: language === 'pt' ? 'none' : '1px solid #e5e7eb',
-                        borderRadius: '20px',
-                        cursor: 'pointer',
-                        fontSize: '0.8rem',
-                        fontWeight: language === 'pt' ? 600 : 400,
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      <span>🇧🇷</span>
-                      <span>PT</span>
-                    </button>
-                    <button
-                      onClick={() => setLanguage('es')}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.3rem',
-                        padding: '0.4rem 0.8rem',
-                        background: language === 'es' ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
-                        color: language === 'es' ? 'white' : '#6b7280',
-                        border: language === 'es' ? 'none' : '1px solid #e5e7eb',
-                        borderRadius: '20px',
-                        cursor: 'pointer',
-                        fontSize: '0.8rem',
-                        fontWeight: language === 'es' ? 600 : 400,
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      <span>🇪🇸</span>
-                      <span>ES</span>
-                    </button>
-                    <button
-                      onClick={() => setLanguage('en')}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.3rem',
-                        padding: '0.4rem 0.8rem',
-                        background: language === 'en' ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
-                        color: language === 'en' ? 'white' : '#6b7280',
-                        border: language === 'en' ? 'none' : '1px solid #e5e7eb',
-                        borderRadius: '20px',
-                        cursor: 'pointer',
-                        fontSize: '0.8rem',
-                        fontWeight: language === 'en' ? 600 : 400,
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      <span>🇺🇸</span>
-                      <span>EN</span>
-                    </button>
-                  </div>
+                  
+                  {/* Menu Dropdown */}
+                  {showMenu && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      background: 'white',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '12px',
+                      padding: '1rem',
+                      boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                      minWidth: '200px',
+                      zIndex: 1000
+                    }}>
+                      <div style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginBottom: '0.8rem'
+                      }}>
+                        {t('languageTitle')}
+                      </div>
+                      
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
+                        <button
+                          onClick={() => {
+                            setLanguage('pt')
+                            setShowMenu(false)
+                          }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.5rem',
+                            background: language === 'pt' ? '#f0fdf4' : 'transparent',
+                            color: language === 'pt' ? '#22c55e' : '#6b7280',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: language === 'pt' ? '600' : '400'
+                          }}
+                        >
+                          <span>🇧🇷</span>
+                          <span>Português</span>
+                        </button>
+                        
+                        <button
+                          onClick={() => {
+                            setLanguage('es')
+                            setShowMenu(false)
+                          }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.5rem',
+                            background: language === 'es' ? '#f0fdf4' : 'transparent',
+                            color: language === 'es' ? '#22c55e' : '#6b7280',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: language === 'es' ? '600' : '400'
+                          }}
+                        >
+                          <span>🇪🇸</span>
+                          <span>Español</span>
+                        </button>
+                        
+                        <button
+                          onClick={() => {
+                            setLanguage('en')
+                            setShowMenu(false)
+                          }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.5rem',
+                            background: language === 'en' ? '#f0fdf4' : 'transparent',
+                            color: language === 'en' ? '#22c55e' : '#6b7280',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: language === 'en' ? '600' : '400'
+                          }}
+                        >
+                          <span>🇺🇸</span>
+                          <span>English</span>
+                        </button>
+                      </div>
+                      
+                      <div style={{
+                        borderTop: '1px solid #e5e7eb',
+                        paddingTop: '0.8rem'
+                      }}>
+                        <a href="https://wa.me/17862535032?text=Olá! Gostaria de saber mais sobre o MeuPortalFit." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                          <button style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.5rem',
+                            background: 'linear-gradient(135deg, #25d366, #128c7e)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: '500',
+                            width: '100%',
+                            justifyContent: 'center'
+                          }}>
+                            <span>💬</span>
+                            <span>{t('contactUs')}</span>
+                          </button>
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -337,16 +425,34 @@ export default function AnalisePage() {
               fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
               fontWeight: 900,
               lineHeight: 1.1,
-              marginBottom: '1rem',
+              marginBottom: '0.5rem',
               color: '#1f2937',
               whiteSpace: 'pre-line'
             }}>
               <span style={{ background: 'linear-gradient(135deg, #22c55e, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Avaliação Gratuita
+                {t('heroTitle').split('\n')[0]}
               </span>
               <br />
-              <span style={{ color: '#3b82f6' }}>feita por Inteligência Artificial</span>
+              <span style={{ color: '#3b82f6' }}>
+                {t('heroTitle').split('\n')[1]}
+              </span>
             </h1>
+            
+            {/* Progress simples - apenas se não for a primeira pergunta */}
+            {currentQuestion > 0 && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                marginBottom: '1rem',
+                fontSize: '1rem',
+                color: '#6b7280',
+                fontWeight: '500'
+              }}>
+                <span>{currentQuestion + 1} {t('progressOf')} {questions.length}</span>
+              </div>
+            )}
           </div>
         </section>
 

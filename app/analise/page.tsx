@@ -197,9 +197,10 @@ export default function AnalisePage() {
     try {
       const answersParam = encodeURIComponent(JSON.stringify(answers))
       const commentsParam = encodeURIComponent(comments)
+      const languageParam = encodeURIComponent(language)
       
-      // Redirecionar para a página de resultados
-      window.location.href = `/resultados?answers=${answersParam}&comments=${commentsParam}`
+      // Redirecionar para a página de resultados com idioma
+      window.location.href = `/resultados?answers=${answersParam}&comments=${commentsParam}&language=${languageParam}`
     } catch (error) {
       console.error('Erro ao redirecionar:', error)
       setLoading(false)
@@ -286,162 +287,95 @@ export default function AnalisePage() {
               </div>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                {/* Menu Hamburger */}
-                <div style={{ position: 'relative' }}>
+                {/* Bandeirinhas de idioma */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                   <button
-                    onClick={() => setShowMenu(!showMenu)}
+                    onClick={() => setLanguage('pt')}
                     style={{
                       display: 'flex',
-                      flexDirection: 'column',
-                      gap: '3px',
-                      padding: '0.5rem',
-                      background: 'transparent',
-                      border: 'none',
-                      cursor: 'pointer'
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      padding: '0.4rem 0.8rem',
+                      background: language === 'pt' ? '#f0fdf4' : 'transparent',
+                      color: language === 'pt' ? '#22c55e' : '#6b7280',
+                      border: language === 'pt' ? '2px solid #22c55e' : '1px solid #e5e7eb',
+                      borderRadius: '20px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      fontWeight: language === 'pt' ? '600' : '400',
+                      transition: 'all 0.3s ease'
                     }}
+                    title="Português"
                   >
-                    <div style={{
-                      width: '20px',
-                      height: '2px',
-                      background: '#6b7280',
-                      borderRadius: '1px'
-                    }}></div>
-                    <div style={{
-                      width: '20px',
-                      height: '2px',
-                      background: '#6b7280',
-                      borderRadius: '1px'
-                    }}></div>
-                    <div style={{
-                      width: '20px',
-                      height: '2px',
-                      background: '#6b7280',
-                      borderRadius: '1px'
-                    }}></div>
+                    <span style={{ fontSize: '1.1rem' }}>🇧🇷</span>
+                    <span style={{ display: isMobile ? 'none' : 'inline' }}>PT</span>
                   </button>
                   
-                  {/* Menu Dropdown */}
-                  {showMenu && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '100%',
-                      right: 0,
-                      background: 'white',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '12px',
-                      padding: '1rem',
-                      boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-                      minWidth: '200px',
-                      zIndex: 1000
-                    }}>
-                      <div style={{
-                        fontSize: '0.9rem',
-                        fontWeight: '600',
-                        color: '#374151',
-                        marginBottom: '0.8rem'
-                      }}>
-                        {t('languageTitle')}
-                      </div>
-                      
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
-                        <button
-                          onClick={() => {
-                            setLanguage('pt')
-                            setShowMenu(false)
-                          }}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            padding: '0.5rem',
-                            background: language === 'pt' ? '#f0fdf4' : 'transparent',
-                            color: language === 'pt' ? '#22c55e' : '#6b7280',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            fontWeight: language === 'pt' ? '600' : '400'
-                          }}
-                        >
-                          <span>🇧🇷</span>
-                          <span>Português</span>
-                        </button>
-                        
-                        <button
-                          onClick={() => {
-                            setLanguage('es')
-                            setShowMenu(false)
-                          }}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            padding: '0.5rem',
-                            background: language === 'es' ? '#f0fdf4' : 'transparent',
-                            color: language === 'es' ? '#22c55e' : '#6b7280',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            fontWeight: language === 'es' ? '600' : '400'
-                          }}
-                        >
-                          <span>🇪🇸</span>
-                          <span>Español</span>
-                        </button>
-                        
-                        <button
-                          onClick={() => {
-                            setLanguage('en')
-                            setShowMenu(false)
-                          }}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            padding: '0.5rem',
-                            background: language === 'en' ? '#f0fdf4' : 'transparent',
-                            color: language === 'en' ? '#22c55e' : '#6b7280',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            fontWeight: language === 'en' ? '600' : '400'
-                          }}
-                        >
-                          <span>🇺🇸</span>
-                          <span>English</span>
-                        </button>
-                      </div>
-                      
-                      <div style={{
-                        borderTop: '1px solid #e5e7eb',
-                        paddingTop: '0.8rem'
-                      }}>
-                        <a href="https://wa.me/17862535032?text=Olá! Gostaria de saber mais sobre o MeuPortalFit." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                          <button style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            padding: '0.5rem',
-                            background: 'linear-gradient(135deg, #25d366, #128c7e)',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            fontWeight: '500',
-                            width: '100%',
-                            justifyContent: 'center'
-                          }}>
-                            <span>💬</span>
-                            <span>{t('contactUs')}</span>
-                          </button>
-                        </a>
-                      </div>
-                    </div>
-                  )}
+                  <button
+                    onClick={() => setLanguage('es')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      padding: '0.4rem 0.8rem',
+                      background: language === 'es' ? '#f0fdf4' : 'transparent',
+                      color: language === 'es' ? '#22c55e' : '#6b7280',
+                      border: language === 'es' ? '2px solid #22c55e' : '1px solid #e5e7eb',
+                      borderRadius: '20px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      fontWeight: language === 'es' ? '600' : '400',
+                      transition: 'all 0.3s ease'
+                    }}
+                    title="Español"
+                  >
+                    <span style={{ fontSize: '1.1rem' }}>🇪🇸</span>
+                    <span style={{ display: isMobile ? 'none' : 'inline' }}>ES</span>
+                  </button>
+                  
+                  <button
+                    onClick={() => setLanguage('en')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      padding: '0.4rem 0.8rem',
+                      background: language === 'en' ? '#f0fdf4' : 'transparent',
+                      color: language === 'en' ? '#22c55e' : '#6b7280',
+                      border: language === 'en' ? '2px solid #22c55e' : '1px solid #e5e7eb',
+                      borderRadius: '20px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      fontWeight: language === 'en' ? '600' : '400',
+                      transition: 'all 0.3s ease'
+                    }}
+                    title="English"
+                  >
+                    <span style={{ fontSize: '1.1rem' }}>🇺🇸</span>
+                    <span style={{ display: isMobile ? 'none' : 'inline' }}>EN</span>
+                  </button>
                 </div>
+
+                {/* Botão Fale Conosco */}
+                <a href="https://wa.me/17862535032?text=Olá! Gostaria de saber mais sobre o MeuPortalFit." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.6rem 1.2rem',
+                    background: 'linear-gradient(135deg, #25d366, #128c7e)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '20px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <span>💬</span>
+                    <span style={{ display: isMobile ? 'none' : 'inline' }}>Fale Conosco</span>
+                  </button>
+                </a>
               </div>
             </div>
           </div>

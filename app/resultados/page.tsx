@@ -14,11 +14,12 @@ function ResultadosContent() {
         // Pegar dados da URL
         const answers = searchParams.get('answers')
         const comments = searchParams.get('comments')
+        const language = searchParams.get('language') || 'pt' // Default para português
         
         if (answers) {
           const parsedAnswers = JSON.parse(decodeURIComponent(answers))
           
-          // Chamar API de análise
+          // Chamar API de análise com idioma
           const response = await fetch('/api/ai-analysis', {
             method: 'POST',
             headers: {
@@ -26,7 +27,8 @@ function ResultadosContent() {
             },
             body: JSON.stringify({
               answers: parsedAnswers,
-              comments: comments || ''
+              comments: comments || '',
+              language: language
             })
           })
 

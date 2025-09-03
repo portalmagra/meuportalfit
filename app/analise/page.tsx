@@ -116,6 +116,7 @@ export default function AnalisePage() {
   const [answers, setAnswers] = useState<{ [key: string]: string }>({})
   const [comments, setComments] = useState('')
   const [showComments, setShowComments] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const t = (key: string) => {
     const translation = translations[key as keyof typeof translations]
@@ -142,49 +143,19 @@ export default function AnalisePage() {
     setIsMobile(window.innerWidth < 768)
   }, [])
 
-  // Função para analisar o perfil do usuário com GPT-3.5
+  // Função para analisar o perfil
   const analyzeProfile = async () => {
-    console.log('🔍 analyzeProfile com GPT-3.5 chamada!')
-    console.log('📝 Respostas:', answers)
-    console.log('💬 Comentários:', comments)
-    console.log('🌍 Idioma:', language)
-    
-
+    setLoading(true)
     
     try {
-      // Chamar API do GPT-3.5
-      const response = await fetch('/api/ai-analysis', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          answers,
-          comments,
-          language
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro na API');
-      }
-
-      const aiResults = await response.json();
-      console.log('🤖 Resultados do GPT-3.5:', aiResults);
-
+      const answersParam = encodeURIComponent(JSON.stringify(answers))
+      const commentsParam = encodeURIComponent(comments)
+      
       // Redirecionar para a página de resultados
-      const answersParam = encodeURIComponent(JSON.stringify(answers));
-      const commentsParam = encodeURIComponent(comments);
-      const resultsUrl = `/resultados?answers=${answersParam}&comments=${commentsParam}`;
-      
-      // Abrir em nova aba
-      window.open(resultsUrl, '_blank');
-      
-      console.log('🚀 Redirecionando para:', resultsUrl);
-      
+      window.location.href = `/resultados?answers=${answersParam}&comments=${commentsParam}`
     } catch (error) {
-      console.error('❌ Erro na análise GPT-3.5:', error);
-      alert('Erro na análise. Tente novamente.');
+      console.error('Erro ao redirecionar:', error)
+      setLoading(false)
     }
   }
 
@@ -202,7 +173,8 @@ export default function AnalisePage() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(prev => prev + 1)
     } else {
-      setShowComments(true)
+      // Na última pergunta, chamar analyzeProfile
+      analyzeProfile()
     }
   }
 
@@ -262,34 +234,15 @@ export default function AnalisePage() {
               </div>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                <a href="/produtos" style={{ textDecoration: 'none' }}>
+                <a href="https://wa.me/17862535032?text=Olá! Gostaria de saber mais sobre o MeuPortalFit." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                   <button style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem',
                     padding: '0.6rem 1.2rem',
-                    background: 'transparent',
-                    color: '#6b7280',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.3s ease'
-                  }}>
-                    <span>🛍️</span>
-                    <span>Produtos</span>
-                  </button>
-                </a>
-                <a href="/suporte" style={{ textDecoration: 'none' }}>
-                  <button style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.6rem 1.2rem',
-                    background: 'transparent',
-                    color: '#6b7280',
-                    border: '1px solid #e5e7eb',
+                    background: 'linear-gradient(135deg, #25d366, #128c7e)',
+                    color: 'white',
+                    border: 'none',
                     borderRadius: '20px',
                     cursor: 'pointer',
                     fontSize: '0.9rem',
@@ -297,9 +250,10 @@ export default function AnalisePage() {
                     transition: 'all 0.3s ease'
                   }}>
                     <span>💬</span>
-                    <span>Suporte</span>
+                    <span>Fale Conosco</span>
                   </button>
                 </a>
+
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                   <span style={{ color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Idioma:</span>
                   <div style={{ display: 'flex', gap: '0.3rem' }}>
@@ -562,21 +516,22 @@ export default function AnalisePage() {
                   
                   <button
                     onClick={handleNext}
-                    disabled={!answers[questions[currentQuestion].id]}
+                    disabled={loading || !answers[questions[currentQuestion].id]}
                     style={{
                       padding: '1rem 2rem',
-                      background: !answers[questions[currentQuestion].id] ? '#f3f4f6' : 'linear-gradient(135deg, #22c55e, #16a34a)',
-                      color: !answers[questions[currentQuestion].id] ? '#9ca3af' : 'white',
+                      background: loading || !answers[questions[currentQuestion].id] ? '#f3f4f6' : 'linear-gradient(135deg, #22c55e, #16a34a)',
+                      color: loading || !answers[questions[currentQuestion].id] ? '#9ca3af' : 'white',
                       border: 'none',
                       borderRadius: '25px',
-                      cursor: !answers[questions[currentQuestion].id] ? 'not-allowed' : 'pointer',
+                      cursor: loading || !answers[questions[currentQuestion].id] ? 'not-allowed' : 'pointer',
                       fontSize: '1rem',
                       fontWeight: 600,
                       transition: 'all 0.3s ease',
-                      opacity: !answers[questions[currentQuestion].id] ? 0.5 : 1
+                      opacity: loading || !answers[questions[currentQuestion].id] ? 0.5 : 1,
+                      boxShadow: loading || !answers[questions[currentQuestion].id] ? 'none' : '0 10px 25px rgba(34, 197, 94, 0.4)'
                     }}
                   >
-                    {currentQuestion === questions.length - 1 ? t('seeResults') : t('nextButton')}
+                    {loading ? 'Analisando...' : (currentQuestion === questions.length - 1 ? t('seeResults') : t('nextButton'))}
                   </button>
                 </div>
               </div>
@@ -625,23 +580,24 @@ export default function AnalisePage() {
                   }}>
                     <button
                       onClick={analyzeProfile}
+                      disabled={loading}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '0.5rem',
                         padding: '1rem 2rem',
-                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                        color: 'white',
+                        background: loading ? '#ccc' : 'linear-gradient(135deg, #22c55e, #16a34a)',
+                        color: loading ? '#666' : 'white',
                         border: 'none',
                         borderRadius: '25px',
-                        cursor: 'pointer',
+                        cursor: loading ? 'not-allowed' : 'pointer',
                         fontSize: '1rem',
                         fontWeight: 600,
                         transition: 'all 0.3s ease',
-                        boxShadow: '0 10px 25px rgba(34, 197, 94, 0.4)'
+                        boxShadow: loading ? 'none' : '0 10px 25px rgba(34, 197, 94, 0.4)'
                       }}
                     >
-                      {t('seeResults')}
+                      {loading ? 'Processando...' : t('seeResults')}
                     </button>
                   </div>
                 </div>

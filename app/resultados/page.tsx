@@ -58,7 +58,7 @@ function ResultadosContent() {
   // Função para compartilhar
   const shareResults = () => {
     const url = 'https://meuportalfit.com/analise'
-    const text = `Adorei! É muito instrutivo e vale a pena fazer! 🎯 Faça você também, vai gostar: ${url}`
+    const text = `Adorei! É muito instrutivo e vale a pena fazer! 🎯 Compartilhe com sua amiga, ela vai gostar: ${url}`
     
     if (navigator.share) {
       navigator.share({

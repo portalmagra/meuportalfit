@@ -2,14 +2,69 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useTranslation } from 'react-i18next'
+
+// Sistema de traduções
+const translations = {
+  pt: {
+    title: 'Avaliação gratuita feita por inteligência artificial',
+    subtitle: 'Sua avaliação personalizada',
+    acolhimento: 'Acolhimento',
+    analise: 'Análise Personalizada',
+    habitos: 'Checklist de Hábitos',
+    produtos: 'Produtos Recomendados',
+    timeline: 'Timeline de Implementação',
+    proximo_passo: 'Próximo Passo',
+    shareButton: 'Compartilhar',
+    printButton: 'Imprimir',
+    whatsappButton: 'Fale Conosco',
+    shareMessage: 'Adorei! É muito instrutivo e vale a pena fazer! 🎯 Compartilhe com sua amiga, ela vai gostar:',
+    shareTitle: 'Minha Avaliação Personalizada - MeuPortalFit',
+    copiedMessage: 'Mensagem copiada para a área de transferência!'
+  },
+  es: {
+    title: 'Evaluación gratuita hecha por inteligencia artificial',
+    subtitle: 'Tu evaluación personalizada',
+    acolhimento: 'Acolhimiento',
+    analise: 'Análisis Personalizado',
+    habitos: 'Lista de Hábitos',
+    produtos: 'Productos Recomendados',
+    timeline: 'Cronograma de Implementación',
+    proximo_passo: 'Próximo Paso',
+    shareButton: 'Compartir',
+    printButton: 'Imprimir',
+    whatsappButton: 'Contáctanos',
+    shareMessage: '¡Me encantó! Es muy instructivo y vale la pena hacerlo! 🎯 Compártelo con tu amiga, le va a gustar:',
+    shareTitle: 'Mi Evaluación Personalizada - MeuPortalFit',
+    copiedMessage: '¡Mensaje copiado al portapapeles!'
+  },
+  en: {
+    title: 'Free assessment made by artificial intelligence',
+    subtitle: 'Your personalized assessment',
+    acolhimento: 'Welcome',
+    analise: 'Personalized Analysis',
+    habitos: 'Habits Checklist',
+    produtos: 'Recommended Products',
+    timeline: 'Implementation Timeline',
+    proximo_passo: 'Next Step',
+    shareButton: 'Share',
+    printButton: 'Print',
+    whatsappButton: 'Contact Us',
+    shareMessage: 'I loved it! It\'s very instructive and worth doing! 🎯 Share with your friend, she\'ll like it:',
+    shareTitle: 'My Personalized Assessment - MeuPortalFit',
+    copiedMessage: 'Message copied to clipboard!'
+  }
+}
 
 function ResultadosContent() {
   const [analysisResults, setAnalysisResults] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const searchParams = useSearchParams()
-  const { t } = useTranslation()
   const [language, setLanguage] = useState('pt')
+  const searchParams = useSearchParams()
+
+  // Função de tradução
+  const t = (key: keyof typeof translations.pt) => {
+    return translations[language as keyof typeof translations]?.[key] || translations.pt[key] || key
+  }
 
   useEffect(() => {
     const loadResults = async () => {

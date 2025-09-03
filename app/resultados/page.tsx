@@ -56,7 +56,7 @@ function ResultadosContent() {
   // Função para compartilhar
   const shareResults = () => {
     const url = 'https://meuportalfit.com/analise'
-    const text = `Acabei de fazer minha avaliação personalizada no MeuPortalFit! 🎯 Faça a sua também: ${url}`
+    const text = `Adorei! É muito instrutivo e vale a pena fazer! 🎯 Faça você também, vai gostar: ${url}`
     
     if (navigator.share) {
       navigator.share({
@@ -66,8 +66,8 @@ function ResultadosContent() {
       })
     } else {
       // Fallback para copiar link
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Link copiado para a área de transferência!')
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Mensagem copiada para a área de transferência!')
       })
     }
   }

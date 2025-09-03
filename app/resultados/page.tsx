@@ -473,47 +473,107 @@ function ResultadosContent() {
                 </div>
               )}
 
-              {/* Análise Personalizada */}
+              {/* Análise Personalizada - Melhorada */}
               <div style={{
                 backgroundColor: 'white',
-                padding: '1.5rem',
-                borderRadius: '12px',
-                marginBottom: '1.5rem',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                textAlign: 'left'
+                padding: '2rem',
+                borderRadius: '16px',
+                marginBottom: '2rem',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                textAlign: 'left',
+                border: '2px solid #e0f2e9'
               }}>
                 <h3 style={{
-                  fontSize: '1.4rem',
+                  fontSize: '1.6rem',
                   color: '#1e293b',
-                  marginBottom: '1rem',
-                  fontWeight: 'bold'
+                  marginBottom: '1.5rem',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
                 }}>
-                  🤖 {t('analise')}
+                  <span style={{ fontSize: '1.8rem' }}>🧠</span>
+                  {t('analise')} Detalhada
                 </h3>
                 
+                {/* Análise Principal */}
                 <div style={{
-                  fontSize: '1rem',
+                  fontSize: '1.1rem',
                   color: '#374151',
-                  lineHeight: '1.6',
-                  marginBottom: '1rem'
+                  lineHeight: '1.7',
+                  marginBottom: '1.5rem',
+                  padding: '1.2rem',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '12px',
+                  border: '1px solid #e0f2e9'
                 }}>
+                  <strong style={{ color: '#1e293b' }}>📊 Resumo da Sua Avaliação:</strong><br/>
                   {analysisResults?.analise || analysisResults?.analysis}
                 </div>
 
+                {/* Contexto Cultural */}
                 {analysisResults?.contexto_cultural && (
                   <div style={{
                     fontSize: '1rem',
                     color: '#374151',
                     lineHeight: '1.6',
-                    marginBottom: '1rem',
-                    backgroundColor: '#f8fafc',
-                    padding: '1rem',
-                    borderRadius: '8px',
-                    border: '1px solid #e0f2e9'
+                    marginBottom: '1.5rem',
+                    backgroundColor: '#fef3c7',
+                    padding: '1.2rem',
+                    borderRadius: '12px',
+                    border: '2px solid #f59e0b'
                   }}>
+                    <strong style={{ color: '#92400e' }}>🌍 Contexto Cultural:</strong><br/>
                     {analysisResults.contexto_cultural}
                   </div>
                 )}
+
+                {/* Insights Adicionais */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                  gap: '1rem',
+                  marginTop: '1.5rem'
+                }}>
+                  <div style={{
+                    backgroundColor: '#f0fdf4',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #bbf7d0'
+                  }}>
+                    <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>💡</div>
+                    <strong style={{ color: '#059669' }}>Principais Insights:</strong>
+                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
+                      Baseado nas suas respostas, identificamos pontos-chave para otimizar seu bem-estar e alcançar seus objetivos de saúde.
+                    </p>
+                  </div>
+
+                  <div style={{
+                    backgroundColor: '#eff6ff',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #93c5fd'
+                  }}>
+                    <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>🎯</div>
+                    <strong style={{ color: '#1d4ed8' }}>Objetivos Identificados:</strong>
+                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
+                      Focamos em melhorar sua energia, qualidade do sono e equilíbrio geral para resultados duradouros.
+                    </p>
+                  </div>
+
+                  <div style={{
+                    backgroundColor: '#fef3c7',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #f59e0b'
+                  }}>
+                    <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>⚡</div>
+                    <strong style={{ color: '#92400e' }}>Potencial de Melhoria:</strong>
+                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
+                      Com as mudanças sugeridas, você pode ver melhorias significativas em 2-4 semanas.
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Checklist de Hábitos */}
@@ -588,37 +648,46 @@ function ResultadosContent() {
                 </div>
               )}
 
-              {/* Produtos Recomendados */}
-              {analysisResults?.produtos && analysisResults.produtos.length > 0 && (
-                <div style={{
-                  backgroundColor: 'white',
-                  padding: '1.5rem',
-                  borderRadius: '12px',
-                  marginBottom: '1.5rem',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+              {/* Produtos Recomendados - Melhorada */}
+              <div style={{
+                backgroundColor: 'white',
+                padding: '2rem',
+                borderRadius: '16px',
+                marginBottom: '2rem',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                border: '2px solid #e0f2e9'
+              }}>
+                <h3 style={{
+                  fontSize: '1.6rem',
+                  color: '#1e293b',
+                  marginBottom: '2rem',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem'
                 }}>
-                  <h3 style={{
-                    fontSize: '1.4rem',
-                    color: '#1e293b',
-                    marginBottom: '1.5rem',
-                    fontWeight: 'bold',
-                    textAlign: 'center'
-                  }}>
-                    🛍️ {t('produtos')} para Você
-                  </h3>
-                  
+                  <span style={{ fontSize: '1.8rem' }}>🛍️</span>
+                  {t('produtos')} Selecionados para Você
+                </h3>
+                
+                {/* Produtos da API */}
+                {analysisResults?.produtos && analysisResults.produtos.length > 0 && (
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: '1rem'
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gap: '1.5rem',
+                    marginBottom: '2rem'
                   }}>
                     {analysisResults.produtos.map((product: any, index: number) => (
                       <div key={index} style={{
                         border: '2px solid #e0f2e9',
-                        borderRadius: '12px',
-                        padding: '1.2rem',
+                        borderRadius: '16px',
+                        padding: '1.5rem',
                         backgroundColor: '#f8fafc',
-                        transition: 'all 0.3s ease'
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
                       }}>
                         <div style={{
                           display: 'flex',
@@ -626,16 +695,16 @@ function ResultadosContent() {
                           marginBottom: '1rem'
                         }}>
                           <span style={{
-                            fontSize: '1.5rem',
-                            marginRight: '0.8rem'
+                            fontSize: '2rem',
+                            marginRight: '1rem'
                           }}>
                             🛍️
                           </span>
                           <div>
                             <h4 style={{
-                              fontSize: '1rem',
+                              fontSize: '1.1rem',
                               color: '#1e293b',
-                              fontWeight: '600',
+                              fontWeight: '700',
                               marginBottom: '0.5rem'
                             }}>
                               {product.name}
@@ -647,13 +716,14 @@ function ResultadosContent() {
                             }}>
                               <span style={{
                                 color: '#059669',
-                                fontWeight: '600'
+                                fontWeight: '700',
+                                fontSize: '1rem'
                               }}>
                                 {product.price}
                               </span>
                               <span style={{
                                 color: '#f59e0b',
-                                fontWeight: '500'
+                                fontWeight: '600'
                               }}>
                                 ⭐ {product.rating}
                               </span>
@@ -662,23 +732,23 @@ function ResultadosContent() {
                         </div>
                         
                         <p style={{
-                          fontSize: '0.9rem',
+                          fontSize: '0.95rem',
                           color: '#64748b',
-                          lineHeight: '1.5',
+                          lineHeight: '1.6',
                           marginBottom: '1rem'
                         }}>
                           {product.description}
                         </p>
                         
                         <p style={{
-                          fontSize: '0.85rem',
+                          fontSize: '0.9rem',
                           color: '#059669',
-                          marginBottom: '1rem',
+                          marginBottom: '1.5rem',
                           fontStyle: 'italic',
                           backgroundColor: '#f0fdf4',
-                          padding: '0.6rem',
-                          borderRadius: '8px',
-                          border: '1px solid #bbf7d0'
+                          padding: '0.8rem',
+                          borderRadius: '12px',
+                          border: '2px solid #bbf7d0'
                         }}>
                           💡 {product.whyPerfect}
                         </p>
@@ -686,22 +756,243 @@ function ResultadosContent() {
                         <button onClick={() => searchOnAmazon(product.searchTerms)} style={{
                           background: 'linear-gradient(135deg, #f59e0b, #d97706)',
                           color: 'white',
-                          padding: '0.7rem 1.2rem',
+                          padding: '0.8rem 1.5rem',
                           border: 'none',
                           borderRadius: '25px',
-                          fontSize: '0.85rem',
+                          fontSize: '0.9rem',
                           fontWeight: '600',
                           cursor: 'pointer',
                           transition: 'all 0.3s ease',
-                          width: '100%'
+                          width: '100%',
+                          boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)'
                         }}>
                           🔍 Buscar na Amazon
                         </button>
                       </div>
                     ))}
                   </div>
+                )}
+
+                {/* Produtos Recomendados Adicionais */}
+                <div style={{
+                  backgroundColor: '#f8fafc',
+                  padding: '1.5rem',
+                  borderRadius: '16px',
+                  border: '2px solid #e0f2e9'
+                }}>
+                  <h4 style={{
+                    fontSize: '1.3rem',
+                    color: '#1e293b',
+                    marginBottom: '1.5rem',
+                    fontWeight: 'bold',
+                    textAlign: 'center'
+                  }}>
+                    🎯 Produtos Recomendados Adicionais
+                  </h4>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: '1rem'
+                  }}>
+                    {/* Vitamina D3 */}
+                    <div style={{
+                      border: '2px solid #bbf7d0',
+                      borderRadius: '12px',
+                      padding: '1.2rem',
+                      backgroundColor: 'white',
+                      transition: 'all 0.3s ease'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '0.8rem'
+                      }}>
+                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>💊</span>
+                        <h5 style={{
+                          fontSize: '1rem',
+                          color: '#1e293b',
+                          fontWeight: '600',
+                          margin: 0
+                        }}>
+                          Vitamina D3 2000 IU
+                        </h5>
+                      </div>
+                      <p style={{
+                        fontSize: '0.85rem',
+                        color: '#64748b',
+                        lineHeight: '1.4',
+                        marginBottom: '0.8rem'
+                      }}>
+                        Essencial para imunidade e energia, especialmente importante no inverno americano.
+                      </p>
+                      <a href="https://www.amazon.com/s?k=vitamin+d3+2000+iu+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <button style={{
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          color: 'white',
+                          padding: '0.6rem 1rem',
+                          border: 'none',
+                          borderRadius: '20px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          width: '100%'
+                        }}>
+                          🛒 Ver na Amazon
+                        </button>
+                      </a>
+                    </div>
+
+                    {/* Magnésio */}
+                    <div style={{
+                      border: '2px solid #bbf7d0',
+                      borderRadius: '12px',
+                      padding: '1.2rem',
+                      backgroundColor: 'white',
+                      transition: 'all 0.3s ease'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '0.8rem'
+                      }}>
+                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>🌙</span>
+                        <h5 style={{
+                          fontSize: '1rem',
+                          color: '#1e293b',
+                          fontWeight: '600',
+                          margin: 0
+                        }}>
+                          Magnésio para Sono
+                        </h5>
+                      </div>
+                      <p style={{
+                        fontSize: '0.85rem',
+                        color: '#64748b',
+                        lineHeight: '1.4',
+                        marginBottom: '0.8rem'
+                      }}>
+                        Melhora a qualidade do sono e relaxamento muscular, ideal para quem tem dificuldade para dormir.
+                      </p>
+                      <a href="https://www.amazon.com/s?k=magnesium+glycinate+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <button style={{
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          color: 'white',
+                          padding: '0.6rem 1rem',
+                          border: 'none',
+                          borderRadius: '20px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          width: '100%'
+                        }}>
+                          🛒 Ver na Amazon
+                        </button>
+                      </a>
+                    </div>
+
+                    {/* Complexo B */}
+                    <div style={{
+                      border: '2px solid #bbf7d0',
+                      borderRadius: '12px',
+                      padding: '1.2rem',
+                      backgroundColor: 'white',
+                      transition: 'all 0.3s ease'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '0.8rem'
+                      }}>
+                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>⚡</span>
+                        <h5 style={{
+                          fontSize: '1rem',
+                          color: '#1e293b',
+                          fontWeight: '600',
+                          margin: 0
+                        }}>
+                          Complexo B Energético
+                        </h5>
+                      </div>
+                      <p style={{
+                        fontSize: '0.85rem',
+                        color: '#64748b',
+                        lineHeight: '1.4',
+                        marginBottom: '0.8rem'
+                      }}>
+                        Aumenta energia natural, melhora foco e reduz fadiga, perfeito para o dia a dia.
+                      </p>
+                      <a href="https://www.amazon.com/s?k=b+complex+vitamin+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <button style={{
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          color: 'white',
+                          padding: '0.6rem 1rem',
+                          border: 'none',
+                          borderRadius: '20px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          width: '100%'
+                        }}>
+                          🛒 Ver na Amazon
+                        </button>
+                      </a>
+                    </div>
+
+                    {/* Ômega 3 */}
+                    <div style={{
+                      border: '2px solid #bbf7d0',
+                      borderRadius: '12px',
+                      padding: '1.2rem',
+                      backgroundColor: 'white',
+                      transition: 'all 0.3s ease'
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '0.8rem'
+                      }}>
+                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>🐟</span>
+                        <h5 style={{
+                          fontSize: '1rem',
+                          color: '#1e293b',
+                          fontWeight: '600',
+                          margin: 0
+                        }}>
+                          Ômega 3 Premium
+                        </h5>
+                      </div>
+                      <p style={{
+                        fontSize: '0.85rem',
+                        color: '#64748b',
+                        lineHeight: '1.4',
+                        marginBottom: '0.8rem'
+                      }}>
+                        Suporte para coração, cérebro e inflamação, essencial para saúde geral.
+                      </p>
+                      <a href="https://www.amazon.com/s?k=omega+3+fish+oil+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <button style={{
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          color: 'white',
+                          padding: '0.6rem 1rem',
+                          border: 'none',
+                          borderRadius: '20px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          width: '100%'
+                        }}>
+                          🛒 Ver na Amazon
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              )}
+              </div>
 
               {/* Timeline e Próximos Passos */}
               <div style={{

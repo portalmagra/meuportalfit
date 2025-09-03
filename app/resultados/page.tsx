@@ -55,8 +55,8 @@ export default function ResultadosPage() {
 
   // Função para compartilhar
   const shareResults = () => {
-    const url = window.location.href
-    const text = `Acabei de fazer minha avaliação personalizada no MeuPortalFit! 🎯 Confira os resultados: ${url}`
+    const url = 'https://meuportalfit.com/analise'
+    const text = `Acabei de fazer minha avaliação personalizada no MeuPortalFit! 🎯 Faça a sua também: ${url}`
     
     if (navigator.share) {
       navigator.share({
@@ -70,6 +70,186 @@ export default function ResultadosPage() {
         alert('Link copiado para a área de transferência!')
       })
     }
+  }
+
+  // Função para imprimir/compartilhar como documento
+  const printResults = () => {
+    // Adicionar link do MeuPortalFit antes de imprimir
+    const printWindow = window.open('', '_blank')
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Minha Avaliação Personalizada - MeuPortalFit</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; background: white; }
+              .header { 
+                text-align: center; 
+                margin-bottom: 30px; 
+                background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%);
+                padding: 30px;
+                border-radius: 12px;
+              }
+              .logo { font-size: 28px; font-weight: bold; background: linear-gradient(135deg, #22c55e, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+              .title { font-size: 24px; color: #1f2937; margin: 10px 0; }
+              .subtitle { font-size: 16px; color: #6b7280; }
+              .section { margin-bottom: 25px; }
+              .section-title { font-size: 20px; color: #1e293b; margin-bottom: 15px; font-weight: bold; }
+              .acolhimento { 
+                background: #f0fdf4; 
+                padding: 20px; 
+                border-radius: 8px; 
+                border: 2px solid #bbf7d0;
+                font-style: italic;
+                font-size: 16px;
+                color: #374151;
+              }
+              .analise { 
+                background: #f8fafc; 
+                padding: 20px; 
+                border-radius: 8px; 
+                border: 1px solid #e0f2e9;
+                font-size: 16px;
+                color: #374151;
+                line-height: 1.6;
+              }
+              .habito { 
+                margin: 15px 0; 
+                padding: 15px; 
+                background: #f0fdf4; 
+                border-radius: 8px; 
+                border: 2px solid #bbf7d0;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+              }
+              .check { 
+                color: #22c55e; 
+                font-size: 24px; 
+                font-weight: bold;
+                background: white;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #22c55e;
+              }
+              .habito-text { font-size: 16px; color: #374151; font-weight: 500; }
+              .produto { 
+                margin: 15px 0; 
+                padding: 15px; 
+                background: #f8fafc; 
+                border-radius: 8px; 
+                border: 1px solid #e0f2e9;
+              }
+              .produto-nome { font-size: 18px; font-weight: bold; color: #1e293b; margin-bottom: 8px; }
+              .produto-desc { font-size: 14px; color: #64748b; margin-bottom: 8px; }
+              .produto-preco { color: #059669; font-weight: bold; }
+              .footer { 
+                text-align: center; 
+                margin-top: 40px; 
+                padding: 30px; 
+                background: #f0fdf4; 
+                border-radius: 12px;
+                border: 2px solid #bbf7d0;
+              }
+              .link { 
+                color: #22c55e; 
+                text-decoration: none; 
+                font-weight: bold; 
+                font-size: 18px;
+                display: block;
+                margin: 10px 0;
+              }
+              .whatsapp { 
+                color: #25d366; 
+                font-weight: bold; 
+                font-size: 16px;
+                margin: 10px 0;
+              }
+              @media print {
+                body { margin: 0; }
+                .header { background: white !important; }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <div class="logo">MeuPortalFit</div>
+              <div class="title">Avaliação Gratuita feita por Inteligência Artificial</div>
+              <div class="subtitle">Personalizada para brasileiros nos EUA</div>
+            </div>
+            
+            ${analysisResults?.acolhimento ? `
+            <div class="section">
+              <div class="acolhimento">
+                ${analysisResults.acolhimento}
+              </div>
+            </div>
+            ` : ''}
+            
+            ${analysisResults?.analise || analysisResults?.analysis ? `
+            <div class="section">
+              <div class="section-title">🤖 Análise Personalizada</div>
+              <div class="analise">
+                ${analysisResults.analise || analysisResults.analysis}
+              </div>
+            </div>
+            ` : ''}
+            
+            ${analysisResults?.habitos && analysisResults.habitos.length > 0 ? `
+            <div class="section">
+              <div class="section-title">✅ Checklist de Hábitos para Você</div>
+              ${analysisResults.habitos.map((habito: string) => `
+                <div class="habito">
+                  <div class="check">✓</div>
+                  <div class="habito-text">${habito}</div>
+                </div>
+              `).join('')}
+            </div>
+            ` : ''}
+            
+            ${analysisResults?.produtos && analysisResults.produtos.length > 0 ? `
+            <div class="section">
+              <div class="section-title">🛍️ Produtos Recomendados</div>
+              ${analysisResults.produtos.map((produto: any) => `
+                <div class="produto">
+                  <div class="produto-nome">${produto.name}</div>
+                  <div class="produto-desc">${produto.description}</div>
+                  <div class="produto-preco">${produto.price} ⭐ ${produto.rating}</div>
+                </div>
+              `).join('')}
+            </div>
+            ` : ''}
+            
+            <div class="footer">
+              <p style="font-size: 18px; font-weight: bold; color: #1e293b; margin-bottom: 20px;">
+                Faça sua avaliação personalizada em:
+              </p>
+              <a href="https://meuportalfit.com/analise" class="link">meuportalfit.com/analise</a>
+              <div class="whatsapp">
+                📞 WhatsApp: +1 (786) 253-5032
+              </div>
+              <p style="font-size: 14px; color: #6b7280; margin-top: 20px;">
+                Avaliação personalizada para brasileiros nos EUA
+              </p>
+            </div>
+          </body>
+        </html>
+      `)
+      printWindow.document.close()
+      printWindow.print()
+    }
+  }
+
+  // Função para abrir WhatsApp
+  const openWhatsApp = (message: string) => {
+    const phoneNumber = '+17862535032'
+    const encodedMessage = encodeURIComponent(message)
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
+    window.open(whatsappUrl, '_blank')
   }
 
   if (loading) {
@@ -238,6 +418,28 @@ export default function ResultadosPage() {
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 1rem' }}>
           {analysisResults && (
             <>
+              {/* Acolhimento */}
+              {analysisResults?.acolhimento && (
+                <div style={{
+                  backgroundColor: 'white',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  marginBottom: '1.5rem',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  textAlign: 'left',
+                  border: '3px solid #e0f2e9'
+                }}>
+                  <div style={{
+                    fontSize: '1.1rem',
+                    color: '#374151',
+                    lineHeight: '1.6',
+                    fontStyle: 'italic'
+                  }}>
+                    {analysisResults.acolhimento}
+                  </div>
+                </div>
+              )}
+
               {/* Análise Personalizada */}
               <div style={{
                 backgroundColor: 'white',
@@ -262,12 +464,99 @@ export default function ResultadosPage() {
                   lineHeight: '1.6',
                   marginBottom: '1rem'
                 }}>
-                  {analysisResults?.analysis}
+                  {analysisResults?.analise || analysisResults?.analysis}
                 </div>
+
+                {analysisResults?.contexto_cultural && (
+                  <div style={{
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: '1.6',
+                    marginBottom: '1rem',
+                    backgroundColor: '#f8fafc',
+                    padding: '1rem',
+                    borderRadius: '8px',
+                    border: '1px solid #e0f2e9'
+                  }}>
+                    {analysisResults.contexto_cultural}
+                  </div>
+                )}
               </div>
 
+              {/* Checklist de Hábitos */}
+              {analysisResults?.habitos && analysisResults.habitos.length > 0 && (
+                <div style={{
+                  backgroundColor: 'white',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  marginBottom: '1.5rem',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                }}>
+                  <h3 style={{
+                    fontSize: '1.4rem',
+                    color: '#1e293b',
+                    marginBottom: '1.5rem',
+                    fontWeight: 'bold',
+                    textAlign: 'center'
+                  }}>
+                    ✅ Checklist de Hábitos para Você
+                  </h3>
+                  
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1rem'
+                  }}>
+                    {analysisResults.habitos.map((habito: string, index: number) => {
+                      // Processar o texto para destacar o negrito
+                      const processedHabit = habito.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                      
+                      return (
+                        <div key={index} style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '1rem',
+                          padding: '1.2rem',
+                          backgroundColor: '#f0fdf4',
+                          borderRadius: '12px',
+                          border: '2px solid #bbf7d0',
+                          boxShadow: '0 2px 8px rgba(34, 197, 94, 0.1)'
+                        }}>
+                          <div style={{
+                            width: '35px',
+                            height: '35px',
+                            backgroundColor: 'white',
+                            borderRadius: '50%',
+                            border: '2px solid #22c55e',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#22c55e',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            flexShrink: 0,
+                            marginTop: '0.2rem'
+                          }}>
+                            ✓
+                          </div>
+                          <div 
+                            style={{
+                              fontSize: '1.1rem',
+                              color: '#374151',
+                              lineHeight: '1.5',
+                              fontWeight: '500'
+                            }}
+                            dangerouslySetInnerHTML={{ __html: processedHabit }}
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
               {/* Produtos Recomendados */}
-              {analysisResults?.products && analysisResults.products.length > 0 && (
+              {analysisResults?.produtos && analysisResults.produtos.length > 0 && (
                 <div style={{
                   backgroundColor: 'white',
                   padding: '1.5rem',
@@ -290,7 +579,7 @@ export default function ResultadosPage() {
                     gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                     gap: '1rem'
                   }}>
-                    {analysisResults.products.map((product: any, index: number) => (
+                    {analysisResults.produtos.map((product: any, index: number) => (
                       <div key={index} style={{
                         border: '2px solid #e0f2e9',
                         borderRadius: '12px',
@@ -381,7 +670,7 @@ export default function ResultadosPage() {
                 </div>
               )}
 
-              {/* Próximos Passos */}
+              {/* Timeline e Próximos Passos */}
               <div style={{
                 backgroundColor: 'white',
                 padding: '1.5rem',
@@ -399,27 +688,35 @@ export default function ResultadosPage() {
                   🚀 Próximos Passos
                 </h3>
                 
-                <div style={{
-                  fontSize: '1rem',
-                  color: '#374151',
-                  lineHeight: '1.6',
-                  marginBottom: '1.5rem'
-                }}>
-                  {analysisResults?.nextSteps}
-                </div>
+                {analysisResults?.timeline && (
+                  <div style={{
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: '1.6',
+                    marginBottom: '1.5rem',
+                    backgroundColor: '#f8fafc',
+                    padding: '1rem',
+                    borderRadius: '8px',
+                    border: '1px solid #e0f2e9'
+                  }}>
+                    {analysisResults.timeline}
+                  </div>
+                )}
 
-                <div style={{
-                  fontSize: '0.9rem',
-                  color: '#059669',
-                  fontStyle: 'italic',
-                  marginBottom: '1.5rem',
-                  backgroundColor: '#f0fdf4',
-                  padding: '1rem',
-                  borderRadius: '12px',
-                  border: '2px solid #bbf7d0'
-                }}>
-                  💝 {analysisResults?.motivationalMessage}
-                </div>
+                {analysisResults?.proximo_passo && (
+                  <div style={{
+                    fontSize: '0.9rem',
+                    color: '#059669',
+                    fontStyle: 'italic',
+                    marginBottom: '1.5rem',
+                    backgroundColor: '#f0fdf4',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #bbf7d0'
+                  }}>
+                    💝 {analysisResults.proximo_passo}
+                  </div>
+                )}
 
                 <div style={{
                   display: 'flex',
@@ -427,7 +724,24 @@ export default function ResultadosPage() {
                   gap: '0.8rem',
                   alignItems: 'center'
                 }}>
-                  <button onClick={shareResults} style={{
+                  <button onClick={() => openWhatsApp('Olá! Acabei de fazer minha avaliação personalizada no MeuPortalFit e gostaria de agendar uma consulta personalizada por $10.')} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.8rem 1.5rem',
+                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '25px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    ✨ Faça Agendamento Personalizado
+                  </button>
+
+                  <button onClick={() => openWhatsApp('Olá! Gostaria de falar sobre minha avaliação personalizada do MeuPortalFit.')} style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem',
@@ -441,27 +755,42 @@ export default function ResultadosPage() {
                     cursor: 'pointer',
                     transition: 'all 0.3s ease'
                   }}>
+                    💬 Fale Conosco via WhatsApp
+                  </button>
+
+                  <button onClick={shareResults} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.8rem 1.5rem',
+                    background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '25px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}>
                     📤 Compartilhar
                   </button>
 
-                  <a href="https://wa.me/17862535032?text=Olá! Acabei de fazer minha avaliação personalizada no MeuPortalFit e gostaria de agendar uma consulta personalizada por $10." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                    <button style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.8rem 1.5rem',
-                      background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '25px',
-                      fontSize: '0.9rem',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease'
-                    }}>
-                      ✨ Avaliação Personalizada ($10)
-                    </button>
-                  </a>
+                  <button onClick={printResults} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.8rem 1.5rem',
+                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '25px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    🖨️ Salvar/Imprimir
+                  </button>
 
                   <a href="/" style={{ textDecoration: 'none' }}>
                     <button style={{
@@ -501,6 +830,21 @@ export default function ResultadosPage() {
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        
+        @media print {
+          header, footer, button {
+            display: none !important;
+          }
+          
+          main {
+            background: white !important;
+          }
+          
+          section {
+            padding: 0 !important;
+            margin: 0 !important;
+          }
         }
       `}</style>
     </main>

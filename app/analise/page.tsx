@@ -135,16 +135,46 @@ export default function AnalisePage() {
     return key
   }
 
-  // Perguntas estratégicas
-  const questions = [
-    { id: '1', text: t('question1'), answers: ['a', 'b', 'c', 'd'] },
-    { id: '2', text: t('question2'), answers: ['a', 'b', 'c', 'd'] },
-    { id: '3', text: t('question3'), answers: ['a', 'b', 'c', 'd'] },
-    { id: '4', text: t('question4'), answers: ['a', 'b', 'c', 'd'] },
-    { id: '5', text: t('question5'), answers: ['a', 'b', 'c', 'd'] },
-    { id: '7', text: t('question7'), answers: ['a', 'b', 'c', 'd'] },
-    { id: '8', text: t('question8'), answers: ['a', 'b', 'c', 'd'] }
+  // Perguntas estratégicas com traduções
+  const getQuestions = () => [
+    { 
+      id: '1', 
+      text: t('question1'), 
+      options: [t('answer1a'), t('answer1b'), t('answer1c'), t('answer1d')] 
+    },
+    { 
+      id: '2', 
+      text: t('question2'), 
+      options: [t('answer2a'), t('answer2b'), t('answer2c'), t('answer2d')] 
+    },
+    { 
+      id: '3', 
+      text: t('question3'), 
+      options: [t('answer3a'), t('answer3b'), t('answer3c'), t('answer3d')] 
+    },
+    { 
+      id: '4', 
+      text: t('question4'), 
+      options: [t('answer4a'), t('answer4b'), t('answer4c'), t('answer4d')] 
+    },
+    { 
+      id: '5', 
+      text: t('question5'), 
+      options: [t('answer5a'), t('answer5b'), t('answer5c'), t('answer5d')] 
+    },
+    { 
+      id: '7', 
+      text: t('question7'), 
+      options: [t('answer7a'), t('answer7b'), t('answer7c'), t('answer7d')] 
+    },
+    { 
+      id: '8', 
+      text: t('question8'), 
+      options: [t('answer8a'), t('answer8b'), t('answer8c'), t('answer8d')] 
+    }
   ]
+
+  const questions = getQuestions()
 
   // Detectar se é mobile
   const [isMobile, setIsMobile] = useState(false)
@@ -177,7 +207,12 @@ export default function AnalisePage() {
   }
 
   const handleAnswer = (questionId: string, answer: string) => {
-    setAnswers(prev => ({ ...prev, [questionId]: answer }))
+    // Encontrar o índice da opção selecionada
+    const currentQuestionObj = questions.find(q => q.id === questionId)
+    const optionIndex = currentQuestionObj?.options.indexOf(answer) || 0
+    const answerKey = String.fromCharCode(97 + optionIndex) // 'a', 'b', 'c', 'd'
+    
+    setAnswers(prev => ({ ...prev, [questionId]: answerKey }))
     
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(prev => prev + 1)
@@ -486,7 +521,7 @@ export default function AnalisePage() {
                     gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
                     gap: '1rem'
                   }}>
-                    {questions[currentQuestion].answers.map((option: string, index: number) => (
+                    {questions[currentQuestion].options.map((option: string, index: number) => (
                       <button
                         key={index}
                         onClick={() => handleAnswer(questions[currentQuestion].id, option)}
@@ -495,8 +530,8 @@ export default function AnalisePage() {
                           alignItems: 'center',
                           gap: '1rem',
                           padding: '1.5rem',
-                          background: answers[questions[currentQuestion].id] === option ? '#f0fdf4' : 'white',
-                          border: answers[questions[currentQuestion].id] === option ? '3px solid #22c55e' : '2px solid #e0f2e9',
+                          background: answers[questions[currentQuestion].id] === String.fromCharCode(97 + index) ? '#f0fdf4' : 'white',
+                          border: answers[questions[currentQuestion].id] === String.fromCharCode(97 + index) ? '3px solid #22c55e' : '2px solid #e0f2e9',
                           borderRadius: '12px',
                           cursor: 'pointer',
                           fontSize: '1rem',
@@ -510,17 +545,17 @@ export default function AnalisePage() {
                         <div style={{
                           width: '40px',
                           height: '40px',
-                          background: answers[questions[currentQuestion].id] === option ? 'linear-gradient(135deg, #22c55e, #16a34a)' : '#f8fafc',
+                          background: answers[questions[currentQuestion].id] === String.fromCharCode(97 + index) ? 'linear-gradient(135deg, #22c55e, #16a34a)' : '#f8fafc',
                           borderRadius: '50%',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          color: answers[questions[currentQuestion].id] === option ? 'white' : '#6b7280',
+                          color: answers[questions[currentQuestion].id] === String.fromCharCode(97 + index) ? 'white' : '#6b7280',
                           fontWeight: 'bold',
                           fontSize: '1.1rem',
-                          border: answers[questions[currentQuestion].id] === option ? 'none' : '2px solid #e0f2e9'
+                          border: answers[questions[currentQuestion].id] === String.fromCharCode(97 + index) ? 'none' : '2px solid #e0f2e9'
                         }}>
-                          {String.fromCharCode(65 + index)}
+                          {String.fromCharCode(97 + index)}
                         </div>
                         <span style={{ flex: 1 }}>{option}</span>
                       </button>

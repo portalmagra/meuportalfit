@@ -541,8 +541,10 @@ function ResultadosContent() {
                     borderRadius: '12px',
                     border: '2px solid #bbf7d0'
                   }}>
-                    <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>💡</div>
-                    <strong style={{ color: '#059669' }}>Principais Insights:</strong>
+                    <strong style={{ color: '#059669', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <span style={{ fontSize: '1.2rem' }}>💡</span>
+                      Principais Insights:
+                    </strong>
                     <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
                       Baseado nas suas respostas, identificamos pontos-chave para otimizar seu bem-estar e alcançar seus objetivos de saúde.
                     </p>
@@ -554,8 +556,10 @@ function ResultadosContent() {
                     borderRadius: '12px',
                     border: '2px solid #93c5fd'
                   }}>
-                    <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>🎯</div>
-                    <strong style={{ color: '#1d4ed8' }}>Objetivos Identificados:</strong>
+                    <strong style={{ color: '#1d4ed8', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <span style={{ fontSize: '1.2rem' }}>🎯</span>
+                      Objetivos Identificados:
+                    </strong>
                     <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
                       Focamos em melhorar sua energia, qualidade do sono e equilíbrio geral para resultados duradouros.
                     </p>
@@ -567,8 +571,10 @@ function ResultadosContent() {
                     borderRadius: '12px',
                     border: '2px solid #f59e0b'
                   }}>
-                    <div style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>⚡</div>
-                    <strong style={{ color: '#92400e' }}>Potencial de Melhoria:</strong>
+                    <strong style={{ color: '#92400e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <span style={{ fontSize: '1.2rem' }}>⚡</span>
+                      Potencial de Melhoria:
+                    </strong>
                     <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
                       Com as mudanças sugeridas, você pode ver melhorias significativas em 2-4 semanas.
                     </p>

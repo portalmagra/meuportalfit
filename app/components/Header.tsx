@@ -170,31 +170,32 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
               <span style={{ color: '#6b7280', fontSize: isMobile ? '0.8rem' : '0.9rem', fontWeight: 500 }}>Idioma:</span>
               <div style={{ display: 'flex', gap: isMobile ? '0.2rem' : '0.3rem' }}>
                 {[
-                  { code: 'pt' as const, flag: '🇧🇷', label: 'PT' },
-                  { code: 'es' as const, flag: '🇪🇸', label: 'ES' },
-                  { code: 'en' as const, flag: '🇺🇸', label: 'EN' }
+                  { code: 'pt' as const, flag: '🇧🇷', label: 'PT', href: '/analise' },
+                  { code: 'es' as const, flag: '🇪🇸', label: 'ES', href: '/es/analise' },
+                  { code: 'en' as const, flag: '🇺🇸', label: 'EN', href: '/en/analise' }
                 ].map(lang => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: isMobile ? '0.2rem' : '0.3rem',
-                      padding: isMobile ? '0.3rem 0.6rem' : '0.4rem 0.8rem',
-                      background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
-                      color: language === lang.code ? 'white' : '#6b7280',
-                      border: language === lang.code ? 'none' : '1px solid #e5e7eb',
-                      borderRadius: '20px',
-                      cursor: 'pointer',
-                      fontSize: isMobile ? '0.7rem' : '0.8rem',
-                      fontWeight: language === lang.code ? 600 : 400,
-                      transition: 'all 0.3s ease'
-                    }}
-                  >
-                    <span>{lang.flag}</span>
-                    <span>{lang.label}</span>
-                  </button>
+                  <Link key={lang.code} href={lang.href} style={{ textDecoration: 'none' }}>
+                    <button
+                      onClick={() => handleLanguageChange(lang.code)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: isMobile ? '0.2rem' : '0.3rem',
+                        padding: isMobile ? '0.3rem 0.6rem' : '0.4rem 0.8rem',
+                        background: language === lang.code ? 'linear-gradient(135deg, #22c55e, #3b82f6)' : 'transparent',
+                        color: language === lang.code ? 'white' : '#6b7280',
+                        border: language === lang.code ? 'none' : '1px solid #e5e7eb',
+                        borderRadius: '20px',
+                        cursor: 'pointer',
+                        fontSize: isMobile ? '0.7rem' : '0.8rem',
+                        fontWeight: language === lang.code ? 600 : 400,
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      <span>{lang.flag}</span>
+                      <span>{lang.label}</span>
+                    </button>
+                  </Link>
                 ))}
               </div>
             </div>

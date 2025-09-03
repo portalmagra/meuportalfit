@@ -66,6 +66,16 @@ function ResultadosContent() {
     return translations[language as keyof typeof translations]?.[key] || translations.pt[key] || key
   }
 
+  // Função para traduzir WhatsApp message baseado no idioma
+  const getWhatsAppMessage = (lang: string) => {
+    const messages = {
+      pt: 'Olá! Gostaria de saber mais sobre MeuPortalFit.',
+      es: '¡Hola! Me gustaría saber más sobre MeuPortalFit.',
+      en: 'Hello! I\'d like to know more about MeuPortalFit.'
+    }
+    return messages[lang as keyof typeof messages] || messages.pt
+  }
+
   useEffect(() => {
     const loadResults = async () => {
       try {
@@ -253,7 +263,7 @@ function ResultadosContent() {
             
             ${analysisResults?.analise || analysisResults?.analysis ? `
             <div class="section">
-              <div class="section-title">🤖 Análise Personalizada</div>
+              <div class="section-title">🤖 {t('analise')}</div>
               <div class="analise">
                 ${analysisResults.analise || analysisResults.analysis}
               </div>
@@ -262,7 +272,7 @@ function ResultadosContent() {
             
             ${analysisResults?.habitos && analysisResults.habitos.length > 0 ? `
             <div class="section">
-              <div class="section-title">✅ Checklist de Hábitos para Você</div>
+              <div class="section-title">✅ {t('habitos')} para Você</div>
               ${analysisResults.habitos.map((habito: string) => `
                 <div class="habito">
                   <div class="check">✓</div>
@@ -274,7 +284,7 @@ function ResultadosContent() {
             
             ${analysisResults?.produtos && analysisResults.produtos.length > 0 ? `
             <div class="section">
-              <div class="section-title">🛍️ Produtos Recomendados</div>
+              <div class="section-title">🛍️ {t('produtos')}</div>
               ${analysisResults.produtos.map((produto: any) => `
                 <div class="produto">
                   <div class="produto-nome">${produto.name}</div>
@@ -388,7 +398,7 @@ function ResultadosContent() {
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-              <a href="https://wa.me/17862535032?text=Olá! Gostaria de saber mais sobre o MeuPortalFit." target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                              <a href={`https://wa.me/17862535032?text=${encodeURIComponent(getWhatsAppMessage(language))}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                 <button style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -404,7 +414,7 @@ function ResultadosContent() {
                   transition: 'all 0.3s ease'
                 }}>
                   <span>💬</span>
-                  <span>Fale Conosco</span>
+                  <span>{t('whatsappButton')}</span>
                 </button>
               </a>
             </div>
@@ -430,7 +440,7 @@ function ResultadosContent() {
             whiteSpace: 'pre-line'
           }}>
             <span style={{ background: 'linear-gradient(135deg, #22c55e, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Avaliação Gratuita feita por Inteligência Artificial
+              {t('title')}
             </span>
           </h1>
         </div>
@@ -478,7 +488,7 @@ function ResultadosContent() {
                   marginBottom: '1rem',
                   fontWeight: 'bold'
                 }}>
-                  🤖 Análise Personalizada
+                  🤖 {t('analise')}
                 </h3>
                 
                 <div style={{
@@ -522,7 +532,7 @@ function ResultadosContent() {
                     fontWeight: 'bold',
                     textAlign: 'center'
                   }}>
-                    ✅ Checklist de Hábitos para Você
+                    ✅ {t('habitos')} para Você
                   </h3>
                   
                   <div style={{
@@ -594,7 +604,7 @@ function ResultadosContent() {
                     fontWeight: 'bold',
                     textAlign: 'center'
                   }}>
-                    🛍️ Produtos Recomendados para Você
+                    🛍️ {t('produtos')} para Você
                   </h3>
                   
                   <div style={{
@@ -778,7 +788,7 @@ function ResultadosContent() {
                     cursor: 'pointer',
                     transition: 'all 0.3s ease'
                   }}>
-                    💬 Fale Conosco via WhatsApp
+                    💬 {t('whatsappButton')} via WhatsApp
                   </button>
 
                   <button onClick={shareResults} style={{

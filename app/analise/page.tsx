@@ -24,6 +24,23 @@ const translations = {
   progressText: { pt: '', es: '', en: '' },
   progressOf: { pt: 'de', es: 'de', en: 'of' },
   
+  // Perguntas de Identificação
+  question0: { 
+    pt: 'Antes de começarmos, me conte um pouco sobre você:', 
+    es: 'Antes de empezar, cuéntame un poco sobre ti:', 
+    en: 'Before we start, tell me a little about yourself:' 
+  },
+  questionName: { 
+    pt: 'Como você gostaria de ser chamado(a)?', 
+    es: '¿Cómo te gustaría que te llame?', 
+    en: 'What would you like to be called?' 
+  },
+  questionAge: { 
+    pt: 'Qual sua faixa etária?', 
+    es: '¿Cuál es tu rango de edad?', 
+    en: 'What is your age range?' 
+  },
+  
   // Perguntas Estratégicas com Gatilhos Mentais
   question1: { 
     pt: 'Qual seu maior desafio de saúde nos EUA? (Selecione o que mais te incomoda)', 
@@ -31,35 +48,36 @@ const translations = {
     en: 'What is your biggest health challenge in the USA? (Select what bothers you most)' 
   },
   question2: { 
-    pt: 'Qual sua faixa etária e estilo de vida?', 
-    es: '¿Cuál es tu rango de edad y estilo de vida?', 
-    en: 'What is your age range and lifestyle?' 
+    pt: 'Quanto tempo você vive nos Estados Unidos?', 
+    es: '¿Cuánto tiempo vives en Estados Unidos?', 
+    en: 'How long have you been living in the United States?' 
   },
   question3: { 
+    pt: 'Qual seu estilo de vida atual?', 
+    es: '¿Cuál es tu estilo de vida actual?', 
+    en: 'What is your current lifestyle?' 
+  },
+  question4: { 
     pt: 'Qual seu objetivo principal? (Seja específico)', 
     es: '¿Cuál es tu objetivo principal? (Sé específico)', 
     en: 'What is your main goal? (Be specific)' 
-  },
-  question4: { 
-    pt: 'Como é sua rotina atual? (Honestidade é fundamental)', 
-    es: '¿Cómo es tu rutina actual? (La honestidad es fundamental)', 
-    en: 'How is your current routine? (Honesty is fundamental)' 
   },
   question5: { 
     pt: 'Quantas vezes você tentou e falhou? (Não se culpe)', 
     es: '¿Cuántas veces has intentado y fallado? (No te culpes)', 
     en: 'How many times have you tried and failed? (Don\'t blame yourself)' 
   },
-  question7: { 
+  question6: { 
     pt: 'Em quanto tempo você quer ver resultados?', 
     es: '¿En cuánto tiempo quieres ver resultados?', 
     en: 'How soon do you want to see results?' 
   },
-  question8: { 
+  question7: { 
     pt: 'O que você está disposto a fazer AGORA para mudar?', 
     es: '¿Qué estás dispuesto a hacer AHORA para cambiar?', 
     en: 'What are you willing to do NOW to change?' 
   },
+
   
   // Respostas Estratégicas com Gatilhos Mentais
   answer1a: { pt: 'Manter energia durante o dia todo (Sempre cansado)', es: 'Mantener energía durante todo el día (Siempre cansado)', en: 'Maintain energy throughout the day (Always tired)' },
@@ -67,35 +85,42 @@ const translations = {
   answer1c: { pt: 'Controlar o peso (Já tentou de tudo)', es: 'Controlar el peso (Ya intentaste de todo)', en: 'Control weight (Tried everything already)' },
   answer1d: { pt: 'Fortalecer o sistema imunológico (Sempre doente)', es: 'Fortalecer el sistema inmunológico (Siempre enfermo)', en: 'Strengthen immune system (Always sick)' },
   
-  answer2a: { pt: '18-25 anos (Vida agitada, muita energia)', es: '18-25 años (Vida agitada, mucha energía)', en: '18-25 years (Busy life, lots of energy)' },
-  answer2b: { pt: '26-35 anos (Carreira em ascensão, estresse)', es: '26-35 años (Carrera en ascenso, estrés)', en: '26-35 years (Rising career, stress)' },
-  answer2c: { pt: '36-45 anos (Equilíbrio família-trabalho)', es: '36-45 años (Equilibrio familia-trabajo)', en: '36-45 years (Family-work balance)' },
-  answer2d: { pt: '46+ anos (Foco em qualidade de vida)', es: '46+ años (Enfoque en calidad de vida)', en: '46+ years (Focus on quality of life)' },
+  answer0a: { pt: '18-25 anos', es: '18-25 años', en: '18-25 years' },
+  answer0b: { pt: '26-35 anos', es: '26-35 años', en: '26-35 years' },
+  answer0c: { pt: '36-45 anos', es: '36-45 años', en: '36-45 years' },
+  answer0d: { pt: '46+ anos', es: '46+ años', en: '46+ years' },
   
-  answer3a: { pt: 'Perder peso (Já tentou dietas sem sucesso)', es: 'Perder peso (Ya intentaste dietas sin éxito)', en: 'Lose weight (Tried diets without success)' },
-  answer3b: { pt: 'Ganhar massa muscular (Quer se sentir forte)', es: 'Ganar masa muscular (Quieres sentirte fuerte)', en: 'Gain muscle mass (Want to feel strong)' },
-  answer3c: { pt: 'Melhorar o bem-estar geral (Quer mais qualidade de vida)', es: 'Mejorar el bienestar general (Quieres más calidad de vida)', en: 'Improve general well-being (Want better quality of life)' },
-  answer3d: { pt: 'Aumentar a performance (Quer ser melhor em tudo)', es: 'Aumentar el rendimiento (Quieres ser mejor en todo)', en: 'Increase performance (Want to be better at everything)' },
+  answer2a: { pt: 'Menos de 1 ano (Recém-chegado)', es: 'Menos de 1 año (Recién llegado)', en: 'Less than 1 year (Recently arrived)' },
+  answer2b: { pt: '1-3 anos (Estabelecido)', es: '1-3 años (Establecido)', en: '1-3 years (Established)' },
+  answer2c: { pt: '3-5 anos (Adaptado)', es: '3-5 años (Adaptado)', en: '3-5 years (Adapted)' },
+  answer2d: { pt: '5+ anos (Veterano)', es: '5+ años (Veterano)', en: '5+ years (Veteran)' },
   
-  answer4a: { pt: 'Rotina caótica (Sem horários fixos)', es: 'Rutina caótica (Sin horarios fijos)', en: 'Chaotic routine (No fixed schedules)' },
-  answer4b: { pt: 'Rotina rígida (Muito trabalho, pouco tempo)', es: 'Rutina rígida (Mucho trabajo, poco tiempo)', en: 'Rigid routine (Lots of work, little time)' },
-  answer4c: { pt: 'Rotina equilibrada (Tenta manter hábitos)', es: 'Rutina equilibrada (Intenta mantener hábitos)', en: 'Balanced routine (Tries to maintain habits)' },
-  answer4d: { pt: 'Rotina flexível (Adapta-se às mudanças)', es: 'Rutina flexible (Se adapta a los cambios)', en: 'Flexible routine (Adapts to changes)' },
+  answer3a: { pt: 'Vida agitada (Muito trabalho, pouco tempo)', es: 'Vida agitada (Mucho trabajo, poco tiempo)', en: 'Busy life (Lots of work, little time)' },
+  answer3b: { pt: 'Vida equilibrada (Tenta manter hábitos)', es: 'Vida equilibrada (Intenta mantener hábitos)', en: 'Balanced life (Tries to maintain habits)' },
+  answer3c: { pt: 'Vida flexível (Adapta-se às mudanças)', es: 'Vida flexible (Se adapta a los cambios)', en: 'Flexible life (Adapts to changes)' },
+  answer3d: { pt: 'Vida sedentária (Pouca atividade física)', es: 'Vida sedentaria (Poca actividad física)', en: 'Sedentary life (Little physical activity)' },
   
-  answer5a: { pt: '1-2 vezes (Ainda acredita)', es: '1-2 veces (Aún cree)', en: '1-2 times (Still believes)' },
-  answer5b: { pt: '3-5 vezes (Frustrado mas persistente)', es: '3-5 veces (Frustrado pero persistente)', en: '3-5 times (Frustrated but persistent)' },
-  answer5c: { pt: '6-10 vezes (Quase desistindo)', es: '6-10 veces (Casi desistiendo)', en: '6-10 times (Almost giving up)' },
-  answer5d: { pt: '10+ vezes (Precisa de ajuda especializada)', es: '10+ veces (Necesita ayuda especializada)', en: '10+ times (Needs specialized help)' },
+  answer4a: { pt: 'Perder peso (Já tentou dietas sem sucesso)', es: 'Perder peso (Ya intentaste dietas sin éxito)', en: 'Lose weight (Tried diets without success)' },
+  answer4b: { pt: 'Ganhar massa muscular (Quer se sentir forte)', es: 'Ganar masa muscular (Quieres sentirte fuerte)', en: 'Gain muscle mass (Want to feel strong)' },
+  answer4c: { pt: 'Melhorar o bem-estar geral (Quer mais qualidade de vida)', es: 'Mejorar el bienestar general (Quieres más calidad de vida)', en: 'Improve general well-being (Want better quality of life)' },
+  answer4d: { pt: 'Aumentar a performance (Quer ser melhor em tudo)', es: 'Aumentar el rendimiento (Quieres ser mejor en todo)', en: 'Increase performance (Want to be better at everything)' },
   
-  answer7a: { pt: '1-2 semanas (Resultados rápidos)', es: '1-2 semanas (Resultados rápidos)', en: '1-2 weeks (Quick results)' },
-  answer7b: { pt: '1 mês (Mudança visível)', es: '1 mes (Cambio visible)', en: '1 month (Visible change)' },
-  answer7c: { pt: '3 meses (Transformação real)', es: '3 meses (Transformación real)', en: '3 months (Real transformation)' },
-  answer7d: { pt: '6 meses (Mudança permanente)', es: '6 meses (Cambio permanente)', en: '6 months (Permanent change)' },
+  answer5a: { pt: 'Rotina caótica (Sem horários fixos)', es: 'Rutina caótica (Sin horarios fijos)', en: 'Chaotic routine (No fixed schedules)' },
+  answer5b: { pt: 'Rotina rígida (Muito trabalho, pouco tempo)', es: 'Rutina rígida (Mucho trabajo, poco tiempo)', en: 'Rigid routine (Lots of work, little time)' },
+  answer5c: { pt: 'Rotina equilibrada (Tenta manter hábitos)', es: 'Rutina equilibrada (Intenta mantener hábitos)', en: 'Balanced routine (Tries to maintain habits)' },
+  answer5d: { pt: 'Rotina flexível (Adapta-se às mudanças)', es: 'Rutina flexible (Se adapta a los cambios)', en: 'Flexible routine (Adapts to changes)' },
   
-  answer8a: { pt: 'Mudar hábitos alimentares (Começar hoje)', es: 'Cambiar hábitos alimentarios (Empezar hoy)', en: 'Change eating habits (Start today)' },
-  answer8b: { pt: 'Adicionar exercícios (Sem desculpas)', es: 'Agregar ejercicios (Sin excusas)', en: 'Add exercises (No excuses)' },
-  answer8c: { pt: 'Suplementação inteligente (Apoio científico)', es: 'Suplementación inteligente (Apoyo científico)', en: 'Smart supplementation (Scientific support)' },
-  answer8d: { pt: 'Tudo junto (Transformação completa)', es: 'Todo junto (Transformación completa)', en: 'Everything together (Complete transformation)' },
+  answer6a: { pt: '1-2 vezes (Ainda acredita)', es: '1-2 veces (Aún cree)', en: '1-2 times (Still believes)' },
+  answer6b: { pt: '3-5 vezes (Frustrado mas persistente)', es: '3-5 veces (Frustrado pero persistente)', en: '3-5 times (Frustrated but persistent)' },
+  answer6c: { pt: '6-10 vezes (Quase desistindo)', es: '6-10 veces (Casi desistiendo)', en: '6-10 times (Almost giving up)' },
+  answer6d: { pt: '10+ vezes (Precisa de ajuda especializada)', es: '10+ veces (Necesita ayuda especializada)', en: '10+ times (Needs specialized help)' },
+  
+  answer7a: { pt: 'Mudar hábitos alimentares (Começar hoje)', es: 'Cambiar hábitos alimentarios (Empezar hoy)', en: 'Change eating habits (Start today)' },
+  answer7b: { pt: 'Adicionar exercícios (Sem desculpas)', es: 'Agregar ejercicios (Sin excusas)', en: 'Add exercises (No excuses)' },
+  answer7c: { pt: 'Suplementação inteligente (Apoio científico)', es: 'Suplementación inteligente (Apoyo científico)', en: 'Smart supplementation (Scientific support)' },
+  answer7d: { pt: 'Tudo junto (Transformação completa)', es: 'Todo junto (Transformación completa)', en: 'Everything together (Complete transformation)' },
+  
+
   
   // Botões
   nextButton: { pt: 'Próxima', es: 'Siguiente', en: 'Next' },
@@ -119,16 +144,18 @@ const translations = {
 }
 
 export default function AnalisePage() {
-  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [currentQuestion, setCurrentQuestion] = useState(-1)
   const [answers, setAnswers] = useState<{ [key: string]: string }>({})
   const [language, setLanguage] = useState('pt')
   const [comments, setComments] = useState('')
   const [showComments, setShowComments] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
+  const [userName, setUserName] = useState('')
+  const [userAge, setUserAge] = useState('')
 
   const t = (key: string) => {
-    const translation = translations[key as keyof typeof translations]
+    const translation = (translations as any)[key]
     if (translation && typeof translation === 'object' && language in translation) {
       return translation[language as keyof typeof translation]
     }
@@ -163,15 +190,16 @@ export default function AnalisePage() {
       options: [t('answer5a'), t('answer5b'), t('answer5c'), t('answer5d')] 
     },
     { 
+      id: '6', 
+      text: t('question6'), 
+      options: [t('answer6a'), t('answer6b'), t('answer6c'), t('answer6d')] 
+    },
+    { 
       id: '7', 
       text: t('question7'), 
       options: [t('answer7a'), t('answer7b'), t('answer7c'), t('answer7d')] 
     },
-    { 
-      id: '8', 
-      text: t('question8'), 
-      options: [t('answer8a'), t('answer8b'), t('answer8c'), t('answer8d')] 
-    }
+
   ]
 
   const questions = getQuestions()
@@ -198,9 +226,11 @@ export default function AnalisePage() {
       const answersParam = encodeURIComponent(JSON.stringify(answers))
       const commentsParam = encodeURIComponent(comments)
       const languageParam = encodeURIComponent(language)
+      const userNameParam = encodeURIComponent(userName)
+      const userAgeParam = encodeURIComponent(userAge)
       
-      // Redirecionar para a página de resultados com idioma
-      window.location.href = `/resultados?answers=${answersParam}&comments=${commentsParam}&language=${languageParam}`
+      // Redirecionar para a página de resultados com idioma e dados pessoais
+      window.location.href = `/resultados?answers=${answersParam}&comments=${commentsParam}&language=${languageParam}&userName=${userNameParam}&userAge=${userAgeParam}`
     } catch (error) {
       console.error('Erro ao redirecionar:', error)
       setLoading(false)
@@ -215,19 +245,15 @@ export default function AnalisePage() {
     
     setAnswers(prev => ({ ...prev, [questionId]: answerKey }))
     
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(prev => prev + 1)
-    } else {
-      setShowComments(true)
-    }
+    // Não avançar automaticamente - deixar o usuário clicar em "Próxima"
   }
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(prev => prev + 1)
     } else {
-      // Na última pergunta, chamar analyzeProfile
-      analyzeProfile()
+      // Na última pergunta, mostrar seção de comentários
+      setShowComments(true)
     }
   }
 
@@ -238,10 +264,12 @@ export default function AnalisePage() {
   }
 
   const handleStartOver = () => {
-    setCurrentQuestion(0)
+    setCurrentQuestion(-1)
     setAnswers({})
     setComments('')
     setShowComments(false)
+    setUserName('')
+    setUserAge('')
   }
 
   return (
@@ -428,7 +456,111 @@ export default function AnalisePage() {
         {/* Quiz Section */}
         <section style={{ background: 'white', padding: '1rem 0' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 1rem' }}>
-            {!showComments ? (
+            {!showComments && currentQuestion === -1 ? (
+              // Tela inicial com nome e idade
+              <div style={{
+                background: 'white',
+                padding: '2rem',
+                borderRadius: '12px',
+                marginBottom: '2rem',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                border: '3px solid #e0f2e9'
+              }}>
+                <h2 style={{
+                  fontSize: isMobile ? '1.4rem' : '1.6rem',
+                  color: '#1e293b',
+                  marginBottom: '2rem',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  lineHeight: '1.4'
+                }}>
+                  {t('question0')}
+                </h2>
+                
+                <div style={{ marginBottom: '2rem' }}>
+                  <label style={{
+                    display: 'block',
+                    fontSize: '1.1rem',
+                    color: '#374151',
+                    marginBottom: '0.5rem',
+                    fontWeight: '600'
+                  }}>
+                    {t('questionName')}
+                  </label>
+                  <input
+                    type="text"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    placeholder={language === 'pt' ? 'Ex: João, Maria, Ana...' : language === 'es' ? 'Ej: Juan, María, Ana...' : 'Ex: John, Mary, Ann...'}
+                    style={{
+                      width: '100%',
+                      padding: '1rem',
+                      fontSize: '1rem',
+                      border: '2px solid #e0f2e9',
+                      borderRadius: '8px',
+                      outline: 'none',
+                      transition: 'border-color 0.3s ease'
+                    }}
+                  />
+                </div>
+                
+                <div style={{ marginBottom: '2rem' }}>
+                  <label style={{
+                    display: 'block',
+                    fontSize: '1.1rem',
+                    color: '#374151',
+                    marginBottom: '0.5rem',
+                    fontWeight: '600'
+                  }}>
+                    {t('questionAge')}
+                  </label>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                    gap: '1rem'
+                  }}>
+                    {['a', 'b', 'c', 'd'].map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => setUserAge(option)}
+                        style={{
+                          padding: '1rem',
+                          background: userAge === option ? '#f0fdf4' : 'white',
+                          border: userAge === option ? '3px solid #22c55e' : '2px solid #e0f2e9',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontSize: '1rem',
+                          fontWeight: '500',
+                          color: '#374151',
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        {t(`answer0${option}`)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => setCurrentQuestion(0)}
+                  disabled={!userName.trim() || !userAge}
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    background: userName.trim() && userAge ? 'linear-gradient(135deg, #22c55e, #16a34a)' : '#e5e7eb',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    cursor: userName.trim() && userAge ? 'pointer' : 'not-allowed',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  {language === 'pt' ? 'Começar Avaliação' : language === 'es' ? 'Comenzar Evaluación' : 'Start Evaluation'}
+                </button>
+              </div>
+            ) : !showComments ? (
               <div>
                 {/* Question */}
                 <div style={{
@@ -526,19 +658,19 @@ export default function AnalisePage() {
                   
                   <button
                     onClick={handleNext}
-                    disabled={loading || !answers[questions[currentQuestion].id]}
+                    disabled={loading || !answers[questions[currentQuestion]?.id]}
                     style={{
                       padding: '1rem 2rem',
-                      background: loading || !answers[questions[currentQuestion].id] ? '#f3f4f6' : 'linear-gradient(135deg, #22c55e, #16a34a)',
-                      color: loading || !answers[questions[currentQuestion].id] ? '#9ca3af' : 'white',
+                      background: loading || !answers[questions[currentQuestion]?.id] ? '#f3f4f6' : 'linear-gradient(135deg, #22c55e, #16a34a)',
+                      color: loading || !answers[questions[currentQuestion]?.id] ? '#9ca3af' : 'white',
                       border: 'none',
                       borderRadius: '25px',
-                      cursor: loading || !answers[questions[currentQuestion].id] ? 'not-allowed' : 'pointer',
+                      cursor: loading || !answers[questions[currentQuestion]?.id] ? 'not-allowed' : 'pointer',
                       fontSize: '1rem',
                       fontWeight: 600,
                       transition: 'all 0.3s ease',
-                      opacity: loading || !answers[questions[currentQuestion].id] ? 0.5 : 1,
-                      boxShadow: loading || !answers[questions[currentQuestion].id] ? 'none' : '0 10px 25px rgba(34, 197, 94, 0.4)'
+                      opacity: loading || !answers[questions[currentQuestion]?.id] ? 0.5 : 1,
+                      boxShadow: loading || !answers[questions[currentQuestion]?.id] ? 'none' : '0 10px 25px rgba(34, 197, 94, 0.4)'
                     }}
                   >
                     {loading ? 'Analisando...' : (currentQuestion === questions.length - 1 ? t('seeResults') : t('nextButton'))}

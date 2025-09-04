@@ -83,12 +83,14 @@ function ResultadosContent() {
         const answers = searchParams.get('answers')
         const comments = searchParams.get('comments')
         const lang = searchParams.get('language') || 'pt'
+        const userName = searchParams.get('userName') || ''
+        const userAge = searchParams.get('userAge') || ''
         setLanguage(lang)
         
         if (answers) {
           const parsedAnswers = JSON.parse(decodeURIComponent(answers))
           
-          // Chamar API de análise com idioma
+          // Chamar API de análise com idioma e dados pessoais
           const response = await fetch('/api/ai-analysis', {
             method: 'POST',
             headers: {
@@ -97,7 +99,9 @@ function ResultadosContent() {
             body: JSON.stringify({
               answers: parsedAnswers,
               comments: comments || '',
-              language: lang
+              language: lang,
+              userName: userName,
+              userAge: userAge
             })
           })
 
@@ -127,17 +131,27 @@ function ResultadosContent() {
   // Função para compartilhar com gatilho emocional
   const shareResults = () => {
     const url = 'https://meuportalfit.com/analise'
+    const userName = searchParams.get('userName') || ''
+    
     const text = language === 'pt' ? 
-      `🇧🇷 Ajude outros brasileiros nos EUA! Acabei de fazer uma avaliação gratuita de saúde personalizada que me ajudou muito. Compartilhe com seus amigos que também merecem cuidar da saúde sem gastar nada a mais: ${url}` :
+      userName ? 
+        `🇧🇷 ${userName} descobriu como melhorar sua saúde nos EUA! Acabei de fazer uma avaliação gratuita personalizada que me ajudou muito. Compartilhe com seus amigos que também merecem cuidar da saúde: ${url}` :
+        `🇧🇷 Ajude outros brasileiros nos EUA! Acabei de fazer uma avaliação gratuita de saúde personalizada que me ajudou muito. Compartilhe com seus amigos que também merecem cuidar da saúde sem gastar nada a mais: ${url}` :
       language === 'es' ?
-      `🇧🇷 ¡Ayuda a otros brasileños en USA! Acabo de hacer una evaluación gratuita de salud personalizada que me ayudó mucho. Compártelo con tus amigos que también merecen cuidar su salud sin gastar nada más: ${url}` :
-      `🇧🇷 Help other Brazilians in the USA! I just did a free personalized health assessment that helped me a lot. Share with your friends who also deserve to take care of their health without spending anything extra: ${url}`
+      userName ?
+        `🇧🇷 ¡${userName} descubrió cómo mejorar su salud en USA! Acabo de hacer una evaluación gratuita personalizada que me ayudó mucho. Compártelo con tus amigos que también merecen cuidar su salud: ${url}` :
+        `🇧🇷 ¡Ayuda a otros brasileños en USA! Acabo de hacer una evaluación gratuita de salud personalizada que me ayudó mucho. Compártelo con tus amigos que también merecen cuidar su salud sin gastar nada más: ${url}` :
+      userName ?
+        `🇧🇷 ${userName} discovered how to improve their health in the USA! I just did a free personalized assessment that helped me a lot. Share with your friends who also deserve to take care of their health: ${url}` :
+        `🇧🇷 Help other Brazilians in the USA! I just did a free personalized health assessment that helped me a lot. Share with your friends who also deserve to take care of their health without spending anything extra: ${url}`
     
     if (navigator.share) {
       navigator.share({
-        title: language === 'pt' ? 'Ajude Outros Brasileiros - Avaliação Gratuita' :
-               language === 'es' ? 'Ayuda a Otros Brasileños - Evaluación Gratuita' :
-               'Help Other Brazilians - Free Assessment',
+        title: language === 'pt' ? 
+               userName ? `${userName} - Avaliação Personalizada Gratuita` : 'Ajude Outros Brasileiros - Avaliação Gratuita' :
+               language === 'es' ? 
+               userName ? `${userName} - Evaluación Personalizada Gratuita` : 'Ayuda a Otros Brasileños - Evaluación Gratuita' :
+               userName ? `${userName} - Free Personalized Assessment` : 'Help Other Brazilians - Free Assessment',
         text: text,
         url: url
       })
@@ -639,11 +653,10 @@ function ResultadosContent() {
                 </div>
               )}
 
-              {/* Score de Bem-Estar Personalizado */}
+                            {/* Score de Bem-Estar Compacto */}
               {(() => {
                 const answers = searchParams.get('answers')
                 let score = 65 // Score base
-                let insights = []
                 
                 if (answers) {
                   try {
@@ -653,19 +666,15 @@ function ResultadosContent() {
                     // Calcular score baseado nas respostas
                     if (answersStr.includes('energia') || answersStr.includes('cansado')) {
                       score += 5
-                      insights.push('Energia baixa identificada')
                     }
                     if (answersStr.includes('sono') || answersStr.includes('insônia')) {
                       score += 8
-                      insights.push('Qualidade do sono precisa de atenção')
                     }
                     if (answersStr.includes('peso') || answersStr.includes('emagrecer')) {
                       score += 6
-                      insights.push('Metabolismo pode ser otimizado')
                     }
                     if (answersStr.includes('imunidade') || answersStr.includes('doente')) {
                       score += 7
-                      insights.push('Sistema imunológico precisa de suporte')
                     }
                     
                     // Ajustar score baseado na idade
@@ -686,75 +695,60 @@ function ResultadosContent() {
                 return (
                   <div style={{
                     backgroundColor: 'white',
-                    padding: '1.5rem',
-                    borderRadius: '16px',
-                    marginBottom: '1.5rem',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                    border: '2px solid #e0f2e9',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    marginBottom: '1rem',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+                    border: '1px solid #e0f2e9',
                     textAlign: 'center'
                   }}>
-                    <h3 style={{
-                      fontSize: '1.4rem',
-                      color: '#1e293b',
-                      marginBottom: '1rem',
-                      fontWeight: 'bold',
+                    <div style={{
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '0.5rem'
+                      gap: '1rem'
                     }}>
-                      <span style={{ fontSize: '1.6rem' }}>📊</span>
-                      Seu Score de Bem-Estar Atual
-                    </h3>
-                    
-                    <div style={{
-                      fontSize: '3rem',
-                      fontWeight: 'bold',
-                      color: score >= 80 ? '#059669' : score >= 60 ? '#f59e0b' : '#dc2626',
-                      marginBottom: '1rem'
-                    }}>
-                      {score}/100
-                    </div>
-                    
-                    <p style={{
-                      fontSize: '1rem',
-                      color: '#374151',
-                      marginBottom: '1rem'
-                    }}>
-                      {score >= 80 ? 'Excelente! Você está no caminho certo.' :
-                       score >= 60 ? 'Bom! Com pequenos ajustes você pode melhorar muito.' :
-                       'Vamos trabalhar juntos para melhorar seu bem-estar!'}
-                    </p>
-                    
-                    {insights.length > 0 && (
                       <div style={{
-                        backgroundColor: '#f8fafc',
-                        padding: '1rem',
-                        borderRadius: '12px',
-                        border: '2px solid #e0f2e9',
-                        fontSize: '0.9rem',
-                        color: '#64748b'
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '50%',
+                        background: 'conic-gradient(#22c55e 0deg, #22c55e 234deg, #e5e7eb 234deg, #e5e7eb 360deg)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative'
                       }}>
-                        <strong>Áreas identificadas para melhoria:</strong>
-                        <ul style={{ marginTop: '0.5rem', textAlign: 'left' }}>
-                          {insights.map((insight, index) => (
-                            <li key={index}>• {insight}</li>
-                          ))}
-                        </ul>
+                        <div style={{
+                          width: '50px',
+                          height: '50px',
+                          borderRadius: '50%',
+                          backgroundColor: 'white',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '1.2rem',
+                          fontWeight: 'bold',
+                          color: '#22c55e'
+                        }}>
+                          {score}
+                        </div>
                       </div>
-                    )}
-                    
-                    <div style={{
-                      backgroundColor: '#f0fdf4',
-                      padding: '1rem',
-                      borderRadius: '12px',
-                      border: '2px solid #bbf7d0',
-                      marginTop: '1rem',
-                      fontSize: '0.9rem',
-                      color: '#059669',
-                      fontStyle: 'italic'
-                    }}>
-                      💡 <strong>Meta:</strong> Nos próximos 30 dias, vamos trabalhar para elevar seu score para {Math.min(score + 15, 100)}/100!
+                      
+                      <div style={{ textAlign: 'left' }}>
+                        <div style={{
+                          fontSize: '1rem',
+                          fontWeight: 'bold',
+                          color: '#1e293b'
+                        }}>
+                          Score: {score}/100
+                        </div>
+                        <div style={{
+                          fontSize: '0.8rem',
+                          color: '#64748b'
+                        }}>
+                          +{100-score} pontos possíveis
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )
@@ -826,7 +820,20 @@ function ResultadosContent() {
                       lineHeight: '1.5',
                       fontStyle: 'italic'
                     }}>
-                      "A avaliação me ajudou a entender exatamente o que comprar na Amazon sem gastar à toa. Em 3 semanas, minha energia melhorou 80%!"
+                      {(() => {
+                        const answers = searchParams.get('answers')
+                        if (answers) {
+                          const answersStr = JSON.stringify(JSON.parse(decodeURIComponent(answers))).toLowerCase()
+                          if (answersStr.includes('energia') || answersStr.includes('cansado')) {
+                            return '"A avaliação me ajudou a entender exatamente o que comprar na Amazon sem gastar à toa. Em 3 semanas, minha energia melhorou 80%!"'
+                          } else if (answersStr.includes('sono') || answersStr.includes('insônia')) {
+                            return '"Finalmente consegui dormir melhor! Os produtos recomendados são perfeitos para o clima americano."'
+                          } else if (answersStr.includes('peso') || answersStr.includes('emagrecer')) {
+                            return '"Perdi 8kg em 2 meses seguindo as dicas da avaliação. Os suplementos são incríveis!"'
+                          }
+                        }
+                        return '"A avaliação me ajudou a entender exatamente o que comprar na Amazon sem gastar à toa. Em 3 semanas, minha energia melhorou 80%!"'
+                      })()}
                     </p>
                   </div>
                   
@@ -867,7 +874,20 @@ function ResultadosContent() {
                       lineHeight: '1.5',
                       fontStyle: 'italic'
                     }}>
-                      "Finalmente entendi o que meu corpo precisa aqui nos EUA. Os produtos recomendados são perfeitos para o clima e rotina americana."
+                      {(() => {
+                        const answers = searchParams.get('answers')
+                        if (answers) {
+                          const answersStr = JSON.stringify(JSON.parse(decodeURIComponent(answers))).toLowerCase()
+                          if (answersStr.includes('imunidade') || answersStr.includes('doente')) {
+                            return '"Não fico mais doente! Os suplementos de imunidade são perfeitos para o inverno americano."'
+                          } else if (answersStr.includes('estresse') || answersStr.includes('ansiedade')) {
+                            return '"Minha ansiedade diminuiu 70% com os adaptógenos recomendados. Valeu cada centavo!"'
+                          } else if (answersStr.includes('performance') || answersStr.includes('foco')) {
+                            return '"Meu foco melhorou demais! Os nootrópicos são exatamente o que eu precisava para o trabalho."'
+                          }
+                        }
+                        return '"Finalmente entendi o que meu corpo precisa aqui nos EUA. Os produtos recomendados são perfeitos para o clima e rotina americana."'
+                      })()}
                     </p>
                   </div>
                   
@@ -908,7 +928,20 @@ function ResultadosContent() {
                       lineHeight: '1.5',
                       fontStyle: 'italic'
                     }}>
-                      "A coach brasileira me deu dicas que só quem vive aqui entende. Valeu cada centavo dos $10!"
+                      {(() => {
+                        const answers = searchParams.get('answers')
+                        if (answers) {
+                          const answersStr = JSON.stringify(JSON.parse(decodeURIComponent(answers))).toLowerCase()
+                          if (answersStr.includes('menos de 1 ano') || answersStr.includes('recém')) {
+                            return '"A coach brasileira me ajudou a adaptar minha alimentação ao clima americano. Inestimável!"'
+                          } else if (answersStr.includes('5+ anos') || answersStr.includes('veterano')) {
+                            return '"Mesmo depois de 7 anos aqui, a coach me ensinou truques que eu não sabia. Fantástico!"'
+                          } else if (answersStr.includes('vida agitada') || answersStr.includes('muito trabalho')) {
+                            return '"A coach entende a rotina americana. Suas dicas práticas mudaram minha vida!"'
+                          }
+                        }
+                        return '"A coach brasileira me deu dicas que só quem vive aqui entende. Valeu cada centavo dos $10!"'
+                      })()}
                     </p>
                   </div>
                 </div>
@@ -1389,10 +1422,14 @@ function ResultadosContent() {
                     border: '2px solid #bbf7d0'
                   }}>
                     <div style={{
-                      fontSize: '2rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
                       marginBottom: '0.5rem'
-                    }}>🏆</div>
-                    <strong style={{ color: '#059669' }}>Marcas Premium</strong>
+                    }}>
+                      <span style={{ fontSize: '1.5rem' }}>🏆</span>
+                      <strong style={{ color: '#059669' }}>Marcas Premium</strong>
+                    </div>
                     <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
                       Marcas reconhecidas e confiáveis
                     </p>
@@ -1405,10 +1442,14 @@ function ResultadosContent() {
                     border: '2px solid #93c5fd'
                   }}>
                     <div style={{
-                      fontSize: '2rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
                       marginBottom: '0.5rem'
-                    }}>🔬</div>
-                    <strong style={{ color: '#1d4ed8' }}>Backing Científico</strong>
+                    }}>
+                      <span style={{ fontSize: '1.5rem' }}>🔬</span>
+                      <strong style={{ color: '#1d4ed8' }}>Backing Científico</strong>
+                    </div>
                     <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
                       Formas biodisponíveis e testadas
                     </p>
@@ -1421,10 +1462,14 @@ function ResultadosContent() {
                     border: '2px solid #f59e0b'
                   }}>
                     <div style={{
-                      fontSize: '2rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
                       marginBottom: '0.5rem'
-                    }}>✅</div>
-                    <strong style={{ color: '#92400e' }}>Certificações</strong>
+                    }}>
+                      <span style={{ fontSize: '1.5rem' }}>✅</span>
+                      <strong style={{ color: '#92400e' }}>Certificações</strong>
+                    </div>
                     <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
                       Non-GMO, Gluten Free, Third Party Tested
                     </p>
@@ -1437,10 +1482,14 @@ function ResultadosContent() {
                     border: '2px solid #ec4899'
                   }}>
                     <div style={{
-                      fontSize: '2rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
                       marginBottom: '0.5rem'
-                    }}>🎯</div>
-                    <strong style={{ color: '#be185d' }}>Personalização</strong>
+                    }}>
+                      <span style={{ fontSize: '1.5rem' }}>🎯</span>
+                      <strong style={{ color: '#be185d' }}>Personalização</strong>
+                    </div>
                     <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
                       Baseado nas suas necessidades específicas
                     </p>
@@ -1786,71 +1835,189 @@ function ResultadosContent() {
                   </div>
                 )}
 
-                {/* Oferta Exclusiva - Próximo Passo Irresistível */}
+                {/* Próximo Passo - Ofertas de Coaching */}
                 <div style={{
                   backgroundColor: '#f0fdf4',
-                  padding: '1.5rem',
+                  padding: '2rem',
                   borderRadius: '16px',
                   border: '3px solid #bbf7d0',
                   marginBottom: '1.5rem',
                   textAlign: 'center'
                 }}>
                   <h4 style={{
-                    fontSize: '1.2rem',
+                    fontSize: '1.4rem',
                     color: '#059669',
-                    marginBottom: '1rem',
+                    marginBottom: '1.5rem',
                     fontWeight: 'bold',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '0.5rem'
                   }}>
-                    <span style={{ fontSize: '1.4rem' }}>🎁</span>
-                    Oferta Exclusiva por 24h
+                    <span style={{ fontSize: '1.6rem' }}>🎯</span>
+                    Próximo Passo: Acompanhamento Personalizado
                   </h4>
                   
-                  <p style={{
-                    fontSize: '1rem',
-                    color: '#374151',
-                    lineHeight: '1.6',
-                    marginBottom: '1rem'
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: '1.5rem',
+                    marginBottom: '2rem'
                   }}>
-                    <strong>Receba GRATUITAMENTE:</strong> Guia PDF com "Jejum Intermitente para Brasileiros nos EUA"
-                  </p>
+                    {/* Opção 1: Coach Brasileira */}
+                    <div style={{
+                      backgroundColor: 'white',
+                      padding: '1.5rem',
+                      borderRadius: '12px',
+                      border: '2px solid #bbf7d0',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{
+                        fontSize: '2rem',
+                        marginBottom: '1rem'
+                      }}>👩‍⚕️</div>
+                      <h5 style={{
+                        fontSize: '1.2rem',
+                        color: '#1e293b',
+                        marginBottom: '0.5rem',
+                        fontWeight: 'bold'
+                      }}>
+                        Coach Brasileira de Bem-estar
+                      </h5>
+                      <p style={{
+                        fontSize: '0.9rem',
+                        color: '#64748b',
+                        marginBottom: '1rem',
+                        lineHeight: '1.5'
+                      }}>
+                        Avaliação personalizada de 30 minutos por vídeo com coach brasileira especializada em qualidade de vida
+                      </p>
+                      <div style={{
+                        backgroundColor: '#f0fdf4',
+                        padding: '0.8rem',
+                        borderRadius: '8px',
+                        marginBottom: '1rem',
+                        fontSize: '0.9rem',
+                        color: '#059669'
+                      }}>
+                        <strong>De $37 por apenas $10</strong><br/>
+                        <span style={{ fontSize: '0.8rem' }}>Oferta exclusiva por 24h</span>
+                      </div>
+                      <button onClick={() => openWhatsApp('Olá! Quero agendar minha avaliação personalizada de 30 minutos com a coach brasileira por $10.')} style={{
+                        width: '100%',
+                        padding: '0.8rem',
+                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                      }}>
+                        💬 Agendar com Coach
+                      </button>
+                    </div>
+                    
+                    {/* Opção 2: Plano Completo IA */}
+                    <div style={{
+                      backgroundColor: 'white',
+                      padding: '1.5rem',
+                      borderRadius: '12px',
+                      border: '2px solid #3b82f6',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{
+                        fontSize: '2rem',
+                        marginBottom: '1rem'
+                      }}>🤖</div>
+                      <h5 style={{
+                        fontSize: '1.2rem',
+                        color: '#1e293b',
+                        marginBottom: '0.5rem',
+                        fontWeight: 'bold'
+                      }}>
+                        Plano Completo por IA
+                      </h5>
+                      <p style={{
+                        fontSize: '0.9rem',
+                        color: '#64748b',
+                        marginBottom: '1rem',
+                        lineHeight: '1.5'
+                      }}>
+                        Plano detalhado de 30 dias com dicas de alimentação baseadas em ciência e cronograma personalizado
+                      </p>
+                      <div style={{
+                        backgroundColor: '#eff6ff',
+                        padding: '0.8rem',
+                        borderRadius: '8px',
+                        marginBottom: '1rem',
+                        fontSize: '0.9rem',
+                        color: '#1d4ed8'
+                      }}>
+                        <strong>De $37 por apenas $10</strong><br/>
+                        <span style={{ fontSize: '0.8rem' }}>Oferta exclusiva por 24h</span>
+                      </div>
+                      <button onClick={() => openWhatsApp('Olá! Quero receber meu plano completo de 30 dias personalizado por inteligência artificial por $10.')} style={{
+                        width: '100%',
+                        padding: '0.8rem',
+                        background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '0.9rem',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                      }}>
+                        📋 Receber Plano IA
+                      </button>
+                    </div>
+                  </div>
                   
+                  {/* Oferta Gratuita */}
                   <div style={{
                     backgroundColor: 'white',
                     padding: '1rem',
                     borderRadius: '12px',
-                    border: '2px solid #bbf7d0',
-                    marginBottom: '1rem',
-                    fontSize: '0.9rem',
-                    color: '#64748b'
+                    border: '2px solid #f59e0b',
+                    marginBottom: '1rem'
                   }}>
-                    📋 <strong>O que você recebe:</strong><br/>
-                    • Guia completo de jejum intermitente adaptado para brasileiros<br/>
-                    • Protocolos específicos para diferentes objetivos (energia, peso, saúde)<br/>
-                    • Receitas para quebrar o jejum de forma saudável<br/>
-                    • Cronograma de 30 dias para implementar o jejum intermitente
+                    <h5 style={{
+                      fontSize: '1.1rem',
+                      color: '#92400e',
+                      marginBottom: '0.5rem',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem'
+                    }}>
+                      <span style={{ fontSize: '1.3rem' }}>🎁</span>
+                      Bônus Gratuito
+                    </h5>
+                    <p style={{
+                      fontSize: '0.9rem',
+                      color: '#374151',
+                      marginBottom: '0.5rem'
+                    }}>
+                      <strong>Guia "Jejum Intermitente para Brasileiros nos EUA"</strong>
+                    </p>
+                    <p style={{
+                      fontSize: '0.8rem',
+                      color: '#64748b'
+                    }}>
+                      Protocolos específicos, receitas e cronograma de 30 dias
+                    </p>
                   </div>
                   
-                  <button onClick={() => openWhatsApp('Olá! Acabei de fazer minha avaliação personalizada no MeuPortalFit e quero receber o guia gratuito de jejum intermitente para brasileiros nos EUA.')} style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '1rem 2rem',
-                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '25px',
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    margin: '0 auto'
+                  <p style={{
+                    fontSize: '0.9rem',
+                    color: '#64748b',
+                    fontStyle: 'italic'
                   }}>
-                    🎁 Receber Guia Gratuito
-                  </button>
+                    💡 <strong>Escolha sua opção:</strong> Acompanhamento humano personalizado ou plano detalhado por IA
+                  </p>
                 </div>
 
                 <div style={{

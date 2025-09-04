@@ -8,6 +8,7 @@ export default function Footer() {
       title: 'Navegação',
       links: [
         { name: '🏠 Início', href: '/' },
+        { name: '🔍 Busca Inteligente', href: '/amazon' },
         { name: '🧠 Avaliação IA', href: '/analise' },
         { name: '🛍️ Produtos por Área', href: '/produtos' },
         { name: '💬 Suporte', href: '/suporte' },

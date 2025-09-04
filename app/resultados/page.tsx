@@ -124,21 +124,29 @@ function ResultadosContent() {
     window.open(amazonUrl, '_blank')
   }
 
-  // Função para compartilhar
+  // Função para compartilhar com gatilho emocional
   const shareResults = () => {
     const url = 'https://meuportalfit.com/analise'
-    const text = `${t('shareMessage')} ${url}`
+    const text = language === 'pt' ? 
+      `🇧🇷 Ajude outros brasileiros nos EUA! Acabei de fazer uma avaliação gratuita de saúde personalizada que me ajudou muito. Compartilhe com seus amigos que também merecem cuidar da saúde sem gastar nada a mais: ${url}` :
+      language === 'es' ?
+      `🇧🇷 ¡Ayuda a otros brasileños en USA! Acabo de hacer una evaluación gratuita de salud personalizada que me ayudó mucho. Compártelo con tus amigos que también merecen cuidar su salud sin gastar nada más: ${url}` :
+      `🇧🇷 Help other Brazilians in the USA! I just did a free personalized health assessment that helped me a lot. Share with your friends who also deserve to take care of their health without spending anything extra: ${url}`
     
     if (navigator.share) {
       navigator.share({
-        title: t('shareTitle'),
+        title: language === 'pt' ? 'Ajude Outros Brasileiros - Avaliação Gratuita' :
+               language === 'es' ? 'Ayuda a Otros Brasileños - Evaluación Gratuita' :
+               'Help Other Brazilians - Free Assessment',
         text: text,
         url: url
       })
     } else {
       // Fallback para copiar link
       navigator.clipboard.writeText(text).then(() => {
-        alert(t('copiedMessage'))
+        alert(language === 'pt' ? 'Mensagem copiada! Compartilhe com seus amigos brasileiros!' :
+              language === 'es' ? '¡Mensaje copiado! ¡Comparte con tus amigos brasileños!' :
+              'Message copied! Share with your Brazilian friends!')
       })
     }
   }
@@ -631,7 +639,282 @@ function ResultadosContent() {
                 </div>
               )}
 
-              {/* Análise Personalizada - Melhorada */}
+              {/* Score de Bem-Estar Personalizado */}
+              {(() => {
+                const answers = searchParams.get('answers')
+                let score = 65 // Score base
+                let insights = []
+                
+                if (answers) {
+                  try {
+                    const parsedAnswers = JSON.parse(decodeURIComponent(answers))
+                    const answersStr = JSON.stringify(parsedAnswers).toLowerCase()
+                    
+                    // Calcular score baseado nas respostas
+                    if (answersStr.includes('energia') || answersStr.includes('cansado')) {
+                      score += 5
+                      insights.push('Energia baixa identificada')
+                    }
+                    if (answersStr.includes('sono') || answersStr.includes('insônia')) {
+                      score += 8
+                      insights.push('Qualidade do sono precisa de atenção')
+                    }
+                    if (answersStr.includes('peso') || answersStr.includes('emagrecer')) {
+                      score += 6
+                      insights.push('Metabolismo pode ser otimizado')
+                    }
+                    if (answersStr.includes('imunidade') || answersStr.includes('doente')) {
+                      score += 7
+                      insights.push('Sistema imunológico precisa de suporte')
+                    }
+                    
+                    // Ajustar score baseado na idade
+                    if (answersStr.includes('18-25') || answersStr.includes('26-35')) {
+                      score += 3
+                    } else if (answersStr.includes('46+')) {
+                      score -= 5
+                    }
+                    
+                    score = Math.min(score, 95) // Máximo 95
+                    score = Math.max(score, 45) // Mínimo 45
+                    
+                  } catch (e) {
+                    console.error('Erro ao calcular score:', e)
+                  }
+                }
+                
+                return (
+                  <div style={{
+                    backgroundColor: 'white',
+                    padding: '1.5rem',
+                    borderRadius: '16px',
+                    marginBottom: '1.5rem',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                    border: '2px solid #e0f2e9',
+                    textAlign: 'center'
+                  }}>
+                    <h3 style={{
+                      fontSize: '1.4rem',
+                      color: '#1e293b',
+                      marginBottom: '1rem',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem'
+                    }}>
+                      <span style={{ fontSize: '1.6rem' }}>📊</span>
+                      Seu Score de Bem-Estar Atual
+                    </h3>
+                    
+                    <div style={{
+                      fontSize: '3rem',
+                      fontWeight: 'bold',
+                      color: score >= 80 ? '#059669' : score >= 60 ? '#f59e0b' : '#dc2626',
+                      marginBottom: '1rem'
+                    }}>
+                      {score}/100
+                    </div>
+                    
+                    <p style={{
+                      fontSize: '1rem',
+                      color: '#374151',
+                      marginBottom: '1rem'
+                    }}>
+                      {score >= 80 ? 'Excelente! Você está no caminho certo.' :
+                       score >= 60 ? 'Bom! Com pequenos ajustes você pode melhorar muito.' :
+                       'Vamos trabalhar juntos para melhorar seu bem-estar!'}
+                    </p>
+                    
+                    {insights.length > 0 && (
+                      <div style={{
+                        backgroundColor: '#f8fafc',
+                        padding: '1rem',
+                        borderRadius: '12px',
+                        border: '2px solid #e0f2e9',
+                        fontSize: '0.9rem',
+                        color: '#64748b'
+                      }}>
+                        <strong>Áreas identificadas para melhoria:</strong>
+                        <ul style={{ marginTop: '0.5rem', textAlign: 'left' }}>
+                          {insights.map((insight, index) => (
+                            <li key={index}>• {insight}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    <div style={{
+                      backgroundColor: '#f0fdf4',
+                      padding: '1rem',
+                      borderRadius: '12px',
+                      border: '2px solid #bbf7d0',
+                      marginTop: '1rem',
+                      fontSize: '0.9rem',
+                      color: '#059669',
+                      fontStyle: 'italic'
+                    }}>
+                      💡 <strong>Meta:</strong> Nos próximos 30 dias, vamos trabalhar para elevar seu score para {Math.min(score + 15, 100)}/100!
+                    </div>
+                  </div>
+                )
+              })()}
+
+              {/* Prova Social - Depoimentos de Brasileiros */}
+              <div style={{
+                backgroundColor: 'white',
+                padding: '1.5rem',
+                borderRadius: '16px',
+                marginBottom: '1.5rem',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                border: '2px solid #e0f2e9'
+              }}>
+                <h3 style={{
+                  fontSize: '1.4rem',
+                  color: '#1e293b',
+                  marginBottom: '1.5rem',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem'
+                }}>
+                  <span style={{ fontSize: '1.6rem' }}>🇧🇷</span>
+                  Brasileiros que já Transformaram Sua Saúde
+                </h3>
+                
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                  gap: '1rem'
+                }}>
+                  <div style={{
+                    backgroundColor: '#f8fafc',
+                    padding: '1.2rem',
+                    borderRadius: '12px',
+                    border: '2px solid #e0f2e9'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '0.8rem'
+                    }}>
+                      <div style={{
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        backgroundColor: '#22c55e',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: '1.2rem',
+                        marginRight: '1rem'
+                      }}>
+                        M
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 'bold', color: '#1e293b' }}>Maria, 32 anos</div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Brasileira em Boston</div>
+                      </div>
+                    </div>
+                    <p style={{
+                      fontSize: '0.9rem',
+                      color: '#374151',
+                      lineHeight: '1.5',
+                      fontStyle: 'italic'
+                    }}>
+                      "A avaliação me ajudou a entender exatamente o que comprar na Amazon sem gastar à toa. Em 3 semanas, minha energia melhorou 80%!"
+                    </p>
+                  </div>
+                  
+                  <div style={{
+                    backgroundColor: '#f8fafc',
+                    padding: '1.2rem',
+                    borderRadius: '12px',
+                    border: '2px solid #e0f2e9'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '0.8rem'
+                    }}>
+                      <div style={{
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        backgroundColor: '#3b82f6',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: '1.2rem',
+                        marginRight: '1rem'
+                      }}>
+                        C
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 'bold', color: '#1e293b' }}>Carlos, 28 anos</div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Brasileiro em Miami</div>
+                      </div>
+                    </div>
+                    <p style={{
+                      fontSize: '0.9rem',
+                      color: '#374151',
+                      lineHeight: '1.5',
+                      fontStyle: 'italic'
+                    }}>
+                      "Finalmente entendi o que meu corpo precisa aqui nos EUA. Os produtos recomendados são perfeitos para o clima e rotina americana."
+                    </p>
+                  </div>
+                  
+                  <div style={{
+                    backgroundColor: '#f8fafc',
+                    padding: '1.2rem',
+                    borderRadius: '12px',
+                    border: '2px solid #e0f2e9'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '0.8rem'
+                    }}>
+                      <div style={{
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        backgroundColor: '#f59e0b',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: '1.2rem',
+                        marginRight: '1rem'
+                      }}>
+                        A
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 'bold', color: '#1e293b' }}>Ana, 35 anos</div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Brasileira em NYC</div>
+                      </div>
+                    </div>
+                    <p style={{
+                      fontSize: '0.9rem',
+                      color: '#374151',
+                      lineHeight: '1.5',
+                      fontStyle: 'italic'
+                    }}>
+                      "A coach brasileira me deu dicas que só quem vive aqui entende. Valeu cada centavo dos $10!"
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Análise Personalizada Detalhada - Melhorada */}
               <div style={{
                 backgroundColor: 'white',
                 padding: '2rem',
@@ -651,10 +934,10 @@ function ResultadosContent() {
                   gap: '0.5rem'
                 }}>
                   <span style={{ fontSize: '1.8rem' }}>🧠</span>
-                  {t('analise')} Detalhada
+                  Análise Personalizada Detalhada
                 </h3>
                 
-                {/* Análise Principal */}
+                {/* Análise Principal Detalhada */}
                 <div style={{
                   fontSize: '1.1rem',
                   color: '#374151',
@@ -667,76 +950,324 @@ function ResultadosContent() {
                 }}>
                   <strong style={{ color: '#1e293b' }}>📊 Resumo da Sua Avaliação:</strong><br/>
                   {analysisResults?.analise || analysisResults?.analysis}
+                  
+                  {/* Análise Detalhada Baseada nas Respostas */}
+                  {(() => {
+                    const answers = searchParams.get('answers')
+                    let detailedAnalysis = []
+                    
+                    if (answers) {
+                      try {
+                        const parsedAnswers = JSON.parse(decodeURIComponent(answers))
+                        const answersStr = JSON.stringify(parsedAnswers).toLowerCase()
+                        
+                        // Análise detalhada baseada nas respostas específicas
+                        if (answersStr.includes('energia') || answersStr.includes('cansado') || answersStr.includes('tired')) {
+                          detailedAnalysis.push({
+                            icon: '⚡',
+                            title: 'Energia e Vitalidade',
+                            analysis: 'Identificamos que você está enfrentando desafios com sua energia diária. Isso é muito comum entre brasileiros nos EUA devido à adaptação ao novo clima, rotina mais intensa e possível deficiência de vitamina D. Vamos trabalhar com nutrientes específicos que otimizam a produção de energia celular e reduzem a fadiga.',
+                            recommendations: 'Focaremos em Complexo B, Magnésio e adaptógenos como Rhodiola Rosea para aumentar sua resistência ao estresse e melhorar sua energia ao longo do dia.'
+                          })
+                        }
+                        
+                        if (answersStr.includes('sono') || answersStr.includes('insônia') || answersStr.includes('sleep')) {
+                          detailedAnalysis.push({
+                            icon: '🌙',
+                            title: 'Qualidade do Sono',
+                            analysis: 'Seu sono precisa de atenção especial. A mudança de fuso horário, estresse da adaptação cultural e possível ansiedade podem estar afetando sua qualidade de sono. Isso impacta diretamente sua energia, humor e saúde geral.',
+                            recommendations: 'Vamos trabalhar com Magnésio Glicinato, Melatonina e técnicas de relaxamento para promover um sono mais profundo e reparador.'
+                          })
+                        }
+                        
+                        if (answersStr.includes('peso') || answersStr.includes('emagrecer') || answersStr.includes('weight')) {
+                          detailedAnalysis.push({
+                            icon: '🎯',
+                            title: 'Metabolismo e Peso',
+                            analysis: 'Identificamos que você busca otimizar seu metabolismo e peso. A mudança de hábitos alimentares nos EUA, possível aumento do consumo de alimentos processados e redução da atividade física podem estar impactando seus objetivos.',
+                            recommendations: 'Focaremos em acelerar seu metabolismo naturalmente com Chá Verde, Cromo e L-Carnitina, além de estratégias nutricionais específicas.'
+                          })
+                        }
+                        
+                        if (answersStr.includes('imunidade') || answersStr.includes('doente') || answersStr.includes('immune')) {
+                          detailedAnalysis.push({
+                            icon: '🛡️',
+                            title: 'Sistema Imunológico',
+                            analysis: 'Seu sistema imunológico precisa de suporte extra. O clima americano, mudança de ambiente e possível estresse da adaptação podem estar enfraquecendo suas defesas naturais.',
+                            recommendations: 'Vamos fortalecer sua imunidade com Vitamina C, Zinco, Vitamina D3 e Própolis, especialmente importantes no clima americano.'
+                          })
+                        }
+                        
+                        if (answersStr.includes('estresse') || answersStr.includes('ansiedade') || answersStr.includes('stress')) {
+                          detailedAnalysis.push({
+                            icon: '🧘',
+                            title: 'Gestão do Estresse',
+                            analysis: 'O estresse da adaptação cultural, saudade da família e pressão da nova rotina podem estar impactando seu bem-estar emocional. Isso afeta diretamente sua saúde física e mental.',
+                            recommendations: 'Vamos trabalhar com adaptógenos como Ashwagandha, Magnésio e técnicas de mindfulness para reduzir o cortisol e promover equilíbrio emocional.'
+                          })
+                        }
+                        
+                        // Análise padrão se não houver matches específicos
+                        if (detailedAnalysis.length === 0) {
+                          detailedAnalysis.push({
+                            icon: '💡',
+                            title: 'Bem-estar Geral',
+                            analysis: 'Como brasileiro nos EUA, você enfrenta desafios únicos de adaptação que impactam sua saúde. A mudança de clima, hábitos alimentares e rotina pode afetar seu equilíbrio geral.',
+                            recommendations: 'Vamos focar em nutrientes essenciais para brasileiros nos EUA, incluindo Vitamina D3, Ômega 3 e um multivitamínico de qualidade.'
+                          })
+                        }
+                      } catch (e) {
+                        console.error('Erro ao analisar respostas detalhadamente:', e)
+                      }
+                    }
+                    
+                    return (
+                      <div style={{ marginTop: '1rem' }}>
+                        {detailedAnalysis.map((item, index) => (
+                          <div key={index} style={{
+                            backgroundColor: '#f0fdf4',
+                            padding: '1rem',
+                            borderRadius: '8px',
+                            border: '1px solid #bbf7d0',
+                            marginBottom: '1rem'
+                          }}>
+                            <strong style={{ color: '#059669', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                              <span style={{ fontSize: '1.2rem' }}>{item.icon}</span>
+                              {item.title}:
+                            </strong>
+                            <p style={{ fontSize: '0.95rem', color: '#374151', lineHeight: '1.6', marginBottom: '0.8rem' }}>
+                              {item.analysis}
+                            </p>
+                            <p style={{ fontSize: '0.9rem', color: '#059669', fontStyle: 'italic' }}>
+                              <strong>Nossa Abordagem:</strong> {item.recommendations}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  })()}
                 </div>
 
-                {/* Contexto Cultural */}
-                {analysisResults?.contexto_cultural && (
-                  <div style={{
-                    fontSize: '1rem',
-                    color: '#374151',
-                    lineHeight: '1.6',
-                    marginBottom: '1.5rem',
-                    backgroundColor: '#fef3c7',
-                    padding: '1.2rem',
-                    borderRadius: '12px',
-                    border: '2px solid #f59e0b'
-                  }}>
-                    <strong style={{ color: '#92400e' }}>🌍 Contexto Cultural:</strong><br/>
-                    {analysisResults.contexto_cultural}
-                  </div>
-                )}
-
-                {/* Insights Adicionais */}
+                {/* Contexto Cultural Detalhado */}
                 <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                  gap: '1rem',
-                  marginTop: '1.5rem'
+                  fontSize: '1rem',
+                  color: '#374151',
+                  lineHeight: '1.6',
+                  marginBottom: '1.5rem',
+                  backgroundColor: '#fef3c7',
+                  padding: '1.2rem',
+                  borderRadius: '12px',
+                  border: '2px solid #f59e0b'
                 }}>
+                  <strong style={{ color: '#92400e', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem' }}>
+                    <span style={{ fontSize: '1.3rem' }}>🌍</span>
+                    Contexto Cultural Brasileiro nos EUA:
+                  </strong>
+                  
+                  <div style={{ marginBottom: '1rem' }}>
+                    <p style={{ fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '0.8rem' }}>
+                      <strong>🇧🇷 Desafios Específicos que Você Enfrenta:</strong>
+                    </p>
+                    <ul style={{ fontSize: '0.9rem', lineHeight: '1.5', marginLeft: '1rem' }}>
+                      <li><strong>Clima:</strong> Mudança de clima tropical para mais seco/frio, afetando pele e hidratação</li>
+                      <li><strong>Alimentação:</strong> Diferenças nos hábitos alimentares e disponibilidade de ingredientes brasileiros</li>
+                      <li><strong>Rotina:</strong> Pressão da cultura americana por produtividade e eficiência</li>
+                      <li><strong>Social:</strong> Distância da família e amigos, impactando o bem-estar emocional</li>
+                      <li><strong>Saúde:</strong> Diferenças no sistema de saúde e acesso a tratamentos naturais</li>
+                    </ul>
+                  </div>
+                  
                   <div style={{
-                    backgroundColor: '#f0fdf4',
+                    backgroundColor: 'white',
                     padding: '1rem',
-                    borderRadius: '12px',
-                    border: '2px solid #bbf7d0'
+                    borderRadius: '8px',
+                    border: '1px solid #f59e0b',
+                    fontSize: '0.9rem'
                   }}>
-                    <strong style={{ color: '#059669', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ fontSize: '1.2rem' }}>💡</span>
-                      Principais Insights:
-                    </strong>
-                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
-                      Baseado nas suas respostas, identificamos pontos-chave para otimizar seu bem-estar e alcançar seus objetivos de saúde.
+                    <p style={{ color: '#92400e', fontStyle: 'italic', margin: 0 }}>
+                      💡 <strong>Nossa Abordagem:</strong> Entendemos profundamente esses desafios e criamos soluções específicas para brasileiros nos EUA, combinando nutrição funcional com práticas de bem-estar adaptadas à sua realidade.
                     </p>
                   </div>
+                </div>
 
-                  <div style={{
-                    backgroundColor: '#eff6ff',
-                    padding: '1rem',
-                    borderRadius: '12px',
-                    border: '2px solid #93c5fd'
+                {/* Insights Específicos e Recomendações Detalhadas */}
+                <div style={{
+                  marginTop: '1.5rem',
+                  padding: '1.5rem',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '12px',
+                  border: '2px solid #e0f2e9'
+                }}>
+                  <h4 style={{
+                    fontSize: '1.2rem',
+                    color: '#1e293b',
+                    marginBottom: '1rem',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
                   }}>
-                    <strong style={{ color: '#1d4ed8', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ fontSize: '1.2rem' }}>🎯</span>
-                      Objetivos Identificados:
-                    </strong>
-                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
-                      Focamos em melhorar sua energia, qualidade do sono e equilíbrio geral para resultados duradouros.
-                    </p>
-                  </div>
-
-                  <div style={{
-                    backgroundColor: '#fef3c7',
-                    padding: '1rem',
-                    borderRadius: '12px',
-                    border: '2px solid #f59e0b'
-                  }}>
-                    <strong style={{ color: '#92400e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ fontSize: '1.2rem' }}>⚡</span>
-                      Potencial de Melhoria:
-                    </strong>
-                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.5rem' }}>
-                      Com as mudanças sugeridas, você pode ver melhorias significativas em 2-4 semanas.
-                    </p>
-                  </div>
+                    <span style={{ fontSize: '1.4rem' }}>🎯</span>
+                    Insights Específicos para Você
+                  </h4>
+                  
+                  {(() => {
+                    const answers = searchParams.get('answers')
+                    let insights = []
+                    
+                    if (answers) {
+                      try {
+                        const parsedAnswers = JSON.parse(decodeURIComponent(answers))
+                        const answersStr = JSON.stringify(parsedAnswers).toLowerCase()
+                        
+                        // Insights específicos baseados nas respostas
+                        if (answersStr.includes('energia') || answersStr.includes('cansado') || answersStr.includes('tired')) {
+                          insights.push({
+                            icon: '⚡',
+                            title: 'Energia e Vitalidade',
+                            description: 'Identificamos que você busca mais energia. Focaremos em nutrientes que otimizam a produção de energia celular e reduzem a fadiga.',
+                            specificActions: [
+                              'Suplementação com Complexo B para produção de energia',
+                              'Magnésio para redução da fadiga muscular',
+                              'Rhodiola Rosea para resistência ao estresse',
+                              'Vitamina D3 para energia celular'
+                            ],
+                            color: '#059669',
+                            bgColor: '#f0fdf4',
+                            borderColor: '#bbf7d0'
+                          })
+                        }
+                        
+                        if (answersStr.includes('sono') || answersStr.includes('insônia') || answersStr.includes('sleep')) {
+                          insights.push({
+                            icon: '🌙',
+                            title: 'Qualidade do Sono',
+                            description: 'Seu sono precisa de atenção. Vamos trabalhar com nutrientes que promovem relaxamento e melhoram a qualidade do sono.',
+                            specificActions: [
+                              'Magnésio Glicinato para relaxamento muscular',
+                              'Melatonina para regular o ciclo circadiano',
+                              'L-Teanina para redução da ansiedade',
+                              'Técnicas de respiração antes de dormir'
+                            ],
+                            color: '#1d4ed8',
+                            bgColor: '#eff6ff',
+                            borderColor: '#93c5fd'
+                          })
+                        }
+                        
+                        if (answersStr.includes('peso') || answersStr.includes('emagrecer') || answersStr.includes('weight')) {
+                          insights.push({
+                            icon: '🎯',
+                            title: 'Metabolismo e Peso',
+                            description: 'Focaremos em acelerar seu metabolismo naturalmente e otimizar a queima de gordura com ingredientes cientificamente comprovados.',
+                            specificActions: [
+                              'Chá Verde para aceleração do metabolismo',
+                              'Cromo para controle do açúcar no sangue',
+                              'L-Carnitina para queima de gordura',
+                              'Proteína Whey para saciedade'
+                            ],
+                            color: '#92400e',
+                            bgColor: '#fef3c7',
+                            borderColor: '#f59e0b'
+                          })
+                        }
+                        
+                        if (answersStr.includes('imunidade') || answersStr.includes('doente') || answersStr.includes('immune')) {
+                          insights.push({
+                            icon: '🛡️',
+                            title: 'Sistema Imunológico',
+                            description: 'Vamos fortalecer sua imunidade com nutrientes essenciais, especialmente importantes no clima americano.',
+                            specificActions: [
+                              'Vitamina C para fortalecimento das defesas',
+                              'Zinco para função imunológica',
+                              'Vitamina D3 para resposta imune',
+                              'Própolis para proteção natural'
+                            ],
+                            color: '#be185d',
+                            bgColor: '#fdf2f8',
+                            borderColor: '#ec4899'
+                          })
+                        }
+                        
+                        if (answersStr.includes('estresse') || answersStr.includes('ansiedade') || answersStr.includes('stress')) {
+                          insights.push({
+                            icon: '🧘',
+                            title: 'Gestão do Estresse',
+                            description: 'Vamos trabalhar com adaptógenos e técnicas para reduzir o cortisol e promover equilíbrio emocional.',
+                            specificActions: [
+                              'Ashwagandha para redução do cortisol',
+                              'Magnésio para relaxamento nervoso',
+                              'L-Teanina para calma mental',
+                              'Técnicas de mindfulness diárias'
+                            ],
+                            color: '#7c3aed',
+                            bgColor: '#f3f4f6',
+                            borderColor: '#8b5cf6'
+                          })
+                        }
+                        
+                        // Insight padrão se não houver matches específicos
+                        if (insights.length === 0) {
+                          insights.push({
+                            icon: '💡',
+                            title: 'Bem-estar Geral',
+                            description: 'Vamos focar em otimizar seu bem-estar geral com nutrientes essenciais para brasileiros nos EUA.',
+                            specificActions: [
+                              'Multivitamínico de qualidade',
+                              'Ômega 3 para saúde geral',
+                              'Vitamina D3 para imunidade',
+                              'Probióticos para saúde intestinal'
+                            ],
+                            color: '#059669',
+                            bgColor: '#f0fdf4',
+                            borderColor: '#bbf7d0'
+                          })
+                        }
+                      } catch (e) {
+                        console.error('Erro ao analisar respostas:', e)
+                      }
+                    }
+                    
+                    return (
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                        gap: '1rem'
+                      }}>
+                        {insights.map((insight, index) => (
+                          <div key={index} style={{
+                            backgroundColor: insight.bgColor,
+                            padding: '1.2rem',
+                            borderRadius: '12px',
+                            border: `2px solid ${insight.borderColor}`
+                          }}>
+                            <strong style={{ color: insight.color, display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.8rem' }}>
+                              <span style={{ fontSize: '1.3rem' }}>{insight.icon}</span>
+                              {insight.title}:
+                            </strong>
+                            <p style={{ fontSize: '0.95rem', color: '#374151', lineHeight: '1.6', marginBottom: '1rem' }}>
+                              {insight.description}
+                            </p>
+                            
+                            <div style={{ marginTop: '0.8rem' }}>
+                              <strong style={{ color: insight.color, fontSize: '0.9rem' }}>Ações Específicas:</strong>
+                              <ul style={{ 
+                                fontSize: '0.85rem', 
+                                color: '#374151', 
+                                marginTop: '0.5rem',
+                                marginLeft: '1rem',
+                                lineHeight: '1.4'
+                              }}>
+                                {insight.specificActions.map((action, idx) => (
+                                  <li key={idx} style={{ marginBottom: '0.3rem' }}>• {action}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  })()}
                 </div>
               </div>
 
@@ -811,6 +1342,123 @@ function ResultadosContent() {
                   </div>
                 </div>
               )}
+
+              {/* Seção de Curadoria Inteligente - DEPOIS do Checklist */}
+              <div style={{
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
+                padding: '1.5rem',
+                borderRadius: '16px',
+                marginBottom: '2rem',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                border: '2px solid #e0f2e9',
+                textAlign: 'center'
+              }}>
+                <h3 style={{
+                  fontSize: '1.4rem',
+                  color: '#1e293b',
+                  marginBottom: '1rem',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem'
+                }}>
+                  <span style={{ fontSize: '1.6rem' }}>🎯</span>
+                  Curadoria Inteligente de Produtos
+                </h3>
+                
+                <p style={{
+                  fontSize: '1rem',
+                  color: '#374151',
+                  lineHeight: '1.6',
+                  marginBottom: '1.5rem'
+                }}>
+                  Somos uma curadoria que seleciona os <strong>melhores produtos para você adquirir na Amazon</strong> através de um sistema inteligente que analisa:
+                </p>
+                
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gap: '1rem',
+                  marginBottom: '1.5rem'
+                }}>
+                  <div style={{
+                    backgroundColor: '#f0fdf4',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #bbf7d0'
+                  }}>
+                    <div style={{
+                      fontSize: '2rem',
+                      marginBottom: '0.5rem'
+                    }}>🏆</div>
+                    <strong style={{ color: '#059669' }}>Marcas Premium</strong>
+                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
+                      Marcas reconhecidas e confiáveis
+                    </p>
+                  </div>
+                  
+                  <div style={{
+                    backgroundColor: '#eff6ff',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #93c5fd'
+                  }}>
+                    <div style={{
+                      fontSize: '2rem',
+                      marginBottom: '0.5rem'
+                    }}>🔬</div>
+                    <strong style={{ color: '#1d4ed8' }}>Backing Científico</strong>
+                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
+                      Formas biodisponíveis e testadas
+                    </p>
+                  </div>
+                  
+                  <div style={{
+                    backgroundColor: '#fef3c7',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #f59e0b'
+                  }}>
+                    <div style={{
+                      fontSize: '2rem',
+                      marginBottom: '0.5rem'
+                    }}>✅</div>
+                    <strong style={{ color: '#92400e' }}>Certificações</strong>
+                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
+                      Non-GMO, Gluten Free, Third Party Tested
+                    </p>
+                  </div>
+                  
+                  <div style={{
+                    backgroundColor: '#fdf2f8',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #ec4899'
+                  }}>
+                    <div style={{
+                      fontSize: '2rem',
+                      marginBottom: '0.5rem'
+                    }}>🎯</div>
+                    <strong style={{ color: '#be185d' }}>Personalização</strong>
+                    <p style={{ fontSize: '0.9rem', color: '#374151', marginTop: '0.3rem' }}>
+                      Baseado nas suas necessidades específicas
+                    </p>
+                  </div>
+                </div>
+                
+                <div style={{
+                  backgroundColor: '#f8fafc',
+                  padding: '1rem',
+                  borderRadius: '12px',
+                  border: '2px solid #e0f2e9',
+                  fontSize: '0.9rem',
+                  color: '#64748b',
+                  fontStyle: 'italic'
+                }}>
+                  💡 <strong>Diferencial:</strong> Enquanto outros sites mostram milhares de produtos, nós selecionamos apenas os <strong>melhores 4</strong> para você, com score de qualidade de até 100/100.
+                </div>
+              </div>
 
               {/* Produtos Recomendados - Melhorada */}
               <div style={{
@@ -954,207 +1602,137 @@ function ResultadosContent() {
                     🎯 Produtos Recomendados Adicionais
                   </h4>
                   
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: '1rem'
-                  }}>
-                    {/* Vitamina D3 */}
-                    <div style={{
-                      border: '2px solid #bbf7d0',
-                      borderRadius: '12px',
-                      padding: '1.2rem',
-                      backgroundColor: 'white',
-                      transition: 'all 0.3s ease'
-                    }}>
+                  {(() => {
+                    const answers = searchParams.get('answers')
+                    let additionalProducts: Array<{
+                      icon: string;
+                      name: string;
+                      description: string;
+                      searchTerm: string;
+                    }> = []
+                    
+                    if (answers) {
+                      try {
+                        const parsedAnswers = JSON.parse(decodeURIComponent(answers))
+                        const answersStr = JSON.stringify(parsedAnswers).toLowerCase()
+                        
+                        // Produtos baseados nas respostas específicas
+                        if (answersStr.includes('energia') || answersStr.includes('cansado') || answersStr.includes('tired')) {
+                          additionalProducts.push({
+                            icon: '⚡',
+                            name: 'Complexo B Energético',
+                            description: 'Aumenta energia natural, melhora foco e reduz fadiga, perfeito para o dia a dia.',
+                            searchTerm: 'b+complex+vitamin+now+foods'
+                          })
+                        }
+                        
+                        if (answersStr.includes('sono') || answersStr.includes('insônia') || answersStr.includes('sleep')) {
+                          additionalProducts.push({
+                            icon: '🌙',
+                            name: 'Magnésio para Sono',
+                            description: 'Melhora a qualidade do sono e relaxamento muscular, ideal para quem tem dificuldade para dormir.',
+                            searchTerm: 'magnesium+glycinate+now+foods'
+                          })
+                        }
+                        
+                        if (answersStr.includes('peso') || answersStr.includes('emagrecer') || answersStr.includes('weight')) {
+                          additionalProducts.push({
+                            icon: '🎯',
+                            name: 'Chá Verde Termogênico',
+                            description: 'Acelera o metabolismo e auxilia na queima de gordura de forma natural.',
+                            searchTerm: 'green+tea+extract+now+foods'
+                          })
+                        }
+                        
+                        if (answersStr.includes('imunidade') || answersStr.includes('doente') || answersStr.includes('immune')) {
+                          additionalProducts.push({
+                            icon: '🛡️',
+                            name: 'Vitamina C + Zinco',
+                            description: 'Fortalecimento do sistema imunológico e proteção contra doenças.',
+                            searchTerm: 'vitamin+c+zinc+now+foods'
+                          })
+                        }
+                        
+                        // Produtos padrão se não houver matches específicos
+                        if (additionalProducts.length === 0) {
+                          additionalProducts = [
+                            {
+                              icon: '💊',
+                              name: 'Vitamina D3 2000 IU',
+                              description: 'Essencial para imunidade e energia, especialmente importante no inverno americano.',
+                              searchTerm: 'vitamin+d3+2000+iu+now+foods'
+                            },
+                            {
+                              icon: '🐟',
+                              name: 'Ômega 3 Premium',
+                              description: 'Suporte para coração, cérebro e inflamação, essencial para saúde geral.',
+                              searchTerm: 'omega+3+fish+oil+now+foods'
+                            }
+                          ]
+                        }
+                      } catch (e) {
+                        console.error('Erro ao analisar respostas para produtos adicionais:', e)
+                      }
+                    }
+                    
+                    return (
                       <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '0.8rem'
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                        gap: '1rem'
                       }}>
-                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>💊</span>
-                        <h5 style={{
-                          fontSize: '1rem',
-                          color: '#1e293b',
-                          fontWeight: '600',
-                          margin: 0
-                        }}>
-                          Vitamina D3 2000 IU
-                        </h5>
+                        {additionalProducts.map((product, index) => (
+                          <div key={index} style={{
+                            border: '2px solid #bbf7d0',
+                            borderRadius: '12px',
+                            padding: '1.2rem',
+                            backgroundColor: 'white',
+                            transition: 'all 0.3s ease'
+                          }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              marginBottom: '0.8rem'
+                            }}>
+                              <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>{product.icon}</span>
+                              <h5 style={{
+                                fontSize: '1rem',
+                                color: '#1e293b',
+                                fontWeight: '600',
+                                margin: 0
+                              }}>
+                                {product.name}
+                              </h5>
+                            </div>
+                            <p style={{
+                              fontSize: '0.85rem',
+                              color: '#64748b',
+                              lineHeight: '1.4',
+                              marginBottom: '0.8rem'
+                            }}>
+                              {product.description}
+                            </p>
+                            <a href={`https://www.amazon.com/s?k=${product.searchTerm}&tag=portalsolutio-20`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                              <button style={{
+                                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                                color: 'white',
+                                padding: '0.6rem 1rem',
+                                border: 'none',
+                                borderRadius: '20px',
+                                fontSize: '0.8rem',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                width: '100%'
+                              }}>
+                                🛒 Ver na Amazon
+                              </button>
+                            </a>
+                          </div>
+                        ))}
                       </div>
-                      <p style={{
-                        fontSize: '0.85rem',
-                        color: '#64748b',
-                        lineHeight: '1.4',
-                        marginBottom: '0.8rem'
-                      }}>
-                        Essencial para imunidade e energia, especialmente importante no inverno americano.
-                      </p>
-                      <a href="https://www.amazon.com/s?k=vitamin+d3+2000+iu+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <button style={{
-                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                          color: 'white',
-                          padding: '0.6rem 1rem',
-                          border: 'none',
-                          borderRadius: '20px',
-                          fontSize: '0.8rem',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          width: '100%'
-                        }}>
-                          🛒 Ver na Amazon
-                        </button>
-                      </a>
-                    </div>
-
-                    {/* Magnésio */}
-                    <div style={{
-                      border: '2px solid #bbf7d0',
-                      borderRadius: '12px',
-                      padding: '1.2rem',
-                      backgroundColor: 'white',
-                      transition: 'all 0.3s ease'
-                    }}>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '0.8rem'
-                      }}>
-                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>🌙</span>
-                        <h5 style={{
-                          fontSize: '1rem',
-                          color: '#1e293b',
-                          fontWeight: '600',
-                          margin: 0
-                        }}>
-                          Magnésio para Sono
-                        </h5>
-                      </div>
-                      <p style={{
-                        fontSize: '0.85rem',
-                        color: '#64748b',
-                        lineHeight: '1.4',
-                        marginBottom: '0.8rem'
-                      }}>
-                        Melhora a qualidade do sono e relaxamento muscular, ideal para quem tem dificuldade para dormir.
-                      </p>
-                      <a href="https://www.amazon.com/s?k=magnesium+glycinate+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <button style={{
-                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                          color: 'white',
-                          padding: '0.6rem 1rem',
-                          border: 'none',
-                          borderRadius: '20px',
-                          fontSize: '0.8rem',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          width: '100%'
-                        }}>
-                          🛒 Ver na Amazon
-                        </button>
-                      </a>
-                    </div>
-
-                    {/* Complexo B */}
-                    <div style={{
-                      border: '2px solid #bbf7d0',
-                      borderRadius: '12px',
-                      padding: '1.2rem',
-                      backgroundColor: 'white',
-                      transition: 'all 0.3s ease'
-                    }}>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '0.8rem'
-                      }}>
-                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>⚡</span>
-                        <h5 style={{
-                          fontSize: '1rem',
-                          color: '#1e293b',
-                          fontWeight: '600',
-                          margin: 0
-                        }}>
-                          Complexo B Energético
-                        </h5>
-                      </div>
-                      <p style={{
-                        fontSize: '0.85rem',
-                        color: '#64748b',
-                        lineHeight: '1.4',
-                        marginBottom: '0.8rem'
-                      }}>
-                        Aumenta energia natural, melhora foco e reduz fadiga, perfeito para o dia a dia.
-                      </p>
-                      <a href="https://www.amazon.com/s?k=b+complex+vitamin+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <button style={{
-                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                          color: 'white',
-                          padding: '0.6rem 1rem',
-                          border: 'none',
-                          borderRadius: '20px',
-                          fontSize: '0.8rem',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          width: '100%'
-                        }}>
-                          🛒 Ver na Amazon
-                        </button>
-                      </a>
-                    </div>
-
-                    {/* Ômega 3 */}
-                    <div style={{
-                      border: '2px solid #bbf7d0',
-                      borderRadius: '12px',
-                      padding: '1.2rem',
-                      backgroundColor: 'white',
-                      transition: 'all 0.3s ease'
-                    }}>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '0.8rem'
-                      }}>
-                        <span style={{ fontSize: '1.5rem', marginRight: '0.8rem' }}>🐟</span>
-                        <h5 style={{
-                          fontSize: '1rem',
-                          color: '#1e293b',
-                          fontWeight: '600',
-                          margin: 0
-                        }}>
-                          Ômega 3 Premium
-                        </h5>
-                      </div>
-                      <p style={{
-                        fontSize: '0.85rem',
-                        color: '#64748b',
-                        lineHeight: '1.4',
-                        marginBottom: '0.8rem'
-                      }}>
-                        Suporte para coração, cérebro e inflamação, essencial para saúde geral.
-                      </p>
-                      <a href="https://www.amazon.com/s?k=omega+3+fish+oil+now+foods&tag=portalsolutio-20" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <button style={{
-                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                          color: 'white',
-                          padding: '0.6rem 1rem',
-                          border: 'none',
-                          borderRadius: '20px',
-                          fontSize: '0.8rem',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          width: '100%'
-                        }}>
-                          🛒 Ver na Amazon
-                        </button>
-                      </a>
-                    </div>
-                  </div>
+                    )
+                  })()}
                 </div>
               </div>
 
@@ -1193,18 +1771,87 @@ function ResultadosContent() {
 
                 {analysisResults?.proximo_passo && (
                   <div style={{
-                    fontSize: '0.9rem',
+                    fontSize: '1.1rem',
                     color: '#059669',
                     fontStyle: 'italic',
                     marginBottom: '1.5rem',
                     backgroundColor: '#f0fdf4',
-                    padding: '1rem',
+                    padding: '1.5rem',
                     borderRadius: '12px',
-                    border: '2px solid #bbf7d0'
+                    border: '3px solid #bbf7d0',
+                    textAlign: 'center',
+                    fontWeight: '500'
                   }}>
-                    💝 {analysisResults.proximo_passo}
+                    💝 <strong style={{ fontSize: '1.2rem' }}>{analysisResults.proximo_passo}</strong>
                   </div>
                 )}
+
+                {/* Oferta Exclusiva - Próximo Passo Irresistível */}
+                <div style={{
+                  backgroundColor: '#f0fdf4',
+                  padding: '1.5rem',
+                  borderRadius: '16px',
+                  border: '3px solid #bbf7d0',
+                  marginBottom: '1.5rem',
+                  textAlign: 'center'
+                }}>
+                  <h4 style={{
+                    fontSize: '1.2rem',
+                    color: '#059669',
+                    marginBottom: '1rem',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    <span style={{ fontSize: '1.4rem' }}>🎁</span>
+                    Oferta Exclusiva por 24h
+                  </h4>
+                  
+                  <p style={{
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: '1.6',
+                    marginBottom: '1rem'
+                  }}>
+                    <strong>Receba GRATUITAMENTE:</strong> Guia PDF com "Jejum Intermitente para Brasileiros nos EUA"
+                  </p>
+                  
+                  <div style={{
+                    backgroundColor: 'white',
+                    padding: '1rem',
+                    borderRadius: '12px',
+                    border: '2px solid #bbf7d0',
+                    marginBottom: '1rem',
+                    fontSize: '0.9rem',
+                    color: '#64748b'
+                  }}>
+                    📋 <strong>O que você recebe:</strong><br/>
+                    • Guia completo de jejum intermitente adaptado para brasileiros<br/>
+                    • Protocolos específicos para diferentes objetivos (energia, peso, saúde)<br/>
+                    • Receitas para quebrar o jejum de forma saudável<br/>
+                    • Cronograma de 30 dias para implementar o jejum intermitente
+                  </div>
+                  
+                  <button onClick={() => openWhatsApp('Olá! Acabei de fazer minha avaliação personalizada no MeuPortalFit e quero receber o guia gratuito de jejum intermitente para brasileiros nos EUA.')} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '1rem 2rem',
+                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '25px',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    margin: '0 auto'
+                  }}>
+                    🎁 Receber Guia Gratuito
+                  </button>
+                </div>
 
                 <div style={{
                   display: 'flex',
@@ -1212,23 +1859,6 @@ function ResultadosContent() {
                   gap: '0.8rem',
                   alignItems: 'center'
                 }}>
-                  <button onClick={() => openWhatsApp('Olá! Acabei de fazer minha avaliação personalizada no MeuPortalFit e gostaria de agendar uma consulta personalizada por $10.')} style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.8rem 1.5rem',
-                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '25px',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    ✨ Faça Agendamento Personalizado
-                  </button>
-
                   <button onClick={() => openWhatsApp('Olá! Gostaria de falar sobre minha avaliação personalizada do MeuPortalFit.')} style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -1260,7 +1890,7 @@ function ResultadosContent() {
                     cursor: 'pointer',
                     transition: 'all 0.3s ease'
                   }}>
-                    📤 Compartilhar
+                    🇧🇷 Ajude Outros Brasileiros
                   </button>
 
                   <button onClick={printResults} style={{

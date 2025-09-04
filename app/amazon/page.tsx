@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function BuscaPage() {
+function BuscaPageContent() {
   const [searchQuery, setSearchQuery] = useState('')
   const [detailsQuery, setDetailsQuery] = useState('')
   const [isSearching, setIsSearching] = useState(false)
@@ -739,5 +739,41 @@ export default function BuscaPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function BuscaPage() {
+  return (
+    <Suspense fallback={
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)'
+      }}>
+        <div style={{
+          textAlign: 'center',
+          padding: '2rem'
+        }}>
+          <h1 style={{
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            color: '#059669',
+            marginBottom: '1rem'
+          }}>
+            🔍 Carregando Busca Inteligente...
+          </h1>
+          <p style={{
+            color: '#374151',
+            fontSize: '1.1rem'
+          }}>
+            Preparando a melhor experiência de busca para você
+          </p>
+        </div>
+      </div>
+    }>
+      <BuscaPageContent />
+    </Suspense>
   )
 }

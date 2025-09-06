@@ -11,7 +11,7 @@ export default function Footer() {
         { name: '🔍 Busca Inteligente', href: '/amazon' },
         { name: '🧠 Avaliação IA', href: '/analise' },
         { name: '🛍️ Produtos por Área', href: '/produtos' },
-        { name: '💬 Suporte', href: '/suporte' },
+        { name: '🎯 Avaliação', href: '/avaliacao' },
       ]
     },
     {
@@ -26,11 +26,11 @@ export default function Footer() {
       ]
     },
     {
-      title: 'Suporte',
+      title: 'Avaliação',
       links: [
-        { name: '📞 Agendar Consulta', href: '/suporte' },
-        { name: '❓ FAQ', href: '/suporte#faq' },
-        { name: '📧 Contato', href: '/suporte#contato' },
+        { name: '📞 Agendar Consulta', href: '/avaliacao' },
+        { name: '❓ FAQ', href: '/avaliacao#faq' },
+        { name: '📧 Contato', href: '/avaliacao#contato' },
         { name: '🔒 Privacidade', href: '/privacidade' },
       ]
     }

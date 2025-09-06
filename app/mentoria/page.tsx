@@ -231,7 +231,7 @@ export default function MentoriaPage() {
                 Compartilhe com uma amiga!
               </h3>
               <Link 
-                href="/suporte"
+                href="/avaliacao"
                 style={{ textDecoration: 'none' }}
               >
                 <button style={{

@@ -59,37 +59,40 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
           gap: isMobile ? '1rem' : '2rem'
         }}>
           {/* Logo */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: isMobile ? '0.6rem' : '0.8rem',
-            flexShrink: 0
-          }}>
+          <Link href="/" style={{ textDecoration: 'none' }}>
             <div style={{
-              width: isMobile ? '36px' : '40px',
-              height: isMobile ? '36px' : '40px',
-              background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-              borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontWeight: 900,
-              fontSize: isMobile ? '1.1rem' : '1.2rem'
+              gap: isMobile ? '0.6rem' : '0.8rem',
+              flexShrink: 0,
+              cursor: 'pointer'
             }}>
-              M
+              <div style={{
+                width: isMobile ? '36px' : '40px',
+                height: isMobile ? '36px' : '40px',
+                background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 900,
+                fontSize: isMobile ? '1.1rem' : '1.2rem'
+              }}>
+                M
+              </div>
+              <span style={{
+                fontSize: isMobile ? '1.3rem' : '1.5rem',
+                fontWeight: 900,
+                background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                MeuPortalFit
+              </span>
             </div>
-            <span style={{
-              fontSize: isMobile ? '1.3rem' : '1.5rem',
-              fontWeight: 900,
-              background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              MeuPortalFit
-            </span>
-          </div>
+          </Link>
 
           {/* Navegação Principal - Desktop */}
           {!isMobile && (
@@ -138,23 +141,23 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
                 </button>
               </Link>
 
-              <Link href="/suporte" style={{ textDecoration: 'none' }}>
+              <Link href="/avaliacao" style={{ textDecoration: 'none' }}>
                 <button style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: isMobile ? '0.4rem' : '0.5rem',
                   padding: isMobile ? '0.5rem 1rem' : '0.6rem 1.2rem',
-                  background: isActivePage('/suporte') ? 'linear-gradient(135deg, #8b5cf6, #7c3aed)' : 'transparent',
-                  color: isActivePage('/suporte') ? 'white' : '#6b7280',
-                  border: isActivePage('/suporte') ? 'none' : '1px solid #e5e7eb',
+                  background: isActivePage('/avaliacao') ? 'linear-gradient(135deg, #8b5cf6, #7c3aed)' : 'transparent',
+                  color: isActivePage('/avaliacao') ? 'white' : '#6b7280',
+                  border: isActivePage('/avaliacao') ? 'none' : '1px solid #e5e7eb',
                   borderRadius: '20px',
                   cursor: 'pointer',
                   fontSize: isMobile ? '0.8rem' : '0.9rem',
-                  fontWeight: isActivePage('/suporte') ? 600 : 500,
+                  fontWeight: isActivePage('/avaliacao') ? 600 : 500,
                   transition: 'all 0.3s ease'
                 }}>
-                  <span>💬</span>
-                  <span>Suporte</span>
+                  <span>🎯</span>
+                  <span>Avaliação</span>
                 </button>
               </Link>
             </div>
@@ -290,7 +293,7 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
               </button>
             </Link>
 
-            <Link href="/suporte" style={{ textDecoration: 'none' }}>
+            <Link href="/avaliacao" style={{ textDecoration: 'none' }}>
               <button style={{
                 width: '100%',
                 display: 'flex',
@@ -298,16 +301,16 @@ export default function Header({ language = 'pt', onLanguageChange }: HeaderProp
                 justifyContent: 'center',
                 gap: '0.5rem',
                 padding: '0.8rem',
-                background: isActivePage('/suporte') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
-                color: isActivePage('/suporte') ? 'white' : '#6b7280',
-                border: isActivePage('/suporte') ? 'none' : '1px solid #e5e7eb',
+                background: isActivePage('/avaliacao') ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'transparent',
+                color: isActivePage('/avaliacao') ? 'white' : '#6b7280',
+                border: isActivePage('/avaliacao') ? 'none' : '1px solid #e5e7eb',
                 borderRadius: '12px',
                 cursor: 'pointer',
                 fontSize: '1rem',
-                fontWeight: isActivePage('/suporte') ? 600 : 500
+                fontWeight: isActivePage('/avaliacao') ? 600 : 500
               }}>
-                <span>💬</span>
-                <span>Suporte</span>
+                <span>🎯</span>
+                <span>Avaliação</span>
               </button>
             </Link>
 

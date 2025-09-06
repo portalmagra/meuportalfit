@@ -59,7 +59,7 @@ export default function ProdutosPage() {
       href: '/produtos/hormonal'
     },
     {
-      name: 'Utensílios de Suporte',
+      name: 'Utensílios de Avaliação',
       description: 'Fit medicine, base cozinha e acessórios',
       icon: '🍳',
       href: '/produtos/utensilios'

@@ -375,7 +375,7 @@ export default function HomePage() {
               </Link>
 
               {/* 3. SUPORTE - ROXO VIBRANTE */}
-              <Link href="/suporte" style={{ textDecoration: 'none' }}>
+              <Link href="/avaliacao" style={{ textDecoration: 'none' }}>
                 <div style={{
                   background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
                   borderRadius: '25px',

@@ -254,15 +254,15 @@ export default function HomePage() {
               maxWidth: '1000px',
               margin: '0 auto 1rem'
             }}>
-              {/* 1. ANÁLISE IA - VERDE VIBRANTE */}
+              {/* 1. ANÁLISE IA - VERDE SUAVE */}
               <Link href="/analise" style={{ textDecoration: 'none' }}>
                 <div style={{
-                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                  background: 'linear-gradient(135deg, #10b981, #059669)',
                   borderRadius: '25px',
                   padding: '1.5rem 1.5rem',
                   textAlign: 'center',
                   color: 'white',
-                  boxShadow: '0 20px 40px rgba(34, 197, 94, 0.3)',
+                  boxShadow: '0 20px 40px rgba(16, 185, 129, 0.25)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                   border: '3px solid rgba(255, 255, 255, 0.2)',
@@ -270,10 +270,10 @@ export default function HomePage() {
                   overflow: 'hidden'
                 }} onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
-                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(34, 197, 94, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(16, 185, 129, 0.35)'
                 }} onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.3)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(16, 185, 129, 0.25)'
                 }}>
                   <div style={{
                     display: 'flex',
@@ -314,15 +314,15 @@ export default function HomePage() {
                 </div>
               </Link>
 
-              {/* 2. PRODUTOS - AZUL VIBRANTE */}
+              {/* 2. PRODUTOS - AZUL SUAVE */}
               <Link href="/produtos" style={{ textDecoration: 'none' }}>
                 <div style={{
-                  background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                  background: 'linear-gradient(135deg, #2563eb, #1e40af)',
                   borderRadius: '25px',
                   padding: '1.5rem 1.5rem',
                   textAlign: 'center',
                   color: 'white',
-                  boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)',
+                  boxShadow: '0 20px 40px rgba(37, 99, 235, 0.25)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                   border: '3px solid rgba(255, 255, 255, 0.2)',
@@ -330,10 +330,10 @@ export default function HomePage() {
                   overflow: 'hidden'
                 }} onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
-                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(59, 130, 246, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(37, 99, 235, 0.35)'
                 }} onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(59, 130, 246, 0.3)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(37, 99, 235, 0.25)'
                 }}>
                   <div style={{
                     display: 'flex',
@@ -374,15 +374,15 @@ export default function HomePage() {
                 </div>
               </Link>
 
-              {/* 3. SUPORTE - ROXO VIBRANTE */}
+              {/* 3. AVALIAÇÃO - ROXO SUAVE */}
               <Link href="/avaliacao" style={{ textDecoration: 'none' }}>
                 <div style={{
-                  background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                  background: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
                   borderRadius: '25px',
                   padding: '1.5rem 1.5rem',
                   textAlign: 'center',
                   color: 'white',
-                  boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)',
+                  boxShadow: '0 20px 40px rgba(124, 58, 237, 0.25)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                   border: '3px solid rgba(255, 255, 255, 0.2)',
@@ -390,10 +390,10 @@ export default function HomePage() {
                   overflow: 'hidden'
                 }} onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
-                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(139, 92, 246, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 30px 60px rgba(124, 58, 237, 0.35)'
                 }} onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(139, 92, 246, 0.3)'
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(124, 58, 237, 0.25)'
                 }}>
                   <div style={{
                     display: 'flex',

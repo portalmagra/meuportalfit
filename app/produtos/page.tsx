@@ -139,8 +139,8 @@ export default function ProdutosPage() {
     
     console.log('✅ Redirecionando para Amazon...');
     
-    // Construir URL da Amazon com filtros de qualidade e nossa tag
-          const amazonSearchUrl = `https://www.amazon.com/s?k=${encodeURIComponent(query.trim())}&rh=n:3760901,n:284507&s=featured-rank&i=hpc&tag=portalsolutio-20`;
+    // Construir URL da Amazon com nossa tag (versão simplificada)
+          const amazonSearchUrl = `https://www.amazon.com/s?k=${encodeURIComponent(query.trim())}&tag=portalsolutio-20`;
     
     console.log('🔗 URL da Amazon:', amazonSearchUrl);
     

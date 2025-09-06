@@ -403,11 +403,11 @@ export default function SuportePage() {
           }}>
             {/* Banner de Oferta Limitada */}
             <div style={{
-              background: 'linear-gradient(135deg, #fef3c7, #fde68a)',
+              background: 'linear-gradient(135deg, #e0f2fe, #bae6fd)',
               borderRadius: '15px',
               padding: '1rem 1.5rem',
               marginBottom: '2rem',
-              border: '2px solid #f59e0b',
+              border: '2px solid #0ea5e9',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.8rem'
@@ -416,7 +416,7 @@ export default function SuportePage() {
               <span style={{
                 fontSize: '1rem',
                 fontWeight: 600,
-                color: '#92400e'
+                color: '#0c4a6e'
               }}>
                 ATENÇÃO: Oferta Limitada
               </span>
@@ -446,7 +446,7 @@ export default function SuportePage() {
 
             {/* Badge $10 */}
             <div style={{
-              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+              background: 'linear-gradient(135deg, #22c55e, #16a34a)',
               color: 'white',
               padding: '1rem 2rem',
               borderRadius: '50px',
@@ -454,7 +454,7 @@ export default function SuportePage() {
               alignItems: 'center',
               gap: '1rem',
               marginBottom: '1.5rem',
-              boxShadow: '0 8px 25px rgba(245, 158, 11, 0.3)',
+              boxShadow: '0 8px 25px rgba(34, 197, 94, 0.3)',
               fontSize: '1.5rem',
               fontWeight: 700
             }}>
@@ -464,15 +464,15 @@ export default function SuportePage() {
 
             {/* Mensagem de Urgência */}
             <div style={{
-              background: 'rgba(245, 158, 11, 0.1)',
-              border: '1px solid #f59e0b',
+              background: 'rgba(34, 197, 94, 0.1)',
+              border: '1px solid #22c55e',
               borderRadius: '12px',
               padding: '1rem 1.5rem',
               marginBottom: '2rem',
               display: 'inline-block'
             }}>
               <p style={{
-                color: '#92400e',
+                color: '#15803d',
                 fontSize: '1rem',
                 fontWeight: 600,
                 margin: 0
@@ -712,7 +712,7 @@ export default function SuportePage() {
 
         {/* Pricing Section - GATILHO DE ESCASSEZ */}
         <section style={{
-          background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #f59e0b 100%)',
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #22c55e 100%)',
           padding: '4rem 0'
         }}>
           <div style={{
@@ -725,7 +725,7 @@ export default function SuportePage() {
               fontSize: 'clamp(1.5rem, 4vw, 2rem)',
               fontWeight: 900,
               marginBottom: '2rem',
-              color: '#92400e'
+              color: '#15803d'
             }}>
               {t('priceTitle')}
             </h2>
@@ -735,7 +735,7 @@ export default function SuportePage() {
               borderRadius: '25px',
               padding: '3rem 2rem',
               boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-              border: '3px solid #f59e0b',
+              border: '3px solid #22c55e',
               position: 'relative'
             }}>
               {/* Scarcity Badge */}
@@ -744,13 +744,13 @@ export default function SuportePage() {
                 top: '-20px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                background: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
+                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
                 color: 'white',
                 padding: '0.8rem 1.5rem',
                 borderRadius: '25px',
                 fontWeight: 700,
                 fontSize: '0.9rem',
-                boxShadow: '0 8px 20px rgba(245, 158, 11, 0.3)'
+                boxShadow: '0 8px 20px rgba(34, 197, 94, 0.3)'
               }}>
                 {t('limitedTime')}
               </div>
@@ -767,7 +767,7 @@ export default function SuportePage() {
                 <div style={{
                   fontSize: '3rem',
                   fontWeight: 900,
-                  color: '#f59e0b',
+                  color: '#22c55e',
                   marginBottom: '0.5rem'
                 }}>
                   {t('specialPrice')}
@@ -786,7 +786,7 @@ export default function SuportePage() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '1rem',
-                  background: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
+                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
                   color: 'white',
                   fontSize: '1.1rem',
                   fontWeight: 900,
@@ -795,7 +795,7 @@ export default function SuportePage() {
                   borderRadius: '50px',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 15px 35px rgba(245, 158, 11, 0.4)',
+                  boxShadow: '0 15px 35px rgba(34, 197, 94, 0.4)',
                   textTransform: 'uppercase',
                   letterSpacing: '1px'
                 }}>

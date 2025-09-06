@@ -325,10 +325,10 @@ export default function SuportePage() {
                 Seu navegador não suporta vídeos HTML5.
               </video>
               
-              {/* Overlay de informações */}
+              {/* Overlay de informações - movido para cima */}
               <div style={{
                 position: 'absolute',
-                bottom: '1rem',
+                top: '1rem',
                 left: '1rem',
                 right: '1rem',
                 background: 'rgba(0, 0, 0, 0.7)',
@@ -342,6 +342,47 @@ export default function SuportePage() {
                   🎯 Veja como funciona nossa avaliação
                 </p>
               </div>
+            </div>
+            
+            {/* Botão Quero Agendar - logo após o vídeo */}
+            <div style={{ marginTop: '2rem' }}>
+              <a 
+                href={`https://wa.me/17862535032?text=${encodeURIComponent('🎯 Olá! Acabei de assistir o vídeo explicativo e quero agendar minha avaliação personalizada de $10. Estou pronto para descobrir por que não estou alcançando meus objetivos!')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
+              >
+                <button style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.8rem',
+                  background: 'linear-gradient(135deg, #25d366, #128c7e)',
+                  color: 'white',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
+                  padding: '1.2rem 2.5rem',
+                  border: 'none',
+                  borderRadius: '50px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 8px 25px rgba(37, 211, 102, 0.3)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(37, 211, 102, 0.4)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(37, 211, 102, 0.3)'
+                }}
+                >
+                  <span style={{ fontSize: '1.3rem' }}>📅</span>
+                  <span>Quero Agendar Minha Avaliação</span>
+                  <span style={{ fontSize: '1.2rem' }}>→</span>
+                </button>
+              </a>
             </div>
           </div>
         </section>

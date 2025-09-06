@@ -455,12 +455,17 @@ export default function SuportePage() {
             padding: '0 2rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
               fontWeight: 700,
-              marginBottom: '3rem',
-              color: '#1f2937'
+              marginBottom: '2.5rem',
+              color: '#1f2937',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.8rem'
             }}>
-              🎯 O que Você Vai Descobrir em 30 Minutos
+              <span style={{ fontSize: '1.8rem' }}>🎯</span>
+              O que Você Vai Descobrir em 30 Minutos
             </h2>
 
             <div style={{
@@ -473,27 +478,25 @@ export default function SuportePage() {
               <div style={{
                 background: '#f0fdf4',
                 borderRadius: '20px',
-                padding: '2rem',
+                padding: '1.5rem',
                 border: '2px solid #e0f2e9'
               }}>
-                <div style={{
-                  fontSize: '3rem',
-                  marginBottom: '1rem'
-                }}>
-                  🎯
-                </div>
                 <h3 style={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.1rem',
                   fontWeight: 700,
                   marginBottom: '1rem',
-                  color: '#1f2937'
+                  color: '#1f2937',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem'
                 }}>
+                  <span style={{ fontSize: '1.4rem' }}>🎯</span>
                   O EXATO motivo pelo qual seus esforços não estão funcionando
                 </h3>
                 <p style={{
                   color: '#6b7280',
                   lineHeight: 1.5,
-                  fontSize: '0.9rem'
+                  fontSize: '0.85rem'
                 }}>
                   Identificamos exatamente o que está impedindo seus resultados, mesmo que você não tenha percebido.
                 </p>
@@ -503,27 +506,25 @@ export default function SuportePage() {
               <div style={{
                 background: '#f0fdf4',
                 borderRadius: '20px',
-                padding: '2rem',
+                padding: '1.5rem',
                 border: '2px solid #e0f2e9'
               }}>
-                <div style={{
-                  fontSize: '3rem',
-                  marginBottom: '1rem'
-                }}>
-                  💡
-                </div>
                 <h3 style={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.1rem',
                   fontWeight: 700,
                   marginBottom: '1rem',
-                  color: '#1f2937'
+                  color: '#1f2937',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem'
                 }}>
+                  <span style={{ fontSize: '1.4rem' }}>💡</span>
                   Um plano personalizado baseado no SEU caso específico
                 </h3>
                 <p style={{
                   color: '#6b7280',
                   lineHeight: 1.5,
-                  fontSize: '0.9rem'
+                  fontSize: '0.85rem'
                 }}>
                   Não mais soluções genéricas. Criamos um plano feito especificamente para suas necessidades.
                 </p>
@@ -533,27 +534,25 @@ export default function SuportePage() {
               <div style={{
                 background: '#f0fdf4',
                 borderRadius: '20px',
-                padding: '2rem',
+                padding: '1.5rem',
                 border: '2px solid #e0f2e9'
               }}>
-                <div style={{
-                  fontSize: '3rem',
-                  marginBottom: '1rem'
-                }}>
-                  🚀
-                </div>
                 <h3 style={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.1rem',
                   fontWeight: 700,
                   marginBottom: '1rem',
-                  color: '#1f2937'
+                  color: '#1f2937',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem'
                 }}>
+                  <span style={{ fontSize: '1.4rem' }}>🚀</span>
                   Resultados reais em 30 dias ou menos
                 </h3>
                 <p style={{
                   color: '#6b7280',
                   lineHeight: 1.5,
-                  fontSize: '0.9rem'
+                  fontSize: '0.85rem'
                 }}>
                   Com o plano correto, você verá mudanças reais em seu corpo e bem-estar em apenas 30 dias.
                 </p>
@@ -564,19 +563,24 @@ export default function SuportePage() {
             <div style={{
               background: 'linear-gradient(135deg, #22c55e, #16a34a)',
               borderRadius: '20px',
-              padding: '2.5rem',
+              padding: '2rem',
               color: 'white',
               marginBottom: '2rem'
             }}>
               <h3 style={{
-                fontSize: '1.5rem',
+                fontSize: '1.3rem',
                 fontWeight: 700,
-                marginBottom: '1rem'
+                marginBottom: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.6rem'
               }}>
-                🎯 Pronto para Descobrir o que Está Impedindo Seus Resultados?
+                <span style={{ fontSize: '1.5rem' }}>🎯</span>
+                Pronto para Descobrir o que Está Impedindo Seus Resultados?
               </h3>
               <p style={{
-                fontSize: '1.1rem',
+                fontSize: '1rem',
                 marginBottom: '1.5rem',
                 opacity: 0.95
               }}>
@@ -618,9 +622,9 @@ export default function SuportePage() {
             textAlign: 'center'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontSize: 'clamp(1.3rem, 3vw, 1.8rem)',
               fontWeight: 700,
-              marginBottom: '3rem',
+              marginBottom: '2.5rem',
               color: '#1f2937'
             }}>
               {t('socialProofTitle')}
@@ -677,7 +681,7 @@ export default function SuportePage() {
             textAlign: 'center'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
               fontWeight: 900,
               marginBottom: '2rem',
               color: '#92400e'
@@ -772,7 +776,7 @@ export default function SuportePage() {
           }}>
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
               <h2 style={{
-                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+                fontSize: 'clamp(1.5rem, 4vw, 2rem)',
                 fontWeight: 900,
                 marginBottom: '1rem',
                 color: '#1f2937'
@@ -897,12 +901,17 @@ export default function SuportePage() {
             textAlign: 'center'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontSize: 'clamp(1.3rem, 3vw, 1.8rem)',
               fontWeight: 700,
               marginBottom: '2rem',
-              color: '#059669'
+              color: '#059669',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.6rem'
             }}>
-              🛡️ {t('guaranteeTitle')}
+              <span style={{ fontSize: '1.5rem' }}>🛡️</span>
+              {t('guaranteeTitle')}
             </h2>
             <p style={{
               fontSize: '1.1rem',
@@ -924,9 +933,9 @@ export default function SuportePage() {
             padding: '0 2rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+              fontSize: 'clamp(1.3rem, 3vw, 1.8rem)',
               fontWeight: 700,
-              marginBottom: '3rem',
+              marginBottom: '2.5rem',
               textAlign: 'center',
               color: '#1f2937'
             }}>
@@ -1008,7 +1017,7 @@ export default function SuportePage() {
             padding: '0 2rem'
           }}>
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+              fontSize: 'clamp(1.5rem, 4vw, 2rem)',
               fontWeight: 900,
               marginBottom: '1.5rem',
               lineHeight: 1.2

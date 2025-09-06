@@ -211,29 +211,25 @@ export default function MentoriaPage() {
             <div style={{
               background: 'linear-gradient(135deg, #fce7f3, #f3e8ff, #dbeafe)',
               borderRadius: '25px',
-              padding: '2rem',
+              padding: '1.5rem',
               maxWidth: '500px',
               margin: '0 auto',
               boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.3)'
             }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💝</div>
               <h3 style={{
                 fontSize: '1.5rem',
                 fontWeight: 700,
                 color: '#1f2937',
-                marginBottom: '0.5rem'
+                marginBottom: '1.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem'
               }}>
+                <span style={{ fontSize: '1.8rem' }}>💝</span>
                 Compartilhe com uma amiga!
               </h3>
-              <p style={{
-                color: '#6b7280',
-                marginBottom: '1.5rem',
-                fontSize: '0.9rem',
-                lineHeight: 1.5
-              }}>
-                Ajude alguém especial a descobrir produtos que podem transformar sua saúde
-              </p>
               <Link 
                 href="/suporte"
                 style={{ textDecoration: 'none' }}

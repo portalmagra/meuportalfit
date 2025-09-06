@@ -31,6 +31,7 @@ export interface Product {
   features: string[]
   product_url?: string
   slug?: string
+  is_mentoria?: boolean
   created_at?: string
 }
 

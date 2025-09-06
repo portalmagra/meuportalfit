@@ -1,6 +1,6 @@
 // CLAUDE: Layout principal - versão mais completa com CSS
 import './globals.css'
-import Footer from './components/Footer'
+import ConditionalFooter from './components/ConditionalFooter'
 
 export const metadata = {
   title: 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
@@ -93,7 +93,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <main>{children}</main>
-        <Footer />
+        <ConditionalFooter />
       </body>
     </html>
   )

@@ -40,6 +40,7 @@ interface Product {
   benefits: string[];
   features: string[];
   productUrl?: string;
+  is_mentoria?: boolean;
 }
 
 export default function AdminPage() {
@@ -67,6 +68,7 @@ export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showMentoriaProducts, setShowMentoriaProducts] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [productForm, setProductForm] = useState({
@@ -106,7 +108,8 @@ export default function AdminPage() {
             imageUrl: p.image_url,
             benefits: p.benefits,
             features: p.features,
-            productUrl: p.product_url
+            productUrl: p.product_url,
+            is_mentoria: p.is_mentoria || false
           }));
           
           setProducts(mappedProducts);
@@ -803,6 +806,26 @@ export default function AdminPage() {
           }}
         >
           📂 Adicionar Categoria
+        </button>
+        
+        <button
+          onClick={() => setShowMentoriaProducts(true)}
+          style={{
+            padding: '12px 20px',
+            fontSize: '16px',
+            backgroundColor: '#6f42c1',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            minHeight: '44px',
+            touchAction: 'manipulation',
+            position: 'relative',
+            zIndex: 1001
+          }}
+        >
+          🎯 Produtos da Mentoria
         </button>
         
                         <button
@@ -1509,6 +1532,220 @@ export default function AdminPage() {
                 }}
               >
                 Adicionar Categoria
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Produtos da Mentoria */}
+      {showMentoriaProducts && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '12px',
+            maxWidth: '900px',
+            width: '90%',
+            maxHeight: '90vh',
+            overflowY: 'auto'
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              marginBottom: '25px',
+              paddingBottom: '20px',
+              borderBottom: '2px solid #dee2e6'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span style={{ fontSize: '32px', marginRight: '15px' }}>🎯</span>
+                <div>
+                  <h2 style={{ margin: 0, color: '#333', fontSize: '28px', fontWeight: 'bold' }}>
+                    Produtos da Mentoria
+                  </h2>
+                  <p style={{ margin: '5px 0 0 0', color: '#666', fontSize: '16px' }}>
+                    Gerencie quais produtos aparecem na página de mentoria
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowMentoriaProducts(false)}
+                style={{
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  fontSize: '18px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                title="Fechar"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <p style={{ color: '#666', fontSize: '14px', marginBottom: '15px' }}>
+                Selecione os produtos que devem aparecer na página de mentoria. 
+                Estes produtos também continuarão aparecendo em suas respectivas categorias.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gap: '15px', maxHeight: '400px', overflowY: 'auto' }}>
+              {products.map(product => {
+                const category = categories.find(cat => cat.id === product.categoryId);
+                return (
+                  <div key={product.id} style={{
+                    border: '1px solid #dee2e6',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    backgroundColor: '#f8f9fa',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                      <div style={{ marginRight: '15px' }}>
+                        {product.imageUrl ? (
+                          <img 
+                            src={product.imageUrl} 
+                            alt={product.name}
+                            style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '6px' }}
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              const nextElement = e.currentTarget.nextElementSibling;
+                              if (nextElement && nextElement instanceof HTMLElement) {
+                                nextElement.style.display = 'block';
+                              }
+                            }}
+                          />
+                        ) : null}
+                        <div style={{ 
+                          width: '60px', 
+                          height: '60px', 
+                          backgroundColor: '#e9ecef', 
+                          borderRadius: '6px', 
+                          display: product.imageUrl ? 'none' : 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '24px'
+                        }}>
+                          📦
+                        </div>
+                      </div>
+                      
+                      <div style={{ flex: 1 }}>
+                        <h4 style={{ margin: '0 0 5px 0', color: '#333', fontSize: '16px' }}>
+                          {product.name}
+                        </h4>
+                        <p style={{ margin: '0 0 5px 0', color: '#666', fontSize: '14px' }}>
+                          {category ? `${category.icon} ${category.name}` : 'Sem categoria'}
+                        </p>
+                        <p style={{ margin: 0, color: '#666', fontSize: '12px' }}>
+                          {product.currentPrice} • ⭐ {product.rating}/5
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div style={{ marginLeft: '15px' }}>
+                      <button
+                        onClick={async () => {
+                          try {
+                            const updatedProduct = await updateProductInSupabase(product.id, {
+                              is_mentoria: !product.is_mentoria
+                            });
+                            
+                            if (updatedProduct) {
+                              // Atualizar lista local
+                              setProducts(prev => prev.map(p => 
+                                p.id === product.id 
+                                  ? { ...p, is_mentoria: !p.is_mentoria }
+                                  : p
+                              ));
+                              
+                              // Atualizar localStorage
+                              const updatedProducts = products.map(p => 
+                                p.id === product.id 
+                                  ? { ...p, is_mentoria: !p.is_mentoria }
+                                  : p
+                              );
+                              localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+                              localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+                            }
+                          } catch (error) {
+                            console.error('Erro ao atualizar produto:', error);
+                            alert('Erro ao atualizar produto. Tente novamente.');
+                          }
+                        }}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: product.is_mentoria ? '#28a745' : '#6c757d',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        {product.is_mentoria ? '✅ Na Mentoria' : '➕ Adicionar'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {products.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+                <div style={{ fontSize: '48px', marginBottom: '15px' }}>📦</div>
+                <h3 style={{ margin: '0 0 10px 0' }}>Nenhum produto cadastrado</h3>
+                <p style={{ margin: 0 }}>Adicione produtos primeiro para poder gerenciá-los na mentoria.</p>
+              </div>
+            )}
+
+            <div style={{ 
+              marginTop: '25px', 
+              paddingTop: '20px', 
+              borderTop: '1px solid #dee2e6',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div style={{ color: '#666', fontSize: '14px' }}>
+                {products.filter(p => p.is_mentoria).length} produto(s) selecionado(s) para mentoria
+              </div>
+              <button
+                onClick={() => setShowMentoriaProducts(false)}
+                style={{
+                  padding: '12px 24px',
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold'
+                }}
+              >
+                Fechar
               </button>
             </div>
           </div>

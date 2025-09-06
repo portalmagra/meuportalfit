@@ -274,6 +274,78 @@ export default function SuportePage() {
         {/* Header Unificado com Logo, Navegação e Idioma */}
         <Header language={language} onLanguageChange={setLanguage} />
 
+        {/* Video Section - PRIMEIRA SEÇÃO (logo após header) */}
+        <section style={{ 
+          background: 'white', 
+          padding: '2rem 0',
+          borderBottom: '1px solid #e5e7eb'
+        }}>
+          <div style={{
+            maxWidth: '400px', // Largura reduzida para formato 9:16
+            margin: '0 auto',
+            padding: '0 2rem',
+            textAlign: 'center'
+          }}>
+            <h2 style={{
+              fontSize: 'clamp(1.3rem, 3vw, 1.6rem)',
+              fontWeight: 700,
+              marginBottom: '1.5rem',
+              color: '#1f2937'
+            }}>
+              🎥 Veja Como Funciona
+            </h2>
+            
+            <div style={{
+              background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+              borderRadius: '20px',
+              padding: '1rem',
+              color: 'white',
+              border: '3px solid rgba(255, 255, 255, 0.3)',
+              aspectRatio: '9/16', // Formato 9:16
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)'
+            }}>
+              {/* Vídeo Player */}
+              <video
+                controls
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '15px',
+                  objectFit: 'cover'
+                }}
+                poster="/images/video-poster.jpg" // Opcional: imagem de capa
+              >
+                <source src="/videos/Avaliacao.mp4" type="video/mp4" />
+                Seu navegador não suporta vídeos HTML5.
+              </video>
+              
+              {/* Overlay de informações */}
+              <div style={{
+                position: 'absolute',
+                bottom: '1rem',
+                left: '1rem',
+                right: '1rem',
+                background: 'rgba(0, 0, 0, 0.7)',
+                borderRadius: '10px',
+                padding: '0.8rem',
+                color: 'white',
+                fontSize: '0.9rem',
+                textAlign: 'center'
+              }}>
+                <p style={{ margin: 0, fontWeight: 600 }}>
+                  🎯 Veja como funciona nossa avaliação
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Hero Section - GATILHO DE URGÊNCIA */}
         <section style={{
           background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
@@ -369,6 +441,7 @@ export default function SuportePage() {
             </div>
           </div>
         </section>
+
 
         {/* Seção Como Funciona a Avaliação */}
         <section style={{
@@ -535,52 +608,6 @@ export default function SuportePage() {
           </div>
         </section>
 
-        {/* Video Section - PLACEHOLDER */}
-        <section style={{ background: '#f1f5f9', padding: '4rem 0' }}>
-          <div style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            padding: '0 2rem',
-            textAlign: 'center'
-          }}>
-            <h2 style={{
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: 700,
-              marginBottom: '2rem',
-              color: '#1f2937'
-            }}>
-              🎥 Vídeo Explicativo
-            </h2>
-            
-            <div style={{
-              background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-              borderRadius: '20px',
-              padding: '3rem',
-              color: 'white',
-              border: '3px dashed rgba(255, 255, 255, 0.3)'
-            }}>
-              <div style={{
-                fontSize: '4rem',
-                marginBottom: '1rem'
-              }}>
-                📹
-              </div>
-              <p style={{
-                fontSize: '1.1rem',
-                marginBottom: '1rem',
-                opacity: 0.9
-              }}>
-                Área reservada para vídeo explicativo
-              </p>
-              <p style={{
-                fontSize: '0.9rem',
-                opacity: 0.7
-              }}>
-                (Será adicionado posteriormente)
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* Social Proof */}
         <section style={{ background: 'white', padding: '4rem 0' }}>

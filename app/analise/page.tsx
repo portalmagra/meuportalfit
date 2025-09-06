@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 // Traduções
 const translations = {
@@ -287,32 +288,34 @@ export default function AnalisePage() {
         }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', flexShrink: 0 }}>
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontWeight: 900,
-                  fontSize: '1.2rem'
-                }}>
-                  M
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', flexShrink: 0, cursor: 'pointer' }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontWeight: 900,
+                    fontSize: '1.2rem'
+                  }}>
+                    M
+                  </div>
+                  <span style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 900,
+                    background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}>
+                    MeuPortalFit
+                  </span>
                 </div>
-                <span style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 900,
-                  background: 'linear-gradient(135deg, #22c55e, #3b82f6)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}>
-                  MeuPortalFit
-                </span>
-              </div>
+              </Link>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                 {/* Bandeirinhas de idioma */}

@@ -147,12 +147,20 @@ function findProducts(category: string, criteria: any) {
 }
 
 export async function POST(request: NextRequest) {
+  let body: any = {}
+  let answers: any, comments: any, language = 'pt', userName: any, userAge: any
+  
   try {
-    const body = await request.json()
-    const { answers, comments, language = 'pt', userName, userAge } = body
+    body = await request.json()
+    const { answers: answersData, comments: commentsData, language: langData, userName: userNameData, userAge: userAgeData } = body
+    answers = answersData
+    comments = commentsData
+    language = langData || 'pt'
+    userName = userNameData
+    userAge = userAgeData
 
-    // Decodificar respostas
-    const decodedAnswers = JSON.parse(decodeURIComponent(answers))
+    // Decodificar respostas (answers já é um objeto)
+    const decodedAnswers = typeof answers === 'string' ? JSON.parse(decodeURIComponent(answers)) : answers
     
     // Determinar idioma
     const lang = language as keyof typeof SYSTEM_BY_LANG || 'pt'
@@ -201,10 +209,9 @@ export async function POST(request: NextRequest) {
         },
         {
           role: 'user',
-          content: userPrompt
+          content: userPrompt + '\n\nIMPORTANTE: Responda APENAS com um JSON válido contendo os campos: acolhimento, analise, contexto_cultural, habitos (array), produtos (array com objetos contendo: name, description, price, rating, searchTerms, whyPerfect), timeline, proximo_passo'
         }
       ],
-      response_format: { type: 'json_schema', schema: OutputSchema },
       temperature: 0.7,
       max_tokens: 2000
     })
@@ -234,7 +241,7 @@ export async function POST(request: NextRequest) {
     
     // Fallback com produtos genéricos mas personalizados
     const fallbackResult = {
-      acolhimento: `Querido ${body.userName || 'amigo'},`,
+      acolhimento: `Querido ${userName || 'amigo'},`,
       analise: 'Baseado nas suas respostas, identifiquei algumas áreas importantes para melhorar seu bem-estar. Vou sugerir hábitos e produtos específicos para sua situação.',
       contexto_cultural: 'Como brasileiro vivendo nos EUA, você enfrenta desafios únicos de adaptação cultural e climática. Essas sugestões são pensadas especificamente para sua realidade.',
       habitos: [

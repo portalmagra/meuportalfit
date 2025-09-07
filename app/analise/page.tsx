@@ -246,7 +246,10 @@ export default function AnalisePage() {
     
     setAnswers(prev => ({ ...prev, [questionId]: answerKey }))
     
-    // Não avançar automaticamente - deixar o usuário clicar em "Próxima"
+    // Avançar automaticamente para a próxima pergunta após 500ms
+    setTimeout(() => {
+      handleNext()
+    }, 500)
   }
 
   const handleNext = () => {
@@ -608,7 +611,9 @@ export default function AnalisePage() {
                           color: '#374151',
                           transition: 'all 0.3s ease',
                           textAlign: 'left',
-                          width: '100%'
+                          width: '100%',
+                          transform: answers[questions[currentQuestion].id] === String.fromCharCode(97 + index) ? 'scale(1.02)' : 'scale(1)',
+                          boxShadow: answers[questions[currentQuestion].id] === String.fromCharCode(97 + index) ? '0 8px 25px rgba(34, 197, 94, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.1)'
                         }}
                       >
                         <div style={{
@@ -676,7 +681,7 @@ export default function AnalisePage() {
                       boxShadow: loading || !answers[questions[currentQuestion]?.id] ? 'none' : '0 10px 25px rgba(34, 197, 94, 0.4)'
                     }}
                   >
-                    {loading ? 'Analisando...' : (currentQuestion === questions.length - 1 ? t('seeResults') : t('nextButton'))}
+                    {loading ? 'Analisando...' : (currentQuestion === questions.length - 1 ? t('seeResults') : `${t('nextButton')} (ou clique na resposta)`)}
                   </button>
                 </div>
               </div>

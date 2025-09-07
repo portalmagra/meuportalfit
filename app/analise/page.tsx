@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 // Traduções
@@ -154,6 +154,7 @@ export default function AnalisePage() {
   const [showMenu, setShowMenu] = useState(false)
   const [userName, setUserName] = useState('')
   const [userAge, setUserAge] = useState('')
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const t = (key: string) => {
     const translation = (translations as any)[key]
@@ -216,7 +217,13 @@ export default function AnalisePage() {
     checkMobile()
     window.addEventListener('resize', checkMobile)
     
-    return () => window.removeEventListener('resize', checkMobile)
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      // Limpar timeout ao desmontar componente
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
   }, [])
 
   // Função para analisar o perfil
@@ -239,6 +246,11 @@ export default function AnalisePage() {
   }
 
   const handleAnswer = (questionId: string, answer: string) => {
+    // Limpar timeout anterior se existir
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    
     // Encontrar o índice da opção selecionada
     const currentQuestionObj = questions.find(q => q.id === questionId)
     const optionIndex = currentQuestionObj?.options.indexOf(answer) || 0
@@ -247,8 +259,12 @@ export default function AnalisePage() {
     setAnswers(prev => ({ ...prev, [questionId]: answerKey }))
     
     // Avançar automaticamente para a próxima pergunta após 500ms
-    setTimeout(() => {
-      handleNext()
+    timeoutRef.current = setTimeout(() => {
+      try {
+        handleNext()
+      } catch (error) {
+        console.error('Erro ao avançar para próxima pergunta:', error)
+      }
     }, 500)
   }
 

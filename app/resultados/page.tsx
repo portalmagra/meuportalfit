@@ -79,17 +79,25 @@ function ResultadosContent() {
   useEffect(() => {
     const loadResults = async () => {
       try {
+        console.log('🔄 Iniciando loadResults...')
+        
         // Pegar dados da URL
         const answers = searchParams.get('answers')
         const comments = searchParams.get('comments')
         const lang = searchParams.get('language') || 'pt'
         const userName = searchParams.get('userName') || ''
         const userAge = searchParams.get('userAge') || ''
+        
+        console.log('📊 Parâmetros da URL:', { answers: !!answers, comments, lang, userName, userAge })
+        
         setLanguage(lang)
         
         if (answers) {
+          console.log('✅ Answers encontrados, fazendo parse...')
           const parsedAnswers = JSON.parse(decodeURIComponent(answers))
+          console.log('📝 Answers parseados:', parsedAnswers)
           
+          console.log('🚀 Chamando API de análise...')
           // Chamar API de análise com idioma e dados pessoais
           const response = await fetch('/api/ai-analysis', {
             method: 'POST',
@@ -105,15 +113,24 @@ function ResultadosContent() {
             })
           })
 
+          console.log('📡 Resposta da API:', response.status, response.ok)
+
           if (response.ok) {
             const results = await response.json()
             console.log('🤖 Resultados da API:', results)
             setAnalysisResults(results)
+          } else {
+            console.error('❌ Erro na API:', response.status, response.statusText)
+            const errorText = await response.text()
+            console.error('❌ Detalhes do erro:', errorText)
           }
+        } else {
+          console.log('❌ Nenhum answer encontrado na URL')
         }
       } catch (error) {
-        console.error('Erro ao carregar resultados:', error)
+        console.error('💥 Erro ao carregar resultados:', error)
       } finally {
+        console.log('🏁 Finalizando loadResults, setLoading(false)')
         setLoading(false)
       }
     }

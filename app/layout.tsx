@@ -15,7 +15,7 @@ export const metadata = {
     siteName: 'MeuPortalFit',
     images: [
       {
-        url: 'https://meuportalfit.com/images/og/meuportalfit-og.jpg',
+        url: 'https://meuportalfit.com/images/og/meuportalfit-og.svg',
         width: 1200,
         height: 630,
         alt: 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
@@ -30,7 +30,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
     description: 'Descubra produtos Amazon personalizados para suas necessidades de saúde e bem-estar.',
-    images: ['https://meuportalfit.com/images/og/meuportalfit-og.jpg'],
+    images: ['https://meuportalfit.com/images/og/meuportalfit-og.svg'],
     creator: '@meuportalfit',
     site: '@meuportalfit',
   },
@@ -39,11 +39,12 @@ export const metadata = {
   other: {
     'og:image:width': '1200',
     'og:image:height': '630',
-    'og:image:type': 'image/jpeg',
+    'og:image:type': 'image/svg+xml',
     'og:image:alt': 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
     
     // WhatsApp específico
-    'og:image:secure_url': 'https://meuportalfit.com/images/og/meuportalfit-og.jpg',
+    'og:image:secure_url': 'https://meuportalfit.com/images/og/meuportalfit-og.svg',
+    'og:image:url': 'https://meuportalfit.com/images/og/meuportalfit-og.svg',
     
     // Informações da empresa
     'og:site_name': 'MeuPortalFit',
@@ -58,6 +59,11 @@ export const metadata = {
     'robots': 'index, follow',
     'author': 'MeuPortalFit',
     'copyright': '© 2025 MeuPortalFit. Todos os direitos reservados.',
+    
+    // WhatsApp específico adicional
+    'whatsapp:image': 'https://meuportalfit.com/images/og/meuportalfit-og.svg',
+    'whatsapp:title': 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
+    'whatsapp:description': 'Descubra produtos Amazon personalizados para suas necessidades de saúde e bem-estar.',
   },
   
   // Manifest para PWA

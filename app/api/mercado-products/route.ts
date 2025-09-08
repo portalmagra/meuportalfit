@@ -10,16 +10,16 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false })
     
     if (error) {
-      console.error('Erro ao buscar produtos da mentoria:', error)
+      console.error('Erro ao buscar produtos do mercado:', error)
       return NextResponse.json(
-        { error: 'Erro ao buscar produtos da mentoria' },
+        { error: 'Erro ao buscar produtos do mercado' },
         { status: 500 }
       )
     }
     
     return NextResponse.json(data || [])
   } catch (error) {
-    console.error('Erro na API de produtos da mentoria:', error)
+    console.error('Erro na API de produtos do mercado:', error)
     return NextResponse.json(
       { error: 'Erro interno do servidor' },
       { status: 500 }

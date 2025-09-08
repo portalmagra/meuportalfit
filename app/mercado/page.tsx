@@ -4,22 +4,22 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { supabase, Product } from '@/lib/supabase'
 
-export default function MentoriaPage() {
+export default function MercadoPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/mentoria-products')
+        const response = await fetch('/api/mercado-products')
         if (response.ok) {
           const data = await response.json()
           setProducts(Array.isArray(data) ? data : [])
         } else {
-          console.error('Erro ao buscar produtos da mentoria')
+          console.error('Erro ao buscar produtos do mercado')
         }
       } catch (error) {
-        console.error('Erro ao buscar produtos da mentoria:', error)
+        console.error('Erro ao buscar produtos do mercado:', error)
       } finally {
         setLoading(false)
       }
@@ -81,7 +81,7 @@ export default function MentoriaPage() {
               marginBottom: '1rem',
               lineHeight: 1.2
             }}>
-              Sugestões de Produtos para Sua Saúde
+                            Produtos Selecionados para Você
             </h1>
             <p style={{
               fontSize: '1.1rem',

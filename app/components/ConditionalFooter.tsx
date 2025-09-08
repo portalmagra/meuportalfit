@@ -5,7 +5,7 @@ import Footer from './Footer'
 
 export default function ConditionalFooter() {
   const pathname = usePathname()
-  const hideFooterPaths = ['/mentoria']
+  const hideFooterPaths = ['/mercado']
 
   if (hideFooterPaths.includes(pathname)) {
     return null

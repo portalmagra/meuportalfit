@@ -239,25 +239,54 @@ export default function AnalisePage() {
   }
 
   const handleAnswer = (questionId: string, answer: string) => {
-    // Encontrar o índice da opção selecionada
-    const currentQuestionObj = questions.find(q => q.id === questionId)
-    const optionIndex = currentQuestionObj?.options.indexOf(answer) || 0
-    const answerKey = String.fromCharCode(97 + optionIndex) // 'a', 'b', 'c', 'd'
-    
-    setAnswers(prev => ({ ...prev, [questionId]: answerKey }))
-    
-    // Avançar automaticamente para a próxima pergunta após 500ms
-    setTimeout(() => {
-      handleNext()
-    }, 500)
+    try {
+      // Verificar se questions existe e tem dados
+      if (!questions || questions.length === 0) {
+        console.error('Questions não está definido ou está vazio')
+        return
+      }
+      
+      // Encontrar o índice da opção selecionada
+      const currentQuestionObj = questions.find(q => q && q.id === questionId)
+      if (!currentQuestionObj || !currentQuestionObj.options) {
+        console.error('Question não encontrada ou sem opções:', questionId)
+        return
+      }
+      
+      const optionIndex = currentQuestionObj.options.indexOf(answer)
+      if (optionIndex === -1) {
+        console.error('Opção não encontrada:', answer)
+        return
+      }
+      
+      const answerKey = String.fromCharCode(97 + optionIndex) // 'a', 'b', 'c', 'd'
+      
+      setAnswers(prev => ({ ...prev, [questionId]: answerKey }))
+      
+      // Avançar automaticamente para a próxima pergunta após 500ms
+      setTimeout(() => {
+        handleNext()
+      }, 500)
+    } catch (error) {
+      console.error('Erro em handleAnswer:', error)
+    }
   }
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(prev => prev + 1)
-    } else {
-      // Na última pergunta, mostrar seção de comentários
-      setShowComments(true)
+    try {
+      if (!questions || questions.length === 0) {
+        console.error('Questions não está definido em handleNext')
+        return
+      }
+      
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(prev => prev + 1)
+      } else {
+        // Na última pergunta, mostrar seção de comentários
+        setShowComments(true)
+      }
+    } catch (error) {
+      console.error('Erro em handleNext:', error)
     }
   }
 

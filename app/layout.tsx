@@ -70,8 +70,8 @@ export const metadata = {
     'og:image:height': '630',
     'og:image:type': 'image/svg+xml',
     
-    // Facebook App ID (removido temporariamente - causando aviso)
-    // 'fb:app_id': '1234567890123456',
+    // Facebook App ID (real - obtido do Facebook Developers)
+    'fb:app_id': '2284893705294795',
   },
   
   // Manifest para PWA

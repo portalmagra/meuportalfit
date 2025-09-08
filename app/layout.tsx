@@ -64,6 +64,9 @@ export const metadata = {
     'whatsapp:image': 'https://meuportalfit.com/images/og/meuportalfit-og.svg',
     'whatsapp:title': 'MeuPortalFit - Portal de Wellness para Brasileiros nos EUA',
     'whatsapp:description': 'Descubra produtos Amazon personalizados para suas necessidades de saúde e bem-estar.',
+    
+    // Facebook App ID (obrigatório para WhatsApp)
+    'fb:app_id': '1234567890123456',
   },
   
   // Manifest para PWA

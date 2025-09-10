@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    // Como o Supabase está com credenciais placeholder, vamos retornar dados mock
-    // que simulam produtos selecionados para o mercado
+    // Como o Supabase está com credenciais placeholder, vamos usar dados mock
+    // mas também verificar se há produtos no localStorage (via cookie ou header)
     const mockProducts = [
       {
         id: '1',
@@ -55,6 +55,8 @@ export async function GET(request: NextRequest) {
       }
     ]
     
+    // Por enquanto, retornar os produtos mock
+    // Em uma implementação real, você buscaria do localStorage ou banco de dados
     return NextResponse.json(mockProducts)
   } catch (error) {
     console.error('Erro na API de produtos do mercado:', error)

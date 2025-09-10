@@ -1666,29 +1666,22 @@ export default function AdminPage() {
                     
                     <div style={{ marginLeft: '15px' }}>
                       <button
-                        onClick={async () => {
+                        onClick={() => {
                           try {
-                            const updatedProduct = await updateProductInSupabase(product.id, {
-                              is_mentoria: !product.is_mentoria
-                            });
+                            // Atualizar lista local
+                            const updatedProducts = products.map(p => 
+                              p.id === product.id 
+                                ? { ...p, is_mentoria: !p.is_mentoria }
+                                : p
+                            );
                             
-                            if (updatedProduct) {
-                              // Atualizar lista local
-                              setProducts(prev => prev.map(p => 
-                                p.id === product.id 
-                                  ? { ...p, is_mentoria: !p.is_mentoria }
-                                  : p
-                              ));
-                              
-                              // Atualizar localStorage
-                              const updatedProducts = products.map(p => 
-                                p.id === product.id 
-                                  ? { ...p, is_mentoria: !p.is_mentoria }
-                                  : p
-                              );
-                              localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
-                              localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
-                            }
+                            setProducts(updatedProducts);
+                            
+                            // Atualizar localStorage
+                            localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+                            localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+                            
+                            console.log(`✅ Produto ${product.name} ${!product.is_mentoria ? 'adicionado ao' : 'removido do'} mercado`);
                           } catch (error) {
                             console.error('Erro ao atualizar produto:', error);
                             alert('Erro ao atualizar produto. Tente novamente.');

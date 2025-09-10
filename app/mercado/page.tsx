@@ -141,7 +141,7 @@ export default function MercadoPage() {
         <div style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '0 1rem'
+          padding: '0 2rem'
         }}>
           {/* Introdução */}
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -238,8 +238,7 @@ export default function MercadoPage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1rem',
-                    transition: 'all 0.3s ease',
-                    flexWrap: 'wrap'
+                    transition: 'all 0.3s ease'
                   }}>
                     {/* Nome do produto */}
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -285,7 +284,7 @@ export default function MercadoPage() {
                     </div>
 
                     {/* Botão Amazon */}
-                    <div style={{ flexShrink: 0, width: '100%', minWidth: '200px' }}>
+                    <div style={{ flexShrink: 0 }}>
                       <a
                         href={ensureAffiliateTag(product.amazonUrl)}
                         target="_blank"
@@ -293,7 +292,6 @@ export default function MercadoPage() {
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
-                          justifyContent: 'center',
                           gap: '0.5rem',
                           background: 'linear-gradient(135deg, #f97316, #ea580c)',
                           color: 'white',
@@ -303,9 +301,7 @@ export default function MercadoPage() {
                           textDecoration: 'none',
                           fontSize: '0.9rem',
                           transition: 'all 0.3s ease',
-                          boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
-                          width: '100%',
-                          minHeight: '44px'
+                          boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.transform = 'translateY(-2px)'

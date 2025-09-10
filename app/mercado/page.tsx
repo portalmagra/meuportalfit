@@ -28,6 +28,9 @@ export default function MercadoPage() {
         const storedProducts = localStorage.getItem('adminProducts')
         if (storedProducts) {
           const allProducts = JSON.parse(storedProducts)
+          console.log('🔍 Todos os produtos no localStorage:', allProducts.length)
+          console.log('🔍 Produtos com is_mentoria:', allProducts.filter((p: any) => p.is_mentoria === true).length)
+          console.log('🔍 Exemplo de produto:', allProducts[0])
           // Filtrar apenas produtos marcados para o mercado (is_mentoria: true)
           const mercadoProducts = allProducts.filter((product: any) => product.is_mentoria === true)
           setProducts(mercadoProducts)
@@ -114,35 +117,6 @@ export default function MercadoPage() {
               Produtos selecionados na área administrativa para o mercado.
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button
-                onClick={() => {
-                  setLoading(true)
-                  const storedProducts = localStorage.getItem('adminProducts')
-                  if (storedProducts) {
-                    const allProducts = JSON.parse(storedProducts)
-                    const mercadoProducts = allProducts.filter((product: any) => product.is_mentoria === true)
-                    setProducts(mercadoProducts)
-                    console.log(`🔄 Atualizados ${mercadoProducts.length} produtos do mercado`)
-                  }
-                  setLoading(false)
-                }}
-                style={{
-                  padding: '8px 16px',
-                  backgroundColor: '#FF8C42',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 'bold',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                🔄 Atualizar Lista
-              </button>
-              
               <button
                 onClick={() => {
                   const currentUrl = window.location.href

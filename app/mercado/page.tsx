@@ -3,10 +3,23 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { supabase, Product } from '@/lib/supabase'
+import Header from '../components/Header'
 
 export default function MercadoPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Função para garantir que o link da Amazon tenha a tag de afiliado
+  const ensureAffiliateTag = (url: string) => {
+    if (!url) return url
+    
+    // Se já tem tag, retorna como está
+    if (url.includes('tag=')) return url
+    
+    // Adiciona a tag de afiliado
+    const separator = url.includes('?') ? '&' : '?'
+    return `${url}${separator}tag=portalsolutio-20`
+  }
 
   useEffect(() => {
     const loadProductsFromStorage = () => {
@@ -68,6 +81,8 @@ export default function MercadoPage() {
         }
       `}</style>
       
+      <Header />
+      
       <main style={{
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #f0f9ff 100%)',
@@ -98,34 +113,80 @@ export default function MercadoPage() {
             }}>
               Produtos selecionados na área administrativa para o mercado.
             </p>
-            <button
-              onClick={() => {
-                setLoading(true)
-                const storedProducts = localStorage.getItem('adminProducts')
-                if (storedProducts) {
-                  const allProducts = JSON.parse(storedProducts)
-                  const mercadoProducts = allProducts.filter((product: any) => product.is_mentoria === true)
-                  setProducts(mercadoProducts)
-                  console.log(`🔄 Atualizados ${mercadoProducts.length} produtos do mercado`)
-                }
-                setLoading(false)
-              }}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#FF8C42',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: 'bold',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              🔄 Atualizar Lista
-            </button>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => {
+                  setLoading(true)
+                  const storedProducts = localStorage.getItem('adminProducts')
+                  if (storedProducts) {
+                    const allProducts = JSON.parse(storedProducts)
+                    const mercadoProducts = allProducts.filter((product: any) => product.is_mentoria === true)
+                    setProducts(mercadoProducts)
+                    console.log(`🔄 Atualizados ${mercadoProducts.length} produtos do mercado`)
+                  }
+                  setLoading(false)
+                }}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: '#FF8C42',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                🔄 Atualizar Lista
+              </button>
+              
+              <button
+                onClick={() => {
+                  const currentUrl = window.location.href
+                  const shareText = `🛒 Confira os produtos selecionados para o mercado no MeuPortalFit!\n\n${currentUrl}\n\n#MeuPortalFit #ProdutosSelecionados #Mercado`
+                  
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'Produtos do Mercado - MeuPortalFit',
+                      text: shareText,
+                      url: currentUrl
+                    })
+                  } else {
+                    // Fallback para copiar para área de transferência
+                    navigator.clipboard.writeText(shareText).then(() => {
+                      alert('Link copiado para a área de transferência! Compartilhe com suas amigas! 💕')
+                    }).catch(() => {
+                      // Fallback manual
+                      const textArea = document.createElement('textarea')
+                      textArea.value = shareText
+                      document.body.appendChild(textArea)
+                      textArea.select()
+                      document.execCommand('copy')
+                      document.body.removeChild(textArea)
+                      alert('Link copiado para a área de transferência! Compartilhe com suas amigas! 💕')
+                    })
+                  }
+                }}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: '#EC4899',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+              >
+                💕 Compartilhe com uma amiga
+              </button>
+            </div>
           </div>
 
           {/* Lista de Produtos */}
@@ -204,7 +265,7 @@ export default function MercadoPage() {
                     {/* Botão Amazon */}
                     <div style={{ flexShrink: 0 }}>
                       <a
-                        href={product.amazonUrl}
+                        href={ensureAffiliateTag(product.amazonUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{

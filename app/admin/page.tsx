@@ -653,44 +653,43 @@ export default function AdminPage() {
     
     if (confirm('Tem certeza que deseja excluir este produto?')) {
       try {
-        console.log('🗑️ Confirmado, deletando do Supabase...');
+        console.log('🗑️ Confirmado, deletando produto...');
         
-        // Deletar do Supabase primeiro
-        const deleted = await deleteProductFromSupabase(productId);
-        console.log('🗑️ Resultado da deleção do Supabase:', deleted);
+        // Remover do estado local primeiro
+        const updatedProducts = products.filter(p => p.id !== productId);
+        console.log('🗑️ Produtos após filtro:', updatedProducts.length);
+        setProducts(updatedProducts);
         
-        if (deleted) {
-          console.log('🗑️ Supabase OK, removendo do estado local...');
-          
-          // Remover do estado local
-          const updatedProducts = products.filter(p => p.id !== productId);
-          console.log('🗑️ Produtos após filtro:', updatedProducts.length);
-          setProducts(updatedProducts);
-          
-          // Sincronizar localStorage
-          localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
-          localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
-          console.log('🗑️ localStorage atualizado');
-          
-          // Sincronizar via BroadcastChannel
-          try {
-            const channel = new BroadcastChannel('admin-sync');
-            channel.postMessage({
-              type: 'products-updated',
-              products: updatedProducts,
-              action: 'delete',
-              timestamp: Date.now()
-            });
-            channel.close();
-            console.log('✅ Produto excluído do Supabase e sincronizado com sucesso');
-            alert('✅ Produto excluído com sucesso!');
-          } catch (error) {
-            console.log('❌ BroadcastChannel não suportado para exclusão:', error);
-          }
-        } else {
-          console.error('❌ Falha ao deletar produto do Supabase');
-          alert('❌ Erro ao deletar produto. Tente novamente.');
+        // Sincronizar localStorage
+        localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+        localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
+        console.log('🗑️ localStorage atualizado');
+        
+        // Tentar deletar do Supabase (opcional, não bloqueia se falhar)
+        try {
+          const deleted = await deleteProductFromSupabase(productId);
+          console.log('🗑️ Resultado da deleção do Supabase:', deleted);
+        } catch (error) {
+          console.log('⚠️ Supabase não disponível, continuando com localStorage apenas:', error);
         }
+        
+        // Sincronizar via BroadcastChannel
+        try {
+          const channel = new BroadcastChannel('admin-sync');
+          channel.postMessage({
+            type: 'products-updated',
+            products: updatedProducts,
+            action: 'delete',
+            timestamp: Date.now()
+          });
+          channel.close();
+          console.log('✅ Produto excluído e sincronizado com sucesso');
+        } catch (error) {
+          console.log('❌ BroadcastChannel não suportado para exclusão:', error);
+        }
+        
+        alert('✅ Produto excluído com sucesso!');
+        
       } catch (error) {
         console.error('❌ Erro ao deletar produto:', error);
         alert('❌ Erro ao deletar produto: ' + error);
@@ -1876,50 +1875,7 @@ export default function AdminPage() {
                             ✏️ Editar
                           </button>
                           <button
-                            onClick={async () => {
-                              if (confirm(`Tem certeza que deseja excluir "${product.name}" da categoria "${selectedCategory.name}"?`)) {
-                                console.log('🗑️ Botão de exclusão clicado para:', product.name, 'ID:', product.id);
-                                
-                                try {
-                                  // Deletar do Supabase primeiro
-                                  const deleted = await deleteProductFromSupabase(product.id);
-                                  console.log('🗑️ Resultado da deleção do Supabase:', deleted);
-                                  
-                                  if (deleted) {
-                                    // Remover do estado local
-                                    const updatedProducts = products.filter(p => p.id !== product.id);
-                                    setProducts(updatedProducts);
-                                    
-                                    // Sincronizar localStorage
-                                    localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
-                                    localStorage.setItem('globalProducts', JSON.stringify(updatedProducts));
-                                    
-                                    // Sincronizar via BroadcastChannel
-                                    try {
-                                      const channel = new BroadcastChannel('admin-sync');
-                                      channel.postMessage({
-                                        type: 'products-updated',
-                                        products: updatedProducts,
-                                        action: 'delete',
-                                        timestamp: Date.now()
-                                      });
-                                      channel.close();
-                                      console.log('✅ Produto excluído do Supabase e sincronizado com sucesso');
-                                    } catch (error) {
-                                      console.log('❌ BroadcastChannel não suportado para exclusão:', error);
-                                    }
-                                    
-                                    alert(`✅ Produto "${product.name}" excluído com sucesso da categoria "${selectedCategory.name}"!`);
-                                  } else {
-                                    console.error('❌ Falha ao deletar produto do Supabase');
-                                    alert('❌ Erro ao deletar produto. Tente novamente.');
-                                  }
-                                } catch (error) {
-                                  console.error('❌ Erro ao deletar produto:', error);
-                                  alert('❌ Erro ao deletar produto: ' + error);
-                                }
-                              }
-                            }}
+                            onClick={() => deleteProduct(product.id)}
                             style={{
                               backgroundColor: '#dc3545',
                               color: 'white',

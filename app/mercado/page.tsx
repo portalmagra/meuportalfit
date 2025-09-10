@@ -9,23 +9,29 @@ export default function MercadoPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const loadProductsFromStorage = () => {
       try {
-        const response = await fetch('/api/mercado-products')
-        if (response.ok) {
-          const data = await response.json()
-          setProducts(Array.isArray(data) ? data : [])
+        // Buscar produtos do localStorage (mesmo local onde a admin salva)
+        const storedProducts = localStorage.getItem('adminProducts')
+        if (storedProducts) {
+          const allProducts = JSON.parse(storedProducts)
+          // Filtrar apenas produtos marcados para o mercado (is_mentoria: true)
+          const mercadoProducts = allProducts.filter((product: any) => product.is_mentoria === true)
+          setProducts(mercadoProducts)
+          console.log(`✅ Carregados ${mercadoProducts.length} produtos do mercado do localStorage`)
         } else {
-          console.error('Erro ao buscar produtos do mercado')
+          console.log('ℹ️ Nenhum produto encontrado no localStorage')
+          setProducts([])
         }
       } catch (error) {
-        console.error('Erro ao buscar produtos do mercado:', error)
+        console.error('Erro ao carregar produtos do localStorage:', error)
+        setProducts([])
       } finally {
         setLoading(false)
       }
     }
 
-    fetchProducts()
+    loadProductsFromStorage()
   }, [])
 
   if (loading) {
@@ -81,17 +87,45 @@ export default function MercadoPage() {
               marginBottom: '1rem',
               lineHeight: 1.2
             }}>
-                            Produtos Selecionados para Você
+              🛒 Produtos do Mercado
             </h1>
             <p style={{
               fontSize: '1.1rem',
               color: '#6b7280',
               maxWidth: '800px',
-              margin: '0 auto',
+              margin: '0 auto 1.5rem',
               lineHeight: 1.6
             }}>
-              Produtos selecionados para você.
+              Produtos selecionados na área administrativa para o mercado.
             </p>
+            <button
+              onClick={() => {
+                setLoading(true)
+                const storedProducts = localStorage.getItem('adminProducts')
+                if (storedProducts) {
+                  const allProducts = JSON.parse(storedProducts)
+                  const mercadoProducts = allProducts.filter((product: any) => product.is_mentoria === true)
+                  setProducts(mercadoProducts)
+                  console.log(`🔄 Atualizados ${mercadoProducts.length} produtos do mercado`)
+                }
+                setLoading(false)
+              }}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#FF8C42',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              🔄 Atualizar Lista
+            </button>
           </div>
 
           {/* Lista de Produtos */}

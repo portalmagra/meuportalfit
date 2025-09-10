@@ -11,6 +11,12 @@ export default function ProdutosPage() {
   // Categorias de produtos
   const categories = [
     {
+      name: 'Mercado',
+      description: 'Produtos selecionados para o mercado',
+      icon: '🛒',
+      href: '/mercado'
+    },
+    {
       name: 'Shot Afrodisíaco',
       description: 'Suplementos naturais que ajudam o libido e energia sexual',
       icon: '💪',
@@ -279,11 +285,11 @@ export default function ProdutosPage() {
                 {filteredCategories.map(category => (
                   <Link href={category.href} key={category.name} style={{ textDecoration: 'none' }}>
                     <div style={{
-                      background: 'white',
+                      background: category.name === 'Mercado' ? 'linear-gradient(135deg, #FFB366, #FF8C42)' : 'white',
                       borderRadius: '16px',
                       padding: '1.2rem',
-                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
-                      border: '2px solid #f3f4f6',
+                      boxShadow: category.name === 'Mercado' ? '0 8px 25px rgba(255, 140, 66, 0.3)' : '0 8px 25px rgba(0, 0, 0, 0.1)',
+                      border: category.name === 'Mercado' ? '2px solid #FF8C42' : '2px solid #f3f4f6',
                       position: 'relative',
                       cursor: 'pointer',
                       transition: 'all 0.3s ease'
@@ -303,13 +309,13 @@ export default function ProdutosPage() {
                           <h3 style={{
                             fontSize: '1.2rem',
                             fontWeight: 700,
-                            color: '#1f2937',
+                            color: category.name === 'Mercado' ? 'white' : '#1f2937',
                             marginBottom: '0.3rem'
                           }}>
                             {category.name}
                           </h3>
                           <p style={{
-                            color: '#6b7280',
+                            color: category.name === 'Mercado' ? 'rgba(255, 255, 255, 0.9)' : '#6b7280',
                             fontSize: '0.8rem',
                             lineHeight: 1.3
                           }}>

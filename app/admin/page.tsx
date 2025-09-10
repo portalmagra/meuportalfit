@@ -68,7 +68,7 @@ export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
-  const [showMentoriaProducts, setShowMentoriaProducts] = useState(false);
+  const [showMercadoProducts, setShowMercadoProducts] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [productForm, setProductForm] = useState({
@@ -809,11 +809,11 @@ export default function AdminPage() {
         </button>
         
         <button
-          onClick={() => setShowMentoriaProducts(true)}
+          onClick={() => setShowMercadoProducts(true)}
           style={{
             padding: '12px 20px',
             fontSize: '16px',
-            backgroundColor: '#6f42c1',
+            backgroundColor: '#FF8C42',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
@@ -825,7 +825,7 @@ export default function AdminPage() {
             zIndex: 1001
           }}
         >
-          🎯 Produtos da Mentoria
+          🛒 Produtos do Mercado
         </button>
         
                         <button
@@ -1538,8 +1538,8 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Modal Produtos da Mentoria */}
-      {showMentoriaProducts && (
+      {/* Modal Produtos do Mercado */}
+      {showMercadoProducts && (
         <div style={{
           position: 'fixed',
           top: 0,
@@ -1570,18 +1570,18 @@ export default function AdminPage() {
               borderBottom: '2px solid #dee2e6'
             }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <span style={{ fontSize: '32px', marginRight: '15px' }}>🎯</span>
+                <span style={{ fontSize: '32px', marginRight: '15px' }}>🛒</span>
                 <div>
                   <h2 style={{ margin: 0, color: '#333', fontSize: '28px', fontWeight: 'bold' }}>
-                    Produtos da Mentoria
+                    Produtos do Mercado
                   </h2>
                   <p style={{ margin: '5px 0 0 0', color: '#666', fontSize: '16px' }}>
-                    Gerencie quais produtos aparecem na página de mentoria
+                    Gerencie quais produtos aparecem na página do mercado
                   </p>
                 </div>
               </div>
               <button
-                onClick={() => setShowMentoriaProducts(false)}
+                onClick={() => setShowMercadoProducts(false)}
                 style={{
                   backgroundColor: '#6c757d',
                   color: 'white',
@@ -1705,7 +1705,7 @@ export default function AdminPage() {
                           fontWeight: 'bold'
                         }}
                       >
-                        {product.is_mentoria ? '✅ Na Mentoria' : '➕ Adicionar'}
+                        {product.is_mentoria ? '✅ No Mercado' : '➕ Adicionar'}
                       </button>
                     </div>
                   </div>
@@ -1730,10 +1730,10 @@ export default function AdminPage() {
               alignItems: 'center'
             }}>
               <div style={{ color: '#666', fontSize: '14px' }}>
-                {products.filter(p => p.is_mentoria).length} produto(s) selecionado(s) para mentoria
+                {products.filter(p => p.is_mentoria).length} produto(s) selecionado(s) para o mercado
               </div>
               <button
-                onClick={() => setShowMentoriaProducts(false)}
+                onClick={() => setShowMercadoProducts(false)}
                 style={{
                   padding: '12px 24px',
                   backgroundColor: '#6c757d',

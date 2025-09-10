@@ -182,9 +182,9 @@ export default function MercadoPage() {
                       overflow: 'hidden',
                       flexShrink: 0
                     }}>
-                      {product.image_url ? (
+                      {product.imageUrl ? (
                         <img
-                          src={product.image_url}
+                          src={product.imageUrl}
                           alt={product.name}
                           style={{
                             width: '48px',
@@ -204,7 +204,7 @@ export default function MercadoPage() {
                     {/* Botão Amazon */}
                     <div style={{ flexShrink: 0 }}>
                       <a
-                        href={product.amazon_url}
+                        href={product.amazonUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{

@@ -108,7 +108,7 @@ export default function MercadoPage() {
                   Nenhum produto disponível
                 </h3>
                 <p style={{ color: '#6b7280' }}>
-                  Os produtos para mentoria ainda não foram configurados.
+                  Os produtos para o mercado ainda não foram configurados.
                 </p>
               </div>
             ) : (

@@ -105,7 +105,7 @@ export default function MercadoPage() {
               marginBottom: '1rem',
               lineHeight: 1.2
             }}>
-              🛒 Produtos do Mercado
+              🛒 Produtos Selecionados
             </h1>
             <p style={{
               fontSize: '1.1rem',
@@ -114,17 +114,17 @@ export default function MercadoPage() {
               margin: '0 auto 1.5rem',
               lineHeight: 1.6
             }}>
-              Produtos selecionados na área administrativa para o mercado.
+              Compre direto na Amazon, coloque no seu carrinho Amazon
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button
                 onClick={() => {
                   const currentUrl = window.location.href
-                  const shareText = `🛒 Confira os produtos selecionados para o mercado no MeuPortalFit!\n\n${currentUrl}\n\n#MeuPortalFit #ProdutosSelecionados #Mercado`
+                  const shareText = `🛒 Confira os produtos selecionados no MeuPortalFit!\n\n${currentUrl}\n\n#MeuPortalFit #ProdutosSelecionados #Amazon`
                   
                   if (navigator.share) {
                     navigator.share({
-                      title: 'Produtos do Mercado - MeuPortalFit',
+                      title: 'Produtos Selecionados - MeuPortalFit',
                       text: shareText,
                       url: currentUrl
                     })

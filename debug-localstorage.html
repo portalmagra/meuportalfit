@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug localStorage</title>
+</head>
+<body>
+    <h1>Debug localStorage</h1>
+    <div id="output"></div>
+    
+    <script>
+        function debugLocalStorage() {
+            const output = document.getElementById('output');
+            
+            // Verificar adminProducts
+            const adminProducts = localStorage.getItem('adminProducts');
+            if (adminProducts) {
+                const products = JSON.parse(adminProducts);
+                output.innerHTML += `<h2>adminProducts (${products.length} produtos)</h2>`;
+                output.innerHTML += `<p>Produtos com is_mentoria: ${products.filter(p => p.is_mentoria === true).length}</p>`;
+                output.innerHTML += `<pre>${JSON.stringify(products.slice(0, 2), null, 2)}</pre>`;
+            } else {
+                output.innerHTML += `<h2>adminProducts: NÃO ENCONTRADO</h2>`;
+            }
+            
+            // Verificar globalProducts
+            const globalProducts = localStorage.getItem('globalProducts');
+            if (globalProducts) {
+                const products = JSON.parse(globalProducts);
+                output.innerHTML += `<h2>globalProducts (${products.length} produtos)</h2>`;
+                output.innerHTML += `<p>Produtos com is_mentoria: ${products.filter(p => p.is_mentoria === true).length}</p>`;
+            } else {
+                output.innerHTML += `<h2>globalProducts: NÃO ENCONTRADO</h2>`;
+            }
+        }
+        
+        debugLocalStorage();
+    </script>
+</body>
+</html>

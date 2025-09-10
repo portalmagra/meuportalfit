@@ -44,10 +44,13 @@ export default function EnergiaPage() {
           const storedProducts = localStorage.getItem('adminProducts') || localStorage.getItem('globalProducts')
           if (storedProducts) {
             const allProducts = JSON.parse(storedProducts)
+            console.log('🔍 Todos os produtos no localStorage:', allProducts.length)
+            console.log('🔍 Categorias encontradas:', [...new Set(allProducts.map((p: any) => p.categoryId))])
             const energiaProducts = allProducts.filter((product: any) => 
               product.categoryId === 'energia'
             )
-            console.log('🔄 Fallback para localStorage:', energiaProducts.length, 'produtos')
+            console.log('🔄 Fallback para localStorage:', energiaProducts.length, 'produtos de energia')
+            console.log('🔍 Exemplo de produto de energia:', energiaProducts[0])
             setProducts(energiaProducts)
           }
         } else {

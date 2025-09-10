@@ -22,15 +22,62 @@ export default function MercadoPage() {
   }
 
   useEffect(() => {
-    const loadProductsFromStorage = () => {
+    const loadProducts = async () => {
       try {
-        // Buscar produtos do localStorage (mesmo local onde a admin salva)
+        console.log('🔄 Carregando produtos do mercado...')
+        
+        // PRIMEIRO: Tentar carregar do Supabase
+        try {
+          const { data: supabaseProducts, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('is_mentoria', true)
+          
+          if (error) {
+            console.log('⚠️ Erro ao carregar do Supabase:', error)
+            throw error
+          }
+          
+          if (supabaseProducts && supabaseProducts.length > 0) {
+            // Converter produtos do Supabase para formato local
+            const convertedProducts = supabaseProducts.map((p: any) => ({
+              id: p.id,
+              name: p.name,
+              description: p.description,
+              categoryId: p.category_id,
+              amazonUrl: p.amazon_url,
+              currentPrice: p.current_price,
+              originalPrice: p.original_price,
+              rating: p.rating,
+              reviewCount: p.review_count,
+              imageUrl: p.image_url,
+              benefits: p.benefits,
+              features: p.features,
+              productUrl: p.product_url,
+              is_mentoria: p.is_mentoria
+            }))
+            
+            setProducts(convertedProducts)
+            console.log(`✅ Carregados ${convertedProducts.length} produtos do mercado do Supabase`)
+            
+            // Salvar no localStorage como backup
+            localStorage.setItem('adminProducts', JSON.stringify(convertedProducts))
+            localStorage.setItem('globalProducts', JSON.stringify(convertedProducts))
+            
+            setLoading(false)
+            return
+          }
+        } catch (supabaseError) {
+          console.log('⚠️ Supabase não disponível, tentando localStorage:', supabaseError)
+        }
+        
+        // FALLBACK: Buscar produtos do localStorage
         const storedProducts = localStorage.getItem('adminProducts')
         if (storedProducts) {
           const allProducts = JSON.parse(storedProducts)
           console.log('🔍 Todos os produtos no localStorage:', allProducts.length)
           console.log('🔍 Produtos com is_mentoria:', allProducts.filter((p: any) => p.is_mentoria === true).length)
-          console.log('🔍 Exemplo de produto:', allProducts[0])
+          
           // Filtrar apenas produtos marcados para o mercado (is_mentoria: true)
           const mercadoProducts = allProducts.filter((product: any) => product.is_mentoria === true)
           setProducts(mercadoProducts)
@@ -40,14 +87,14 @@ export default function MercadoPage() {
           setProducts([])
         }
       } catch (error) {
-        console.error('Erro ao carregar produtos do localStorage:', error)
+        console.error('❌ Erro ao carregar produtos:', error)
         setProducts([])
       } finally {
         setLoading(false)
       }
     }
 
-    loadProductsFromStorage()
+    loadProducts()
   }, [])
 
   if (loading) {
@@ -94,7 +141,7 @@ export default function MercadoPage() {
         <div style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '0 2rem'
+          padding: '0 1rem'
         }}>
           {/* Introdução */}
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -191,7 +238,8 @@ export default function MercadoPage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1rem',
-                    transition: 'all 0.3s ease'
+                    transition: 'all 0.3s ease',
+                    flexWrap: 'wrap'
                   }}>
                     {/* Nome do produto */}
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -237,7 +285,7 @@ export default function MercadoPage() {
                     </div>
 
                     {/* Botão Amazon */}
-                    <div style={{ flexShrink: 0 }}>
+                    <div style={{ flexShrink: 0, width: '100%', minWidth: '200px' }}>
                       <a
                         href={ensureAffiliateTag(product.amazonUrl)}
                         target="_blank"
@@ -245,6 +293,7 @@ export default function MercadoPage() {
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
+                          justifyContent: 'center',
                           gap: '0.5rem',
                           background: 'linear-gradient(135deg, #f97316, #ea580c)',
                           color: 'white',
@@ -254,7 +303,9 @@ export default function MercadoPage() {
                           textDecoration: 'none',
                           fontSize: '0.9rem',
                           transition: 'all 0.3s ease',
-                          boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+                          boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+                          width: '100%',
+                          minHeight: '44px'
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.transform = 'translateY(-2px)'
